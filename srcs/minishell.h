@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/05/30 21:00:40 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/06/27 21:32:41 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,14 @@
 
 typedef enum e_token_type {
 	TK_WORD,
-	TK_EOF,
+	TK_RESERVED,
+	TK_OPERATOR,
 }		t_token_type;
 
 typedef struct s_token {
-	char			*word;
-	t_token_type	type;
-	t_token			*next;
-}				t_token;
+	char				*word;
+	t_token_type		type;
+	struct s_token		*next;
+}						t_token;
 
 #endif
