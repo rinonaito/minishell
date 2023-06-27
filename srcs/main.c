@@ -37,7 +37,7 @@ char	*ft_search_path(const char *filename)
 			duplicated = ft_strdup(path);
 			return (duplicated);
 		}
-		value = end + 1;
+		value = end + 1;//shift to the next character
 	}
 	return (NULL);
 }
@@ -55,9 +55,15 @@ void	ft_interpret(char *line)
 	if (child_pid < 0)
 		exit(0);
 	if (child_pid == 0) // in child process
+	{
+		printf("child\n");
 		execve(path, argv, environ);
+	}
 	else // in parent process
+	{
+		printf("parent\n");
 		wait(&wstatus);
+	}
 }
 
 int	main(void)
