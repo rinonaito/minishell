@@ -6,46 +6,11 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 14:14:00 by rnaito            #+#    #+#             */
-/*   Updated: 2023/06/28 17:17:46 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/06/29 13:52:35 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_token	*ft_lstnew_ms(char *token, int	type)
-{
-	t_token	*new;
-
-	new = malloc(sizeof(t_token));
-	if (new == NULL)
-		return (NULL);
-	new->token = token; 
-	new->type = type; 
-	new->next = NULL;
-	return (new);
-}
-
-t_token	*ft_lstlast_ms(t_token *node)
-{
-	if (node == NULL)
-		return (NULL);
-	while (node->next != NULL)
-		node = node->next;
-	return (node);
-}
-
-void	ft_lstadd_back_ms(t_token **head, t_token *new)
-{
-	t_token *tail;
-	
-	if (*head == NULL)
-	{
-		*head = new;
-		return ;
-	}
-	tail = ft_lstlast_ms(*head);
-	tail->next = new;
-}
 
 char	*ft_strndup(char *str, size_t len)
 {
@@ -63,6 +28,22 @@ char	*ft_strndup(char *str, size_t len)
 	}
 	new[i] = '\0';
 	return (new);
+}
+
+int	ft_strcmp(char *str1, char *str2)
+{
+	size_t	i;
+
+	i = 0;
+	while (str1[i] != '\0' || str2[i] != '\0')
+	{
+		if (str1[i] != str2[i])
+			return (str1[i] - str2[i]);
+		i++;
+	}
+	if (str1[i] == str2[i])
+		return (0);
+	return (1);
 }
 
 char	*ft_strchrchr(char *str, char c1, char c2)

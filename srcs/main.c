@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
+/*   Updated: 2023/06/29 13:39:15 by rnaito           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 //void	ft_strncpy(char *dst, char *src, int n)
@@ -78,7 +90,7 @@ int	main(void)
 		if (line == NULL)
 		{
 			free (line);
-			break;
+			break ;
 		}
 		if (strlen(line) != 0)
 			add_history(line);

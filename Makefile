@@ -6,7 +6,7 @@
 #    By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 16:01:50 by rnaito            #+#    #+#              #
-#    Updated: 2023/05/29 21:12:30 by rnaito           ###   ########.fr        #
+#    Updated: 2023/06/29 13:38:17 by rnaito           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,11 @@ LIBFT_DIR = libft/
 NAME = minishell
 INCLUDES = -I $(SRCSDIR) -I $(LIBFT_DIR)
 SRCSDIR = srcs/
-SRCS =	main.c
+SRCS =	main.c\
+		tokenize.c\
+		ft_get_token.c\
+		list.c\
+		libft_plus.c
 OBJSDIR = objs/
 OBJS = $(SRCS:%.c=$(OBJSDIR)%.o)
 
