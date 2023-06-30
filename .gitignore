@@ -1,0 +1,11 @@
+#Ignore the following files
+
+#Object files
+*.o
+
+#Executables
+minishell
+*.exe
+
+#Swap files
+*.swp
