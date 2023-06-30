@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:31:20 by rnaito            #+#    #+#             */
-/*   Updated: 2023/06/29 22:32:24 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/06/30 14:58:22 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*skip_space(char *line)
 	size_t	i;
 
 	i = 0;
-	while (line[i] == ' ' || line[i] == '	')
+	while (line[i] != '\0' && (line[i] == ' ' || line[i] == '\t'))
 		i++;
 	return (&line[i]);
 }
