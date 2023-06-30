@@ -9,3 +9,6 @@ minishell
 
 #Swap files
 *.swp
+
+#Tags
+tags
