@@ -5,7 +5,7 @@
 
 #Executables
 minishell
-*.exe
+a.out
 
 #Swap files
 *.swp
