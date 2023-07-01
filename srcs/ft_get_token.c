@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:31:20 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/01 16:20:11 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/01 17:38:00 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,18 +34,17 @@ char	*skip_space(char *line)
 //@return_val: if the string has operator(not quoted),
 //	pointer of the operator.
 //	if not, return pointer of the parameter "end" as it is.
-char	*ft_find_operator(char *start, char *end)
+char	*ft_find_operator(char *start, char *end, int *not_closed)
 {
 	size_t	i;
 	size_t	len;
-	int		not_closed;
 	char	*new_start;
 
 	i = 0;
 	len = end - start;
 	while (i < len)
 	{
-		new_start = skip_to_closing_quote(&start[i], &not_closed);
+		new_start = skip_to_closing_quote(&start[i], not_closed);
 		if (new_start != NULL)
 			i += new_start - &start[i];
 		if (start[i] == '|' || start[i] == '<' || start[i] == '>')
@@ -108,7 +107,7 @@ char	*skip_to_closing_quote(char *str, int *not_closed)
 //@param:
 //	char **line: pointer of the input string
 //@return_val: pointer of the duplicated string of a token
-char	*ft_get_token(char **line)
+char	*ft_get_token(char **line, int *not_closed)
 {
 	char	*start;
 	char	*end;
@@ -118,10 +117,10 @@ char	*ft_get_token(char **line)
 	end = ft_start_with_operator(start);
 	if (end == NULL)
 	{
-		end = ft_strchrchr(start, ' ', '	');
+		end = ft_strchrchr(start, ' ', '	', not_closed);
 		if (end == NULL)
 			end = ft_strchr(start, '\0');
-		end = ft_find_operator(start, end);
+		end = ft_find_operator(start, end, not_closed);
 	}
 	if (*end == '\0')
 		*line = NULL;
