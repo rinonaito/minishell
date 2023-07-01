@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 14:14:00 by rnaito            #+#    #+#             */
-/*   Updated: 2023/06/29 13:52:35 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/01 16:20:54 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,17 @@ int	ft_strcmp(char *str1, char *str2)
 char	*ft_strchrchr(char *str, char c1, char c2)
 {
 	size_t	i;
+	char	*new_start;
+	int		not_closed;
 
+	new_start = NULL;
 	i = 0;
 	while (str[i] != '\0')
 	{
+		not_closed = 0;
+		new_start = skip_to_closing_quote(&str[i], &not_closed);
+		if (new_start != NULL)
+			i += new_start - &str[i];
 		if (str[i] == c1 || str[i] == c2)
 			return (&str[i]);
 		i++;

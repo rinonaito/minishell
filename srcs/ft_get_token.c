@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:31:20 by rnaito            #+#    #+#             */
-/*   Updated: 2023/06/30 14:58:22 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/01 16:20:11 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,21 +27,27 @@ char	*skip_space(char *line)
 	return (&line[i]);
 }
 
-//@func: search if there is metachar (|, >, <) between start and end.
+//@func: search if there is operator (|, >, <) between start and end.
 //@param:
 //	char *start: pointer of the beginning of string
 //	char *end  : pointer of the end of string
-//@return_val: if the string has metachar, pointer of the metacharacter
+//@return_val: if the string has operator(not quoted),
+//	pointer of the operator.
 //	if not, return pointer of the parameter "end" as it is.
 char	*ft_find_operator(char *start, char *end)
 {
 	size_t	i;
 	size_t	len;
+	int		not_closed;
+	char	*new_start;
 
 	i = 0;
 	len = end - start;
 	while (i < len)
 	{
+		new_start = skip_to_closing_quote(&start[i], &not_closed);
+		if (new_start != NULL)
+			i += new_start - &start[i];
 		if (start[i] == '|' || start[i] == '<' || start[i] == '>')
 			return (&start[i]);
 		i++;
@@ -49,55 +55,54 @@ char	*ft_find_operator(char *start, char *end)
 	return (end);
 }
 
-//@func: check if this token is composed of metacharacter or not
+//@func: check if this token is composed of operator or not
 //@param:
 //		char *start: pointer of the beginning of the string
 //		char *end  : pointer of the end of the string
-//@return_val:if the token is metacharacter, return the pointer just after
+//@return_val:if the token is operator, return the pointer just after
 //	the end of token this token. If not, return the parameter "end" as it is.
-char	*ft_start_with_metachar(char *start, char *end)
-{
-	if (end == NULL)
-	{
-		if (*start == '|')
-			end = start + 1;
-		if (*start == '>')
-		{
-			if (*(start + 1) == '>')
-				end = start + 2;
-			else
-				end = start + 1;
-		}
-		if (*start == '<')
-		{
-			if (*(start + 1) == '<')
-				end = start + 2;
-			else
-				end = start + 1;
-		}
-	}
-	return (end);
-}
-
-//@func: check if this token is quoted or not
-//@param: 
-//	char *start: pointer of the beginning of the token 
-//@return_val: If this token is quoted, return the pointer just after
-//the end of the closing quotation. If not, return NULL.
-char	*ft_start_with_quote(char *start)
+char	*ft_start_with_operator(char *start)
 {
 	char	*end;
 
 	end = NULL;
-	if (*start == '\'' || *start == '\"')
+	if (*start == '|')
+		end = start + 1;
+	if (*start == '>')
 	{
-		end = ft_strchr(start + 1, *start);
-		if (end != NULL)
-			end++;
+		if (*(start + 1) == '>')
+			end = start + 2;
+		else
+			end = start + 1;
+	}
+	if (*start == '<')
+	{
+		if (*(start + 1) == '<')
+			end = start + 2;
+		else
+			end = start + 1;
 	}
 	return (end);
 }
 
+//@func: if the parameter char *str start with quotation, 
+//return the pointer of the closing quote.
+//@param:
+//	char *str:
+//	int	*not_closed:
+char	*skip_to_closing_quote(char *str, int *not_closed)
+{
+	char	*closing_quote;
+
+	closing_quote = NULL;
+	if (*str == '\'' || *str == '\"')
+	{
+		closing_quote = ft_strchr(str + 1, *str);
+		if (closing_quote == NULL)
+			*not_closed = 1;
+	}
+	return (closing_quote);
+}
 
 //@func: split the parameter accorning to the definition of "token" in Bash.
 //@param:
@@ -109,10 +114,8 @@ char	*ft_get_token(char **line)
 	char	*end;
 	char	*token;
 
-	*line = skip_space(*line);
-	start = *line;
-	end = ft_start_with_quote(start);
-	end = ft_start_with_metachar(start, end);
+	start = skip_space(*line);
+	end = ft_start_with_operator(start);
 	if (end == NULL)
 	{
 		end = ft_strchrchr(start, ' ', '	');
@@ -120,9 +123,10 @@ char	*ft_get_token(char **line)
 			end = ft_strchr(start, '\0');
 		end = ft_find_operator(start, end);
 	}
-	*line = end;
 	if (*end == '\0')
 		*line = NULL;
+	else
+		*line = end;
 	token = ft_strndup(start, end - start);
 	return (token);
 }
