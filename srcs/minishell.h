@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/02 15:22:57 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/02 20:52:02 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,10 @@ typedef enum e_token_type {
 	TK_HEAD,
 	TK_WORD,
 	TK_PIPE,
-	TK_REDIR,
+	TK_REDIR_IN,
+	TK_REDIR_OUT,
+	TK_APPEND,
+	TK_HEREDOC,
 }		t_token_type;
 
 typedef struct s_token {
@@ -35,11 +38,11 @@ typedef struct s_token {
 }						t_token;
 
 typedef struct s_tree {
-	char			*token;
-	t_token_type	type;	
-	struct s_tree	*r_branch;
-	struct s_tree	*l_branch;
-
+	t_token_type	type;
+	char			*command; //use if the type is WORD
+	struct s_token	*param; // use if the type is WORD
+	struct s_tree	*r_branch; //use if the type is PIPE
+	struct s_tree	*l_branch; //use if the type is PIPE
 }						t_tree;
 
 //tokenize.c
@@ -66,4 +69,8 @@ char	*ft_strchrchr(char *str, char c1, char c2, int *not_closed);
 
 //ft_is_syntaxerror.c
 int		ft_is_syntaxerror(t_token *head);
+
+//make_tree.c
+t_tree	*make_tree(t_token *head);
+
 #endif

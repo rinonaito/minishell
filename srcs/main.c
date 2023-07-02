@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/02 16:26:19 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/02 20:52:45 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,9 +98,10 @@ int	main(void)
 		free(line);
 		if (head == NULL)
 		{
-			system ("leaks -q minishell");
+//			system ("leaks -q minishell");
 			return(1);
 		}
+//		make_tree(head);
 		while (head != NULL)
 		{
 			printf("%s, %d\n", head->token, head->type);
@@ -108,6 +109,6 @@ int	main(void)
 		}
 //		ft_interpret(line);
 	}
-	system ("leaks -q minishell");
+//	system ("leaks -q minishell");
 	return (0);
 }
