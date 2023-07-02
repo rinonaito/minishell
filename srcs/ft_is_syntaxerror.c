@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 20:31:19 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/02 19:43:50 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/02 22:04:59 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	ft_is_syntaxerror(t_token *head)
 		{
 			if (token->prev->type != TK_WORD)
 				return (1);
-			if (token->prev->type == TK_PIPE || token->prev->type == TK_HEAD)
+			if (token->next == NULL || token->next->type == TK_PIPE)
 				return(1);
 		}
 		if (token->type >= TK_REDIR_IN && token->type <= TK_HEREDOC)
