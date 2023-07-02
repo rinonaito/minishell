@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:31:20 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/01 17:38:00 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/02 17:06:50 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,5 +127,10 @@ char	*ft_get_token(char **line, int *not_closed)
 	else
 		*line = end;
 	token = ft_strndup(start, end - start);
+	if (*token == '\0')
+	{
+		free(token);
+		return (NULL);
+	}
 	return (token);
 }

@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/01 19:02:48 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/02 15:22:57 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,26 @@
 # include "../libft/libft.h" //for split
 
 typedef enum e_token_type {
+	TK_HEAD,
 	TK_WORD,
-	TK_OPERATOR,
+	TK_PIPE,
+	TK_REDIR,
 }		t_token_type;
 
 typedef struct s_token {
 	char				*token;
 	t_token_type		type;
 	struct s_token		*next;
+	struct s_token		*prev;
 }						t_token;
+
+typedef struct s_tree {
+	char			*token;
+	t_token_type	type;	
+	struct s_tree	*r_branch;
+	struct s_tree	*l_branch;
+
+}						t_tree;
 
 //tokenize.c
 t_token	*ft_tokenize(char *line);
@@ -53,4 +64,6 @@ char	*ft_strndup(char *str, size_t len);
 int		ft_strcmp(char *str1, char *str2);
 char	*ft_strchrchr(char *str, char c1, char c2, int *not_closed);
 
+//ft_is_syntaxerror.c
+int		ft_is_syntaxerror(t_token *head);
 #endif

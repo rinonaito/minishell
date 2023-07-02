@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/01 19:06:49 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/02 16:26:19 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,13 +95,19 @@ int	main(void)
 		if (strlen(line) != 0)
 			add_history(line);
 		head = ft_tokenize(line);
+		free(line);
+		if (head == NULL)
+		{
+			system ("leaks -q minishell");
+			return(1);
+		}
 		while (head != NULL)
 		{
 			printf("%s, %d\n", head->token, head->type);
 			head = head->next;
 		}
 //		ft_interpret(line);
-		free (line);
 	}
+	system ("leaks -q minishell");
 	return (0);
 }
