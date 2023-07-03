@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_is_syntaxerror.c                                :+:      :+:    :+:   */
+/*   ft_is_syntax_error.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/01 20:31:19 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/03 18:27:30 by rnaito           ###   ########.fr       */
+/*   Created: 2023/07/03 21:50:57 by rnaito            #+#    #+#             */
+/*   Updated: 2023/07/03 21:51:05 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 //	t_token *head: head of the list t_token
 //@return_val: return 1 if there is syntax error. 
 // return 0 if the syntax is correct.
-int	ft_is_syntaxerror(t_token *head)
+int	ft_is_syntax_error(t_token *head)
 {
 	t_token	*token;
 

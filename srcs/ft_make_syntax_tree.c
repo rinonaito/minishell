@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   make_tree.c                                        :+:      :+:    :+:   */
+/*   ft_make_syntax_tree.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/02 18:48:40 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/03 20:48:32 by rnaito           ###   ########.fr       */
+/*   Created: 2023/07/03 21:42:38 by rnaito            #+#    #+#             */
+/*   Updated: 2023/07/03 21:42:39 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ t_tree	*ft_make_branch(t_token **token)
 //@param: 
 //	t_token *head: head of the token list
 //@return_val: pointer of the top of syntax tree
-t_tree	*make_tree(t_token *token)
+t_tree	*ft_make_syntax_tree(t_token *token)
 {
 	t_tree	*node;
 	t_tree	*right;

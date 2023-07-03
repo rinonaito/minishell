@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 13:03:35 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/03 21:15:23 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/03 21:48:14 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ t_token	*ft_tokenize(char *line)
 	if (line != NULL)
 		head = ft_lstnew_ms(NULL, 0);
 	not_closed = ft_make_token_list(&head, line);
-	if (not_closed == 1 || ft_is_syntaxerror(head) == 1)
+	if (not_closed == 1 || ft_is_syntax_error(head) == 1)
 	{
 		printf("syntax error\n");
 		ft_lstclear_ms(&head);

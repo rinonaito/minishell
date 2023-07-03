@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/03 20:52:42 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/03 21:42:54 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int	main(void)
 //			system ("leaks -q minishell");
 			return (1);
 		}
-		topoftree = make_tree(head);
+		topoftree = ft_make_syntax_tree(head);
 		while (topoftree != NULL)
 		{
 			if (topoftree->r_branch != NULL)

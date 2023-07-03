@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:31:20 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/03 19:55:14 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/03 21:48:58 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 //@param:
 //	char *line: head pointer of the string to be checked
 //@return_val: pointer of the first non-space char
-char	*skip_space(char *line)
+char	*ft_skip_space(char *line)
 {
 	size_t	i;
 
@@ -44,7 +44,7 @@ char	*ft_find_operator(char *start, char *end, int *not_closed)
 	len = end - start;
 	while (i < len)
 	{
-		new_start = skip_to_closing_quote(&start[i], not_closed);
+		new_start = ft_skip_to_closing_quote(&start[i], not_closed);
 		if (new_start != NULL)
 			i += new_start - &start[i];
 		if (start[i] == '|' || start[i] == '<' || start[i] == '>')
@@ -89,7 +89,7 @@ char	*ft_start_with_operator(char *start)
 //@param:
 //	char *str:
 //	int	*not_closed:
-char	*skip_to_closing_quote(char *str, int *not_closed)
+char	*ft_skip_to_closing_quote(char *str, int *not_closed)
 {
 	char	*closing_quote;
 
@@ -113,7 +113,7 @@ char	*ft_get_token(char **line, int *not_closed)
 	char	*end;
 	char	*token;
 
-	start = skip_space(*line);
+	start = ft_skip_space(*line);
 	end = ft_start_with_operator(start);
 	if (end == NULL)
 	{

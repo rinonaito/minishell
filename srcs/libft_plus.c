@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 14:14:00 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/02 14:08:18 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/03 21:49:54 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*ft_strchrchr(char *str, char c1, char c2, int *not_closed)
 	i = 0;
 	while (str[i] != '\0')
 	{
-		new_start = skip_to_closing_quote(&str[i], not_closed);
+		new_start = ft_skip_to_closing_quote(&str[i], not_closed);
 		if (new_start != NULL)
 			i += new_start - &str[i];
 		if (str[i] == c1 || str[i] == c2)
