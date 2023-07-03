@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/02 21:43:09 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/03 18:54:09 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,10 @@ char	*ft_strchrchr(char *str, char c1, char c2, int *not_closed);
 int		ft_is_syntaxerror(t_token *head);
 
 //make_tree.c
+t_tree	*ft_make_node(t_token **token);
+void	ft_complete_node(t_tree **node, t_tree *right, t_tree *left);
+char	*ft_find_command(t_token *token);
+t_tree	*ft_make_branch(t_token **token);
 t_tree	*make_tree(t_token *head);
 
 #endif

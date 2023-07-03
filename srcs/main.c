@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/02 20:52:45 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/03 18:42:06 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ int	main(void)
 {
 	char	*line;
 	t_token	*head;
+	t_tree	*topoftree;
 
 	rl_outstream = stderr;
 	while (1)
@@ -101,12 +102,23 @@ int	main(void)
 //			system ("leaks -q minishell");
 			return(1);
 		}
-//		make_tree(head);
-		while (head != NULL)
+		topoftree = make_tree(head);
+		while (topoftree != NULL)
 		{
-			printf("%s, %d\n", head->token, head->type);
-			head = head->next;
+			if (topoftree->r_branch !=  NULL)
+				printf("right = %s\n", topoftree->r_branch->command);
+			if (topoftree->l_branch !=  NULL)
+			{
+				if (topoftree->l_branch->type != TK_PIPE)
+					printf("left = %s\n", topoftree->l_branch->command);
+			}
+			topoftree = topoftree->l_branch;
 		}
+//		while (head != NULL)
+//		{
+//			printf("%s, %d\n", head->token, head->type);
+//			head = head->next;
+//		}
 //		ft_interpret(line);
 	}
 //	system ("leaks -q minishell");
