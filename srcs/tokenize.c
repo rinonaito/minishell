@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 13:03:35 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/02 18:18:09 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/03 21:15:23 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,20 +31,19 @@ int	ft_check_token_type(char *token)
 	return (TK_WORD);
 }
 
-//@func: make a list of struct t_token 
+//@func: make the list of token 
 //@param:
-//	char *line: a string of input
-//@return_val: pointer of the head node of the list
-t_token	*ft_tokenize(char *line)
-{	
+//	t_token **head: head node of the list
+//	char	*line: input string
+//@return_val: return 0 if there is NO quotation error
+//	return 1 if the quotation is not closed
+int	ft_make_token_list(t_token **head, char *line)
+{
 	char	*token;
-	t_token	*head;
 	t_token	*new;
 	int		type;
 	int		not_closed;
 
-	if (line != NULL)
-		head = ft_lstnew_ms(NULL, TK_HEAD);
 	not_closed = 0;
 	while (line != NULL)
 	{
@@ -53,9 +52,26 @@ t_token	*ft_tokenize(char *line)
 		{
 			type = ft_check_token_type(token);
 			new = ft_lstnew_ms(token, type);
-			ft_lstadd_back_ms(&head, new);
+			ft_lstadd_back_ms(head, new);
 		}
 	}
+	(*head)->next->prev = NULL;
+	(*head) = (*head)->next;
+	return (not_closed);
+}
+
+//@func: tokenize the input
+//@param:
+//	char *line: a string of input
+//@return_val: head node of the token list
+t_token	*ft_tokenize(char *line)
+{	
+	t_token	*head;
+	int		not_closed;
+
+	if (line != NULL)
+		head = ft_lstnew_ms(NULL, 0);
+	not_closed = ft_make_token_list(&head, line);
 	if (not_closed == 1 || ft_is_syntaxerror(head) == 1)
 	{
 		printf("syntax error\n");

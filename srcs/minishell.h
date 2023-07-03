@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/03 18:54:09 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/03 20:50:55 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 # include "../libft/libft.h" //for split
 
 typedef enum e_token_type {
-	TK_HEAD,
 	TK_WORD,
 	TK_PIPE,
 	TK_REDIR_IN,
@@ -38,11 +37,11 @@ typedef struct s_token {
 }						t_token;
 
 typedef struct s_tree {
-	t_token_type	type;
-	char			*command; //use if the type is WORD
-	struct s_token	*param; // use if the type is WORD
-	struct s_tree	*r_branch; //use if the type is PIPE
-	struct s_tree	*l_branch; //use if the type is PIPE
+	t_token_type	type; // for all type
+	char			*command; // for branch
+	struct s_token	*param; // for branch 
+	struct s_tree	*r_branch; // for node
+	struct s_tree	*l_branch; // for node
 }						t_tree;
 
 //tokenize.c

@@ -6,13 +6,13 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 18:48:40 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/03 18:55:25 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/03 20:48:32 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//@func: allocate memory for the node in tree struct and
+//@func: allocate memory for the node in syntax tree and
 //initiate with type "TK_PIPE"
 //@param:
 //	t_token *token: token with the type "TK_PIPE"
@@ -72,7 +72,7 @@ t_tree	*ft_make_branch(t_token **token)
 	new_branch = malloc(sizeof(t_tree));
 	new_branch->type = TK_WORD;
 	new_branch->command = ft_find_command(*token);
-	new_branch->param = (*token)->next;
+	new_branch->param = (*token);
 	while ((*token) != NULL && (*token)->type != TK_PIPE)
 		(*token) = (*token)->next;
 	return (new_branch);
@@ -82,22 +82,19 @@ t_tree	*ft_make_branch(t_token **token)
 //@param: 
 //	t_token *head: head of the token list
 //@return_val: pointer of the top of syntax tree
-t_tree	*make_tree(t_token *head)
+t_tree	*make_tree(t_token *token)
 {
-	t_token	*token;
 	t_tree	*node;
 	t_tree	*right;
 	t_tree	*left;
 
-	token = head->next;
 	node = NULL;
 	left = ft_make_branch(&token);
 	while (token != NULL)
 	{
 		if (token->type == TK_PIPE)
 			node = ft_make_node(&token);
-		if (token->type == TK_WORD
-			|| (token->type >= TK_REDIR_IN && token->type <= TK_HEREDOC))
+		if (token->type != TK_PIPE)
 			right = ft_make_branch(&token);
 		ft_complete_node(&node, right, left);
 		left = node;
