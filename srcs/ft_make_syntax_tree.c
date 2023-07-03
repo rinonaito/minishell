@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 21:42:38 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/03 21:42:39 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/03 22:08:00 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ t_tree	*ft_make_node(t_token **token)
 
 	new_node = malloc(sizeof(t_tree));
 	new_node->type = TK_PIPE;
+	new_node->r_branch = NULL;
+	new_node->l_branch = NULL;
 	if (*token != NULL)
 		(*token) = (*token)->next;
 	return (new_node);
@@ -73,6 +75,8 @@ t_tree	*ft_make_branch(t_token **token)
 	new_branch->type = TK_WORD;
 	new_branch->command = ft_find_command(*token);
 	new_branch->param = (*token);
+	new_branch->r_branch = NULL;
+	new_branch->l_branch = NULL;
 	while ((*token) != NULL && (*token)->type != TK_PIPE)
 		(*token) = (*token)->next;
 	return (new_branch);

@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/03 21:42:54 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/03 22:06:08 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,10 +108,9 @@ int	main(void)
 			if (topoftree->r_branch != NULL)
 				printf("right = %s\n", topoftree->r_branch->command);
 			if (topoftree->l_branch != NULL)
-			{
-				if (topoftree->l_branch->type != TK_PIPE)
-					printf("left = %s\n", topoftree->l_branch->command);
-			}
+				printf("left = %s\n", topoftree->l_branch->command);
+			topoftree = topoftree->l_branch;
+			printf("topoftree = %p\n", topoftree);
 			topoftree = topoftree->l_branch;
 			printf("topoftree = %p\n", topoftree);
 		}
