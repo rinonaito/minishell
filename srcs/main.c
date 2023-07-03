@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/03 22:06:08 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/03 22:33:17 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +109,6 @@ int	main(void)
 				printf("right = %s\n", topoftree->r_branch->command);
 			if (topoftree->l_branch != NULL)
 				printf("left = %s\n", topoftree->l_branch->command);
-			topoftree = topoftree->l_branch;
-			printf("topoftree = %p\n", topoftree);
 			topoftree = topoftree->l_branch;
 			printf("topoftree = %p\n", topoftree);
 		}
