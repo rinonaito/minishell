@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
+/*   Updated: 2023/07/05 13:58:44 by rnaito           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 //void	ft_strncpy(char *dst, char *src, int n)
@@ -65,11 +77,12 @@
 //		wait(&wstatus);
 //	}
 //}
-//
+
 int	main(void)
 {
 	char	*line;
 	t_token	*head;
+	t_tree	*topoftree;
 
 	rl_outstream = stderr;
 	while (1)
@@ -78,18 +91,32 @@ int	main(void)
 		if (line == NULL)
 		{
 			free (line);
-			break;
+			break ;
 		}
 		if (strlen(line) != 0)
 			add_history(line);
 		head = ft_tokenize(line);
-		while (head != NULL)
+		if (head != NULL)
 		{
-			printf("%s, %d\n", head->token, head->type);
-			head = head->next;
+			free(line);
+			topoftree = ft_make_syntax_tree(head);
+			while (topoftree != NULL)
+			{
+				if (topoftree->r_branch != NULL)
+					printf("right = %s\n", topoftree->r_branch->command);
+				if (topoftree->l_branch != NULL)
+					printf("left = %s\n", topoftree->l_branch->command);
+				topoftree = topoftree->l_branch;
+				printf("topoftree = %p\n", topoftree);
+			}
+	//		while (head != NULL)
+	//		{
+	//			printf("%s, %d\n", head->token, head->type);
+	//			head = head->next;
+	//		}
+	//		ft_interpret(line);
 		}
-//		ft_interpret(line);
-		free (line);
+	//	system ("leaks -q minishell");
 	}
 	return (0);
 }

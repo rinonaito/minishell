@@ -6,94 +6,78 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 13:03:35 by rnaito            #+#    #+#             */
-/*   Updated: 2023/06/28 19:28:40 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/05 13:45:13 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*skip_space(char *line)
-{
-	size_t	i;
-
-	i = 0;
-	while (line[i] == ' ' || line[i] == '	')
-		i++;
-	return (&line[i]);
-}
-
-char	*ft_get_token(char **line)
-{ char	*start;
-	char	*end;
-	char	*token;
-
-	*line = skip_space(*line);
-	start = *line;
-	end = NULL;
-	if (**line == '\'' || **line == '\"')	
-	{
-		end = ft_strchr(*line + 1, **line);
-		if (end != NULL)
-			end++;
-	}
-	if (end == NULL)
-		end = ft_strchrchr(*line, ' ', '	');
-	if (end != NULL)
-	{
-		token = ft_strndup(start, end - start);
-		*line = end;
-	}
-	else
-	{
-		token = ft_strndup(start, ft_strlen(start));
-		*line = NULL;
-	}
-	return (token);
-}
-
-int	ft_strcmp(char *str1, char *str2)
-{
-	size_t	i;
-
-	i = 0;
-	while (str1[i] != '\0' && str2[i] != '\0')
-	{
-		if (str1[i] != str2[i])
-			return (str1[i] - str2[i]);
-		i++;
-	}
-	if (str1[i] == str2[i])
-		return (0);
-	return (1);
-}
-
+//@func: return the type of the token (as int) accorging to the parameter
+//@param:
+//	char *token: string of the token to be judged
+//@return_val: type(TK_WORD or TK_OPERATOR) of the token
 int	ft_check_token_type(char *token)
 {
 	if (ft_strcmp(token, "|") == 0)
-		return (TK_OPERATOR);
-	if (ft_strcmp(token, ">") == 0 || ft_strcmp(token, "<") == 0)
-		return (TK_OPERATOR);
-	if (ft_strcmp(token, ">>") == 0 || ft_strcmp(token, "<<") == 0)
-		return (TK_OPERATOR);
+		return (TK_PIPE);
+	if (ft_strcmp(token, "<") == 0)
+		return (TK_REDIR_IN);
+	if (ft_strcmp(token, ">") == 0)
+		return (TK_REDIR_OUT);
+	if (ft_strcmp(token, "<<") == 0)
+		return (TK_HEREDOC);
+	if (ft_strcmp(token, ">>") == 0)
+		return (TK_APPEND);
 	return (TK_WORD);
 }
 
-
-t_token *ft_tokenize(char *line)
-{	
+//@func: make the list of token 
+//@param:
+//	t_token **head: head node of the list
+//	char	*line: input string
+//@return_val: return 0 if there is NO quotation error
+//	return 1 if the quotation is not closed
+int	ft_make_token_list(t_token **head, char *line)
+{
 	char	*token;
-	t_token *head;
-	t_token *new;
+	t_token	*new;
 	int		type;
-	
-	if (line != NULL)
-		head = ft_lstnew_ms(NULL, 0);
+	int		not_closed;
+
+	not_closed = 0;
 	while (line != NULL)
 	{
-		token = ft_get_token(&line);
-		type = ft_check_token_type(token);
-		new = ft_lstnew_ms(token , type);
-		ft_lstadd_back_ms(&head, new);
+		token = ft_get_token(&line, &not_closed);
+		if (token != NULL)
+		{
+			type = ft_check_token_type(token);
+			new = ft_lstnew_ms(token, type);
+			ft_lstadd_back_ms(head, new);
+		}
 	}
-	return (head);	
+	(*head)->next->prev = NULL;
+	(*head) = (*head)->next;
+	return (not_closed);
+}
+
+//@func: tokenize the input
+//@param:
+//	char *line: a string of input
+//@return_val: head node of the token list
+t_token	*ft_tokenize(char *line)
+{	
+	t_token	*head;
+	int		not_closed;
+
+	if (ft_strlen(line) == 0)
+		return (NULL);
+	if (line != NULL)
+		head = ft_lstnew_ms(NULL, 0);
+	not_closed = ft_make_token_list(&head, line);
+	if (not_closed == 1 || ft_is_syntax_error(head) == 1)
+	{
+		printf("syntax error\n");
+		ft_lstclear_ms(&head);
+	}
+	return (head);
 }

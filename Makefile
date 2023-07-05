@@ -6,7 +6,7 @@
 #    By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 16:01:50 by rnaito            #+#    #+#              #
-#    Updated: 2023/06/28 15:15:42 by rnaito           ###   ########.fr        #
+#    Updated: 2023/07/03 21:44:07 by rnaito           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,10 @@ INCLUDES = -I $(SRCSDIR) -I $(LIBFT_DIR)
 SRCSDIR = srcs/
 SRCS =	main.c\
 		tokenize.c\
+		ft_get_token.c\
+		list.c\
+		ft_is_syntax_error.c\
+		ft_make_syntax_tree.c\
 		libft_plus.c
 OBJSDIR = objs/
 OBJS = $(SRCS:%.c=$(OBJSDIR)%.o)
