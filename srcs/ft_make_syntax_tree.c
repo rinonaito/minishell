@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 21:42:38 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/03 22:08:00 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/05 13:46:16 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ char	*ft_find_command(t_token *token)
 			return (token->token);
 		if (token->type >= TK_REDIR_IN && token->type <= TK_HEREDOC)
 			token = token->next;
-		token = token->next;
+		if (token != NULL)
+			token = token->next;
 	}
 	return (NULL);
 }
@@ -98,7 +99,7 @@ t_tree	*ft_make_syntax_tree(t_token *token)
 	{
 		if (token->type == TK_PIPE)
 			node = ft_make_node(&token);
-		if (token->type != TK_PIPE)
+		if (token != NULL && token->type != TK_PIPE)
 			right = ft_make_branch(&token);
 		ft_complete_node(&node, right, left);
 		left = node;

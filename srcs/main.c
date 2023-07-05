@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/03 22:33:17 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/05 13:46:14 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,29 +96,27 @@ int	main(void)
 		if (strlen(line) != 0)
 			add_history(line);
 		head = ft_tokenize(line);
-		free(line);
-		if (head == NULL)
+		if (head != NULL)
 		{
-//			system ("leaks -q minishell");
-			return (1);
+			free(line);
+			topoftree = ft_make_syntax_tree(head);
+			while (topoftree != NULL)
+			{
+				if (topoftree->r_branch != NULL)
+					printf("right = %s\n", topoftree->r_branch->command);
+				if (topoftree->l_branch != NULL)
+					printf("left = %s\n", topoftree->l_branch->command);
+				topoftree = topoftree->l_branch;
+				printf("topoftree = %p\n", topoftree);
+			}
+	//		while (head != NULL)
+	//		{
+	//			printf("%s, %d\n", head->token, head->type);
+	//			head = head->next;
+	//		}
+	//		ft_interpret(line);
 		}
-		topoftree = ft_make_syntax_tree(head);
-		while (topoftree != NULL)
-		{
-			if (topoftree->r_branch != NULL)
-				printf("right = %s\n", topoftree->r_branch->command);
-			if (topoftree->l_branch != NULL)
-				printf("left = %s\n", topoftree->l_branch->command);
-			topoftree = topoftree->l_branch;
-			printf("topoftree = %p\n", topoftree);
-		}
-//		while (head != NULL)
-//		{
-//			printf("%s, %d\n", head->token, head->type);
-//			head = head->next;
-//		}
-//		ft_interpret(line);
+	//	system ("leaks -q minishell");
 	}
-//	system ("leaks -q minishell");
 	return (0);
 }
