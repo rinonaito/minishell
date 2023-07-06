@@ -6,12 +6,12 @@
 #    By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 16:01:50 by rnaito            #+#    #+#              #
-#    Updated: 2023/07/06 14:55:49 by rnaito           ###   ########.fr        #
+#    Updated: 2023/07/06 21:33:15 by taaraki          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-CFLAGS = -Wall -Werror -Wextra
+#CFLAGS = -Wall -Werror -Wextra
 
 LIBS = -lreadline -L$(LIBFT_DIR) -lft
 
