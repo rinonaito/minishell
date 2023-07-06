@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/06 15:06:53 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/06 17:21:05 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,11 @@ int	main(void)
 		if (strlen(line) != 0)
 			add_history(line);
 		head = ft_tokenize(line);
+		while (head != NULL)
+		{
+			printf("%s\n", head->token);
+			head = head->next;
+		}
 		if (head != NULL)
 		{
 			free(line);

@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 13:03:35 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/05 15:07:19 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/06 16:07:37 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,11 @@ int	ft_make_token_list(t_token **head, char *line)
 	while (line != NULL)
 	{
 		token = ft_get_token(&line, &not_closed);
-		if (token != NULL)
+		if (token == NULL)
+		{
+			return (not_closed);
+		}
+		else
 		{
 			type = ft_check_token_type(token);
 			new = ft_lstnew_ms(token, type);
