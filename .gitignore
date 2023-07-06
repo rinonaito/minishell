@@ -1,0 +1,17 @@
+#Ignore the following files
+
+#Object files
+*.o
+
+#Executables
+minishell
+a.out
+
+#Swap files
+*.swp
+
+#Tags
+tags
+
+#Undo files
+*.un~
