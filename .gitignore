@@ -12,3 +12,6 @@ a.out
 
 #Tags
 tags
+
+#Undo files
+*.un~
