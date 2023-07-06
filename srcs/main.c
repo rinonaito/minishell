@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/05 13:46:14 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/06 15:06:53 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,11 +78,20 @@
 //	}
 //}
 
+void	trace_inorder(t_tree *root)
+{
+	if (root == NULL)
+		return ;
+	trace_inorder(root->l_leaf);
+	printf("command = %s\n", root->command);
+	trace_inorder(root->r_leaf);
+}
+
 int	main(void)
 {
 	char	*line;
 	t_token	*head;
-	t_tree	*topoftree;
+	t_tree	*root;
 
 	rl_outstream = stderr;
 	while (1)
@@ -99,16 +108,17 @@ int	main(void)
 		if (head != NULL)
 		{
 			free(line);
-			topoftree = ft_make_syntax_tree(head);
-			while (topoftree != NULL)
-			{
-				if (topoftree->r_branch != NULL)
-					printf("right = %s\n", topoftree->r_branch->command);
-				if (topoftree->l_branch != NULL)
-					printf("left = %s\n", topoftree->l_branch->command);
-				topoftree = topoftree->l_branch;
-				printf("topoftree = %p\n", topoftree);
-			}
+			root = ft_make_syntax_tree(head);
+			trace_inorder(root);
+//			while (root != NULL)
+//			{
+//				if (root->r_leaf != NULL)
+//					printf("right = %s\n", root->r_leaf->command);
+//				if (root->l_leaf != NULL)
+//					printf("left = %s\n", root->l_leaf->command);
+//				root = root->l_leaf;
+//				printf("root = %p\n", root);
+//			}
 	//		while (head != NULL)
 	//		{
 	//			printf("%s, %d\n", head->token, head->type);

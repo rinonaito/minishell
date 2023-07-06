@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/03 22:08:19 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/06 14:42:12 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ typedef struct s_token {
 
 typedef struct s_tree {
 	t_token_type	type; // for all type
-	char			*command; // for branch
-	struct s_token	*param; // for branch 
-	struct s_tree	*r_branch; // for node
-	struct s_tree	*l_branch; // for node
+	char			*command; // for leaf
+	struct s_token	*param; // for leaf 
+	struct s_tree	*r_leaf; // for node
+	struct s_tree	*l_leaf; // for node
 }						t_tree;
 
 //tokenize.c
@@ -75,7 +75,7 @@ int		ft_is_syntax_error(t_token *head);
 t_tree	*ft_make_node(t_token **token);
 void	ft_complete_node(t_tree **node, t_tree *right, t_tree *left);
 char	*ft_find_command(t_token *token);
-t_tree	*ft_make_branch(t_token **token);
+t_tree	*ft_make_leaf(t_token **token);
 t_tree	*ft_make_syntax_tree(t_token *head);
 
 #endif

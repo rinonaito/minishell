@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 21:42:38 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/05 13:46:16 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/06 15:25:39 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,25 +23,25 @@ t_tree	*ft_make_node(t_token **token)
 
 	new_node = malloc(sizeof(t_tree));
 	new_node->type = TK_PIPE;
-	new_node->r_branch = NULL;
-	new_node->l_branch = NULL;
+	new_node->r_leaf = NULL;
+	new_node->l_leaf = NULL;
 	if (*token != NULL)
 		(*token) = (*token)->next;
 	return (new_node);
 }
 
-//@func: put the pointer of right and left branch in a node
+//@func: put the pointer of right and left leaf in a node
 //@param:
 //	t_tree *node: pointer of the node to complete
-//	t_tree *right: pointer of the right branch
-//	t_tree *left: pointer of the left branch
+//	t_tree *right: pointer of the right leaf
+//	t_tree *left: pointer of the left leaf
 //@return_val: pointer of the completed node
 void	ft_complete_node(t_tree **node, t_tree *right, t_tree *left)
 {
 	if (*node == NULL)
 		return ;
-	(*node)->r_branch = right;
-	(*node)->l_branch = left;
+	(*node)->r_leaf = right;
+	(*node)->l_leaf = left;
 }
 
 //@func: find command string in the list of token and return the string 
@@ -62,25 +62,25 @@ char	*ft_find_command(t_token *token)
 	return (NULL);
 }
 
-//@func: allocate memory for the branch in tree struct and
+//@func: allocate memory for the leaf in tree struct and
 //initiate with type "TK_PIPE"
 //@param: pointer of the token with the type non"TK_PIPE"
-//@return_val: pointer of the new branch
-t_tree	*ft_make_branch(t_token **token)
+//@return_val: pointer of the new leaf
+t_tree	*ft_make_leaf(t_token **token)
 {
-	t_tree	*new_branch;
+	t_tree	*new_leaf;
 
 	if (*token == NULL)
 		return (NULL);
-	new_branch = malloc(sizeof(t_tree));
-	new_branch->type = TK_WORD;
-	new_branch->command = ft_find_command(*token);
-	new_branch->param = (*token);
-	new_branch->r_branch = NULL;
-	new_branch->l_branch = NULL;
+	new_leaf = malloc(sizeof(t_tree));
+	new_leaf->type = TK_WORD;
+	new_leaf->command = ft_find_command(*token);
+	new_leaf->param = (*token);
+	new_leaf->r_leaf = NULL;
+	new_leaf->l_leaf = NULL;
 	while ((*token) != NULL && (*token)->type != TK_PIPE)
 		(*token) = (*token)->next;
-	return (new_branch);
+	return (new_leaf);
 }
 
 //@func: make a syntax tree from the list of token
@@ -94,13 +94,13 @@ t_tree	*ft_make_syntax_tree(t_token *token)
 	t_tree	*left;
 
 	node = NULL;
-	left = ft_make_branch(&token);
+	left = ft_make_leaf(&token);
 	while (token != NULL)
 	{
 		if (token->type == TK_PIPE)
 			node = ft_make_node(&token);
 		if (token != NULL && token->type != TK_PIPE)
-			right = ft_make_branch(&token);
+			right = ft_make_leaf(&token);
 		ft_complete_node(&node, right, left);
 		left = node;
 	}
