@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/06 15:40:50 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/07 15:48:30 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,12 @@ typedef struct s_tree {
 	struct s_tree	*l_leaf; // for node
 }						t_tree;
 
+typedef struct s_quotes {
+	int	s_quotes;
+	int	d_quotes;
+	int	status;
+}						t_quotes;
+
 //tokenize.c
 t_token	*ft_tokenize(char *line);
 int		ft_make_token_list(t_token **head, char *line);
@@ -51,10 +57,10 @@ int		ft_check_token_type(char *token);
 
 //ft_get_token.c
 char	*ft_skip_space(char *line);
-char	*ft_find_operator(char *start, char *end, int *not_closed);
+char	*ft_find_operator(char *start, char *end);
 char	*ft_start_with_operator(char *start);
-char	*ft_skip_to_closing_quote(char *str, int *is_error);
-char	*ft_get_token(char **line, int *not_closed);
+char	*ft_skip_to_closing_quote(char *str);
+char	*ft_get_token(char **line);
 
 //list.c
 t_token	*ft_lstnew_ms(char *token, int type);
@@ -66,7 +72,7 @@ void	ft_lstclear_ms(t_token **head);
 //libft_plus.c
 char	*ft_strndup(char *str, size_t len);
 int		ft_strcmp(char *str1, char *str2);
-char	*ft_strchrchr(char *str, char c1, char c2, int *not_closed);
+char	*ft_find_spacetab(char *str);
 
 //ft_is_syntax_error.c
 int		ft_is_syntax_error(t_token *head);
@@ -77,5 +83,8 @@ void	ft_complete_node(t_tree **node, t_tree *right, t_tree *left);
 char	*ft_find_command(t_token *token);
 t_tree	*ft_make_leaf(t_token **token);
 t_tree	*ft_make_syntax_tree(t_token *head);
+
+//ft_expand_env.c
+void	ft_expand_env(t_tree *root);
 
 #endif

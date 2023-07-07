@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 21:42:38 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/06 15:25:39 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/06 21:57:56 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ t_tree	*ft_make_leaf(t_token **token)
 	new_leaf = malloc(sizeof(t_tree));
 	new_leaf->type = TK_WORD;
 	new_leaf->command = ft_find_command(*token);
-	new_leaf->param = (*token);
+	new_leaf->param = *token;
 	new_leaf->r_leaf = NULL;
 	new_leaf->l_leaf = NULL;
 	while ((*token) != NULL && (*token)->type != TK_PIPE)
