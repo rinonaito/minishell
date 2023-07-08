@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 14:14:00 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/08 14:43:11 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/08 15:22:34 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,18 @@ char	*ft_find_endoftoken(char *str)
 		i++;
 	}
 	return (&str[i]);
+}
+
+char	*ft_find_quote(char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] == '\'' || str[i] == '\"')
+			return (&str[i]);
+		i++;
+	}
+	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 13:03:35 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/08 14:58:51 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/08 15:34:01 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,21 @@ int	ft_check_token_type(char *token)
 	return (TK_WORD);
 }
 
+//@func: make a node for the param token and
+//put it at the end of the list.
+//@param:
+//	t_token	**param: pointer of the head of the list
+//	char	*token: string of the token
+void	ft_put_token_inlist(t_token **head, char *token)
+{
+	t_token	*new;
+	int		type;
+
+	type = ft_check_token_type(token);
+	new = ft_lstnew_ms(token, type);
+	ft_lstadd_back_ms(head, new);
+}
+
 //@func: make the list of token 
 //@param:
 //	t_token **head: head node of the list
@@ -40,8 +55,6 @@ int	ft_check_token_type(char *token)
 int	ft_make_token_list(t_token **head, char *line)
 {
 	char	*token;
-	t_token	*new;
-	int		type;
 	int		not_closed;
 
 	not_closed = 0;
@@ -51,11 +64,7 @@ int	ft_make_token_list(t_token **head, char *line)
 		if (token == NULL)
 			break ;
 		else
-		{
-			type = ft_check_token_type(token);
-			new = ft_lstnew_ms(token, type);
-			ft_lstadd_back_ms(head, new);
-		}
+			ft_put_token_inlist(head, token);
 	}
 	if ((*head)->next != NULL)
 	{

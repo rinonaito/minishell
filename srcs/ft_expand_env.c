@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 15:11:52 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/08 14:46:00 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/08 15:22:32 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ char	*ft_get_env(char *str)
 	size_t	i;
 	char	*start;
 	char	*end;
+	char	*quote;
 	char	*env;
 
 	i = 1;
@@ -29,6 +30,9 @@ char	*ft_get_env(char *str)
 	{
 		start = &str[i];
 		end = ft_find_endoftoken(start);
+		quote = ft_find_quote(start);
+		if (quote != NULL && quote < end)
+			end = quote;
 	}
 	env = ft_strndup(start, end - start);
 	return (env);

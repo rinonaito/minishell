@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/07 19:33:12 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/08 15:34:53 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct s_quotes {
 //tokenize.c
 t_token	*ft_tokenize(char *line);
 int		ft_make_token_list(t_token **head, char *line);
+void	ft_put_token_inlist(t_token **head, char *token);
 int		ft_check_token_type(char *token);
 
 //ft_get_token.c
@@ -65,7 +66,8 @@ char	*ft_get_token(char **line, int *in_closed);
 //list.c
 t_token	*ft_lstnew_ms(char *token, int type);
 t_token	*ft_lstlast_ms(t_token *node);
-void	ft_lstadd_back_ms(t_token **head, t_token *new);
+void	ft_lstadd_back_ms(t_token **head,
+			t_token *new);
 void	ft_lstdel(t_token **current_node);
 void	ft_lstclear_ms(t_token **head);
 
@@ -73,6 +75,7 @@ void	ft_lstclear_ms(t_token **head);
 char	*ft_strndup(char *str, size_t len);
 int		ft_strcmp(char *str1, char *str2);
 char	*ft_find_endoftoken(char *str);
+char	*ft_find_quote(char *str);
 
 //ft_is_syntax_error.c
 int		ft_is_syntax_error(t_token *head);
@@ -85,6 +88,9 @@ t_tree	*ft_make_leaf(t_token **token);
 t_tree	*ft_make_syntax_tree(t_token *head);
 
 //ft_expand_env.c
+char	*ft_get_env(char *str);
+char	*ft_check_quotes(char *old_start);
+char	*ft_find_env(t_tree *root);
 void	ft_expand_env(t_tree *root);
 
 #endif
