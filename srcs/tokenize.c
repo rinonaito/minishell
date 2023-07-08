@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 13:03:35 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/07 16:02:34 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/08 14:58:51 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,11 @@ int	ft_make_token_list(t_token **head, char *line)
 	int		not_closed;
 
 	not_closed = 0;
-	while (line != NULL)
+	while (ft_strlen(line) != 0)
 	{
-		token = ft_get_token(&line);
-		printf("token = %s\n", token);
+		token = ft_get_token(&line, &not_closed);
 		if (token == NULL)
-		{
-			not_closed = 1;
 			break ;
-		}
 		else
 		{
 			type = ft_check_token_type(token);
@@ -66,6 +62,8 @@ int	ft_make_token_list(t_token **head, char *line)
 		(*head)->next->prev = NULL;
 		(*head) = (*head)->next;
 	}
+	else
+		(*head) = NULL;
 	return (not_closed);
 }
 
@@ -84,9 +82,6 @@ t_token	*ft_tokenize(char *line)
 		head = ft_lstnew_ms(NULL, 0);
 	not_closed = ft_make_token_list(&head, line);
 	if (not_closed == 1 || ft_is_syntax_error(head) == 1)
-	{
-		printf("syntax error\n");
 		ft_lstclear_ms(&head);
-	}
 	return (head);
 }

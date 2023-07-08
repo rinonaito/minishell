@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 14:14:00 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/07 15:35:45 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/08 14:43:11 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ char	*ft_strndup(char *str, size_t len)
 	char	*new;
 	size_t	i;
 
+	if (len == 0)
+		return (NULL);
 	new = malloc(sizeof(char) * len + 1);
 	if (new == NULL)
 		return (NULL);
@@ -46,7 +48,7 @@ int	ft_strcmp(char *str1, char *str2)
 	return (1);
 }
 
-char	*ft_find_spacetab(char *str)
+char	*ft_find_endoftoken(char *str)
 {
 	size_t	i;
 	char	*new_start;
@@ -62,5 +64,5 @@ char	*ft_find_spacetab(char *str)
 			return (&str[i]);
 		i++;
 	}
-	return (NULL);
+	return (&str[i]);
 }

@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:37:34 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/06 15:58:34 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/08 14:52:27 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	ft_lstclear_ms(t_token **head)
 	t_token	*current_node;
 	t_token	*temp;
 
-	if (head == NULL)
+	if (head == NULL || *head == NULL)
 		return ;
 	current_node = *head;
 	while (current_node->next != NULL)

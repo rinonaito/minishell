@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:31:20 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/07 16:01:48 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/08 14:55:49 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,15 @@ char	*ft_start_with_operator(char *start)
 	return (end);
 }
 
-//@func: if the parameter char *old_start starts with quotation, skip the pointer to the closing quote.
-//return if the quotation is properly closed, the pointer of the closing quote. If not, return NULL. if 
+//@func: if the parameter char *old_start starts with quotation, 
+//skip the pointer to the closing quote.
+//return if the quotation is properly closed, the pointer of the closing quote.
+//If not, return NULL. if 
 //@param:
-//	char *old_start:
+//	char *old_start: pointer of the head pointer of the string token
+//@return_val: return the param"old_start" if there is no quotation
+//return pointer just after the quotation when the string has
+//quotation and is closed. if not closed, return NULL.
 char	*ft_skip_to_closing_quote(char *old_start)
 {
 	char	*closing_quote;
@@ -107,8 +112,10 @@ char	*ft_skip_to_closing_quote(char *old_start)
 //@func: split the parameter accorning to the definition of "token" in Bash.
 //@param:
 //	char **line: pointer of the input string
-//@return_val: pointer of the duplicated string of a token
-char	*ft_get_token(char **line)
+//	int	*not_closed: flag to check if the quotation is properly closed
+//@return_val: return pointer of the duplicated string of a token
+//return NULL if quotation is not closed or the input is only space
+char	*ft_get_token(char **line, int *not_closed)
 {
 	char	*start;
 	char	*end;
@@ -118,20 +125,17 @@ char	*ft_get_token(char **line)
 	end = ft_start_with_operator(start);
 	if (end == NULL)
 	{
-		end = ft_find_spacetab(start);
-		if (end == NULL)
-			end = ft_strchr(start, '\0');
-		printf("end = %p\n", end);
+		end = ft_find_endoftoken(start);
 		end = ft_find_operator(start, end);
 	}
 	if (end == NULL)
+	{
+		*not_closed = 1;
 		return (NULL);
-	if (*end == '\0')
-		*line = NULL;
-	else
-		*line = end;
+	}
+	*line = end;
 	token = ft_strndup(start, end - start);
-	if (*token == '\0')
+	if (token != NULL && ft_strlen(token) == 0)
 	{
 		free(token);
 		return (NULL);

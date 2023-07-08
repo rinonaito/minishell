@@ -6,13 +6,13 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 15:11:52 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/07 16:07:39 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/08 14:46:00 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_get_env(char *str, t_quotes *quotes)
+char	*ft_get_env(char *str)
 {
 	size_t	i;
 	char	*start;
@@ -20,8 +20,6 @@ char	*ft_get_env(char *str, t_quotes *quotes)
 	char	*env;
 
 	i = 1;
-	if (quotes->status == 2 && str[i] == '\"')
-		return (NULL);
 	if (str[i] == '{')
 	{
 		start = &str[i + 1];
@@ -30,56 +28,42 @@ char	*ft_get_env(char *str, t_quotes *quotes)
 	else
 	{
 		start = &str[i];
-		end = ft_find_spacetab(start);
-		if (end == NULL)
-			end = ft_strchr(start, '\0');
+		end = ft_find_endoftoken(start);
 	}
 	env = ft_strndup(start, end - start);
-	printf("env = %s\n", env);
 	return (env);
 }
 
-void	ft_initiate_quotes(t_quotes *quotes)
+char	*ft_check_quotes(char *old_start)
 {
-	quotes->s_quotes = 0;
-	quotes->d_quotes = 0;
-	quotes->status = 0;
-}
+	char	*new_start;
 
-void	ft_check_quotes(char c, t_quotes *quotes)
-{
-	if (c == '\'')
-		quotes->s_quotes++;
-	if (c == '\"')
-		quotes->d_quotes++;
-	if (quotes->s_quotes % 2 == 0 && quotes->d_quotes % 2 == 0)
-		quotes->status = 0;
+	if (*old_start == '\'')
+		new_start = ft_skip_to_closing_quote(old_start);
 	else
-	{
-		if (quotes->s_quotes % 2 != 0)
-			quotes->status = 1;
-		else
-			quotes->status = 2;
-	}
+		new_start = old_start;
+	return (new_start);
 }
 
 char	*ft_find_env(t_tree *root)
 {
-	size_t	i;
-	char	*env_l;
-	char	*env_r;
-	t_quotes	quotes;
+	size_t		i;
+	char		*env_l;
+	char		*env_r;
+	char		*token;
+	char		*new_start;
 
 	while (root->param != NULL && root->param->type != TK_PIPE)
 	{
 		i = 0;
-		ft_initiate_quotes(&quotes);
-		while (root->param->token[i] != '\0')	
+		token = root->param->token;
+		while (token[i] != '\0')
 		{
-			ft_check_quotes(root->param->token[i], &quotes);
-			if (quotes.status != 1 && root->param->token[i] == '$')
+			new_start = ft_check_quotes(&token[i]);
+			i += new_start - &token[i];
+			if (token[i] == '$')
 			{
-				env_l = ft_get_env(&(root->param->token[i]), &quotes);
+				env_l = ft_get_env(&token[i]);
 				env_r = getenv(env_l);
 				printf("env_l = %s, env_r = %s\n", env_l, env_r);
 			}
@@ -96,7 +80,7 @@ void	ft_expand_env(t_tree *root)
 
 	if (root == NULL)
 		return ;
-	ft_expand_env(root->l_leaf);	
+	ft_expand_env(root->l_leaf);
 	env = ft_find_env(root);
 	ft_expand_env(root->r_leaf);
 }
