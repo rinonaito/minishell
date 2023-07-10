@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/06 17:55:37 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/10 21:31:42 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,11 @@ void	trace_inorder(t_tree *root)
 		return ;
 	trace_inorder(root->l_leaf);
 	printf("command = %s\n", root->command);
+	create_process();
 	trace_inorder(root->r_leaf);
 }
 
-int	main(void)
+int	main(int argc, char **argv, char **env)
 {
 	char	*line;
 	t_token	*head;
@@ -130,6 +131,7 @@ int	main(void)
 	//			head = head->next;
 	//		}
 	//		ft_interpret(line);
+			create_process(env);
 		}
 	//	system ("leaks -q minishell");
 	}
