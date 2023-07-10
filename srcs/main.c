@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/10 18:46:48 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/10 20:47:05 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,8 @@ void	trace_inorder(t_tree *root)
 	if (root == NULL)
 		return ;
 	trace_inorder(root->l_leaf);
-	if (root->param != NULL)
+	if (root != NULL && root->param != NULL)
 		printf("param = %s\n", root->param->token);
-	else
-		printf("param = NULL\n");
 	trace_inorder(root->r_leaf);
 }
 
@@ -116,18 +114,13 @@ int	main(void)
 //			system ("leaks -q minishell");
 			return (1);
 		}
-//		while (head != NULL)
-//		{
-//			printf("%s\n", head->token);
-//			head = head->next;
-//		}
 		if (head != NULL)
 		{
 			free(line);
 			root = ft_make_syntax_tree(head);
 			ft_expand_env(root);
 			trace_inorder(root);
-	//		ft_interpret(line);
+//			ft_interpret(line);
 		}
 		ft_free_syntax_tree(root);
 //		system ("leaks -q minishell");

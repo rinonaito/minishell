@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 15:21:01 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/10 19:09:05 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/10 20:43:06 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,14 @@ char	*ft_find_env(t_tree *root)
 	{
 		i = 0;
 		old_token = root->param->token;
-		while (old_token[i] != '\0' && old_token != NULL)
+		while (old_token != NULL && old_token[i] != '\0')
 		{
 			new_start = ft_check_quotes(&old_token[i]);
 			if (new_start == NULL)
 				break ;
 			i += new_start - &old_token[i];
 			if (old_token[i] == '$')
-				ft_replace_env(root, old_token, &old_token[i]);
+				ft_replace_env(root, &old_token, &old_token[i]);
 			i++;
 		}
 		root->param = root->param->next;

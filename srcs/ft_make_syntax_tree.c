@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 21:42:38 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/10 18:45:49 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/10 20:32:27 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,9 @@ void	ft_free_syntax_tree(t_tree *root)
 	if (root == NULL)
 		return ;
 	ft_free_syntax_tree(root->l_leaf);
-	free(root);
 	ft_free_syntax_tree(root->r_leaf);
+	free(root);
+	root = NULL;
 }
 
 //@func: allocate memory for the node in syntax tree and
