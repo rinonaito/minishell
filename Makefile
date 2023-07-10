@@ -6,7 +6,7 @@
 #    By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 16:01:50 by rnaito            #+#    #+#              #
-#    Updated: 2023/07/06 14:55:49 by rnaito           ###   ########.fr        #
+#    Updated: 2023/07/10 16:14:26 by taaraki          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,8 @@ SRCS =	main.c\
 		list.c\
 		ft_is_syntax_error.c\
 		ft_make_syntax_tree.c\
-		libft_plus.c
+		libft_plus.c\
+		ft_perror.c
 OBJSDIR = objs/
 OBJS = $(SRCS:%.c=$(OBJSDIR)%.o)
 

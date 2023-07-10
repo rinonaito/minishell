@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/06 15:40:50 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/10 16:14:02 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,8 @@ void	ft_complete_node(t_tree **node, t_tree *right, t_tree *left);
 char	*ft_find_command(t_token *token);
 t_tree	*ft_make_leaf(t_token **token);
 t_tree	*ft_make_syntax_tree(t_token *head);
+
+//ft_perror.c
+void	ft_perror(char *message);
 
 #endif
