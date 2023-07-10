@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 15:11:52 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/09 15:26:18 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/10 17:59:17 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,4 +89,5 @@ void	ft_replace_env(t_tree *root, char *token, char *doller)
 			free (temp);
 		}
 	}
+	free (env_l);
 }

@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 13:03:35 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/08 15:34:01 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/10 18:14:22 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int	ft_make_token_list(t_token **head, char *line)
 {
 	char	*token;
 	int		not_closed;
+	t_token	*temp;
 
 	not_closed = 0;
 	while (ft_strlen(line) != 0)
@@ -66,6 +67,7 @@ int	ft_make_token_list(t_token **head, char *line)
 		else
 			ft_put_token_inlist(head, token);
 	}
+	temp = *head;
 	if ((*head)->next != NULL)
 	{
 		(*head)->next->prev = NULL;
@@ -73,6 +75,7 @@ int	ft_make_token_list(t_token **head, char *line)
 	}
 	else
 		(*head) = NULL;
+	free (temp);
 	return (not_closed);
 }
 
@@ -80,7 +83,7 @@ int	ft_make_token_list(t_token **head, char *line)
 //@param:
 //	char *line: a string of input
 //@return_val: head node of the token list
-t_token	*ft_tokenize(char *line)
+t_token	*ft_tokenize(char *line, int *is_error)
 {	
 	t_token	*head;
 	int		not_closed;
@@ -91,6 +94,9 @@ t_token	*ft_tokenize(char *line)
 		head = ft_lstnew_ms(NULL, 0);
 	not_closed = ft_make_token_list(&head, line);
 	if (not_closed == 1 || ft_is_syntax_error(head) == 1)
+	{
+		*is_error = 1;
 		ft_lstclear_ms(&head);
+	}
 	return (head);
 }

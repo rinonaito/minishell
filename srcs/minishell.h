@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/09 15:25:18 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/10 18:55:29 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,20 +38,13 @@ typedef struct s_token {
 
 typedef struct s_tree {
 	t_token_type	type; // for all type
-	char			*command; // for leaf
 	struct s_token	*param; // for leaf 
 	struct s_tree	*r_leaf; // for node
 	struct s_tree	*l_leaf; // for node
 }						t_tree;
 
-typedef struct s_quotes {
-	int	s_quotes;
-	int	d_quotes;
-	int	status;
-}						t_quotes;
-
 //tokenize.c
-t_token	*ft_tokenize(char *line);
+t_token	*ft_tokenize(char *line, int *is_error);
 int		ft_make_token_list(t_token **head, char *line);
 void	ft_put_token_inlist(t_token **head, char *token);
 int		ft_check_token_type(char *token);
@@ -81,9 +74,9 @@ char	*ft_find_quote(char *str);
 int		ft_is_syntax_error(t_token *head);
 
 //ft_make_syntax_tree.c
+void	ft_free_syntax_tree(t_tree *root);
 t_tree	*ft_make_node(t_token **token);
 void	ft_complete_node(t_tree **node, t_tree *right, t_tree *left);
-char	*ft_find_command(t_token *token);
 t_tree	*ft_make_leaf(t_token **token);
 t_tree	*ft_make_syntax_tree(t_token *head);
 

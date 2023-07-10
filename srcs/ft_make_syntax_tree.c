@@ -6,11 +6,20 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 21:42:38 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/07 20:06:55 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/10 18:45:49 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ft_free_syntax_tree(t_tree *root)
+{
+	if (root == NULL)
+		return ;
+	ft_free_syntax_tree(root->l_leaf);
+	free(root);
+	ft_free_syntax_tree(root->r_leaf);
+}
 
 //@func: allocate memory for the node in syntax tree and
 //initiate with type "TK_PIPE"
@@ -23,6 +32,7 @@ t_tree	*ft_make_node(t_token **token)
 
 	new_node = malloc(sizeof(t_tree));
 	new_node->type = TK_PIPE;
+	new_node->param = NULL;
 	new_node->r_leaf = NULL;
 	new_node->l_leaf = NULL;
 	if (*token != NULL)
@@ -44,24 +54,6 @@ void	ft_complete_node(t_tree **node, t_tree *right, t_tree *left)
 	(*node)->l_leaf = left;
 }
 
-//@func: find command string in the list of token and return the string 
-//@param:
-//	t_token *token: head of the list token
-//@return_val: string of command
-char	*ft_find_command(t_token *token)
-{
-	while (token != NULL && token->type != TK_PIPE)
-	{
-		if (token->type == TK_WORD)
-			return (token->token);
-		if (token->type >= TK_REDIR_IN && token->type <= TK_HEREDOC)
-			token = token->next;
-		if (token != NULL)
-			token = token->next;
-	}
-	return (NULL);
-}
-
 //@func: allocate memory for the leaf in tree struct and
 //initiate with type "TK_PIPE"
 //@param: pointer of the token with the type non"TK_PIPE"
@@ -74,7 +66,6 @@ t_tree	*ft_make_leaf(t_token **token)
 		return (NULL);
 	new_leaf = malloc(sizeof(t_tree));
 	new_leaf->type = TK_WORD;
-	new_leaf->command = ft_find_command(*token);
 	new_leaf->param = *token;
 	new_leaf->r_leaf = NULL;
 	new_leaf->l_leaf = NULL;
