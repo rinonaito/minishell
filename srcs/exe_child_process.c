@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:42:52 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/11 21:07:26 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/11 23:29:09 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,10 @@
 void	ft_perror(char *message);
 
 //void	exec(char **env, int i)
-void	exec(char **env)
+static void	exec(char **cmd_args, char **env)
 {
-	char	file[] = {"/bin/ls"};
+	char	*file;
+	//char	file[] = {"/bin/ls"};
 	//char	*file[] = {"/bin/ls", "/usr/bin/wc", "/bin/cat"};
 	char	*argv[] = {"ls", "-l", NULL};
 	//char	*argv1[] = {"ls", "-l", NULL};
@@ -31,11 +32,24 @@ void	exec(char **env)
 
 	printf("  %s\n", __func__);
 	//printf("i:%d\n", i);
+	//file = get_path_to_the_command(path, command);
+	if (!cmd_args)
+		return ;
+	file = ft_search_path(cmd_args[0]);
+	printf("file:[%s]\n", file);
 	if (access(file, F_OK | X_OK) == 0)
 	{
 		printf("  access success\n");
 		//d = execve(file, argv, env);
-		d = execve(file, argv, env);
+		int i = 0;
+		//while (i < 2)
+		while (cmd_args[i])
+		{
+			printf("i:%d[%s]\n", i, cmd_args[i]);
+			i++;
+		}
+		//d = execve(file, cmd_args, env);
+		d = execve(file, cmd_args, env);
 		if (d == -1)
 		{
 			printf("  command not found\n");
@@ -73,6 +87,6 @@ void	child_process(int fd[2], char **cmd_args, char **env)
 	*/
 	//execve("/bin/ls", cmd_args, env);
 	//exec(env, i);
-	exec(env);
+	exec(cmd_args, env);
 	//printf("%s #end\n", __func__);
 }
