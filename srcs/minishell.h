@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/11 23:25:30 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/11 23:47:50 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	ft_lstclear_ms(t_token **head);
 char	*ft_strndup(char *str, size_t len);
 int		ft_strcmp(char *str1, char *str2);
 char	*ft_strchrchr(char *str, char c1, char c2, int *not_closed);
+int		ft_strnequ(const char *s1, const char *s2);
 
 //ft_is_syntax_error.c
 int		ft_is_syntax_error(t_token *head);
