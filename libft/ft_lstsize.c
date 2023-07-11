@@ -1,24 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_perror.c                                        :+:      :+:    :+:   */
+/*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/10 16:11:33 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/10 17:21:24 by taaraki          ###   ########.fr       */
+/*   Created: 2023/02/16 17:10:10 by taaraki           #+#    #+#             */
+/*   Updated: 2023/04/30 04:53:46 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include	"minishell.h"
-#include	<stdio.h>
-#include	<stdlib.h>
-#include	<unistd.h>
+#include	"libft.h"
 
-void	ft_perror(char *message)
+int	ft_lstsize(t_list *lst)
 {
-	//printf("%s\n", __func__);
-	if (message)
-		perror(message);
-	exit(-1);
+	int	i;
+
+	i = 0;
+	while (lst)
+	{
+		lst = lst->next;
+		i++;
+	}
+	return (i);
 }

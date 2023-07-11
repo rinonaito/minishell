@@ -1,31 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parent_process.c                                   :+:      :+:    :+:   */
+/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/10 16:43:42 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/10 17:21:12 by taaraki          ###   ########.fr       */
+/*   Created: 2023/02/12 17:56:05 by taaraki           #+#    #+#             */
+/*   Updated: 2023/03/13 17:33:09 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include	"minishell.h"
-#include	<stdio.h>
-#include	<stdlib.h>
-#include	<unistd.h>
+#include	"libft.h"
 
-void	ft_perror(char *message);
-
-void	parent_process(int fd[2])//, int i)
+void	ft_putchar_fd(char c, int fd)
 {
-	//printf("%s\n", __func__);
-
-	close(fd[1]);
-	//if (i != 0)
-	if (dup2(fd[0], 0) == -1)
-	{
-		close(fd[0]);
-		ft_perror("dup2\n");
-	}
+	write(fd, &c, 1);
 }

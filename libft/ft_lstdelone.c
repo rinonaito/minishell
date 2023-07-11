@@ -1,34 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wait_process.c                                     :+:      :+:    :+:   */
+/*   ft_lstdelone.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/10 16:43:31 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/10 17:21:34 by taaraki          ###   ########.fr       */
+/*   Created: 2023/02/18 17:19:41 by taaraki           #+#    #+#             */
+/*   Updated: 2023/04/30 06:59:37 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include	"minishell.h"
-#include	<stdio.h>
-#include	<stdlib.h>
-#include	<unistd.h>
+#include	"libft.h"
 
-int	wait_process(int pid, int num_cmds)
+void	ft_lstdelone(t_list *lst, void (*del)(void *))
 {
-	int	status;
-	int	i;
-
-	//printf("%s\n", __func__);
-	i = 0;
-///*
-	while (i < num_cmds - 1)
-	{
-		wait(&status);
-		i++;
-	}
-//*/
-	waitpid(pid, &status, 0);
-	return (status);
+	if (!lst || !del)
+		return ;
+	(*del)(lst->content);
+	free(lst);
 }
