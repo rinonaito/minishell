@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/06 15:40:50 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/11 20:53:16 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,18 @@ void	ft_complete_node(t_tree **node, t_tree *right, t_tree *left);
 char	*ft_find_command(t_token *token);
 t_tree	*ft_make_leaf(t_token **token);
 t_tree	*ft_make_syntax_tree(t_token *head);
+
+/*** EXECUTION ***/
+//create_process.c
+int create_process(t_tree *root, char **env);
+//child_process.c
+void    child_process(int fd[2], char **cmd_args, char **env);//, int num_cmds, int i);
+//parent_process.c
+void    parent_process(int fd[2]);//, int i)
+//wait_process.c
+int wait_process(int pid, int num_cmds);
+//ft_perror.c
+void    ft_perror(char *message);
+
 
 #endif

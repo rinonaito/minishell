@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   create_process.c                                   :+:      :+:    :+:   */
+/*   exe_new_process.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:43:25 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/11 20:28:36 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/11 20:28:25 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,18 @@ void	child_process(int fd[2], char **cmd_args, char **env, int num_cmds, int i);
 void	parent_process(int fd[2]);//, int i)
 */
 
-int	create_process(t_tree *root, char **env)
+int	new_process(t_tree *root, char **env)
 {
 	int	fd[2];
-	int	i;
 	pid_t	pid;
 	//char	***cmd_args = {{"ls", "-l", NULL}, {"wc", "-l", NULL}, {"cat", NULL}};
 	char	*cmd_args[] = {"ls", "-l", NULL};
-	//
-	int	num_cmds = 3;
 	int	status;
 
 
-	printf("create_process: %s\n", root->param->token);
+	printf("new_process: %s\n", root->param->token);
+	
+	//return (0);
 	i = 0;
 	//while (i < num_cmds)
 	//{
