@@ -6,7 +6,7 @@
 #    By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 16:01:50 by rnaito            #+#    #+#              #
-#    Updated: 2023/07/11 20:52:38 by taaraki          ###   ########.fr        #
+#    Updated: 2023/07/11 21:59:05 by taaraki          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,9 @@ SRCS =	main.c\
 		exe_child_process.c\
 		exe_parent_process.c\
 		exe_wait_process.c\
-		exe_perror.c
+		exe_create_cmds.c\
+		exe_perror.c\
+		exe_free.c
 OBJSDIR = objs/
 OBJS = $(SRCS:%.c=$(OBJSDIR)%.o)
 
@@ -51,8 +53,8 @@ all: $(NAME)
 $(NAME): $(NAME_LIBFT) $(OBJS)
 	$(CC) $(CFLAGS) $(LIBS) $(OBJS) -o $@
 $(OBJSDIR)%.o: %.c
+	mkdir -p $(OBJSDIR)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
-	@#mkdir -p $(OBJSDIR)
 $(NAME_LIBFT):
 	make -C $(LIBFT_DIR)
 
