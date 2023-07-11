@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/11 20:53:49 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/11 22:36:43 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,17 +80,23 @@
 
 void	trace_inorder(t_tree *root, char **env)
 {
-	static int	i;
+	//static int	i;
+	char	**cmd_args;
 
 	if (root == NULL)
 		return ;
 	trace_inorder(root->l_leaf, env);
 	//printf("command = %s\n", root->command);
-	printf("###\n");
-	if (root->param)
-		printf("param = %s\n", root->param->token);
-	if (root->param)
-		create_process(root, env);
+	printf("&&&\n");
+	//if (root->type != TK_PIPE)
+	{
+		cmd_args = create_cmds(root);
+		if (root->param)
+			printf("param = %s\n", root->param->token);
+		if (root->param)
+			create_process(root, cmd_args, env);
+		//free_args(&cmd_args);
+	}
 	printf("$$$\n");
 	trace_inorder(root->r_leaf, env);
 }

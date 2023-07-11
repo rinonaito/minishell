@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:42:52 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/11 17:34:28 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/11 21:07:26 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,20 +29,21 @@ void	exec(char **env)
 	//char	*argv[][3] = {{"ls", "-l", NULL}, {"wc", "-l", NULL}, {"cat", NULL}};
 	int		d;
 
-	printf("%s\n", __func__);
+	printf("  %s\n", __func__);
 	//printf("i:%d\n", i);
 	if (access(file, F_OK | X_OK) == 0)
 	{
-		printf("access success\n");
+		printf("  access success\n");
+		//d = execve(file, argv, env);
 		d = execve(file, argv, env);
 		if (d == -1)
 		{
-			printf("command not found\n");
+			printf("  command not found\n");
 		}
 	}
 	else
 	{
-		printf("access failed\n");
+		printf("  access failed\n");
 	}
 }
 
@@ -52,7 +53,7 @@ void	child_process(int fd[2], char **cmd_args, char **env)
 	//extern char	**environ;
 	//char		*argv[] = {"ls", "-l", NULL};
 
-	printf("%s #begin\n", __func__);
+	printf("  %s #begin\n", __func__);
 	//printf("%s i:%d,num_cmds%d\n", __func__, i, num_cmds);
 	///*
 	close(fd[0]);
