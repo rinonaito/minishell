@@ -6,49 +6,54 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 15:11:52 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/10 22:23:34 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/11 13:19:16 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	ft_for_braced_env(char **start, char **end, char *doller)
+{
+	*start = doller + 2;
+	*end = ft_strchr(*start, '}');
+}
+
+void	ft_for_unbraced_env(char **start, char **end, char *doller)
+{
+	size_t	i;
+
+	*start = doller + 1;
+	i = 0;
+	while ((*start)[i] != '\0')
+	{
+		if (ft_isalnum((*start)[i]) == 0)
+		{
+			*end = &((*start)[i]);
+			break ;
+		}
+		i++;
+	}
+	if (*end == NULL)
+		*end = &((*start)[i]);
+}
+
 char	*ft_get_key_of_env(char *doller)
 {
 	char	*start;
 	char	*end;
-	char	*quote;
-	char	*another_doller;
-	char	*env;
+	char	*env_key;
 
+	start = NULL;
+	end = NULL;
 	if (*(doller + 1) == '{')
-	{
-		start = doller + 2;
-		end = ft_strchr(start, '}');
-	}
+		ft_for_braced_env(&start, &end, doller);
 	else
-	{
-		start = doller + 1;
-		end = ft_find_endoftoken(start);
-		quote = ft_find_quote(start);
-		another_doller = ft_strchr(start, '$');
-		if (quote != NULL && quote < end)
-			end = quote;
-		if (another_doller != NULL && another_doller < end)
-			end = another_doller;
-	}
-	env = ft_strndup(start, end - start);
-	return (env);
-}
-
-char	*ft_check_quotes(char *old_start)
-{
-	char	*new_start;
-
-	if (*old_start == '\'')
-		new_start = ft_skip_to_closing_quote(old_start);
+		ft_for_unbraced_env(&start, &end, doller);
+	if (start != NULL && end != NULL)
+		env_key = ft_strndup(start, end - start);
 	else
-		new_start = old_start;
-	return (new_start);
+		return (NULL);
+	return (env_key);
 }
 
 char	*ft_make_new_token(char *token, char *doller, char *before, char *after)
@@ -71,24 +76,27 @@ char	*ft_make_new_token(char *token, char *doller, char *before, char *after)
 	return (new_token);
 }
 
-void	ft_replace_env(t_tree *root, char **old_token, char *doller)
+int	ft_replace_env(t_tree *root, char **old_token, char *doller)
 {
-	char		*env_l;
-	char		*env_r;
+	char		*env_key;
+	char		*env_val;
 	char		*new_token;
 	char		*temp;
 
-	env_l = ft_get_key_of_env(doller);
-	if (env_l != NULL)
+	env_key = ft_get_key_of_env(doller);
+	if (env_key != NULL)
 	{
-		env_r = getenv(env_l);
-		if (env_r == NULL)
-			env_r = "\0";
-		new_token = ft_make_new_token(*old_token, doller, env_l, env_r);
+		env_val = getenv(env_key);
+		if (env_val == NULL)
+			env_val = "\0";
+		new_token = ft_make_new_token(*old_token, doller, env_key, env_val);
 		temp = root->param->token;
 		root->param->token = new_token;
 		*old_token = new_token;
 		free (temp);
+		free (env_key);
+		return (0);
 	}
-	free (env_l);
+	else
+		return (1);
 }
