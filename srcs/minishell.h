@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/11 23:47:50 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/12 04:06:25 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include <stdio.h> // for printf
 # include <string.h> // for strlen
+//# include <sys/types.h> // for t_pid
+# include <unistd.h> // for t_pid
 # include <readline/readline.h> //for readline
 # include <readline/history.h> //for add_history
 # include <stdlib.h> //for free
@@ -81,11 +83,11 @@ t_tree	*ft_make_syntax_tree(t_token *head);
 
 /*** EXECUTION ***/
 //create_process.c
-int create_process(t_tree *root, char **cmd_args, char **env);
+int create_process(char **cmd_args, char **env, int num_cmds, int i);
 //child_process.c
-void    child_process(int fd[2], char **cmd_args, char **env);//, int num_cmds, int i);
+void    child_process(int fd[2], char **cmd_args, char **env, int num_cmds, int i);
 //parent_process.c
-void    parent_process(int fd[2]);//, int i)
+void    parent_process(int fd[2], int i);
 //wait_process.c
 int wait_process(int pid, int num_cmds);
 //ft_perror.c
