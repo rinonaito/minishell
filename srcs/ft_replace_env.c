@@ -6,16 +6,22 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 15:11:52 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/11 13:19:16 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/11 17:07:28 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_for_braced_env(char **start, char **end, char *doller)
+int	ft_for_braced_env(char **start, char **end, char *doller)
 {
+	int	is_error;
+	
+	is_error = 0;
 	*start = doller + 2;
 	*end = ft_strchr(*start, '}');
+	if (*end == NULL)
+		is_error = 1;
+	return (is_error);
 }
 
 void	ft_for_unbraced_env(char **start, char **end, char *doller)
@@ -26,7 +32,7 @@ void	ft_for_unbraced_env(char **start, char **end, char *doller)
 	i = 0;
 	while ((*start)[i] != '\0')
 	{
-		if (ft_isalnum((*start)[i]) == 0)
+		if (ft_isalnum((*start)[i]) == 0 && (*start)[i] != '_')
 		{
 			*end = &((*start)[i]);
 			break ;
@@ -42,11 +48,16 @@ char	*ft_get_key_of_env(char *doller)
 	char	*start;
 	char	*end;
 	char	*env_key;
+	int		is_error;
 
 	start = NULL;
 	end = NULL;
 	if (*(doller + 1) == '{')
-		ft_for_braced_env(&start, &end, doller);
+	{
+		is_error = ft_for_braced_env(&start, &end, doller);
+		if (is_error == 1)
+			return (NULL);
+	}
 	else
 		ft_for_unbraced_env(&start, &end, doller);
 	if (start != NULL && end != NULL)

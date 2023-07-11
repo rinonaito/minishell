@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/11 13:18:53 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/11 16:51:59 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,9 +118,10 @@ int	main(void)
 		{
 			free(line);
 			root = ft_make_syntax_tree(head);
-			if (ft_expand_env(root) == 1)
+			is_error = ft_expand_env(root);
+			if (is_error == 1)
 			{
-				printf("brace not closed\n");
+				printf("syntax error\n");
 	//			system ("leaks -q minishell");
 				return (1);
 			}

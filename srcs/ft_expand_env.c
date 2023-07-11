@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 15:21:01 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/11 13:20:10 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/11 16:58:26 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*ft_check_quotes(char *old_start)
 	return (new_start);
 }
 
-int	ft_find_env(t_tree *root)
+void	ft_find_env(t_tree *root)
 {
 	size_t		i;
 	char		*old_token;
@@ -42,23 +42,19 @@ int	ft_find_env(t_tree *root)
 				break ;
 			i += new_start - &old_token[i];
 			if (old_token[i] == '$')
-				if (ft_replace_env(root, &old_token, &old_token[i]) == 1)
-					return (1);
+				ft_replace_env(root, &old_token, &old_token[i]);
 			i++;
 		}
 		root->param = root->param->next;
 	}
 	root->param = temp;
-	return (0);
 }
 
-int	ft_expand_env(t_tree *root)
+void	ft_expand_env(t_tree *root)
 {
 	if (root == NULL)
-		return (0);
+		return ;
 	ft_expand_env(root->l_leaf);
-	if (ft_find_env(root) == 1)
-		return (1);
+	ft_find_env(root);
 	ft_expand_env(root->r_leaf);
-	return (0);
 }
