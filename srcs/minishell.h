@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/11 17:05:36 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/12 14:12:38 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef struct s_tree {
 
 //tokenize.c
 t_token	*ft_tokenize(char *line, int *is_error);
-int		ft_make_token_list(t_token **head, char *line);
+void	ft_make_token_list(t_token **head, char *line);
 void	ft_put_token_inlist(t_token **head, char *token);
 int		ft_check_token_type(char *token);
 
@@ -54,7 +54,7 @@ char	*ft_skip_space(char *line);
 char	*ft_find_operator(char *start, char *end);
 char	*ft_start_with_operator(char *start);
 char	*ft_skip_to_closing_quote(char *str);
-char	*ft_get_token(char **line, int *in_closed);
+char	*ft_get_token(char **line);
 
 //list.c
 t_token	*ft_lstnew_ms(char *token, int type);
@@ -90,5 +90,9 @@ char	*ft_get_key_of_env(char *token);
 char	*ft_make_new_token(char *token, char *doller,
 			char *before, char *after);
 int		ft_replace_env(t_tree *root, char **token, char *doller);
+
+//ft_word_split.c
+void	ft_check_ifs(t_tree *root);
+void	ft_word_split(t_tree *root);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 13:03:35 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/11 13:47:55 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/12 14:20:31 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,16 +52,14 @@ void	ft_put_token_inlist(t_token **head, char *token)
 //	char	*line: input string
 //@return_val: return 0 if there is NO quotation error
 //	return 1 if the quotation is not closed
-int	ft_make_token_list(t_token **head, char *line)
+void	ft_make_token_list(t_token **head, char *line)
 {
 	char	*token;
-	int		not_closed;
 	t_token	*temp;
 
-	not_closed = 0;
 	while (ft_strlen(line) != 0)
 	{
-		token = ft_get_token(&line, &not_closed);
+		token = ft_get_token(&line);
 		if (token == NULL)
 			break ;
 		else
@@ -76,7 +74,7 @@ int	ft_make_token_list(t_token **head, char *line)
 	else
 		(*head) = NULL;
 	free (temp);
-	return (not_closed);
+	return ;
 }
 
 //@func: tokenize the input
@@ -86,14 +84,13 @@ int	ft_make_token_list(t_token **head, char *line)
 t_token	*ft_tokenize(char *line, int *is_error)
 {	
 	t_token	*head;
-	int		not_closed;
 
 	if (ft_strlen(line) == 0)
 		return (NULL);
 	if (line != NULL)
 		head = ft_lstnew_ms(NULL, 0);
-	not_closed = ft_make_token_list(&head, line);
-	if (not_closed == 1 || ft_is_syntax_error(head) == 1)
+	ft_make_token_list(&head, line);
+	if (ft_is_syntax_error(head) == 1)
 	{
 		*is_error = 1;
 		ft_lstclear_ms(&head);

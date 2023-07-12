@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/11 17:13:52 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/12 14:02:45 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ int	main(void)
 			ft_expand_env(root);
 			trace_inorder(root);
 //			ft_interpret(line);
+//			ft_word_split(root);
 			ft_free_syntax_tree(root);
 		}
 //		system ("leaks -q minishell");

@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:31:20 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/10 18:12:48 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/12 14:20:42 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ char	*ft_skip_to_closing_quote(char *old_start)
 //	int	*not_closed: flag to check if the quotation is properly closed
 //@return_val: return pointer of the duplicated string of a token
 //return NULL if quotation is not closed or the input is only space
-char	*ft_get_token(char **line, int *not_closed)
+char	*ft_get_token(char **line)
 {
 	char	*start;
 	char	*end;
@@ -129,10 +129,7 @@ char	*ft_get_token(char **line, int *not_closed)
 		end = ft_find_operator(start, end);
 	}
 	if (end == NULL)
-	{
-		*not_closed = 1;
-		return (NULL);
-	}
+		end = ft_find_endoftoken(start);
 	*line = end;
 	token = ft_strndup(start, end - start);
 	if (token != NULL && ft_strlen(token) == 0)
