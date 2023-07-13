@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:42:52 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/12 01:57:43 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/13 15:58:41 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	child_process(int fd[2], char **cmd_args, char **env, int num_cmds, int i)
 
 	printf("### %s:begin ###\n", __func__);
 	printf("%s i:%d,num_cmds%d\n", __func__, i, num_cmds);
-	STOP;
+	//STOP;
 	///*
 	close(fd[0]);
 	//dup2(fd[0], 0);
