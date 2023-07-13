@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:43:25 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/14 01:29:20 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/14 02:09:45 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	parent_process(int fd[2]);//, int i)
 //@func: create processes, including parent/child/wait processes
 //@return_val:
 //		 exit status of wait process		
-int	create_process(char **cmd_args, char **env, int num_cmds, int i)
+int	create_process(char **cmd_args, char **env, int num_cmds, int i, pid_t *pid_ary)
 {
 	int	fd[2];
 	//int	i;
@@ -54,7 +54,7 @@ int	create_process(char **cmd_args, char **env, int num_cmds, int i)
 	}
 	else
 	{
-		//pid_ary[i - 1] = pid;
+		pid_ary[i - 1] = pid;
 		parent_process(fd, i, num_cmds);
 	}
 

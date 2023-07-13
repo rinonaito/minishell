@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:43:31 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/14 02:01:45 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/14 02:14:54 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,16 @@
 #include	<stdlib.h>
 #include	<unistd.h>
 
-int	wait_process(pid_t pid)//, int num_cmds)
+int	wait_process(pid_t *pid_ary, int num_cmds)//pid)//, int num_cmds)
 {
 	int		status;
+	int		i;
 	pid_t	check_pid;
 
 
 	printf(">%s\n", __func__);
 	printf(" ### before while ###\n");
-	///*
+	/*
 	while ((check_pid = waitpid(-1, &status, 0)) > 0)
 	{
 		//check_pid = waitpid(-1, &status, 0);
@@ -40,12 +41,13 @@ int	wait_process(pid_t pid)//, int num_cmds)
 			}
 		}
 	}
-	//*/
+	*/
 
-	/*
-	while (i++ <= num_cmds)
+	///*
+	i = 0;
+	while (i++ < num_cmds)
 	{
-		waitpid(pid[i], &status, 0);
+		waitpid(pid_ary[i], &status, 0);
 	}
 	if (WIFEXITED(status))
 	{
@@ -54,7 +56,7 @@ int	wait_process(pid_t pid)//, int num_cmds)
 	}
 	else
 		printf(" not WIFEXITED\n");
-	*/
+	//*/
 
 	//printf(" [%s] Exit: %d\n", __func__, status);
    //if (WIFEXITED(status))
