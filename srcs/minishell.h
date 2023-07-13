@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/12 14:12:38 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/13 19:30:31 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ t_tree	*ft_make_syntax_tree(t_token *head);
 
 //ft_expand_env.c
 char	*ft_check_quotes(char *old_start);
-void	ft_find_env(t_tree *root);
+int		ft_find_env(t_tree *root);
 void	ft_expand_env(t_tree *root);
 
 //ft_replace_env.c
@@ -91,8 +91,7 @@ char	*ft_make_new_token(char *token, char *doller,
 			char *before, char *after);
 int		ft_replace_env(t_tree *root, char **token, char *doller);
 
-//ft_word_split.c
-void	ft_check_ifs(t_tree *root);
-void	ft_word_split(t_tree *root);
+//ft_split_expanded_token.c
+void	ft_split_expanded_token(t_token *param);
 
 #endif

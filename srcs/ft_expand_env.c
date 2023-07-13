@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 15:21:01 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/12 14:18:49 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/13 21:32:19 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,16 @@ char	*ft_check_quotes(char *old_start)
 	return (old_start);
 }
 
-void	ft_find_env(t_tree *root)
+int	ft_find_env(t_tree *root)
 {
 	size_t		i;
 	char		*old_token;
 	char		*new_start;
 	t_token		*temp;
+	int			is_replaced;
 
 	temp = root->param;
+	is_replaced = 0;
 	while (root->param != NULL && root->param->type != TK_PIPE)
 	{
 		i = 0;
@@ -42,19 +44,28 @@ void	ft_find_env(t_tree *root)
 			new_start = ft_check_quotes(&old_token[i]);
 			i += new_start - &old_token[i];
 			if (old_token[i] == '$')
-				ft_replace_env(root, &old_token, &old_token[i]);
+				is_replaced = ft_replace_env(root, &old_token, &old_token[i]);
 			i++;
 		}
 		root->param = root->param->next;
 	}
 	root->param = temp;
+	return (is_replaced);
 }
 
 void	ft_expand_env(t_tree *root)
 {
+	int	is_replaced;
+
 	if (root == NULL)
 		return ;
 	ft_expand_env(root->l_leaf);
-	ft_find_env(root);
+	is_replaced = ft_find_env(root);
+	if (is_replaced == 1)
+	{
+		printf("root->param->token = %s\n", root->param->token);
+		ft_split_expanded_token(root->param);
+		printf("root->param->token = %s\n", root->param->token);
+	}
 	ft_expand_env(root->r_leaf);
 }
