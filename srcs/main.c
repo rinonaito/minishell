@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/13 21:57:35 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/14 00:56:00 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,17 +80,16 @@
 //}
 
 //count the number of commands
-int		count_num_cmds(t_tree *root, int *i)
+void	count_num_cmds(t_tree *root, int *i)
 {
 	//static int	i;
 
 	if (!root)
 		return (0);
 	count_num_cmds(root->l_leaf, i);
-	if (root->param || root->type != TK_PIPE)
-		*i += 1; //printf("index:%d\n", ++index);
+	if (root->type != TK_PIPE)//root->param || 
+		*i += 1;
 	count_num_cmds(root->r_leaf, i);
-	return (*i);
 }
 
 int		trace_inorder(t_tree *root, char **env, int num_cmds, int *j)
@@ -115,6 +114,16 @@ int		trace_inorder(t_tree *root, char **env, int num_cmds, int *j)
 	return (pid);
 }
 
+void	check_tree(t_tree *root)
+{
+	if (root == NULL)
+		return ;
+	check_tree(root->l_leaf);
+	if (root->type != TK_PIPE)
+		printf(" root->param [%s]\n", root->param->token);
+	check_tree(root->r_leaf);
+}
+
 void	trace_tree_entry(t_tree *root, char **env)
 {
 	int		num_cmds;
@@ -122,14 +131,19 @@ void	trace_tree_entry(t_tree *root, char **env)
 	int		status;
 	pid_t	pid;
 	pid_t	check_pid;
+	pid_t	pid_ary;
 
 	num_cmds = 0;
-	num_cmds = count_num_cmds(root, &num_cmds);
-	//printf("###%s###| num_cmds[%d]\n", __func__, num_cmds);
+	//num_cmds = count_num_cmds(root, &num_cmds);
+	count_num_cmds(root, &num_cmds);
+	printf("###%s###| num_cmds[%d]\n", __func__, num_cmds);
+	pid_ary = malloc(sizeof(pid_t) * num_cmds);
+	if (!pid_ary)
+		return (0);
 	j = 0;
-	pid = trace_inorder(root, env, num_cmds, &j);//getpid
+	pid = trace_inorder(root, env, num_cmds, pid_ary, &j);//getpid
 	printf(" pid(main):%d\n", pid);
-	wait_process(pid);
+	wait_process(pid_ary);
 
 	//waitpid(pid, &status, 0);
 	//printf("status:%d\n", status);
@@ -175,6 +189,8 @@ int	main(int argc, char **argv, char **env)
 			free(line);
 			line = NULL;
 			root = ft_make_syntax_tree(head);
+			//
+			check_tree(root);
 			trace_tree_entry(root, env);
 //
 			//root->num_cmds = count_num_cmds(root);

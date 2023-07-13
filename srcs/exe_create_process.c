@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:43:25 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/13 21:14:12 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/14 00:56:33 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,14 @@ int	create_process(char **cmd_args, char **env, int num_cmds, int i)
 	int	fd[2];
 	//int	i;
 	pid_t	pid;
+	pid_t	*pid_ary;
 	int	status;
 
 	//printf("%s\n", __func__);
 
+	//pid_ary = malloc(sizeof(pid_t) * num_cmds);
+	//if (!pid_ary)
+		//return (0);
 	if (pipe(fd) == -1)
 		ft_perror("pipe\n");
 	pid = fork();
@@ -49,7 +53,10 @@ int	create_process(char **cmd_args, char **env, int num_cmds, int i)
 		printf("***return from child***\n");
 	}
 	else
+	{
+		//pid_ary[i - 1] = pid;
 		parent_process(fd, i, num_cmds);
+	}
 
 	//wait(&status);
 	//return (wait_process(pid, num_cmds));

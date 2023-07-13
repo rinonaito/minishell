@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:43:42 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/13 22:08:33 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/14 00:25:42 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ void	parent_process(int fd[2], int i, int num_cmds)
 	close(fd[1]);
 	tmp = dup(STDIN_FILENO);
 	//printf(" tmp:%d\n", tmp);
-	if (i != 0)
+	//if (i != 0)
+	if (i != 1)
 	{
 		if (dup2(fd[0], 0) == -1)
 		{
@@ -34,8 +35,9 @@ void	parent_process(int fd[2], int i, int num_cmds)
 			ft_perror("dup2\n");
 		}
 	}
+	close(fd[0]);
 	printf(" ###%s###| i[%d], num_cmds[%d]\n", __func__, i, num_cmds);
-	sleep(1);
+	//dup2(tmp, STDIN_FILENO);sleep(1);
 	if (i == num_cmds)
 	{
 		dup2(tmp, STDIN_FILENO);	
