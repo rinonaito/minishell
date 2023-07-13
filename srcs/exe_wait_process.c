@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:43:31 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/13 20:58:38 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/13 21:50:00 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	wait_process(pid_t pid)//, int num_cmds)
 		printf(" check_pid:[%d]\n", check_pid);
 		if (check_pid == pid)
 		{
-			printf(" check_pid:[%d] status:%d\n", check_pid, status);
+			printf(" check_pid == pid:[%d] status:%d\n", check_pid, status);
 		    if (WIFEXITED(status))
 			{
         		printf(" [%s] Exit: %d\n", __func__, WEXITSTATUS(status));
@@ -40,9 +40,9 @@ int	wait_process(pid_t pid)//, int num_cmds)
 			}
 		}
 	}
-        		printf(" [%s] Exit: %d\n", __func__, status);
-		    if (WIFEXITED(status))
-        		printf(" [%s] Exit: %d\n", __func__, WEXITSTATUS(status));
+        		//printf(" [%s] Exit: %d\n", __func__, status);
+		    //if (WIFEXITED(status))
+        		//printf(" [%s] Exit: %d\n", __func__, WEXITSTATUS(status));
 	printf(" ### after while ###\n");
 	return (status);
 }

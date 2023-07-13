@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/13 17:12:18 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/13 21:57:35 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,39 +80,37 @@
 //}
 
 //count the number of commands
-int		count_num_cmds(t_tree *root)
+int		count_num_cmds(t_tree *root, int *i)
 {
-	static int	i;
+	//static int	i;
 
 	if (!root)
 		return (0);
-	count_num_cmds(root->l_leaf);
-	if (root->param && root->type != TK_PIPE)
-		i++; //printf("index:%d\n", ++index);
-	count_num_cmds(root->r_leaf);
-	return (i);
+	count_num_cmds(root->l_leaf, i);
+	if (root->param || root->type != TK_PIPE)
+		*i += 1; //printf("index:%d\n", ++index);
+	count_num_cmds(root->r_leaf, i);
+	return (*i);
 }
 
-int		trace_inorder(t_tree *root, char **env, int num_cmds)
+int		trace_inorder(t_tree *root, char **env, int num_cmds, int *j)
 {
-	static int	i;
+	//static int	i;
 	char	**cmd_args;
 	static pid_t	pid;
 
 	if (root == NULL)
 		return (1);
-	trace_inorder(root->l_leaf, env, num_cmds);
-	//pid = 0;
+	trace_inorder(root->l_leaf, env, num_cmds, j);
 	if (root->type != TK_PIPE)
 	{
-		i++;
+		*j += 1;
 		cmd_args = create_cmds(root);
-		//create_process(root, cmd_args, env);
-		pid = create_process(cmd_args, env, num_cmds, i);
-		printf("pid(trace)[%d]:%d\n", i, pid);
-		//free_args(&cmd_args);
+		pid = create_process(cmd_args, env, num_cmds, *j);
+		printf(" pid(trace)[%d]:%d\n", *j, pid);
+		free_args(&cmd_args);
 	}
-	trace_inorder(root->r_leaf, env, num_cmds);
+	trace_inorder(root->r_leaf, env, num_cmds, j);
 	//printf("pid(trace_last)[%d]:%d\n", i, pid);
 	return (pid);
 }
@@ -120,42 +118,18 @@ int		trace_inorder(t_tree *root, char **env, int num_cmds)
 void	trace_tree_entry(t_tree *root, char **env)
 {
 	int		num_cmds;
-	int		i;
+	int		j;
 	int		status;
 	pid_t	pid;
 	pid_t	check_pid;
 
-	num_cmds = count_num_cmds(root);
-	pid = trace_inorder(root, env, num_cmds);//getpid
-	printf("pid(main):%d\n", pid);
-	i = 0;
-	printf("$$$num_cmds:[%d]$$$\n", num_cmds);
-	//while ((check_pid = waitpid(-1, &status, 0)))// > 0)
-	//while (wait(&status))
-	printf("### before while ###\n");
-	///*
-	while ((check_pid = waitpid(-1, &status, 0)) > 0)
-	{
-		//check_pid = waitpid(-1, &status, 0);
-		//wait(&status);
-		printf("check_pid:[%d]\n", check_pid);
-		if (check_pid == pid)
-		{
-			printf("check_pid:[%d] status:%d\n", check_pid, status);
-		    if (WIFEXITED(status))
-        		printf("[%s] Exit: %d\n", __func__, WEXITSTATUS(status));
-		}
-	}
-	printf("### after while ###\n");
-	printf("check_pid:[%d]\n", check_pid);
-	//*/
-
-	/*
-	while (i++ < num_cmds)// - 1)
-		check_pid = wait(&status);
-	//check_pid = waitpid(pid, &status, 0);
-	*/
-	//printf("check_pid:[%d]\n", check_pid);
+	num_cmds = 0;
+	num_cmds = count_num_cmds(root, &num_cmds);
+	//printf("###%s###| num_cmds[%d]\n", __func__, num_cmds);
+	j = 0;
+	pid = trace_inorder(root, env, num_cmds, &j);//getpid
+	printf(" pid(main):%d\n", pid);
+	wait_process(pid);
 
 	//waitpid(pid, &status, 0);
 	//printf("status:%d\n", status);
@@ -181,7 +155,7 @@ int	main(int argc, char **argv, char **env)
 			flag = 1;
 		*/
 		line = readline("\x1b[1;38;5;122mminishell🐣 \033[0m");
-		printf("line[%s]\n", line);
+		printf(" line[%s]\n", line);
 		if (line == NULL)
 		{
 			printf("line is null\n");
@@ -225,6 +199,7 @@ int	main(int argc, char **argv, char **env)
 		}
 		free(line);
 		line = NULL;
+		//sleep(2);
 	//	system ("leaks -q minishell");
 	}
 	return (0);

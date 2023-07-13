@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 21:37:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/12 01:39:09 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/13 22:03:42 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int		count_num_params(t_tree *root)
 	return (num);
 }
 
-
+//prob. segf here when a space is entered
 //@func: create 2D char array from the given parameters
 char	**create_cmds(t_tree *root)
 {
