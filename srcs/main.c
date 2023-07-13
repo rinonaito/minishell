@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/14 00:56:00 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/14 01:30:04 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	count_num_cmds(t_tree *root, int *i)
 	//static int	i;
 
 	if (!root)
-		return (0);
+		return ;
 	count_num_cmds(root->l_leaf, i);
 	if (root->type != TK_PIPE)//root->param || 
 		*i += 1;
@@ -131,19 +131,15 @@ void	trace_tree_entry(t_tree *root, char **env)
 	int		status;
 	pid_t	pid;
 	pid_t	check_pid;
-	pid_t	pid_ary;
 
 	num_cmds = 0;
 	//num_cmds = count_num_cmds(root, &num_cmds);
 	count_num_cmds(root, &num_cmds);
 	printf("###%s###| num_cmds[%d]\n", __func__, num_cmds);
-	pid_ary = malloc(sizeof(pid_t) * num_cmds);
-	if (!pid_ary)
-		return (0);
 	j = 0;
-	pid = trace_inorder(root, env, num_cmds, pid_ary, &j);//getpid
+	pid = trace_inorder(root, env, num_cmds, &j);//getpid
 	printf(" pid(main):%d\n", pid);
-	wait_process(pid_ary);
+	wait_process(pid);
 
 	//waitpid(pid, &status, 0);
 	//printf("status:%d\n", status);
