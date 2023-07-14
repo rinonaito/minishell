@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/14 18:15:11 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/14 23:23:04 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,8 @@ t_tree	*ft_make_syntax_tree(t_token *head);
 
 //ft_expand_env.c
 char	*ft_check_quotes(char *old_start);
-int		ft_find_env(t_tree *root);
+int		ft_find_env(t_tree *root, char *old_token);
+int		ft_check_all_param(t_tree *root);
 void	ft_expand_env(t_tree *root);
 
 //ft_replace_env.c
@@ -92,6 +93,14 @@ char	*ft_make_new_token(char *token, char *doller,
 int		ft_replace_env(t_tree *root, char **token, char *doller);
 
 //ft_split_expanded_token.c
+int		ft_for_start(char *space_char, char *ifs, char **new, char *old);
+int		ft_split_with_ifs(char *space_char, char **old, size_t *i, char *new);
+void	ft_for_middle(char *space_char, char *ifs, char **new, char *old);
+char	*ft_split_token(char *ifs, char *old);
 void	ft_split_expanded_token(t_token *param);
+
+//ft_delete_quotes.c
+void	ft_delete_quotes(t_token *param);
+char	*ft_get_token_sin_quotes(char *with_quotes);
 
 #endif

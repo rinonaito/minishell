@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 19:28:29 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/14 18:04:04 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/14 23:21:14 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	ft_for_start(char *space_char, char *ifs, char **new, char *old)
 {
-	size_t	i; 
-	size_t	j; 
+	size_t	i;
+	size_t	j;
 
 	i = 0;
 	j = 0;
@@ -31,11 +31,25 @@ int	ft_for_start(char *space_char, char *ifs, char **new, char *old)
 	return (i);
 }
 
+int	ft_split_with_ifs(char *space_char, char **old, size_t *i, char *new)
+{
+	if (ft_strchr(space_char, (*old)[*i]) == NULL)
+		(*i)++;
+	else
+	{
+		while (ft_strchr(space_char, (*old)[*i]) != NULL && (*old)[*i] != '\0')
+			(*i)++;
+		if ((*old)[*i] == '\0')
+			return (1);
+	}
+	*new = ' ';
+	return (0);
+}
 
 void	ft_for_middle(char *space_char, char *ifs, char **new, char *old)
 {
-	size_t	i; 
-	size_t	j; 
+	size_t	i;
+	size_t	j;
 	char	*closing_quote;
 
 	i = 0;
@@ -46,34 +60,19 @@ void	ft_for_middle(char *space_char, char *ifs, char **new, char *old)
 		if (closing_quote == NULL)
 			closing_quote = &old[i];
 		while (&old[i] < closing_quote && old[i] != '\0')
-		{
-			(*new)[j] = old[i];
-			j++;
-			i++;
-		}
-		if (ft_strchr(ifs, old[i]) == NULL)	
-		{
-			(*new)[j] = old[i];	
-			i++;
-		}
+			(*new)[j++] = old[i++];
+		if (ft_strchr(ifs, old[i]) == NULL)
+			(*new)[j] = old[i++];
 		else
 		{
-			if (ft_strchr(space_char, old[i]) == NULL)
-				i++;
-			else
-			{
-				while (ft_strchr(space_char, old[i]) != NULL && old[i] != '\0')
-					i++;
-				if (old[i] == '\0')
-					break;
-			}
-			(*new)[j] = ' ';	
+			if (ft_split_with_ifs(space_char, &old, &i, &(*new)[j]) == 1)
+				break ;
 		}
 		j++;
 	}
 }
 
-char	*ft_split_with_ifs(char *ifs, char *old)
+char	*ft_split_token(char *ifs, char *old)
 {
 	char	*new;
 	char	*space_char;
@@ -96,11 +95,11 @@ void	ft_split_expanded_token(t_token *param)
 	if (ifs == NULL)
 		ifs = " \t\n";
 //	ifs = "/";
-	printf("ifs = %s\n", ifs);
+//	printf("ifs = %s\n", ifs);
 	while (param != NULL)
 	{
 		old_token = param->token;
-		new_token = ft_split_with_ifs(ifs, old_token);
+		new_token = ft_split_token(ifs, old_token);
 		free (old_token);
 		param->token = new_token;
 		param = param->next;
