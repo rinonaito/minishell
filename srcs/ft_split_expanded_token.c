@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 19:28:29 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/13 23:46:58 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/14 18:04:04 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_for_start(char *space_char, char *ifs, char **new, char *old)
 
 	i = 0;
 	j = 0;
-	while (ft_strchr(ifs, old[i]) != NULL)
+	while (ft_strchr(ifs, old[i]) != NULL && old[i] != '\0')
 	{
 		if (ft_strchr(space_char, old[i]) == NULL)
 		{
@@ -43,7 +43,9 @@ void	ft_for_middle(char *space_char, char *ifs, char **new, char *old)
 	while (old[i] != '\0')
 	{
 		closing_quote = ft_skip_to_closing_quote(&old[i]);
-		while (&old[i] < closing_quote)
+		if (closing_quote == NULL)
+			closing_quote = &old[i];
+		while (&old[i] < closing_quote && old[i] != '\0')
 		{
 			(*new)[j] = old[i];
 			j++;

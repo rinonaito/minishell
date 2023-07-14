@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 15:21:01 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/13 21:32:19 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/14 18:14:13 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ void	ft_expand_env(t_tree *root)
 	is_replaced = ft_find_env(root);
 	if (is_replaced == 1)
 	{
-		printf("root->param->token = %s\n", root->param->token);
 		ft_split_expanded_token(root->param);
 		printf("root->param->token = %s\n", root->param->token);
 	}

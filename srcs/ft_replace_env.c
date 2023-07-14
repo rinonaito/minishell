@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 15:11:52 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/13 20:01:29 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/14 18:16:37 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,9 @@ int	ft_replace_env(t_tree *root, char **old_token, char *doller)
 		if (env_val == NULL)
 			env_val = "\0";
 		new_token = ft_make_new_token(*old_token, doller, env_key, env_val);
+		*old_token = new_token;
 		temp = root->param->token;
 		root->param->token = new_token;
-		*old_token = new_token;
 		free (temp);
 		free (env_key);
 		return (1);
