@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 15:21:01 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/14 21:32:22 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/15 14:11:57 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int	ft_check_all_param(t_tree *root)
 	while (root->param != NULL && root->param->type != TK_PIPE)
 	{
 		old_token = root->param->token;
+		printf("old_token = %s\n", old_token);
 		ret_val = ft_find_env(root, old_token);
 		root->param = root->param->next;
 	}

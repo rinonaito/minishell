@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 19:06:49 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/14 21:42:36 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/15 14:13:20 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,12 @@ void	ft_delete_quotes(t_token *param)
 	char	*with_quotes;
 	char	*sin_quotes;
 
-	while (param != NULL)
+	while (param != NULL && param->type != TK_PIPE)
 	{
 		with_quotes = param->token;
-		printf("with_quotes = %s\n", with_quotes);
 		if (with_quotes != NULL)
 		{
 			sin_quotes = ft_get_token_sin_quotes(with_quotes);
-			printf("sin_quotes = %s\n", sin_quotes);
 			free (with_quotes);
 			param->token = sin_quotes;
 		}
