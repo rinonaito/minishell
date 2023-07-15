@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:43:25 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/14 02:09:45 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/15 16:44:06 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int	create_process(char **cmd_args, char **env, int num_cmds, int i, pid_t *pid_
 	int	fd[2];
 	//int	i;
 	pid_t	pid;
-	//pid_t	*pid_ary;
 	int	status;
 
 	//printf("%s\n", __func__);

@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:33:54 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/13 21:11:20 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/15 21:31:13 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,26 @@ char    *ft_search_path(const char *filename)
     char    *end;
 
     value = getenv("PATH");
-    //printf("PATH_MAX: %d\n", PATH_MAX);
+    //printf(" PATH_MAX: %d\n", PATH_MAX);
+    //printf(" PATH:[%s]\n", value);
+	//int	i = 0;
     while (value != NULL)
     {
+		//printf(" i[%d]\n", i++);
         ft_bzero(path, PATH_MAX);
         end = ft_strchr(value, ':');
         //printf("end %s\n", end); STOP;
+		//printf(" $$$\n");
+		//printf(" %s\n", value);
         if (end != NULL)
             ft_strncpy(path, value, end - value);
         else
             ft_strncpy(path, value, PATH_MAX);
+		//printf(" @@@\n");
         ft_strlcat(path, "/", PATH_MAX);
+		//printf(" @@@\n");
         ft_strlcat(path, filename, PATH_MAX);
+		//printf(" @@@\n");
         duplicated = NULL;
         if (access(path, X_OK) == 0)
         {
@@ -60,7 +68,8 @@ char    *ft_search_path(const char *filename)
             return (duplicated);
         }
         value = end + 1;//shift to the next character
+		//printf(" ###\n");
     }
-	printf(">%s, NULL returned\n", __func__);
+	//ft_perror(">%s, NULL returned\n", __func__);
     return (NULL);
 }

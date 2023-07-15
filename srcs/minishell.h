@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/14 02:15:18 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/15 17:20:39 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,10 @@
 # include <readline/history.h> //for add_history
 # include <stdlib.h> //for free
 # include "../libft/libft.h" //for split
+
+
+# define READ_END 0
+# define WRITE_END 1
 
 typedef enum e_token_type {
 	TK_WORD,

@@ -6,7 +6,7 @@
 #    By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 16:01:50 by rnaito            #+#    #+#              #
-#    Updated: 2023/07/11 23:25:56 by taaraki          ###   ########.fr        #
+#    Updated: 2023/07/15 17:19:26 by taaraki          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ LIBS = -lreadline -L$(LIBFT_DIR) -lft
 
 NAME_LIBFT = libft.a
 LIBFT_DIR = libft/
+
 
 #####################################
 #          MANDATORY PART           #
@@ -61,10 +62,12 @@ $(NAME_LIBFT):
 
 clean:
 	make clean -C $(LIBFT_DIR)
+	make clean -C $(PRINTF_DIR)
 	rm -rf $(OBJS) $(OBJS_BONUS) $(OBJS_DEBUG) $(OBJSDIR) $(OBJSDIR_BONUS)
 
 fclean: clean
 	make fclean -C $(LIBFT_DIR)
+	make fclean -C $(PRINTF_DIR)
 	rm -f $(NAME) $(NAME_BONUS) $(NAME_DEBUG)
 
 re: fclean all
