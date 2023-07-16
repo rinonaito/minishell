@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/16 18:25:51 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/16 19:57:17 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	trace_inorder(t_tree *root, char **env, int num_cmds, int *j, pid_t 
 		//pid = create_process(cmd_args, env, num_cmds, *j, pid_ary);
 		create_process(cmd_args, env, num_cmds, *j, pid_ary);
 		//printf(" pid(trace)[%d]:%d\n", *j, pid);
-		free_args(&cmd_args);
+		//free_args(&cmd_args);
 	}
 	trace_inorder(root->r_leaf, env, num_cmds, j, pid_ary);
 	//printf("pid(trace_last)[%d]:%d\n", i, pid);

@@ -6,12 +6,12 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:33:54 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/16 18:18:36 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/16 19:56:28 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	"minishell.h"
-#include	"debug.h"
+//#include	"debug.h"
 
 void    ft_strncpy(char *dst, char *src, int n)
 {

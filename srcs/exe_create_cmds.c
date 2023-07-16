@@ -6,14 +6,14 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 21:37:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/16 18:30:57 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/16 19:56:08 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	"minishell.h"
 
 //@func: free cmd_args used for executing commands
-static char	**free_args(char ***argv)
+char	**free_args(char ***argv)
 {
 	char	**p;
 	int		i;

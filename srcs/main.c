@@ -6,12 +6,12 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/16 18:08:45 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/16 19:54:34 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "debug.h"
+//#include "debug.h"
 
 //void	ft_strncpy(char *dst, char *src, int n)
 //{

@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/16 18:30:38 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/16 19:55:46 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void    ft_perror(char *message);
 //ft_free.c
 char	**free_args(char ***argv);
 //create_cmds.c
-//char    **create_cmds(t_tree *root);
+char    **create_cmds(t_tree *root);
 //search_path.c
 char    *ft_search_path(const char *filename);
 
