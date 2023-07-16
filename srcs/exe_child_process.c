@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:42:52 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/15 23:36:51 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/16 17:26:39 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	child_process(int fd[2], char **cmd_args, char **env, int num_cmds, int i)
 	printf(" ###%s###| i[%d], num_cmds[%d]\n", __func__, i, num_cmds);
 
 	// read from fd[0]
-	dup2(fd[READ_END], STDIN_FILENO);
+		//dup2(fd[READ_END], STDIN_FILENO);
 	close(fd[READ_END]);
 	//dup2(fd[0], 0);
 	//i is the index of command starting from 1
@@ -83,6 +83,6 @@ void	child_process(int fd[2], char **cmd_args, char **env, int num_cmds, int i)
 	else
 		printf(" !(i < numcmds)\n");
 	printf(" outside (should not be seen on the display unless !(i < numcmds))\n");
-	close(fd[WRITE_END]);
+	//close(fd[WRITE_END]);//why close
 	exec(cmd_args, env);
 }
