@@ -6,11 +6,31 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 21:37:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/16 18:25:20 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/16 18:30:57 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	"minishell.h"
+
+//@func: free cmd_args used for executing commands
+static char	**free_args(char ***argv)
+{
+	char	**p;
+	int		i;
+
+	if (!argv)
+		return (NULL);
+	p = *argv;
+	i = 0;
+	while (p[i])
+	{
+		free(p[i]);
+		p[i] = NULL;
+		i++;
+	}
+	p = NULL;
+	return (NULL);
+}
 
 //@func: count the number of parameters
 static int		count_num_params(t_tree *root)
