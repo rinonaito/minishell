@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:33:54 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/15 21:31:13 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/16 18:18:36 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,10 @@ void    ft_strncpy(char *dst, char *src, int n)
     dst[i] = '\0';
 }
 
+//NOTE: 
+//############################################	
+//		THIS FUNCTION MIGHT CAUSE SEGV
+//############################################	
 //@func: get the path name in the form of "/path/cmd"
 //@args:
 //		 const char *filename: command name

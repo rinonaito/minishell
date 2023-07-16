@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/15 18:38:23 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/16 18:08:45 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,79 +78,6 @@
 //		wait(&wstatus);
 //	}
 //}
-
-//count the number of commands
-void	count_num_cmds(t_tree *root, int *i)
-{
-	//static int	i;
-
-	if (!root)
-		return ;
-	count_num_cmds(root->l_leaf, i);
-	if (root->type != TK_PIPE)//root->param || 
-		*i += 1;
-	count_num_cmds(root->r_leaf, i);
-}
-
-int		trace_inorder(t_tree *root, char **env, int num_cmds, int *j, pid_t *pid_ary)
-{
-	//static int	i;
-	char	**cmd_args;
-	static pid_t	pid;
-
-	if (root == NULL)
-		return (1);
-	trace_inorder(root->l_leaf, env, num_cmds, j, pid_ary);
-	if (root->type != TK_PIPE)
-	{
-		*j += 1;
-		cmd_args = create_cmds(root);
-		pid = create_process(cmd_args, env, num_cmds, *j, pid_ary);
-		//printf(" pid(trace)[%d]:%d\n", *j, pid);
-		free_args(&cmd_args);
-	}
-	trace_inorder(root->r_leaf, env, num_cmds, j, pid_ary);
-	//printf("pid(trace_last)[%d]:%d\n", i, pid);
-	return (pid);
-}
-
-void	trace_tree_entry(t_tree *root, char **env)
-{
-	int		num_cmds;
-	int		j;
-	int		i;
-	int		status;
-	pid_t	pid;
-	pid_t	*pid_ary;
-
-	num_cmds = 0;
-	//num_cmds = count_num_cmds(root, &num_cmds);
-	count_num_cmds(root, &num_cmds);
-	//printf("###%s###| num_cmds[%d]\n", __func__, num_cmds);
-	pid_ary = malloc(sizeof(pid_t) * num_cmds);
-	//if(!pid_ary)
-	//	return ;
-	j = 0;
-	//pid = trace_inorder(root, env, num_cmds, &j)
-
-	//@HERE
-	int tmp = dup(STDIN_FILENO);
-	trace_inorder(root, env, num_cmds, &j, pid_ary);
-	dup2(tmp, STDIN_FILENO);
-	close(tmp);
-	//
-	//printf(" pid(main):%d\n", pid);
-	printf(" ==========\n");
-	i = 0;
-	while (i < num_cmds)
-		printf(" pid[%d]\n", pid_ary[i++]);
-	printf(" ==========\n");
-	wait_process(pid_ary, num_cmds);
-
-	//waitpid(pid, &status, 0);
-	//printf("status:%d\n", status);
-}
-
 int	main(int argc, char **argv, char **env)
 {
 	char	*line;

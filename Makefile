@@ -6,7 +6,7 @@
 #    By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 16:01:50 by rnaito            #+#    #+#              #
-#    Updated: 2023/07/15 17:19:26 by taaraki          ###   ########.fr        #
+#    Updated: 2023/07/16 18:01:58 by taaraki          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,10 +32,8 @@ SRCS =	main.c\
 		ft_is_syntax_error.c\
 		ft_make_syntax_tree.c\
 		libft_plus.c\
-		exe_create_process.c\
-		exe_child_process.c\
-		exe_parent_process.c\
-		exe_wait_process.c\
+		exe_execute.c\
+		exe_process.c\
 		exe_create_cmds.c\
 		exe_search_path.c\
 		exe_perror.c\

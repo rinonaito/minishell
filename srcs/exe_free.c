@@ -6,20 +6,20 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 21:28:36 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/11 21:34:31 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/16 18:21:04 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	"minishell.h"
 
 //@func: free cmd_args used for executing commands
-void	free_args(char ***argv)
+char	**free_args(char ***argv)
 {
 	char	**p;
 	int		i;
 
 	if (!argv)
-		return ;
+		return (NULL);
 	p = *argv;
 	i = 0;
 	while (p[i])
@@ -29,4 +29,5 @@ void	free_args(char ***argv)
 		i++;
 	}
 	p = NULL;
+	return (NULL);
 }

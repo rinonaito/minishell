@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/15 17:20:39 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/16 18:19:42 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,20 +86,17 @@ t_tree	*ft_make_leaf(t_token **token);
 t_tree	*ft_make_syntax_tree(t_token *head);
 
 /*** EXECUTION ***/
-//create_process.c
-//int create_process(char **cmd_args, char **env, int num_cmds, int i);
-int	create_process(char **cmd_args, char **env, int num_cmds, int i, pid_t *pid_ary);
-//child_process.c
+//execute.c
+void    trace_tree_entry(t_tree *root, char **env);
+//process.c
 void    child_process(int fd[2], char **cmd_args, char **env, int num_cmds, int i);
-//parent_process.c
-//void    parent_process(int fd[2], int i);
 void    parent_process(int fd[2], int i, int num_cmds);
-//wait_process.c
 int	wait_process(pid_t *pid_ary, int num_cmds);//pid)//, int num_cmds)
+
 //ft_perror.c
 void    ft_perror(char *message);
 //ft_free.c
-void	free_args(char ***argv);
+char	**free_args(char ***argv);
 //create_cmds.c
 char    **create_cmds(t_tree *root);
 //search_path.c

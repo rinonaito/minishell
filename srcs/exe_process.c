@@ -1,31 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   child_process.c                                    :+:      :+:    :+:   */
+/*   create_process.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/10 16:42:52 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/16 17:26:39 by taaraki          ###   ########.fr       */
+/*   Created: 2023/07/10 16:43:25 by taaraki           #+#    #+#             */
+/*   Updated: 2023/07/16 18:17:37 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	"minishell.h"
-#include	"debug.h"
 #include	<stdio.h>
 #include	<stdlib.h>
 #include	<unistd.h>
 
-void	ft_perror(char *message);
+void	parent_process(int fd[2], int i, int num_cmds)
+{
+	printf(">%s\n", __func__);
+	int		status;
 
-//void	exec(char **env, int i)
+	close(fd[WRITE_END]);
+	//if (i != 1)//don't need this line
+	{
+		if (dup2(fd[READ_END], STDIN_FILENO) == -1)
+		{
+			close(fd[READ_END]);
+			ft_perror("dup2\n");
+		}
+	}
+	//close(fd[READ_END]);//prob. don't need to close
+}
+
 static void	exec(char **cmd_args, char **env)
 {
 	char	*file;
 
 	printf(">%s\n", __func__);
-	//if (!cmd_args)
-		//return ;
+	if (!cmd_args)
+		return ;
 	file = ft_search_path(cmd_args[0]);//get the path to the command
 	//write(1, "stdout\n", 7);
 	//write(2, "stderr\n", 7);
@@ -50,30 +63,20 @@ static void	exec(char **cmd_args, char **env)
 		//*/
 		if (execve(file, cmd_args, env) == -1)
 			ft_perror(" command not found\n");
-			//printf(" command not found\n");
 	}
 	else
 	{
 		ft_perror(" access failed\n");
-		//printf(" access failed\n");
 	}
 }
 
-//void	child_process(int fd[2], char **cmd_args, char **env)
 void	child_process(int fd[2], char **cmd_args, char **env, int num_cmds, int i)
 {
 	printf(">%s\n", __func__);
-	printf(" ###%s###| i[%d], num_cmds[%d]\n", __func__, i, num_cmds);
-
-	// read from fd[0]
-		//dup2(fd[READ_END], STDIN_FILENO);
 	close(fd[READ_END]);
-	//dup2(fd[0], 0);
 	//i is the index of command starting from 1
 	if (i < num_cmds)// - 1)
 	{
-		//printf(" (i < numcmds)\n");
-		//if (dup2(fd[READ_END], STDOUT_FILENO) == -1)
 		if (dup2(fd[WRITE_END], STDOUT_FILENO) == -1)
 		{
 			close(fd[WRITE_END]);
@@ -85,4 +88,40 @@ void	child_process(int fd[2], char **cmd_args, char **env, int num_cmds, int i)
 	printf(" outside (should not be seen on the display unless !(i < numcmds))\n");
 	//close(fd[WRITE_END]);//why close
 	exec(cmd_args, env);
+}
+
+int	wait_process(pid_t *pid_ary, int num_cmds)//pid)//, int num_cmds)
+{
+	int		status;
+	int		i;
+	pid_t	check_pid;
+
+
+	printf(">%s\n", __func__);
+	/*
+	printf(" ==========\n");
+	i = 0;
+	while (i < num_cmds)
+		printf(" pid[%d]\n", pid_ary[i++]);
+	printf(" ==========\n");
+	*/
+	i = 0;
+	while (i < num_cmds)
+	{
+		waitpid(pid_ary[i], &status, 0);
+		i++;
+	}
+	if (WIFEXITED(status))
+	{
+		printf(" [%s|%s] Exit: %d\n", __func__, "WIFEXITED",  WEXITSTATUS(status));
+		status = (WEXITSTATUS(status));
+	}
+	else if (WIFSIGNALED(status))
+	{
+		printf(" [%s|%s] Exit: %d\n", __func__, "WIFSIGNALED", WTERMSIG(status));
+		status = (WTERMSIG(status));
+	}
+	else
+		printf(" not WIFEXITED nor WIFSIGNALED\n");
+	return (status);
 }
