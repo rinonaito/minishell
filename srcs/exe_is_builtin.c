@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 23:34:09 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/11 23:51:30 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/17 13:23:59 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,16 @@ int	is_builtin(char *s)
 {
 	const char	*lst[] = {"echo", "cd", "pwd", "export", "unset", \
 												"env", "exit", NULL};
+	int			i;
 
 	if (!s)
 		return (0);
-	while (lst)
+	i = 0;
+	while (lst[i])
 	{
-		if (ft_strnequ(lst, s))
+		if (ft_strnequ(lst[i], s))
 			return (1);
-		lst++;
+		i++;
 	}
 	return (0);
 }

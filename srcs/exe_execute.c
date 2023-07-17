@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/16 19:57:17 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/17 13:29:02 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,14 @@ static void	trace_inorder(t_tree *root, char **env, int num_cmds, int *j, pid_t 
 		*j += 1;
 		cmd_args = create_cmds(root);
 		//pid = create_process(cmd_args, env, num_cmds, *j, pid_ary);
-		create_process(cmd_args, env, num_cmds, *j, pid_ary);
+		if (is_builtin(cmd_args[0]))
+		{
+			call_builtin(cmd_args[0]);
+		}
+		else
+			create_process(cmd_args, env, num_cmds, *j, pid_ary);
 		//printf(" pid(trace)[%d]:%d\n", *j, pid);
-		//free_args(&cmd_args);
+		free_args(&cmd_args);//free cmd_args and setting NUL
 	}
 	trace_inorder(root->r_leaf, env, num_cmds, j, pid_ary);
 	//printf("pid(trace_last)[%d]:%d\n", i, pid);
@@ -94,8 +99,9 @@ static void	create_process(char **cmd_args, char **env, int num_cmds, int i, pid
 	else if (pid == 0)
 	{
 		//if (is_builtin(cmd_args[0])
-				//call_builtin(cmd_args);
-		child_process(pipe_fd, cmd_args, env, num_cmds, i);
+			//call_builtin(cmd_args);
+		//else
+			child_process(pipe_fd, cmd_args, env, num_cmds, i);
 		printf("***return from child***\n");
 	}
 	else
