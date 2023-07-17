@@ -6,7 +6,7 @@
 #    By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 16:01:50 by rnaito            #+#    #+#              #
-#    Updated: 2023/07/16 19:54:20 by taaraki          ###   ########.fr        #
+#    Updated: 2023/07/17 13:27:10 by taaraki          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,8 @@ SRCS =	main.c\
 		exe_execute.c\
 		exe_process.c\
 		exe_create_cmds.c\
+		exe_is_builtin.c\
+		exe_call_builtin.c\
 		exe_search_path.c\
 		exe_perror.c
 OBJSDIR = objs/
