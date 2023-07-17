@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:43:25 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/17 13:32:27 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/17 16:48:23 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include	<stdio.h>
 #include	<stdlib.h>
 #include	<unistd.h>
+#include	<signal.h>
 
 void	parent_process(int fd[2], int i, int num_cmds)
 {
@@ -95,7 +96,6 @@ int		wait_process(pid_t *pid_ary, int num_cmds)//pid)//, int num_cmds)
 	int		status;
 	int		i;
 	pid_t	check_pid;
-
 
 	printf(">%s\n", __func__);
 	/*

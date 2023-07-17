@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/16 19:54:34 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/17 17:40:12 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,7 @@ int	main(int argc, char **argv, char **env)
 		}
 		free(line);
 		line = NULL;
+		printf(" errno:[%d]\n", errno);
 		//sleep(2);
 	//	system ("leaks -q minishell");
 	}

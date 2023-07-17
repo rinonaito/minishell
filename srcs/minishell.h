@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/17 14:21:31 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/17 17:39:35 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # include <readline/readline.h> //for readline
 # include <readline/history.h> //for add_history
 # include <stdlib.h> //for free
+# include <signal.h> //for signal
+# include <errno.h> //for errno
 # include "../libft/libft.h" //for split
 
 
@@ -73,7 +75,7 @@ void	ft_lstclear_ms(t_token **head);
 char	*ft_strndup(char *str, size_t len);
 int		ft_strcmp(char *str1, char *str2);
 char	*ft_strchrchr(char *str, char c1, char c2, int *not_closed);
-int		ft_strnequ(const char *s1, const char *s2);
+int		ft_strequ(const char *s1, const char *s2);
 
 //ft_is_syntax_error.c
 int		ft_is_syntax_error(t_token *head);
@@ -106,5 +108,8 @@ void	call_builtin(int fd[2], char **cmd_args, int j, int num_cmds);
 void	built_in_process(int fd[2], char **cmd_args, int i, int num_cmds);
 //is_built_in.c
 int		is_builtin(char *s);
+
+//echo.c
+int    builtin_echo(char **args);//, t_minishell *m)
 
 #endif

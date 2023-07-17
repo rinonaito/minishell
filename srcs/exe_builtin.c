@@ -1,16 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exe_call_builtin.c                                 :+:      :+:    :+:   */
+/*   exe_builtin.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:16:53 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/17 15:06:41 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/17 17:53:55 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	"minishell.h"
+
+//@func: check if a string is equal to one of the builtin commands
+int	is_builtin(char *s)
+{
+	const char	*lst[] = {"echo", "cd", "pwd", "export", "unset", \
+												"env", "exit", NULL};
+	int			i;
+
+	if (!s)
+		return (0);
+	i = 0;
+	while (lst[i])
+	{
+		if (ft_strequ(lst[i], s))
+			return (1);
+		i++;
+	}
+	return (0);
+}
 
 void	call_builtin(int fd[2], char **cmd_args, int j, int num_cmds)
 {
@@ -24,7 +43,7 @@ void	call_builtin(int fd[2], char **cmd_args, int j, int num_cmds)
 	i = 0;
 	while (lst[i])
 	{
-		if (ft_strnequ(lst[i], cmd_args[0]))
+		if (ft_strequ(lst[i], cmd_args[0]))
 		{
 			printf(" calling builin\n");
 			built_in_process(fd, cmd_args, j, num_cmds);
@@ -33,6 +52,31 @@ void	call_builtin(int fd[2], char **cmd_args, int j, int num_cmds)
 		i++;
 	}
 	return ;
+}
+
+void	built_in_process(int fd[2], char **cmd_args, int i, int num_cmds)
+{
+	printf(">%s\n", __func__);
+	close(fd[READ_END]);
+	//i is the index of command starting from 1
+	if (i < num_cmds)// - 1)
+	{
+		if (dup2(fd[WRITE_END], STDOUT_FILENO) == -1)
+		{
+			close(fd[WRITE_END]);
+			ft_perror("dup2\n");
+		}
+	}
+	else
+		printf(" !(i < numcmds)\n");
+	printf(" outside (should not be seen on the display unless !(i < numcmds))\n");
+	//close(fd[WRITE_END]);//why close
+	//execute_builtin(cmd_args);
+	{
+		builtin_echo(cmd_args);
+		printf(" *** %s ***\n", cmd_args[0]);
+		exit(1);
+	}
 }
 
 /*
@@ -69,24 +113,3 @@ void	built_in_process(int fd[2], char **cmd_args, int i, int num_cmds)
 	printf(" ***actual built_in_process\n");
 }
 */
-
-void	built_in_process(int fd[2], char **cmd_args, int i, int num_cmds)
-{
-	printf(">%s\n", __func__);
-	close(fd[READ_END]);
-	//i is the index of command starting from 1
-	if (i < num_cmds)// - 1)
-	{
-		if (dup2(fd[WRITE_END], STDOUT_FILENO) == -1)
-		{
-			close(fd[WRITE_END]);
-			ft_perror("dup2\n");
-		}
-	}
-	else
-		printf(" !(i < numcmds)\n");
-	printf(" outside (should not be seen on the display unless !(i < numcmds))\n");
-	//close(fd[WRITE_END]);//why close
-	printf(" ***actual built_in_process\n");
-	exit(1);
-}
