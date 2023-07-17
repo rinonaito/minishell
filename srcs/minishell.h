@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/16 19:55:46 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/17 14:21:31 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void    trace_tree_entry(t_tree *root, char **env);
 //process.c
 void    child_process(int fd[2], char **cmd_args, char **env, int num_cmds, int i);
 void    parent_process(int fd[2], int i, int num_cmds);
-int	wait_process(pid_t *pid_ary, int num_cmds);//pid)//, int num_cmds)
+int		wait_process(pid_t *pid_ary, int num_cmds);//pid)//, int num_cmds)
 
 //ft_perror.c
 void    ft_perror(char *message);
@@ -101,5 +101,10 @@ char	**free_args(char ***argv);
 char    **create_cmds(t_tree *root);
 //search_path.c
 char    *ft_search_path(const char *filename);
+//call_builtin.c
+void	call_builtin(int fd[2], char **cmd_args, int j, int num_cmds);
+void	built_in_process(int fd[2], char **cmd_args, int i, int num_cmds);
+//is_built_in.c
+int		is_builtin(char *s);
 
 #endif

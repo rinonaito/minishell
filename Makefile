@@ -6,7 +6,7 @@
 #    By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 16:01:50 by rnaito            #+#    #+#              #
-#    Updated: 2023/07/17 13:27:10 by taaraki          ###   ########.fr        #
+#    Updated: 2023/07/17 14:07:46 by taaraki          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,6 @@ LIBS = -lreadline -L$(LIBFT_DIR) -lft
 
 NAME_LIBFT = libft.a
 LIBFT_DIR = libft/
-
 
 #####################################
 #          MANDATORY PART           #

@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:43:25 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/16 18:17:37 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/17 13:32:27 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	child_process(int fd[2], char **cmd_args, char **env, int num_cmds, int i)
 	exec(cmd_args, env);
 }
 
-int	wait_process(pid_t *pid_ary, int num_cmds)//pid)//, int num_cmds)
+int		wait_process(pid_t *pid_ary, int num_cmds)//pid)//, int num_cmds)
 {
 	int		status;
 	int		i;

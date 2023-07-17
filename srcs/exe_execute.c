@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/17 13:29:02 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/17 15:06:57 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,11 @@ static void	trace_inorder(t_tree *root, char **env, int num_cmds, int *j, pid_t 
 		*j += 1;
 		cmd_args = create_cmds(root);
 		//pid = create_process(cmd_args, env, num_cmds, *j, pid_ary);
-		if (is_builtin(cmd_args[0]))
-		{
-			call_builtin(cmd_args[0]);
-		}
-		else
+		//if (is_builtin(cmd_args[0]))
+		//{
+			//call_builtin(cmd_args, *j, num_cmds);
+		//}
+		//else
 			create_process(cmd_args, env, num_cmds, *j, pid_ary);
 		//printf(" pid(trace)[%d]:%d\n", *j, pid);
 		free_args(&cmd_args);//free cmd_args and setting NUL
@@ -93,21 +93,31 @@ static void	create_process(char **cmd_args, char **env, int num_cmds, int i, pid
 
 	if (pipe(pipe_fd) == -1)
 		ft_perror("pipe\n");
-	pid = fork();
-	if (pid == -1)
-		ft_perror("fork\n");
-	else if (pid == 0)
-	{
-		//if (is_builtin(cmd_args[0])
-			//call_builtin(cmd_args);
-		//else
-			child_process(pipe_fd, cmd_args, env, num_cmds, i);
-		printf("***return from child***\n");
-	}
-	else
-	{
-		pid_ary[i - 1] = pid;
-		parent_process(pipe_fd, i, num_cmds);
-	}
+	//if (is_builtin(cmd_args[0]))
+	//{
+		//call_builtin(pipe_fd, cmd_args, i, num_cmds);
+	//}
+	//else
+	//{
+		pid = fork();
+		if (pid == -1)
+			ft_perror("fork\n");
+		else if (pid == 0)
+		{
+			//execute builtin in child process
+			if (is_builtin(cmd_args[0]))
+			{
+				call_builtin(pipe_fd, cmd_args, i, num_cmds);
+			}
+			else
+				child_process(pipe_fd, cmd_args, env, num_cmds, i);
+			printf("***return from child***\n");
+		}
+		else
+		{
+			pid_ary[i - 1] = pid;
+			parent_process(pipe_fd, i, num_cmds);
+		}
+	//}
 }
 
