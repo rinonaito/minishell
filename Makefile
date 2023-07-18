@@ -6,12 +6,20 @@
 #    By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 16:01:50 by rnaito            #+#    #+#              #
+<<<<<<< HEAD
+<<<<<<< HEAD
+#    Updated: 2023/07/17 17:50:27 by taaraki          ###   ########.fr        #
+=======
+#    Updated: 2023/07/11 19:54:18 by taaraki          ###   ########.fr        #
+>>>>>>> 2bc9ac71d95391bccb992b660ad6d615b4a8ba09
+=======
 #    Updated: 2023/07/18 21:18:39 by taaraki          ###   ########.fr        #
+>>>>>>> master
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-CFLAGS = -Wall -Werror -Wextra
+#CFLAGS = -Wall -Werror -Wextra
 
 LIBS = -lreadline -L$(LIBFT_DIR) -lft
 
@@ -31,11 +39,31 @@ SRCS =	main.c\
 		ft_is_syntax_error.c\
 		ft_get_heredoc_input.c\
 		ft_make_syntax_tree.c\
+<<<<<<< HEAD
+		libft_plus.c\
+<<<<<<< HEAD
+		exe_execute.c\
+		exe_process.c\
+		exe_create_cmds.c\
+		exe_builtin.c\
+		exe_search_path.c\
+		exe_builtin_echo.c\
+		exe_perror.c
+=======
+		ft_perror.c
+		#exe_create_process.c\
+		exe_child_process.c\
+		exe_parent_process.c\
+		exe_wait_process.c\
+		exe_search_path.c
+>>>>>>> 2bc9ac71d95391bccb992b660ad6d615b4a8ba09
+=======
 		expansion.c\
 		ft_replace_key_with_val.c\
 		ft_split_expanded_token.c\
 		ft_delete_quotes.c\
 		libft_plus.c
+>>>>>>> master
 OBJSDIR = objs/
 OBJS = $(SRCS:%.c=$(OBJSDIR)%.o)
 
@@ -58,10 +86,12 @@ $(NAME_LIBFT):
 
 clean:
 	make clean -C $(LIBFT_DIR)
+	make clean -C $(PRINTF_DIR)
 	rm -rf $(OBJS) $(OBJS_BONUS) $(OBJS_DEBUG) $(OBJSDIR) $(OBJSDIR_BONUS)
 
 fclean: clean
 	make fclean -C $(LIBFT_DIR)
+	make fclean -C $(PRINTF_DIR)
 	rm -f $(NAME) $(NAME_BONUS) $(NAME_DEBUG)
 
 re: fclean all

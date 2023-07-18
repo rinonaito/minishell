@@ -6,11 +6,12 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/18 21:17:26 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/18 21:43:44 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+//#include "debug.h"
 
 //void	ft_strncpy(char *dst, char *src, int n)
 //{
@@ -78,16 +79,16 @@
 //	}
 //}
 
-void	trace_inorder(t_tree *root, char **env)
+void	trace_param_inorder(t_tree *root, char **env)
 {
 	static int	i;
 
 	if (root == NULL)
 		return ;
-	trace_inorder(root->l_leaf);
+	trace_param_inorder(root->l_leaf);
 	if (root != NULL && root->param != NULL)
 		printf("param =%s$\n", root->param->token);
-	trace_inorder(root->r_leaf);
+	trace_param_inorder(root->r_leaf);
 }
 
 int	main(int argc, char **argv, char **env)
@@ -101,8 +102,10 @@ int	main(int argc, char **argv, char **env)
 	while (1)
 	{
 		line = readline("\x1b[1;38;5;122mminishell🐣 \033[0m");
+		printf(" line[%s]\n", line);
 		if (line == NULL)
 		{
+			printf("line is null\n");
 			free (line);
 			break ;
 		}
@@ -120,13 +123,18 @@ int	main(int argc, char **argv, char **env)
 			ft_get_heredoc_input(head);
 		if (head != NULL)
 		{
+			free(line);
+			line = NULL;
 			root = ft_make_syntax_tree(head);
 			ft_expand_list(&head);
-			trace_inorder(root);
+			trace_param_inorder(root, env);
+			trace_tree_entry(root, env);
 			ft_free_syntax_tree(root);
 		}
 		free(line);
-//		system ("leaks -q minishell");
+		line = NULL;
+		//sleep(2);
+	//	system ("leaks -q minishell");
 	}
 	return (0);
 }

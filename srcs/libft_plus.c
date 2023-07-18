@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 14:14:00 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/18 21:19:21 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/18 21:44:28 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 //			printf("s1 and s2 are identical\n");
 //@return_val:
 //		1 if they're identical, and 0 if not
-int	ft_strnequ(const char *s1, const char *s2)
+int	ft_strequ(const char *s1, const char *s2)
 {
 	size_t	len;
 
@@ -37,7 +37,7 @@ char	*ft_strndup(char *str, size_t len)
 	char	*new;
 	size_t	i;
 
-	if (!str)
+	if (!str || len == 0)
 		return (NULL);
 	new = malloc(sizeof(char) * len + 1);
 	if (new == NULL)
