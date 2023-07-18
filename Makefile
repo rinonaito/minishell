@@ -6,7 +6,7 @@
 #    By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 16:01:50 by rnaito            #+#    #+#              #
-#    Updated: 2023/07/11 19:54:18 by taaraki          ###   ########.fr        #
+#    Updated: 2023/07/18 21:18:39 by taaraki          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,14 +29,13 @@ SRCS =	main.c\
 		ft_get_token.c\
 		list.c\
 		ft_is_syntax_error.c\
+		ft_get_heredoc_input.c\
 		ft_make_syntax_tree.c\
-		libft_plus.c\
-		ft_perror.c
-		#exe_create_process.c\
-		exe_child_process.c\
-		exe_parent_process.c\
-		exe_wait_process.c\
-		exe_search_path.c
+		expansion.c\
+		ft_replace_key_with_val.c\
+		ft_split_expanded_token.c\
+		ft_delete_quotes.c\
+		libft_plus.c
 OBJSDIR = objs/
 OBJS = $(SRCS:%.c=$(OBJSDIR)%.o)
 

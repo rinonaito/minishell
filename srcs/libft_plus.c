@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 14:14:00 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/11 23:54:18 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/18 21:19:21 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	ft_strcmp(char *str1, char *str2)
 	return (1);
 }
 
-char	*ft_strchrchr(char *str, char c1, char c2, int *not_closed)
+char	*ft_find_endoftoken(char *str)
 {
 	size_t	i;
 	char	*new_start;
@@ -77,10 +77,24 @@ char	*ft_strchrchr(char *str, char c1, char c2, int *not_closed)
 	i = 0;
 	while (str[i] != '\0')
 	{
-		new_start = ft_skip_to_closing_quote(&str[i], not_closed);
+		new_start = ft_skip_to_closing_quote(&str[i]);
 		if (new_start != NULL)
 			i += new_start - &str[i];
-		if (str[i] == c1 || str[i] == c2)
+		if (str[i] == ' ' || str[i] == '\t')
+			return (&str[i]);
+		i++;
+	}
+	return (&str[i]);
+}
+
+char	*ft_find_quote(char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] == '\'' || str[i] == '\"')
 			return (&str[i]);
 		i++;
 	}
