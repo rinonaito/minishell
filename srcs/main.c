@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/14 17:54:09 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/18 19:33:02 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 //	}
 //	dst[i] = '\0';
 //}
-//
+
 //char	*ft_search_path(const char *filename)
 //{
 //	char	path[PATH_MAX];
@@ -53,7 +53,7 @@
 //	}
 //	return (NULL);
 //}
-//
+
 //void	ft_interpret(char *line)
 //{
 //	extern char **environ;
@@ -93,7 +93,7 @@ int	main(void)
 	char	*line;
 	t_token	*head;
 	t_tree	*root;
-	int		is_error;
+	int		status;
 
 	rl_outstream = stderr;
 	while (1)
@@ -106,20 +106,21 @@ int	main(void)
 		}
 		if (strlen(line) != 0)
 			add_history(line);
-		is_error = 0;
-		head = ft_tokenize(line, &is_error);
-		if (head == NULL && is_error == 1)
+		status = STANDARD;
+		head = ft_tokenize(line, &status);
+		if (head == NULL && status == SYNTAX_ERR)
 		{
 			printf("syntax error\n");
 //			system ("leaks -q minishell");
 			return (1);
 		}
+		if (status == HEREDOC_MODE)
+			ft_get_heredoc_input(head);
 		if (head != NULL)
 		{
 			root = ft_make_syntax_tree(head);
-			ft_expand_env(root);
+			ft_expand_list(&head);
 			trace_inorder(root);
-//			ft_interpret(line);
 			ft_free_syntax_tree(root);
 		}
 		free(line);

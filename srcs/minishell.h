@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/15 14:13:21 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/18 19:16:37 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@
 # include <stdlib.h> //for free
 # include "../libft/libft.h" //for split
 
+# define STANDARD (0)
+# define SYNTAX_ERR (1)
+# define HEREDOC_MODE (2)
+
 typedef enum e_token_type {
 	TK_WORD,
 	TK_PIPE,
@@ -32,6 +36,7 @@ typedef enum e_token_type {
 typedef struct s_token {
 	char				*token;
 	t_token_type		type;
+	char				*heredoc;
 	struct s_token		*next;
 	struct s_token		*prev;
 }						t_token;
@@ -45,8 +50,8 @@ typedef struct s_tree {
 
 //tokenize.c
 t_token	*ft_tokenize(char *line, int *is_error);
-void	ft_make_token_list(t_token **head, char *line);
-void	ft_put_token_inlist(t_token **head, char *token);
+int		ft_make_token_list(t_token **head, char *line);
+int		ft_put_token_inlist(t_token **head, char *token);
 int		ft_check_token_type(char *token);
 
 //ft_get_token.c
@@ -80,17 +85,18 @@ void	ft_complete_node(t_tree **node, t_tree *right, t_tree *left);
 t_tree	*ft_make_leaf(t_token **token);
 t_tree	*ft_make_syntax_tree(t_token *head);
 
-//ft_expand_env.c
+//expansion.c
 char	*ft_check_quotes(char *old_start);
-int		ft_find_env(t_tree *root, char *old_token);
-int		ft_check_all_param(t_tree *root);
-void	ft_expand_env(t_tree *root);
+char	*ft_expand_str(char *old_token);
+void	ft_expand_list(t_token **param);
 
-//ft_replace_env.c
+//ft_replace_key_with_val.c
+int		ft_for_braced_env(char **start, char **end, char *doller);
+void	ft_for_unbraced_env(char **start, char **end, char *doller);
 char	*ft_get_key_of_env(char *token);
 char	*ft_make_new_token(char *token, char *doller,
 			char *before, char *after);
-int		ft_replace_env(t_tree *root, char **token, char *doller);
+char	*ft_replace_key_with_val(char **old_token, char *doller);
 
 //ft_split_expanded_token.c
 int		ft_for_start(char *space_char, char *ifs, char **new, char *old);
@@ -102,5 +108,11 @@ void	ft_split_expanded_token(t_token *param);
 //ft_delete_quotes.c
 void	ft_delete_quotes(t_token *param);
 char	*ft_get_token_sin_quotes(char *with_quotes);
+
+//ft_get_heredoc_input.c
+char	*ft_get_delimiter(t_token *head, int *is_quoted);
+char	*ft_make_input_str(char *delimiter);
+void	ft_for_unbraced_env(char **start, char **end, char *doller);
+void	ft_get_heredoc_input(t_token *head);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 13:03:35 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/12 14:20:31 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/18 13:45:51 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,19 @@ int	ft_check_token_type(char *token)
 //@param:
 //	t_token	**param: pointer of the head of the list
 //	char	*token: string of the token
-void	ft_put_token_inlist(t_token **head, char *token)
+int	ft_put_token_inlist(t_token **head, char *token)
 {
 	t_token	*new;
 	int		type;
+	int		is_heredoc;
 
+	is_heredoc = 0;
 	type = ft_check_token_type(token);
+	if (type == TK_HEREDOC)
+		is_heredoc = 1;
 	new = ft_lstnew_ms(token, type);
 	ft_lstadd_back_ms(head, new);
+	return (is_heredoc);
 }
 
 //@func: make the list of token 
@@ -52,18 +57,23 @@ void	ft_put_token_inlist(t_token **head, char *token)
 //	char	*line: input string
 //@return_val: return 0 if there is NO quotation error
 //	return 1 if the quotation is not closed
-void	ft_make_token_list(t_token **head, char *line)
+int	ft_make_token_list(t_token **head, char *line)
 {
 	char	*token;
 	t_token	*temp;
+	int		is_heredoc;
 
+	is_heredoc = 0;
 	while (ft_strlen(line) != 0)
 	{
 		token = ft_get_token(&line);
 		if (token == NULL)
 			break ;
 		else
-			ft_put_token_inlist(head, token);
+		{
+			if (ft_put_token_inlist(head, token) == 1)
+				is_heredoc = 1;
+		}
 	}
 	temp = *head;
 	if ((*head)->next != NULL)
@@ -74,26 +84,30 @@ void	ft_make_token_list(t_token **head, char *line)
 	else
 		(*head) = NULL;
 	free (temp);
-	return ;
+	return (is_heredoc);
 }
 
 //@func: tokenize the input
 //@param:
 //	char *line: a string of input
 //@return_val: head node of the token list
-t_token	*ft_tokenize(char *line, int *is_error)
+t_token	*ft_tokenize(char *line, int *status)
 {	
 	t_token	*head;
+	int		is_heredoc;
+//	char	*delimiter;
 
 	if (ft_strlen(line) == 0)
 		return (NULL);
 	if (line != NULL)
 		head = ft_lstnew_ms(NULL, 0);
-	ft_make_token_list(&head, line);
+	is_heredoc = ft_make_token_list(&head, line);
 	if (ft_is_syntax_error(head) == 1)
 	{
-		*is_error = 1;
+		*status = SYNTAX_ERR;
 		ft_lstclear_ms(&head);
 	}
+	if (is_heredoc == 1)
+		*status = HEREDOC_MODE;
 	return (head);
 }

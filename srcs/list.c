@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:37:34 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/08 14:52:27 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/16 20:21:27 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_token	*ft_lstnew_ms(char *token, int type)
 		return (NULL);
 	new->token = token;
 	new->type = type;
+	new->heredoc = NULL;
 	new->next = NULL;
 	return (new);
 }

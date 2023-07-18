@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 15:21:01 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/15 14:11:57 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/18 19:17:35 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,62 +25,57 @@ char	*ft_check_quotes(char *old_start)
 	return (old_start);
 }
 
-int	ft_find_env(t_tree *root, char *old_token)
+char	*ft_expand_str(char *old_token)
 {
 	char		*new_start;
-	int			is_replaced;
-	int			ret_val;
+	char		*new_token;
+	int			reset_i;
 	size_t		i;
 
-	is_replaced = 0;
+	new_token = NULL;
+	reset_i = 0;
 	i = 0;
-	while (old_token != NULL && old_token[i] != '\0')
+	while (old_token[i] != '\0')
 	{
-		if (is_replaced == 1)
+		if (reset_i == 1)
 		{
 			i = 0;
-			is_replaced = 0;
+			reset_i = 0;
 		}
 		new_start = ft_check_quotes(&old_token[i]);
 		i += new_start - &old_token[i];
 		if (old_token[i] == '$')
 		{
-			is_replaced = ft_replace_env(root, &old_token, &old_token[i]);
-			ret_val = is_replaced;
+			new_token = ft_replace_key_with_val(&old_token, &old_token[i]);
+			if (new_token != NULL)
+				reset_i = 1;
 		}
 		i++;
 	}
-	return (ret_val);
+	return (new_token);
 }
 
-int	ft_check_all_param(t_tree *root)
+void	ft_expand_list(t_token **param)
 {
 	char		*old_token;
+	char		*new_token;
+	char		*temp_token;
 	t_token		*temp;
-	int			ret_val;
 
-	temp = root->param;
-	while (root->param != NULL && root->param->type != TK_PIPE)
+	temp = *param;
+	while (*param != NULL)
 	{
-		old_token = root->param->token;
-		printf("old_token = %s\n", old_token);
-		ret_val = ft_find_env(root, old_token);
-		root->param = root->param->next;
+		old_token = (*param)->token;
+		if (old_token != NULL)
+			new_token = ft_expand_str(old_token);
+		if (new_token != NULL)
+		{
+			temp_token = (*param)->token;
+			(*param)->token = new_token;
+			free(temp_token);
+		}
+		*param = (*param)->next;
 	}
-	root->param = temp;
-	return (ret_val);
-}
-
-void	ft_expand_env(t_tree *root)
-{
-	int	is_replaced;
-
-	if (root == NULL)
-		return ;
-	ft_expand_env(root->l_leaf);
-	is_replaced = ft_check_all_param(root);
-	if (is_replaced == 1)
-		ft_split_expanded_token(root->param);
-	ft_delete_quotes(root->param);
-	ft_expand_env(root->r_leaf);
+	*param = temp;
+	return ;
 }
