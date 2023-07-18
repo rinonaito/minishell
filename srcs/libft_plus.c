@@ -6,18 +6,38 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 14:14:00 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/18 18:58:38 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/18 21:19:21 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+//@func:  check if two strings are exactly the same
+//@usage:
+//		if (ft_strnequ(s1, s2))
+//			printf("s1 and s2 are identical\n");
+//@return_val:
+//		1 if they're identical, and 0 if not
+int	ft_strnequ(const char *s1, const char *s2)
+{
+	size_t	len;
+
+	if (!s1 || !s2)
+		return (0);
+	len = ft_strlen(s1);
+	if (len != ft_strlen(s2))
+		return (0);
+	if (ft_strncmp(s1, s2, len) == 0)
+		return (1);
+	return (0);
+}
 
 char	*ft_strndup(char *str, size_t len)
 {
 	char	*new;
 	size_t	i;
 
-	if (len == 0)
+	if (!str)
 		return (NULL);
 	new = malloc(sizeof(char) * len + 1);
 	if (new == NULL)

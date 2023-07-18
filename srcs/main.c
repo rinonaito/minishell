@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/18 19:33:02 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/18 21:17:26 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,10 @@
 //	}
 //}
 
-void	trace_inorder(t_tree *root)
+void	trace_inorder(t_tree *root, char **env)
 {
+	static int	i;
+
 	if (root == NULL)
 		return ;
 	trace_inorder(root->l_leaf);
@@ -88,7 +90,7 @@ void	trace_inorder(t_tree *root)
 	trace_inorder(root->r_leaf);
 }
 
-int	main(void)
+int	main(int argc, char **argv, char **env)
 {
 	char	*line;
 	t_token	*head;
