@@ -3,6 +3,9 @@
 #Object files
 *.o
 
+#Libraries
+*.a
+
 #Executables
 minishell
 a.out

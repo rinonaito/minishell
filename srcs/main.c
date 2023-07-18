@@ -6,7 +6,11 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/07/18 19:07:10 by taaraki          ###   ########.fr       */
+=======
+/*   Updated: 2023/07/10 22:24:59 by taaraki          ###   ########.fr       */
+>>>>>>> 2bc9ac71d95391bccb992b660ad6d615b4a8ba09
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +83,26 @@
 //	}
 //}
 
+<<<<<<< HEAD
+=======
+void	trace_inorder(t_tree *root, char **env)
+{
+	static int	i;
+
+	if (root == NULL)
+		return ;
+	trace_inorder(root->l_leaf, env);
+	//printf("command = %s\n", root->command);
+	printf("###\n");
+	if (root->param)
+		printf("param = %s\n", root->param->token);
+	if (root->param)
+		create_process(root, env);
+	printf("$$$\n");
+	trace_inorder(root->r_leaf, env);
+}
+
+>>>>>>> 2bc9ac71d95391bccb992b660ad6d615b4a8ba09
 int	main(int argc, char **argv, char **env)
 {
 	char	*line;
@@ -109,12 +133,16 @@ int	main(int argc, char **argv, char **env)
 			free(line);
 			line = NULL;
 			root = ft_make_syntax_tree(head);
+<<<<<<< HEAD
 			//
 			trace_tree_entry(root, env);
 //
 			//root->num_cmds = count_num_cmds(root);
 			//printf("num_cmds:%d\n", root->num_cmds);
 //
+=======
+			trace_inorder(root, env);
+>>>>>>> 2bc9ac71d95391bccb992b660ad6d615b4a8ba09
 //			while (root != NULL)
 //			{
 //				if (root->r_leaf != NULL)

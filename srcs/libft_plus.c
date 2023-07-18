@@ -6,7 +6,11 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 14:14:00 by rnaito            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/07/17 17:03:54 by taaraki          ###   ########.fr       */
+=======
+/*   Updated: 2023/07/11 23:54:18 by taaraki          ###   ########.fr       */
+>>>>>>> 2bc9ac71d95391bccb992b660ad6d615b4a8ba09
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +22,11 @@
 //			printf("s1 and s2 are identical\n");
 //@return_val:
 //		1 if they're identical, and 0 if not
+<<<<<<< HEAD
 int	ft_strequ(const char *s1, const char *s2)
+=======
+int	ft_strnequ(const char *s1, const char *s2)
+>>>>>>> 2bc9ac71d95391bccb992b660ad6d615b4a8ba09
 {
 	size_t	len;
 

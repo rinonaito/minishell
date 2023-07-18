@@ -6,7 +6,11 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/07/18 17:16:33 by taaraki          ###   ########.fr       */
+=======
+/*   Updated: 2023/07/11 17:05:20 by taaraki          ###   ########.fr       */
+>>>>>>> 2bc9ac71d95391bccb992b660ad6d615b4a8ba09
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +91,7 @@ char	*ft_find_command(t_token *token);
 t_tree	*ft_make_leaf(t_token **token);
 t_tree	*ft_make_syntax_tree(t_token *head);
 
+<<<<<<< HEAD
 /*** EXECUTION ***/
 //execute.c
 void    trace_tree_entry(t_tree *root, char **env);
@@ -112,4 +117,22 @@ int		is_builtin(char *s);
 //echo.c
 int    builtin_echo(char **args);//, t_minishell *m)
 
+=======
+//ft_perror.c
+void	ft_perror(char *message);
+
+/*** EXECTUION ***/
+//exe_create_process.c
+//int create_process(char **env);
+int create_process(t_tree *root, char **env);
+//exe_child_process.c
+//void	child_process(int fd[2], char **cmd_args, char **env, int num_cmds, int i);
+void	child_process(int fd[2], char **cmd_args, char **env);
+//exe_parent_process.c
+void	parent_process(int fd[2]);
+//exe_wait_process.c
+int	wait_process(int pid, int num_cmds);
+//exe_search_path.c
+char    *ft_search_path(const char *filename);
+>>>>>>> 2bc9ac71d95391bccb992b660ad6d615b4a8ba09
 #endif

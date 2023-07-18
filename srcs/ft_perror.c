@@ -1,21 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstdelone.c                                     :+:      :+:    :+:   */
+/*   ft_perror.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/18 17:19:41 by taaraki           #+#    #+#             */
-/*   Updated: 2023/04/30 06:59:37 by taaraki          ###   ########.fr       */
+/*   Created: 2023/07/10 16:11:33 by taaraki           #+#    #+#             */
+/*   Updated: 2023/07/10 16:11:49 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include	"libft.h"
+#include	"minishell.h"
+#include	<stdio.h>
+#include	<stdlib.h>
+#include	<unistd.h>
 
-void	ft_lstdelone(t_list *lst, void (*del)(void *))
+void	ft_perror(char *message)
 {
-	if (!lst || !del)
-		return ;
-	(*del)(lst->content);
-	free(lst);
+	//printf("%s\n", __func__);
+	if (message)
+		perror(message);
+	exit(-1);
 }
