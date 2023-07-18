@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:43:25 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/18 17:01:07 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/18 17:26:11 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,9 @@ static void	exec(char **cmd_args, char **env)
 	if (!cmd_args)
 		return ;
 	file = ft_search_path(cmd_args[0]);//get the path to the command
-	//write(1, "stdout\n", 7);
-	//write(2, "stderr\n", 7);
+	//write(1, "stdout\n", 7); //write(2, "stderr\n", 7);
 	if (!file)
-	{
 		ft_perror("path not found\n");
-		return ;
-	}
 	else
 		printf(" path found\n");
 	printf(" file:[%s]\n", file);
@@ -110,12 +106,12 @@ int		wait_process(pid_t *pid_ary, int num_cmds)//pid)//, int num_cmds)
 	}
 	if (WIFEXITED(status))
 	{
-		printf(" [%s|%s] Exit: %d\n", __func__, "WIFEXITED",  WEXITSTATUS(status));
+		printf(" [%s | %s] status: %d\n", __func__, "WIFEXITED",  WEXITSTATUS(status));
 		status = (WEXITSTATUS(status));
 	}
 	else if (WIFSIGNALED(status))
 	{
-		printf(" [%s|%s] Exit: %d\n", __func__, "WIFSIGNALED", WTERMSIG(status));
+		printf(" [%s | %s] status: %d\n", __func__, "WIFSIGNALED", WTERMSIG(status));
 		status = (WTERMSIG(status));
 	}
 	else

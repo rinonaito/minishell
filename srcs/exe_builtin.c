@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:16:53 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/18 16:33:39 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/18 17:19:24 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,10 @@ void	built_in_process(int fd[2], char **cmd_args, int i, int num_cmds)
 	//execute_builtin(cmd_args);
 	{
 		printf(" ***** %s *****\n", cmd_args[0]);
-		builtin_echo(cmd_args);
-		printf("$\n");
-		printf(" ***** %s *****\n", cmd_args[0]);
-		exit(1);
+		if (builtin_echo(cmd_args) == 0)
+			exit(0);
+		else
+			exit(1);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 18:36:24 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/18 16:35:24 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/18 17:18:41 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int    builtin_echo(char **cmd_args)
 	printf(">%s\n", __func__);
     new_line = true;
 	if (!cmd_args || !cmd_args[0])
-		return (0);
+		return (1);
 	i = 1;
     while (cmd_args[i])
     {

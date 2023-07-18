@@ -6,20 +6,23 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:33:54 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/16 19:56:28 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/18 17:25:09 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	"minishell.h"
-//#include	"debug.h"
+#include	"debug.h"
 
 void    ft_strncpy(char *dst, char *src, int n)
 {
     int i;
 
     i = 0;
+	if (!dst)
+		return ;
     while (src != '\0' && i < n)
     {
+		//printf(" i:[%d],src:[%s]\n", i, &src[i]);
         dst[i] = src[i];
         i++;
     }
@@ -44,26 +47,24 @@ char    *ft_search_path(const char *filename)
     char    *end;
 
     value = getenv("PATH");
-    //printf(" PATH_MAX: %d\n", PATH_MAX);
+	//printf("len(value)[%zu]\n", ft_strlen(value));
     //printf(" PATH:[%s]\n", value);
-	//int	i = 0;
     while (value != NULL)
     {
-		//printf(" i[%d]\n", i++);
         ft_bzero(path, PATH_MAX);
         end = ft_strchr(value, ':');
-        //printf("end %s\n", end); STOP;
-		//printf(" $$$\n");
-		//printf(" %s\n", value);
+        //printf("end %s\n", end); //STOP;
         if (end != NULL)
             ft_strncpy(path, value, end - value);
         else
-            ft_strncpy(path, value, PATH_MAX);
-		//printf(" @@@\n");
+		{
+			printf(" end is NULL\n");
+			break ;//has to break here
+            //ft_strncpy(path, value, PATH_MAX);
+			//SEGV here (value is not null terminated)
+		}
         ft_strlcat(path, "/", PATH_MAX);
-		//printf(" @@@\n");
         ft_strlcat(path, filename, PATH_MAX);
-		//printf(" @@@\n");
         duplicated = NULL;
         if (access(path, X_OK) == 0)
         {
@@ -72,8 +73,6 @@ char    *ft_search_path(const char *filename)
             return (duplicated);
         }
         value = end + 1;//shift to the next character
-		//printf(" ###\n");
     }
-	//ft_perror(">%s, NULL returned\n", __func__);
     return (NULL);
 }
