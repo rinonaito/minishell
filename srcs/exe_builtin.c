@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:16:53 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/18 19:45:41 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/18 19:51:51 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	call_builtin(int fd[2], char **cmd_args, int j, int num_cmds)
 	}
 	return ;
 }
-/*
+
 void	built_in_process(int fd[2], char **cmd_args, int i, int num_cmds)
 {
 	printf(">%s\n", __func__);
@@ -79,4 +79,4 @@ void	built_in_process(int fd[2], char **cmd_args, int i, int num_cmds)
 			exit(1);
 	}
 }
-*/
+

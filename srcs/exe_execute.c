@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/18 19:44:19 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/18 19:50:54 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,11 @@ static void	create_process(char **cmd_args, char **env, int num_cmds, int i, pid
 	else if (pid == 0)
 	{
 		//execute builtin in child process
-		//if (is_builtin(cmd_args[0]))
-		//{
-			//call_builtin(pipe_fd, cmd_args, i, num_cmds);
-		//}
-		//else
+		if (is_builtin(cmd_args[0]))
+		{
+			call_builtin(pipe_fd, cmd_args, i, num_cmds);
+		}
+		else
 			child_process(pipe_fd, cmd_args, env, num_cmds, i);
 		printf(" *** return from child ***\n");
 	}
