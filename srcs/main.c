@@ -6,11 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/07/18 19:07:10 by taaraki          ###   ########.fr       */
-=======
-/*   Updated: 2023/07/10 22:24:59 by taaraki          ###   ########.fr       */
->>>>>>> 2bc9ac71d95391bccb992b660ad6d615b4a8ba09
+/*   Updated: 2023/07/18 21:43:44 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +25,7 @@
 //	}
 //	dst[i] = '\0';
 //}
-//
+
 //char	*ft_search_path(const char *filename)
 //{
 //	char	path[PATH_MAX];
@@ -58,7 +54,7 @@
 //	}
 //	return (NULL);
 //}
-//
+
 //void	ft_interpret(char *line)
 //{
 //	extern char **environ;
@@ -83,31 +79,24 @@
 //	}
 //}
 
-<<<<<<< HEAD
-=======
-void	trace_inorder(t_tree *root, char **env)
+void	trace_param_inorder(t_tree *root, char **env)
 {
 	static int	i;
 
 	if (root == NULL)
 		return ;
-	trace_inorder(root->l_leaf, env);
-	//printf("command = %s\n", root->command);
-	printf("###\n");
-	if (root->param)
-		printf("param = %s\n", root->param->token);
-	if (root->param)
-		create_process(root, env);
-	printf("$$$\n");
-	trace_inorder(root->r_leaf, env);
+	trace_param_inorder(root->l_leaf);
+	if (root != NULL && root->param != NULL)
+		printf("param =%s$\n", root->param->token);
+	trace_param_inorder(root->r_leaf);
 }
 
->>>>>>> 2bc9ac71d95391bccb992b660ad6d615b4a8ba09
 int	main(int argc, char **argv, char **env)
 {
 	char	*line;
 	t_token	*head;
 	t_tree	*root;
+	int		status;
 
 	rl_outstream = stderr;
 	while (1)
@@ -122,43 +111,25 @@ int	main(int argc, char **argv, char **env)
 		}
 		if (strlen(line) != 0)
 			add_history(line);
-		head = ft_tokenize(line);
-//		while (head != NULL)
-//		{
-//			printf("%s\n", head->token);
-//			head = head->next;
-//		}
+		status = STANDARD;
+		head = ft_tokenize(line, &status);
+		if (head == NULL && status == SYNTAX_ERR)
+		{
+			printf("syntax error\n");
+//			system ("leaks -q minishell");
+			return (1);
+		}
+		if (status == HEREDOC_MODE)
+			ft_get_heredoc_input(head);
 		if (head != NULL)
 		{
 			free(line);
 			line = NULL;
 			root = ft_make_syntax_tree(head);
-<<<<<<< HEAD
-			//
+			ft_expand_list(&head);
+			trace_param_inorder(root, env);
 			trace_tree_entry(root, env);
-//
-			//root->num_cmds = count_num_cmds(root);
-			//printf("num_cmds:%d\n", root->num_cmds);
-//
-=======
-			trace_inorder(root, env);
->>>>>>> 2bc9ac71d95391bccb992b660ad6d615b4a8ba09
-//			while (root != NULL)
-//			{
-//				if (root->r_leaf != NULL)
-//					printf("right = %s\n", root->r_leaf->command);
-//				if (root->l_leaf != NULL)
-//					printf("left = %s\n", root->l_leaf->command);
-//				root = root->l_leaf;
-//				printf("root = %p\n", root);
-//			}
-	//		while (head != NULL)
-	//		{
-	//			printf("%s, %d\n", head->token, head->type);
-	//			head = head->next;
-	//		}
-	//		ft_interpret(line);
-			//create_process(env);
+			ft_free_syntax_tree(root);
 		}
 		free(line);
 		line = NULL;
