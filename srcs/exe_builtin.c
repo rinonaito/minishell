@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:16:53 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/17 17:53:55 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/18 16:33:39 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	call_builtin(int fd[2], char **cmd_args, int j, int num_cmds)
 	{
 		if (ft_strequ(lst[i], cmd_args[0]))
 		{
-			printf(" calling builin\n");
+			printf(" calling builin function : %s\n",lst[i]); 
 			built_in_process(fd, cmd_args, j, num_cmds);
 			return ;
 		}
@@ -58,8 +58,7 @@ void	built_in_process(int fd[2], char **cmd_args, int i, int num_cmds)
 {
 	printf(">%s\n", __func__);
 	close(fd[READ_END]);
-	//i is the index of command starting from 1
-	if (i < num_cmds)// - 1)
+	if (i < num_cmds)//i is the index of command starting from 1
 	{
 		if (dup2(fd[WRITE_END], STDOUT_FILENO) == -1)
 		{
@@ -67,14 +66,16 @@ void	built_in_process(int fd[2], char **cmd_args, int i, int num_cmds)
 			ft_perror("dup2\n");
 		}
 	}
-	else
-		printf(" !(i < numcmds)\n");
-	printf(" outside (should not be seen on the display unless !(i < numcmds))\n");
+	//else
+		//printf(" !(i < numcmds)\n");
+	//printf(" outside (should not be seen on the display unless !(i < numcmds))\n");
 	//close(fd[WRITE_END]);//why close
 	//execute_builtin(cmd_args);
 	{
+		printf(" ***** %s *****\n", cmd_args[0]);
 		builtin_echo(cmd_args);
-		printf(" *** %s ***\n", cmd_args[0]);
+		printf("$\n");
+		printf(" ***** %s *****\n", cmd_args[0]);
 		exit(1);
 	}
 }
