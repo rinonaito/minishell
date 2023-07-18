@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:43:25 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/17 16:48:23 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/18 17:01:07 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ void	parent_process(int fd[2], int i, int num_cmds)
 			ft_perror("dup2\n");
 		}
 	}
-	//close(fd[READ_END]);//prob. don't need to close
+	//close it to free the resource
+	close(fd[READ_END]);
 }
 
 static void	exec(char **cmd_args, char **env)
@@ -54,14 +55,10 @@ static void	exec(char **cmd_args, char **env)
 	if (access(file, F_OK | X_OK) == 0)
 	{
 		printf(" access success\n");
-		///*
-		int i = 0;
-		while (cmd_args[i])
-		{
-			printf(" i:%d[%s]\n", i, cmd_args[i]);
-			i++;
-		}
-		//*/
+		/*** print cmd_args ***/
+		//int i = -1;
+		//while (cmd_args[++i])
+			//printf(" i:%d[%s]\n", i, cmd_args[i]);
 		if (execve(file, cmd_args, env) == -1)
 			ft_perror(" command not found\n");
 	}
@@ -87,7 +84,7 @@ void	child_process(int fd[2], char **cmd_args, char **env, int num_cmds, int i)
 	else
 		printf(" !(i < numcmds)\n");
 	printf(" outside (should not be seen on the display unless !(i < numcmds))\n");
-	//close(fd[WRITE_END]);//why close
+	close(fd[WRITE_END]);//close it to free the resource
 	exec(cmd_args, env);
 }
 

@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/17 15:06:57 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/18 16:45:15 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ static void	count_num_cmds(t_tree *root, int *i)
 static void	trace_inorder(t_tree *root, char **env, int num_cmds, int *j, pid_t *pid_ary)
 {
 	char	**cmd_args;
-	//static pid_t	pid;
 
 	if (root == NULL)
 		return ;
@@ -37,19 +36,15 @@ static void	trace_inorder(t_tree *root, char **env, int num_cmds, int *j, pid_t 
 	{
 		*j += 1;
 		cmd_args = create_cmds(root);
-		//pid = create_process(cmd_args, env, num_cmds, *j, pid_ary);
-		//if (is_builtin(cmd_args[0]))
-		//{
-			//call_builtin(cmd_args, *j, num_cmds);
-		//}
-		//else
-			create_process(cmd_args, env, num_cmds, *j, pid_ary);
-		//printf(" pid(trace)[%d]:%d\n", *j, pid);
+		/*** FROM HERE ***/ 
+		//does everything in the create_process
+		// fork to create the child process even when the command is builtin
+		// create_process no longer needs to return pid (it stores them in ary)
+		create_process(cmd_args, env, num_cmds, *j, pid_ary);
+		/*** TO HERE ***/ 
 		free_args(&cmd_args);//free cmd_args and setting NUL
 	}
 	trace_inorder(root->r_leaf, env, num_cmds, j, pid_ary);
-	//printf("pid(trace_last)[%d]:%d\n", i, pid);
-	//return (pid);
 }
 
 void	trace_tree_entry(t_tree *root, char **env)
@@ -68,9 +63,11 @@ void	trace_tree_entry(t_tree *root, char **env)
 		return ;
 	tmp_fdin = dup(STDIN_FILENO);//save the file descriptor(fd) of STDIN
 	j = 0;
+	//trace the tree structure and create processes
 	trace_inorder(root, env, num_cmds, &j, pid_ary);
 	dup2(tmp_fdin, STDIN_FILENO);//set back the fd of STDIN
 	close(tmp_fdin);
+	/*** print process IDs***/
 	//printf(" ==========\n");
 	//int	i = 0;
 	//while (i < num_cmds)
@@ -90,34 +87,27 @@ static void	create_process(char **cmd_args, char **env, int num_cmds, int i, pid
 	int	status;
 
 	//printf("%s\n", __func__);
-
 	if (pipe(pipe_fd) == -1)
 		ft_perror("pipe\n");
-	//if (is_builtin(cmd_args[0]))
-	//{
-		//call_builtin(pipe_fd, cmd_args, i, num_cmds);
-	//}
-	//else
-	//{
-		pid = fork();
-		if (pid == -1)
-			ft_perror("fork\n");
-		else if (pid == 0)
+	pid = fork();
+	if (pid == -1)
+		ft_perror("fork\n");
+	else if (pid == 0)
+	{
+		//execute builtin in child process
+		if (is_builtin(cmd_args[0]))
 		{
-			//execute builtin in child process
-			if (is_builtin(cmd_args[0]))
-			{
-				call_builtin(pipe_fd, cmd_args, i, num_cmds);
-			}
-			else
-				child_process(pipe_fd, cmd_args, env, num_cmds, i);
-			printf("***return from child***\n");
+			//what else has to be done before/after calling the builtin	
+			call_builtin(pipe_fd, cmd_args, i, num_cmds);
 		}
 		else
-		{
-			pid_ary[i - 1] = pid;
-			parent_process(pipe_fd, i, num_cmds);
-		}
-	//}
+			child_process(pipe_fd, cmd_args, env, num_cmds, i);
+		printf(" *** return from child ***\n");
+	}
+	else
+	{
+		pid_ary[i - 1] = pid;
+		parent_process(pipe_fd, i, num_cmds);
+	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 18:36:24 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/17 17:40:02 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/18 16:35:24 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,12 @@ int    builtin_echo(char **cmd_args)
     while (cmd_args[i])
     {
 		//printf("\ni:%d,[%s]\n", i, cmd_args[i]);
-		///*
 		if (i == 1 && ft_strequ(cmd_args[1], "-n"))
 		{
         	new_line = false;
 			i++;
 			continue ;
 		}
-		//*/
         printf("%s", cmd_args[i]);
         if (cmd_args[i + 1])
 			printf(" ");
@@ -40,7 +38,6 @@ int    builtin_echo(char **cmd_args)
     }
     if (new_line)
         printf("\n");
-        //ft_printf("\n");
     return (0);
 }
 //*/
