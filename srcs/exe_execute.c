@@ -6,15 +6,46 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/18 17:14:06 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/18 19:44:19 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	"minishell.h"
 
-static void	create_process(char **cmd_args, char **env, int num_cmds, int i, pid_t *pid_ary);
+//@func: create processes, including parent/child/wait processes
+//@return_val:
+//		 exit status of wait process		
+static void	create_process(char **cmd_args, char **env, int num_cmds, int i, pid_t *pid_ary)
+{
+	int	pipe_fd[2];
+	pid_t	pid;
+	int	status;
 
-//count the number of commands
+	//printf("%s\n", __func__);
+	if (pipe(pipe_fd) == -1)
+		ft_perror("pipe\n");
+	pid = fork();
+	if (pid == -1)
+		ft_perror("fork\n");
+	else if (pid == 0)
+	{
+		//execute builtin in child process
+		//if (is_builtin(cmd_args[0]))
+		//{
+			//call_builtin(pipe_fd, cmd_args, i, num_cmds);
+		//}
+		//else
+			child_process(pipe_fd, cmd_args, env, num_cmds, i);
+		printf(" *** return from child ***\n");
+	}
+	else
+	{
+		pid_ary[i - 1] = pid;
+		parent_process(pipe_fd, i, num_cmds);
+	}
+}
+
+//@func: count the number of commands
 static void	count_num_cmds(t_tree *root, int *i)
 {
 	if (!root)
@@ -25,6 +56,7 @@ static void	count_num_cmds(t_tree *root, int *i)
 	count_num_cmds(root->r_leaf, i);
 }
 
+//@func: trace the tree structure and create processes
 static void	trace_inorder(t_tree *root, char **env, int num_cmds, int *j, pid_t *pid_ary)
 {
 	char	**cmd_args;
@@ -50,21 +82,19 @@ static void	trace_inorder(t_tree *root, char **env, int num_cmds, int *j, pid_t 
 void	trace_tree_entry(t_tree *root, char **env)
 {
 	int		num_cmds;
-	int		j;
-	int		status;
+	int		i;
 	int		tmp_fdin;
 	pid_t	*pid_ary;
 
 	num_cmds = 0;
-	//num_cmds = count_num_cmds(root, &num_cmds);
 	count_num_cmds(root, &num_cmds);
 	pid_ary = malloc(sizeof(pid_t) * num_cmds);
 	if(!pid_ary)
 		return ;
 	tmp_fdin = dup(STDIN_FILENO);//save the file descriptor(fd) of STDIN
-	j = 0;
+	i = 0;
 	//trace the tree structure and create processes
-	trace_inorder(root, env, num_cmds, &j, pid_ary);
+	trace_inorder(root, env, num_cmds, &i, pid_ary);
 	dup2(tmp_fdin, STDIN_FILENO);//set back the fd of STDIN
 	close(tmp_fdin);
 	/*** print process IDs***/
@@ -74,40 +104,5 @@ void	trace_tree_entry(t_tree *root, char **env)
 		//printf(" pid[%d]\n", pid_ary[i++]);
 	//printf(" ==========\n");
 	wait_process(pid_ary, num_cmds);
-}
-
-
-//@func: create processes, including parent/child/wait processes
-//@return_val:
-//		 exit status of wait process		
-static void	create_process(char **cmd_args, char **env, int num_cmds, int i, pid_t *pid_ary)
-{
-	int	pipe_fd[2];
-	pid_t	pid;
-	int	status;
-
-	//printf("%s\n", __func__);
-	if (pipe(pipe_fd) == -1)
-		ft_perror("pipe\n");
-	pid = fork();
-	if (pid == -1)
-		ft_perror("fork\n");
-	else if (pid == 0)
-	{
-		//execute builtin in child process
-		if (is_builtin(cmd_args[0]))
-		{
-			//what else has to be done before/after calling the builtin	
-			call_builtin(pipe_fd, cmd_args, i, num_cmds);
-		}
-		else
-			child_process(pipe_fd, cmd_args, env, num_cmds, i);
-		printf(" *** return from child ***\n");
-	}
-	else
-	{
-		pid_ary[i - 1] = pid;
-		parent_process(pipe_fd, i, num_cmds);
-	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:33:54 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/18 17:25:09 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/18 19:22:38 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ char    *ft_search_path(const char *filename)
             ft_strncpy(path, value, end - value);
         else
 		{
-			printf(" end is NULL\n");
 			break ;//has to break here
             //ft_strncpy(path, value, PATH_MAX);
 			//SEGV here (value is not null terminated)
@@ -66,7 +65,7 @@ char    *ft_search_path(const char *filename)
         ft_strlcat(path, "/", PATH_MAX);
         ft_strlcat(path, filename, PATH_MAX);
         duplicated = NULL;
-        if (access(path, X_OK) == 0)
+        if (access(path, F_OK | X_OK) == 0)
         {
             duplicated = ft_strdup(path);
 			printf(">%s, access ok\n", __func__);

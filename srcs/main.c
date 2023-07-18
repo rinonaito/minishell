@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/17 17:40:12 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/18 19:07:10 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,25 +78,16 @@
 //		wait(&wstatus);
 //	}
 //}
+
 int	main(int argc, char **argv, char **env)
 {
 	char	*line;
 	t_token	*head;
 	t_tree	*root;
-	//int		flag = 0;
 
 	rl_outstream = stderr;
 	while (1)
 	{
-		/*
-		if (flag)
-		{
-			STOP;
-			flag = 0;
-		}
-		else
-			flag = 1;
-		*/
 		line = readline("\x1b[1;38;5;122mminishell🐣 \033[0m");
 		printf(" line[%s]\n", line);
 		if (line == NULL)
@@ -143,7 +134,6 @@ int	main(int argc, char **argv, char **env)
 		}
 		free(line);
 		line = NULL;
-		printf(" errno:[%d]\n", errno);
 		//sleep(2);
 	//	system ("leaks -q minishell");
 	}

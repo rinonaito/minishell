@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:43:25 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/18 17:26:11 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/18 19:46:00 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	parent_process(int fd[2], int i, int num_cmds)
 		if (dup2(fd[READ_END], STDIN_FILENO) == -1)
 		{
 			close(fd[READ_END]);
-			ft_perror("dup2\n");
+			ft_perror("dup2");
 		}
 	}
 	//close it to free the resource
@@ -42,26 +42,18 @@ static void	exec(char **cmd_args, char **env)
 	if (!cmd_args)
 		return ;
 	file = ft_search_path(cmd_args[0]);//get the path to the command
-	//write(1, "stdout\n", 7); //write(2, "stderr\n", 7);
-	if (!file)
-		ft_perror("path not found\n");
-	else
-		printf(" path found\n");
-	printf(" file:[%s]\n", file);
-	if (access(file, F_OK | X_OK) == 0)
-	{
-		printf(" access success\n");
-		/*** print cmd_args ***/
-		//int i = -1;
-		//while (cmd_args[++i])
-			//printf(" i:%d[%s]\n", i, cmd_args[i]);
-		if (execve(file, cmd_args, env) == -1)
-			ft_perror(" command not found\n");
-	}
-	else
-	{
-		ft_perror(" access failed\n");
-	}
+	//if (access(file, F_OK | X_OK) == 0)
+	//{
+		//printf(" access success");
+		//if (execve(file, cmd_args, env) == -1)
+			//ft_perror(" command not found");
+	//}
+	//else
+	//{
+		//ft_perror(" access failed");
+	//}
+	if (execve(file, cmd_args, env) == -1)
+		ft_perror(" command not found");
 }
 
 void	child_process(int fd[2], char **cmd_args, char **env, int num_cmds, int i)
@@ -74,17 +66,24 @@ void	child_process(int fd[2], char **cmd_args, char **env, int num_cmds, int i)
 		if (dup2(fd[WRITE_END], STDOUT_FILENO) == -1)
 		{
 			close(fd[WRITE_END]);
-			ft_perror("dup2\n");
+			ft_perror("dup2");
 		}
 	}
-	else
-		printf(" !(i < numcmds)\n");
-	printf(" outside (should not be seen on the display unless !(i < numcmds))\n");
 	close(fd[WRITE_END]);//close it to free the resource
-	exec(cmd_args, env);
+	/*
+	if (is_builtin(cmd_args[0]))
+	{
+			if (builtin_echo(cmd_args) == 0)
+				exit (0);
+			else
+				exit (1);
+	}
+	else
+		exec(cmd_args, env);
+	*/
 }
 
-int		wait_process(pid_t *pid_ary, int num_cmds)//pid)//, int num_cmds)
+int		wait_process(pid_t *pid_ary, int num_cmds)
 {
 	int		status;
 	int		i;
