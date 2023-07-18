@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 15:11:52 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/18 17:56:36 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/18 20:25:03 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	ft_for_braced_env(char **start, char **end, char *doller)
 {
 	int	is_error;
-	
+
 	is_error = 0;
 	*start = doller + 2;
 	*end = ft_strchr(*start, '}');

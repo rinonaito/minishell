@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 16:29:01 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/18 19:43:24 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/18 20:26:49 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*ft_get_delimiter(t_token *head, int *is_quoted)
 	delimiter = NULL;
 	opening_quote = NULL;
 	closing_quote = NULL;
-	while (head != NULL && head->type != TK_HEREDOC)	
+	while (head != NULL && head->type != TK_HEREDOC)
 		head = head->next;
 	if (head->next != NULL)
 		delimiter = head->next->token;

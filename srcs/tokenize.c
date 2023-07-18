@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 13:03:35 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/18 13:45:51 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/18 20:28:49 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ t_token	*ft_tokenize(char *line, int *status)
 {	
 	t_token	*head;
 	int		is_heredoc;
-//	char	*delimiter;
 
 	if (ft_strlen(line) == 0)
 		return (NULL);
