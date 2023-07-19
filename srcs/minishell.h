@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/19 15:21:51 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/19 17:48:34 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,12 @@ typedef struct s_tree {
 	struct s_tree	*r_leaf; // for node
 	struct s_tree	*l_leaf; // for node
 }						t_tree;
+
+typedef struct s_env {
+	char			*key;
+	char			*val;
+	struct s_env	*next;
+}						t_env;
 
 /*** TOKENIZE ***/
 //tokenize.c
@@ -156,5 +162,9 @@ char	*ft_get_delimiter(t_token *head, int *is_quoted);
 char	*ft_make_input_str(char *delimiter);
 void	ft_for_unbraced_env(char **start, char **end, char *doller);
 void	ft_get_heredoc_input(t_token *head);
+
+
+t_env	*make_env_list(char	**env);
+void	builtin_env(t_env *head);
 
 #endif

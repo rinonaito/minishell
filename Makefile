@@ -6,7 +6,7 @@
 #    By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 16:01:50 by rnaito            #+#    #+#              #
-#    Updated: 2023/07/19 14:11:08 by rnaito           ###   ########.fr        #
+#    Updated: 2023/07/19 17:49:58 by rnaito           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,8 @@ SRCS =	main.c\
 		ft_replace_key_with_val.c\
 		ft_split_expanded_token.c\
 		ft_delete_quotes.c\
+		make_env_list.c\
+		builtin_env.c\
 		libft_plus.c
 #		exe_execute.c\
 #		exe_process.c\
@@ -65,12 +67,12 @@ $(NAME_LIBFT):
 
 clean:
 	make clean -C $(LIBFT_DIR)
-	make clean -C $(PRINTF_DIR)
+#	make clean -C $(PRINTF_DIR)
 	rm -rf $(OBJS) $(OBJS_BONUS) $(OBJS_DEBUG) $(OBJSDIR) $(OBJSDIR_BONUS)
 
 fclean: clean
 	make fclean -C $(LIBFT_DIR)
-	make fclean -C $(PRINTF_DIR)
+#	make fclean -C $(PRINTF_DIR)
 	rm -f $(NAME) $(NAME_BONUS) $(NAME_DEBUG)
 
 re: fclean all
