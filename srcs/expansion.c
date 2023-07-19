@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 15:21:01 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/18 20:24:08 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/19 15:46:23 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*ft_expand_str(char *old_token)
 	char		*new_start;
 	char		*new_token;
 	int			reset_i;
-	size_t		i;
+	int			i;
 
 	new_token = NULL;
 	reset_i = 0;
@@ -43,7 +43,7 @@ char	*ft_expand_str(char *old_token)
 		{
 			new_token = ft_replace_key_with_val(&old_token, &old_token[i]);
 			if (new_token != NULL)
-				i = 0;
+				i = -1;
 		}
 		i++;
 	}

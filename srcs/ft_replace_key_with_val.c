@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 15:11:52 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/18 20:25:03 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/19 15:46:25 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ char	*ft_replace_key_with_val(char **old_token, char *doller)
 		env_val = getenv(env_key);
 		if (env_val == NULL)
 			env_val = "\0";
+		printf("key = %s, val = %s\n", env_key, env_val);
 		new_token = ft_make_new_token(*old_token, doller, env_key, env_val);
 		*old_token = new_token;
 		free (env_key);
