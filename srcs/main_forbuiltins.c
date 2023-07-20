@@ -1,21 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_export.c                                   :+:      :+:    :+:   */
+/*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/19 17:55:24 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/20 16:15:21 by rnaito           ###   ########.fr       */
+/*   Created: 2023/07/19 15:53:30 by rnaito            #+#    #+#             */
+/*   Updated: 2023/07/19 20:07:15 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	builtin_export(char **cmd_args, t_env *head)
+int	main(int argc, char **argv, char **env)
 {
-	size_t	i;
+//	size_t	i;
+	t_env	*head;
 
-	i = 0;
-	if (ft_strchr(cmd_args[i], '=') != NULL)
+	head = make_env_list(env);
+	builtin_env(head);
+//	head = make_env_list(env);
+//	while (head != NULL)
+//	{
+//		printf("key = %s, val = %s\n", head->key, head->val);
+//		head = head->next;
+//	}
+//	while (env[i] != NULL)
+//	{
+//		printf("env[%zu] = %s\n", i, env[i]);
+//		i++;
+//	}
+	return (0);
 }
