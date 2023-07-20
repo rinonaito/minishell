@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/20 21:11:26 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/20 21:22:53 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,16 @@ static void	create_process(t_cmds *cmds_info)
 		//execute builtin in child process
 		if (is_builtin(cmds_info->cmd_args[0]))
 		{
-			call_builtin(cmds_info);
+			call_builtin(pipe_fd, cmds_info);
 		}
 		else
-			child_process(cmds_info);
+			child_process(pipe_fd, cmds_info);
 		printf(" *** return from child ***\n");
 	}
 	else
 	{
 		cmds_info->pid_ary[cmds_info->i - 1] = pid;
-		parent_process(cmds_info);
+		parent_process(pipe_fd, cmds_info);
 	}
 }
 
@@ -110,7 +110,7 @@ static void	trace_inorder(t_tree *root, t_cmds *cmds_info)
 		// create_process no longer needs to return pid (it stores them in ary)
 		create_process(cmds_info);
 		/*** TO HERE ***/ 
-		free_args(cmds_args->cmd_args);//free cmd_args and setting NUL
+		free_args(&cmds_info->cmd_args);//free cmd_args and setting NUL
 	}
 	trace_inorder(root->r_leaf, cmds_info);
 }

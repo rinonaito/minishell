@@ -6,7 +6,7 @@
 #    By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 16:01:50 by rnaito            #+#    #+#              #
-#    Updated: 2023/07/20 20:58:22 by rnaito           ###   ########.fr        #
+#    Updated: 2023/07/20 22:17:47 by rnaito           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,12 +65,10 @@ $(NAME_LIBFT):
 
 clean:
 	make clean -C $(LIBFT_DIR)
-	make clean -C $(PRINTF_DIR)
 	rm -rf $(OBJS) $(OBJS_BONUS) $(OBJS_DEBUG) $(OBJSDIR) $(OBJSDIR_BONUS)
 
 fclean: clean
 	make fclean -C $(LIBFT_DIR)
-	make fclean -C $(PRINTF_DIR)
 	rm -f $(NAME) $(NAME_BONUS) $(NAME_DEBUG)
 
 re: fclean all

@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/20 20:54:01 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/20 22:13:46 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include <stdio.h> // for printf
+# include <stdbool.h> // for bool
 # include <string.h> // for strlen
 //# include <sys/types.h> // for t_pid
 # include <unistd.h> // for t_pid
@@ -108,8 +109,10 @@ t_tree	*ft_make_syntax_tree(t_token *head);
 void    trace_tree_entry(t_tree *root, char **env);
 
 //process.c
-void    child_process(int fd[2], char **cmd_args, char **env, int num_cmds, int i);
-void    parent_process(int fd[2], int i, int num_cmds);
+//void    child_process(int fd[2], char **cmd_args, char **env, int num_cmds, int i);
+void	child_process(int pipe_fd[2], t_cmds *cmds_info);
+//void    parent_process(int fd[2], int i, int num_cmds);
+void	parent_process(int pipe_fd[2], t_cmds *cmds_info);
 int		wait_process(pid_t *pid_ary, int num_cmds);
 
 //ft_perror.c
@@ -125,8 +128,10 @@ char    **create_cmds(t_tree *root);
 char    *ft_search_path(const char *filename);
 
 //call_builtin.c
-void	call_builtin(int fd[2], char **cmd_args, int j, int num_cmds);
-void	built_in_process(int fd[2], char **cmd_args, int i, int num_cmds);
+//void	call_builtin(int fd[2], char **cmd_args, int j, int num_cmds);
+void	call_builtin(int pipe_fd[2], t_cmds *cmds_info);
+//void	built_in_process(int fd[2], char **cmd_args, int i, int num_cmds);
+void	built_in_process(int pipe_fd[2], t_cmds *cmds_info);
 
 //is_built_in.c
 int		is_builtin(char *s);

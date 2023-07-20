@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:43:25 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/20 21:13:20 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/20 21:20:40 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,23 @@
 #include	<unistd.h>
 #include	<signal.h>
 
-void	parent_process(int fd[2], int i, int num_cmds)
+//void	parent_process(int fd[2], int i, int num_cmds)
+void	parent_process(int pipe_fd[2], t_cmds *cmds_info)
 {
 	printf(">%s\n", __func__);
 	int		status;
 
-	close(fd[WRITE_END]);
+	close(pipe_fd[WRITE_END]);
 	//if (i != 1)//don't need this line
 	{
-		if (dup2(fd[READ_END], STDIN_FILENO) == -1)
+		if (dup2(pipe_fd[READ_END], STDIN_FILENO) == -1)
 		{
-			close(fd[READ_END]);
+			close(pipe_fd[READ_END]);
 			ft_perror("dup2");
 		}
 	}
 	//close it to free the resource
-	close(fd[READ_END]);
+	close(pipe_fd[READ_END]);
 }
 
 static void	exec(char **cmd_args, char **env)
@@ -57,21 +58,21 @@ static void	exec(char **cmd_args, char **env)
 }
 
 //void	child_process(int fd[2], char **cmd_args, char **env, int num_cmds, int i)
-void	child_process(t_cmds *cmds_info)
+void	child_process(int pipe_fd[2], t_cmds *cmds_info)
 {
 	printf(">%s\n", __func__);
-	close(fd[READ_END]);
+	close(pipe_fd[READ_END]);
 	//i is the index of command starting from 1
-	if (i < num_cmds)// - 1)
+	if (cmds_info->i < cmds_info->num_cmds)// - 1)
 	{
-		if (dup2(fd[WRITE_END], STDOUT_FILENO) == -1)
+		if (dup2(pipe_fd[WRITE_END], STDOUT_FILENO) == -1)
 		{
-			close(fd[WRITE_END]);
+			close(pipe_fd[WRITE_END]);
 			ft_perror("dup2");
 		}
 	}
-	close(fd[WRITE_END]);//close it to free the resource
-	exec(cmd_args, env);
+	close(pipe_fd[WRITE_END]);//close it to free the resource
+	exec(cmds_info->cmd_args, cmds_info->env);
 }
 
 int		wait_process(pid_t *pid_ary, int num_cmds)

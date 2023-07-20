@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:16:53 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/20 21:07:43 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/20 21:27:25 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,22 +31,23 @@ int	is_builtin(char *s)
 	return (0);
 }
 
-void	call_builtin(int fd[2], char **cmd_args, int j, int num_cmds)
+//void	call_builtin(int fd[2], char **cmd_args, int j, int num_cmds)
+void	call_builtin(int pipe_fd[2], t_cmds *cmds_info)
 {
 	const char	*lst[] = {"echo", "cd", "pwd", "export", "unset", \
 												"env", "exit", NULL};
 	int			i;
 
 	printf(">%s\n", __func__);
-	if (!cmd_args || !cmd_args[0])
+	if (!cmds_info->cmd_args || !cmds_info->cmd_args[0])
 		return ;
 	i = 0;
 	while (lst[i])
 	{
-		if (ft_strequ(lst[i], cmd_args[0]))
+		if (ft_strequ(lst[i], cmds_info->cmd_args[0]))
 		{
 			printf(" calling builin function : %s\n",lst[i]); 
-			built_in_process(fd, cmd_args, j, num_cmds);
+			built_in_process(pipe_fd, cmds_info);
 			return ;
 		}
 		i++;
@@ -54,15 +55,15 @@ void	call_builtin(int fd[2], char **cmd_args, int j, int num_cmds)
 	return ;
 }
 
-void	built_in_process(t_cmds *cmds_info)
+void	built_in_process(int pipe_fd[2], t_cmds *cmds_info)
 {
 	printf(">%s\n", __func__);
-	close(fd[READ_END]);
-	if (i < num_cmds)//i is the index of command starting from 1
+	close(pipe_fd[READ_END]);
+	if (cmds_info->i < cmds_info->num_cmds)//i is the index of command starting from 1
 	{
-		if (dup2(fd[WRITE_END], STDOUT_FILENO) == -1)
+		if (dup2(pipe_fd[WRITE_END], STDOUT_FILENO) == -1)
 		{
-			close(fd[WRITE_END]);
+			close(pipe_fd[WRITE_END]);
 			ft_perror("dup2");
 		}
 	}
@@ -72,8 +73,8 @@ void	built_in_process(t_cmds *cmds_info)
 	//close(fd[WRITE_END]);//why close
 	//execute_builtin(cmd_args);
 	{
-		printf(" ***** %s *****\n", cmd_args[0]);
-		if (builtin_echo(cmd_args) == 0)
+		printf(" ***** %s *****\n", cmds_info->cmd_args[0]);
+		if (builtin_echo(cmds_info->cmd_args) == 0)
 			exit(0);
 		else
 			exit(1);
