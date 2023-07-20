@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/19 15:21:51 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/20 20:54:01 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,14 @@ typedef struct s_tree {
 	struct s_tree	*r_leaf; // for node
 	struct s_tree	*l_leaf; // for node
 }						t_tree;
+
+typedef struct s_cmds{
+	char	**cmd_args;
+	char	**env;
+	pid_t	*pid_ary;
+	int		num_cmds;
+	int		i;
+}					t_cmds;
 
 /*** TOKENIZE ***/
 //tokenize.c

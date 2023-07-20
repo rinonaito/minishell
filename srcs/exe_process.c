@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:43:25 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/18 19:55:26 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/20 21:13:20 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ static void	exec(char **cmd_args, char **env)
 		ft_perror(" command not found");
 }
 
-void	child_process(int fd[2], char **cmd_args, char **env, int num_cmds, int i)
+//void	child_process(int fd[2], char **cmd_args, char **env, int num_cmds, int i)
+void	child_process(t_cmds *cmds_info)
 {
 	printf(">%s\n", __func__);
 	close(fd[READ_END]);

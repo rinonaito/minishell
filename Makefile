@@ -6,7 +6,7 @@
 #    By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 16:01:50 by rnaito            #+#    #+#              #
-#    Updated: 2023/07/19 14:11:08 by rnaito           ###   ########.fr        #
+#    Updated: 2023/07/20 20:58:22 by rnaito           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,14 +35,14 @@ SRCS =	main.c\
 		ft_replace_key_with_val.c\
 		ft_split_expanded_token.c\
 		ft_delete_quotes.c\
-		libft_plus.c
-#		exe_execute.c\
-#		exe_process.c\
-#		exe_create_cmds.c\
-#		exe_builtin.c\
-#		exe_search_path.c\
-#		exe_builtin_echo.c\
-#		exe_perror.c
+		libft_plus.c\
+		exe_execute.c\
+		exe_process.c\
+		exe_create_cmds.c\
+		exe_builtin.c\
+		exe_search_path.c\
+		exe_builtin_echo.c\
+		exe_perror.c
 OBJSDIR = objs/
 OBJS = $(SRCS:%.c=$(OBJSDIR)%.o)
 
