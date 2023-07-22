@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:43:25 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/20 21:20:40 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/21 22:42:25 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 //void	parent_process(int fd[2], int i, int num_cmds)
 void	parent_process(int pipe_fd[2], t_cmds *cmds_info)
 {
-	printf(">%s\n", __func__);
+//	printf(">%s\n", __func__);
 	int		status;
 
 	close(pipe_fd[WRITE_END]);
@@ -39,7 +39,7 @@ static void	exec(char **cmd_args, char **env)
 {
 	char	*file;
 
-	printf(">%s\n", __func__);
+//	printf(">%s\n", __func__);
 	if (!cmd_args)
 		return ;
 	file = ft_search_path(cmd_args[0]);//get the path to the command
@@ -60,11 +60,12 @@ static void	exec(char **cmd_args, char **env)
 //void	child_process(int fd[2], char **cmd_args, char **env, int num_cmds, int i)
 void	child_process(int pipe_fd[2], t_cmds *cmds_info)
 {
-	printf(">%s\n", __func__);
+//	printf(">%s\n", __func__);
 	close(pipe_fd[READ_END]);
 	//i is the index of command starting from 1
 	if (cmds_info->i < cmds_info->num_cmds)// - 1)
 	{
+		printf("fd[0] = %d, fd[1] = %d\n", pipe_fd[0], pipe_fd[1]);
 		if (dup2(pipe_fd[WRITE_END], STDOUT_FILENO) == -1)
 		{
 			close(pipe_fd[WRITE_END]);
@@ -81,7 +82,7 @@ int		wait_process(pid_t *pid_ary, int num_cmds)
 	int		i;
 	pid_t	check_pid;
 
-	printf(">%s\n", __func__);
+//	printf(">%s\n", __func__);
 	/*
 	printf(" ==========\n");
 	i = 0;
@@ -97,15 +98,15 @@ int		wait_process(pid_t *pid_ary, int num_cmds)
 	}
 	if (WIFEXITED(status))
 	{
-		printf(" [%s | %s] status: %d\n", __func__, "WIFEXITED",  WEXITSTATUS(status));
+//		printf(" [%s | %s] status: %d\n", __func__, "WIFEXITED",  WEXITSTATUS(status));
 		status = (WEXITSTATUS(status));
 	}
 	else if (WIFSIGNALED(status))
 	{
-		printf(" [%s | %s] status: %d\n", __func__, "WIFSIGNALED", WTERMSIG(status));
+//		printf(" [%s | %s] status: %d\n", __func__, "WIFSIGNALED", WTERMSIG(status));
 		status = (WTERMSIG(status));
 	}
 	else
-		printf(" not WIFEXITED nor WIFSIGNALED\n");
+//		printf(" not WIFEXITED nor WIFSIGNALED\n");
 	return (status);
 }

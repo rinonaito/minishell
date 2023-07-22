@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:16:53 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/20 21:27:25 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/21 22:38:47 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	call_builtin(int pipe_fd[2], t_cmds *cmds_info)
 												"env", "exit", NULL};
 	int			i;
 
-	printf(">%s\n", __func__);
+//	printf(">%s\n", __func__);
 	if (!cmds_info->cmd_args || !cmds_info->cmd_args[0])
 		return ;
 	i = 0;
@@ -46,7 +46,7 @@ void	call_builtin(int pipe_fd[2], t_cmds *cmds_info)
 	{
 		if (ft_strequ(lst[i], cmds_info->cmd_args[0]))
 		{
-			printf(" calling builin function : %s\n",lst[i]); 
+//			printf(" calling builin function : %s\n",lst[i]); 
 			built_in_process(pipe_fd, cmds_info);
 			return ;
 		}
@@ -57,10 +57,11 @@ void	call_builtin(int pipe_fd[2], t_cmds *cmds_info)
 
 void	built_in_process(int pipe_fd[2], t_cmds *cmds_info)
 {
-	printf(">%s\n", __func__);
+//	printf(">%s\n", __func__);
 	close(pipe_fd[READ_END]);
-	if (cmds_info->i < cmds_info->num_cmds)//i is the index of command starting from 1
+//	if (cmds_info->i < cmds_info->num_cmds)//i is the index of command starting from 1
 	{
+		printf("fd[0] = %d, fd[1] = %d\n", pipe_fd[0], pipe_fd[1]);
 		if (dup2(pipe_fd[WRITE_END], STDOUT_FILENO) == -1)
 		{
 			close(pipe_fd[WRITE_END]);
@@ -70,10 +71,10 @@ void	built_in_process(int pipe_fd[2], t_cmds *cmds_info)
 	//else
 		//printf(" !(i < numcmds)\n");
 	//printf(" outside (should not be seen on the display unless !(i < numcmds))\n");
-	//close(fd[WRITE_END]);//why close
+	close(pipe_fd[WRITE_END]);//why close
 	//execute_builtin(cmd_args);
 	{
-		printf(" ***** %s *****\n", cmds_info->cmd_args[0]);
+//		printf(" ***** %s *****\n", cmds_info->cmd_args[0]);
 		if (builtin_echo(cmds_info->cmd_args) == 0)
 			exit(0);
 		else

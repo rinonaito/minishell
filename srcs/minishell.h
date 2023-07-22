@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/20 22:13:46 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/21 20:05:42 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <stdlib.h> //for free
 # include <signal.h> //for signal
 # include <errno.h> //for errno
+# include <fcntl.h> //for open 
 # include "../libft/libft.h" //for split
 
 
@@ -32,6 +33,8 @@
 # define STANDARD (0)
 # define SYNTAX_ERR (1)
 # define HEREDOC_MODE (2)
+
+# define OPEN_MODE (00644)
 
 typedef enum e_token_type {
 	TK_WORD,
@@ -169,5 +172,10 @@ char	*ft_get_delimiter(t_token *head, int *is_quoted);
 char	*ft_make_input_str(char *delimiter);
 void	ft_for_unbraced_env(char **start, char **end, char *doller);
 void	ft_get_heredoc_input(t_token *head);
+
+//redirection.c
+void		redirect_out(int *fd, t_token *param);
+void		redirect_in(int *fd, t_token *param);
+pid_t 		pipe_and_fork(t_token *param, int	*pipe_fd);
 
 #endif

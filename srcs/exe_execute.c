@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/20 21:22:53 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/21 22:12:32 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,19 @@
 //@func: create processes, including parent/child/wait processes
 //@return_val:
 //		 exit status of wait process		
-static void	create_process(t_cmds *cmds_info)
+static void	create_process(t_cmds *cmds_info, t_tree *root)
 {
 	int	pipe_fd[2];
 	pid_t	pid;
+	t_token *param;
 
 	//printf("%s\n", __func__);
-	if (pipe(pipe_fd) == -1)
-		ft_perror("pipe\n");
-	pid = fork();
+///	if (pipe(pipe_fd) == -1)
+//		ft_perror("pipe\n");
+//	pid = fork();
+	param = root->param;
+	printf("param = %p\n", param);
+	pid = pipe_and_fork(param, pipe_fd);
 	if (pid == -1)
 		ft_perror("fork\n");
 	else if (pid == 0)
@@ -35,7 +39,7 @@ static void	create_process(t_cmds *cmds_info)
 		}
 		else
 			child_process(pipe_fd, cmds_info);
-		printf(" *** return from child ***\n");
+//		printf(" *** return from child ***\n");
 	}
 	else
 	{
@@ -43,45 +47,6 @@ static void	create_process(t_cmds *cmds_info)
 		parent_process(pipe_fd, cmds_info);
 	}
 }
-
-/*
-pid_t pipe_and_fork()
-{
-	if (pipe(pipe_fd) == -1)
-		ft_perror("pipe\n");
-	//parse
-	// analyze the param
-	while (param->type != TK_PIPE)	
-	{
-		if (is_redirect_in(param))
-			redirect_in(fd);
-		if (is_redirect_out(param))
-			redirect_out(fd);
-	}
-	pid = fork();
-	return (pid);
-}
-
-int		redirect_out(int fd[2])
-{
-	static	int fd_out;
-	//static	int fd_out;
-	fd_out = 1;
-	fd_in = open("file_name");
-	fd[1] = fd_out;
-	//fd[0] = fd_in;
-}
-
-int		redirect_in(int fd[2])
-{
-	static	int fd_in;
-	//static	int fd_out;
-	fd_in = 0;
-	fd_in = open("file_name");
-	fd[0] = fd_in;
-	//fd[1] = fd_out;
-}
-*/
 
 //@func: count the number of commands
 static void	count_num_cmds(t_tree *root, int *i)
@@ -108,9 +73,10 @@ static void	trace_inorder(t_tree *root, t_cmds *cmds_info)
 		//does everything in the create_process
 		// fork to create the child process even when the command is builtin
 		// create_process no longer needs to return pid (it stores them in ary)
-		create_process(cmds_info);
+		printf("param = %p\n", root->param);
+		create_process(cmds_info, root);
 		/*** TO HERE ***/ 
-		free_args(&cmds_info->cmd_args);//free cmd_args and setting NUL
+//		free_args(&cmds_info->cmd_args);//free cmd_args and setting NUL
 	}
 	trace_inorder(root->r_leaf, cmds_info);
 }
