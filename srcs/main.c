@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/18 21:43:44 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/23 15:59:04 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,10 @@ void	trace_param_inorder(t_tree *root, char **env)
 
 	if (root == NULL)
 		return ;
-	trace_param_inorder(root->l_leaf);
+	trace_param_inorder(root->l_leaf, env);
 	if (root != NULL && root->param != NULL)
 		printf("param =%s$\n", root->param->token);
-	trace_param_inorder(root->r_leaf);
+	trace_param_inorder(root->r_leaf, env);
 }
 
 int	main(int argc, char **argv, char **env)
