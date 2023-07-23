@@ -6,7 +6,7 @@
 #    By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 16:01:50 by rnaito            #+#    #+#              #
-#    Updated: 2023/07/23 15:58:37 by taaraki          ###   ########.fr        #
+#    Updated: 2023/07/23 21:16:26 by taaraki          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,8 @@ SRCS =	main.c\
 		ft_replace_key_with_val.c\
 		ft_split_expanded_token.c\
 		ft_delete_quotes.c\
-		libft_plus.c
+		libft_plus.c\
+		signal.c
 OBJSDIR = objs/
 OBJS = $(SRCS:%.c=$(OBJSDIR)%.o)
 

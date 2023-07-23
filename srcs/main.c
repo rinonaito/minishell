@@ -6,12 +6,14 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/23 18:40:31 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/23 21:31:19 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 //#include "debug.h"
+
+int	g_signal = 0;
 
 //void	ft_strncpy(char *dst, char *src, int n)
 //{
@@ -91,11 +93,6 @@ void	trace_param_inorder(t_tree *root, char **env)
 	trace_param_inorder(root->r_leaf, env);
 }
 
-void	print_signal(int signum)
-{
-	printf("signum:[%d]\n", signum);
-}
-
 int	main(int argc, char **argv, char **env)
 {
 	char	*line;
@@ -103,11 +100,6 @@ int	main(int argc, char **argv, char **env)
 	t_tree	*root;
 	int		status;
 
-	/*** signal handling ***/
-	signal(SIGTERM, print_signal);
-	signal(SIGINT, print_signal);
-	signal(SIGQUIT, print_signal);
-	/*** signal handling ***/
 	rl_outstream = stderr;
 	while (1)
 	{
@@ -120,11 +112,11 @@ int	main(int argc, char **argv, char **env)
 			break ;
 		}
 
-		pause();
 		/*** signal handling ***/
-		//signal(SIGTERM, print_signal);
 		//signal(SIGINT, print_signal);
 		//signal(SIGQUIT, print_signal);
+		g_signal = 0;
+		ft_signal(0);
 		/*** signal handling ***/
 
 		if (strlen(line) != 0)
@@ -156,37 +148,3 @@ int	main(int argc, char **argv, char **env)
 	}
 	return (0);
 }
-
-	/*
-	signal(1, print_signal);
-	signal(2, print_signal);
-	signal(3, print_signal);
-	signal(4, print_signal);
-	signal(5, print_signal);
-	signal(6, print_signal);
-	signal(7, print_signal);
-	signal(8, print_signal);
-	signal(9, print_signal);
-	signal(10, print_signal);
-	signal(11, print_signal);
-	signal(12, print_signal);
-	signal(13, print_signal);
-	signal(14, print_signal);
-	signal(15, print_signal);
-	signal(16, print_signal);
-	signal(17, print_signal);
-	signal(18, print_signal);
-	signal(19, print_signal);
-	signal(21, print_signal);
-	signal(22, print_signal);
-	signal(23, print_signal);
-	signal(24, print_signal);
-	signal(25, print_signal);
-	signal(26, print_signal);
-	signal(27, print_signal);
-	signal(28, print_signal);
-	signal(29, print_signal);
-	signal(30, print_signal);
-	signal(31, print_signal);
-	signal(32, print_signal);
-	*/
