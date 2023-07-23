@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:16:53 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/21 22:38:47 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/23 18:10:46 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ void	call_builtin(int pipe_fd[2], t_cmds *cmds_info)
 	int			i;
 
 //	printf(">%s\n", __func__);
-	if (!cmds_info->cmd_args || !cmds_info->cmd_args[0])
-		return ;
+//	if (!cmds_info->cmd_args || !cmds_info->cmd_args[0])
+//		return ;
 	i = 0;
 	while (lst[i])
 	{
@@ -58,10 +58,14 @@ void	call_builtin(int pipe_fd[2], t_cmds *cmds_info)
 void	built_in_process(int pipe_fd[2], t_cmds *cmds_info)
 {
 //	printf(">%s\n", __func__);
-	close(pipe_fd[READ_END]);
+	printf("in BUILTIN PROCESS\nfd[0] = %d, fd[1] = %d\n", pipe_fd[0], pipe_fd[1]);
+	printf("close READ_END(%d)\n", pipe_fd[READ_END]);
+	if (pipe_fd[READ_END] != STDIN_FILENO)
+		close(pipe_fd[READ_END]);
+	printf("cmds_info->i = %d, cmds_info->num_cmds = %d\n",cmds_info->i , cmds_info->num_cmds);
 //	if (cmds_info->i < cmds_info->num_cmds)//i is the index of command starting from 1
 	{
-		printf("fd[0] = %d, fd[1] = %d\n", pipe_fd[0], pipe_fd[1]);
+		//printf(" (i < numcmds)\n");
 		if (dup2(pipe_fd[WRITE_END], STDOUT_FILENO) == -1)
 		{
 			close(pipe_fd[WRITE_END]);
@@ -71,7 +75,9 @@ void	built_in_process(int pipe_fd[2], t_cmds *cmds_info)
 	//else
 		//printf(" !(i < numcmds)\n");
 	//printf(" outside (should not be seen on the display unless !(i < numcmds))\n");
-	close(pipe_fd[WRITE_END]);//why close
+	printf("close WRITE_END(%d)\n", pipe_fd[WRITE_END]);
+	if (pipe_fd[WRITE_END] != STDOUT_FILENO)
+		close(pipe_fd[WRITE_END]);//why close
 	//execute_builtin(cmd_args);
 	{
 //		printf(" ***** %s *****\n", cmds_info->cmd_args[0]);

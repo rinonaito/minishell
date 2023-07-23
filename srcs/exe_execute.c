@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/21 22:12:32 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/23 17:51:32 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,26 +20,19 @@ static void	create_process(t_cmds *cmds_info, t_tree *root)
 	int	pipe_fd[2];
 	pid_t	pid;
 	t_token *param;
+	int		have_cmd;
 
 	//printf("%s\n", __func__);
-///	if (pipe(pipe_fd) == -1)
-//		ft_perror("pipe\n");
-//	pid = fork();
 	param = root->param;
-	printf("param = %p\n", param);
-	pid = pipe_and_fork(param, pipe_fd);
+	pid = pipe_and_fork(param, pipe_fd, &have_cmd, cmds_info);
 	if (pid == -1)
 		ft_perror("fork\n");
 	else if (pid == 0)
 	{
-		//execute builtin in child process
 		if (is_builtin(cmds_info->cmd_args[0]))
-		{
 			call_builtin(pipe_fd, cmds_info);
-		}
 		else
 			child_process(pipe_fd, cmds_info);
-//		printf(" *** return from child ***\n");
 	}
 	else
 	{
@@ -73,7 +66,6 @@ static void	trace_inorder(t_tree *root, t_cmds *cmds_info)
 		//does everything in the create_process
 		// fork to create the child process even when the command is builtin
 		// create_process no longer needs to return pid (it stores them in ary)
-		printf("param = %p\n", root->param);
 		create_process(cmds_info, root);
 		/*** TO HERE ***/ 
 //		free_args(&cmds_info->cmd_args);//free cmd_args and setting NUL
