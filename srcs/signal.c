@@ -6,7 +6,7 @@
 /*   By: taaraki <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 20:59:38 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/23 21:31:12 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/23 21:47:11 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,23 +28,24 @@ void	test_handler(int signum)
 void	ft_signal(int input)
 {
 	//initialize the sigaction
-	struct sigaction	act;
+	struct sigaction	sa;
 	int					ret;
 
-	sigemptyset(&act.sa_mask);
+	sigemptyset(&sa.sa_mask);//clear signal masks
+	//sa.sa_flags = 0;//set no flag
 	if (input == 0)
-		act.sa_handler = test_handler;
-	else if (input == 1)
-		act.sa_handler = signal_handler_int;
-	ret = sigaction(SIGINT, &act, NULL);
+		sa.sa_handler = test_handler;
+	//else if (input == 1)
+		//sa.sa_handler = signal_handler_int;
+	ret = sigaction(SIGINT, &sa, NULL);
 	if (ret < 0)
 		ft_perror("sigaction");
-	//sigemptyset(&act.sa_mask);
+	//sigemptyset(&sa.sa_mask);
 	if (input == 0)
-		act.sa_handler = test_handler;
-	else if (input == 1)
-		act.sa_handler = signal_handler_quit;
-	ret = sigaction(SIGQUIT, &act, NULL);
+		sa.sa_handler = test_handler;
+	//else if (input == 1)
+		//sa.sa_handler = signal_handler_quit;
+	ret = sigaction(SIGQUIT, &sa, NULL);
 	if (ret < 0)
 		ft_perror("sigaction");
 }
