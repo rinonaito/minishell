@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:16:53 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/23 18:10:46 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/24 15:13:18 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,15 +62,10 @@ void	built_in_process(int pipe_fd[2], t_cmds *cmds_info)
 	printf("close READ_END(%d)\n", pipe_fd[READ_END]);
 	if (pipe_fd[READ_END] != STDIN_FILENO)
 		close(pipe_fd[READ_END]);
-	printf("cmds_info->i = %d, cmds_info->num_cmds = %d\n",cmds_info->i , cmds_info->num_cmds);
-//	if (cmds_info->i < cmds_info->num_cmds)//i is the index of command starting from 1
+	if (dup2(pipe_fd[WRITE_END], STDOUT_FILENO) == -1)
 	{
-		//printf(" (i < numcmds)\n");
-		if (dup2(pipe_fd[WRITE_END], STDOUT_FILENO) == -1)
-		{
-			close(pipe_fd[WRITE_END]);
-			ft_perror("dup2");
-		}
+		close(pipe_fd[WRITE_END]);
+		ft_perror("dup2");
 	}
 	//else
 		//printf(" !(i < numcmds)\n");

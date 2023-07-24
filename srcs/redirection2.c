@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 10:48:49 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/24 15:02:18 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/24 15:24:41 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,17 @@ void		redirect_out_append(int *pipe_fd, t_token *param, int type)
 		fd_out = open(filename, O_WRONLY | O_CREAT | O_TRUNC, OPEN_MODE);
 	if (type == TK_APPEND)
 		fd_out = open(filename, O_WRONLY | O_CREAT | O_APPEND, OPEN_MODE);
-	pipe_fd[1] = fd_out;
+	pipe_fd[WRITE_END] = fd_out;
 }
 
 void		redirect_in(int *pipe_fd, t_token *param)
 {
+	int		fd_in;
+	char	*filename;
+
+	filename = param->next->token;
+	fd_in = open(filename, O_RDONLY);
+	pipe_fd[READ_END] = fd_in;	
 }
 
 //void		heredoc(int *pipe_fd, t_token *param)
@@ -57,7 +63,7 @@ void	call_each_redir(int *pipe_fd, t_token *param)
 		redirect_out_append(pipe_fd, param, TK_APPEND);
 }
 
-int	redirect(t_token *param, int	*pipe_fd, t_cmds *cmds_info)
+int	redirect(t_token *param, int *pipe_fd, t_cmds *cmds_info)
 {
 	int	have_cmd;
 
@@ -77,7 +83,6 @@ int	redirect(t_token *param, int	*pipe_fd, t_cmds *cmds_info)
 		}
 		else
 		{
-			printf("before REDIR\n");
 			call_each_redir(pipe_fd, param);
 			param = param->next->next;
 		}

@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/24 14:52:23 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/24 15:09:17 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	create_process(t_cmds *cmds_info, t_tree *root)
 	if (pipe(pipe_fd) == -1)
 		ft_perror("pipe\n");
 	param = root->param;
-	have_cmd =  pipe_and_fork(param, pipe_fd, cmds_info);
+	have_cmd =  redirect(param, pipe_fd, cmds_info);
 	if (have_cmd == 1)
 		pid = fork();
 	if (pid == -1)

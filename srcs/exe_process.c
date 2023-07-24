@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:43:25 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/23 18:08:42 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/24 15:10:37 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,15 +65,11 @@ static void	exec(char **cmd_args, char **env)
 void	child_process(int pipe_fd[2], t_cmds *cmds_info)
 {
 	if (pipe_fd[READ_END] != STDIN_FILENO)
-		close(pipe_fd[READ_END]);
-	//if (cmds_info->i < cmds_info->num_cmds)// - 1)
+	close(pipe_fd[READ_END]);
+	if (dup2(pipe_fd[WRITE_END], STDOUT_FILENO) == -1)
 	{
-		printf("in CHILD PROCESS\nfd[0] = %d, fd[1] = %d\n", pipe_fd[0], pipe_fd[1]);
-		if (dup2(pipe_fd[WRITE_END], STDOUT_FILENO) == -1)
-		{
-			close(pipe_fd[WRITE_END]);
-			ft_perror("dup2");
-		}
+		close(pipe_fd[WRITE_END]);
+		ft_perror("dup2");
 	}
 	if (pipe_fd[WRITE_END] != STDOUT_FILENO)
 		close(pipe_fd[WRITE_END]);//close it to free the resource

@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/24 14:52:15 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/24 15:01:37 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,8 +174,8 @@ void	ft_for_unbraced_env(char **start, char **end, char *doller);
 void	ft_get_heredoc_input(t_token *head);
 
 //redirection.c
-void		redirect_out(int *fd, t_token *param);
-void		redirect_in(int *fd, t_token *param);
-int	pipe_and_fork(t_token *param, int	*pipe_fd, t_cmds *cmds_info);
+void	redirect_out(int *fd, t_token *param);
+void	redirect_in(int *fd, t_token *param);
+int		redirect(t_token *param, int *pipe_fd, t_cmds *cmds_info);
 
 #endif
