@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 10:48:49 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/23 18:10:47 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/24 14:51:50 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void		redirect_out_append(int *pipe_fd, t_token *param, int type)
 {
 	static	int fd_out;
-//	static	int fd_in;
 	char		*filename;
 
 	fd_out = 1;
@@ -32,7 +31,6 @@ void		redirect_out_append(int *pipe_fd, t_token *param, int type)
 		fd_out = open(filename, O_WRONLY | O_CREAT | O_APPEND, OPEN_MODE);
 	}
 	pipe_fd[1] = fd_out;
-//	pipe_fd[0] = fd_in;
 }
 
 void		redirect_in(int *pipe_fd, t_token *param)
@@ -75,20 +73,21 @@ void	call_each_redir(int *pipe_fd, t_token *param)
 		redirect_out_append(pipe_fd, param, TK_APPEND);
 }
 
-pid_t	pipe_and_fork(t_token *param, int	*pipe_fd, int *have_cmd, t_cmds *cmds_info)
+int	pipe_and_fork(t_token *param, int	*pipe_fd, t_cmds *cmds_info)
 {
-	pid_t	pid;
+	int	have_cmd;
 
-	if (pipe(pipe_fd) == -1)
-		ft_perror("pipe\n");
 	if (cmds_info->i == cmds_info->num_cmds)
+	{
+		close(pipe_fd[WRITE_END]);
 		pipe_fd[WRITE_END] = STDOUT_FILENO;
-	*have_cmd = 0;
+	}
+	have_cmd = 0;
 	while (param != NULL && param->type != TK_PIPE)	
 	{
 		if (param->type == TK_WORD)
 		{
-			*have_cmd = 1;
+			have_cmd = 1;
 			while (param != NULL && param->type == TK_WORD)
 				param = param->next;
 		}
@@ -99,10 +98,5 @@ pid_t	pipe_and_fork(t_token *param, int	*pipe_fd, int *have_cmd, t_cmds *cmds_in
 			param = param->next->next;
 		}
 	}
-	if (*have_cmd == 1)
-	{
-		printf("FORK\n");
-		pid = fork();
-	}
-	return (pid);
+	return (have_cmd);
 }
