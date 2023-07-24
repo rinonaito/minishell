@@ -2,11 +2,9 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+         +:+     */ /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */ /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/23 21:31:19 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/24 16:27:55 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +98,7 @@ int	main(int argc, char **argv, char **env)
 	t_tree	*root;
 	int		status;
 
+	signal(SIGQUIT, SIG_IGN);
 	rl_outstream = stderr;
 	while (1)
 	{
@@ -113,8 +112,6 @@ int	main(int argc, char **argv, char **env)
 		}
 
 		/*** signal handling ***/
-		//signal(SIGINT, print_signal);
-		//signal(SIGQUIT, print_signal);
 		g_signal = 0;
 		ft_signal(0);
 		/*** signal handling ***/
