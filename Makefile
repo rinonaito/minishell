@@ -6,7 +6,7 @@
 #    By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 16:01:50 by rnaito            #+#    #+#              #
-#    Updated: 2023/07/25 16:14:44 by rnaito           ###   ########.fr        #
+#    Updated: 2023/07/25 18:45:17 by taaraki          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,11 @@ LIBFT_DIR = libft/
 #####################################
 NAME = minishell
 INCLUDES = -I $(SRCSDIR) -I $(LIBFT_DIR)
+
+RL_DIR = $(shell brew --prefix readline)
+LIBS +=  -L$(RL_DIR)/lib
+INCLUDES += -I$(RL_DIR)/include
+
 SRCSDIR = srcs/
 SRCS =	main.c\
 		tokenize.c\
@@ -43,6 +48,7 @@ SRCS =	main.c\
 		exe_builtin.c\
 		exe_search_path.c\
 		exe_builtin_echo.c\
+		signal.c\
 		exe_perror.c
 OBJSDIR = objs/
 OBJS = $(SRCS:%.c=$(OBJSDIR)%.o)

@@ -6,11 +6,12 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/25 18:33:58 by rnaito           ###   ########.fr       */
-/*                                                                            */
+/*   Updated: 2023/07/25 18:42:38 by taaraki          ###   ########.fr       */
 /* ************************************************************************** */
 
 #include	"minishell.h"
+
+extern int	g_signal;
 
 //@func: create processes, including parent/child/wait processes
 //@return_val:
@@ -34,6 +35,11 @@ static void	create_process(t_cmds *cmds_info, t_tree *root)
 		ft_perror("fork\n");
 	else if (pid == 0)
 	{
+		/*** signal handling ***/
+		//signal(SIGQUIT, SIG_IGN);//shouldn't ignore 
+		ft_signal_child();	
+		/*** signal handling ***/
+		//execute builtin in child process
 		if (is_builtin(cmds_info->cmd_args[0]))
 			call_builtin(pipe_fd, cmds_info);
 		else
@@ -42,7 +48,7 @@ static void	create_process(t_cmds *cmds_info, t_tree *root)
 	else
 	{
 		cmds_info->pid_ary[cmds_info->i - 1] = pid;
-		parent_process(pipe_fd, cmds_info);
+		parent_process(pipe_fd);
 	}
 }
 
@@ -74,7 +80,8 @@ static void	trace_inorder(t_tree *root, t_cmds *cmds_info)
 	trace_inorder(root->r_leaf, cmds_info);
 }
 
-void	trace_tree_entry(t_tree *root, char **env)
+//void	trace_tree_entry(t_tree *root, char **env)
+void	trace_tree_entry(t_tree *root, char **env, int *status)
 {
 	t_cmds	cmds_info;
 	int		tmp_fdin;
@@ -91,12 +98,5 @@ void	trace_tree_entry(t_tree *root, char **env)
 	trace_inorder(root, &cmds_info);
 	dup2(tmp_fdin, STDIN_FILENO);//set back the fd of STDIN
 	close(tmp_fdin);
-	/*** print process IDs***/
-	//printf(" ==========\n");
-	//int	i = 0;
-	//while (i < num_cmds)
-		//printf(" pid[%d]\n", pid_ary[i++]);
-	//printf(" ==========\n");
-	wait_process(cmds_info.pid_ary, cmds_info.num_cmds);
+	*status = wait_process(cmds_info.pid_ary, cmds_info.num_cmds);
 }
-

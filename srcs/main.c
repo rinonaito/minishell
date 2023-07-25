@@ -2,16 +2,16 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+         +:+     */ /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */ /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/25 17:59:25 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/24 16:27:55 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 //#include "debug.h"
+
+int	g_signal = 0;
 
 //void	ft_strncpy(char *dst, char *src, int n)
 //{
@@ -79,16 +79,16 @@
 //	}
 //}
 
-void	trace_param_inorder(t_tree *root)
+void	trace_param_inorder(t_tree *root, char **env)
 {
 	static int	i;
 
 	if (root == NULL)
 		return ;
-	trace_param_inorder(root->l_leaf);
+	trace_param_inorder(root->l_leaf, env);
 	if (root != NULL && root->param != NULL)
 		printf("param =%s$\n", root->param->token);
-	trace_param_inorder(root->r_leaf);
+	trace_param_inorder(root->r_leaf, env);
 }
 
 int	main(int argc, char **argv, char **env)
@@ -98,9 +98,17 @@ int	main(int argc, char **argv, char **env)
 	t_tree	*root;
 	int		status;
 
+	//signal(SIGQUIT, SIG_IGN);
 	rl_outstream = stderr;
 	while (1)
 	{
+		/*** signal handling ***/
+		//g_signal = 0;
+		//set g_signal to 0 when cmds succeeds
+		printf("g_signal($?)[%d]\n", g_signal);
+		ft_signal();
+		/*** signal handling ***/
+
 		line = readline("\x1b[1;38;5;122mminishell🐣 \033[0m");
 		printf(" line[%s]\n", line);
 		if (line == NULL)
@@ -120,15 +128,22 @@ int	main(int argc, char **argv, char **env)
 			return (1);
 		}
 		if (status == HEREDOC_MODE)
-			ft_get_heredoc_input(head);
+			ft_get_heredoc_input(head);// == 0)
+		//{
+			//if (ft_get_heredoc_input(head) == 0)
+			//{
+				//free(line);
+				//continue ;
+			//}
+		//}
 		if (head != NULL)
 		{
 			free(line);
 			line = NULL;
 			root = ft_make_syntax_tree(head);
 			ft_expand_list(&head);
-			trace_param_inorder(root);
-			trace_tree_entry(root, env);
+			trace_param_inorder(root, env);
+			trace_tree_entry(root, env, &status);
 //			ft_free_syntax_tree(root);
 		}
 		free(line);
