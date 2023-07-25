@@ -79,7 +79,7 @@ int	g_signal = 0;
 //	}
 //}
 
-void	trace_param_inorder(t_tree *root, char **env)
+void	trace_param_inorder(t_tree *root)
 {
 	static int	i;
 
@@ -142,10 +142,9 @@ int	main(int argc, char **argv, char **env)
 			line = NULL;
 			root = ft_make_syntax_tree(head);
 			ft_expand_list(&head);
-			trace_param_inorder(root, env);
-			trace_tree_entry(root, env, &status);
-			ft_free_syntax_tree(root);
-			printf("status[%d]\n", status);
+			trace_param_inorder(root);
+			trace_tree_entry(root, env);
+//			ft_free_syntax_tree(root);
 		}
 		free(line);
 		line = NULL;

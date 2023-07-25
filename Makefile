@@ -6,7 +6,7 @@
 #    By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 16:01:50 by rnaito            #+#    #+#              #
-#    Updated: 2023/07/24 18:34:15 by taaraki          ###   ########.fr        #
+#    Updated: 2023/07/25 18:25:49 by rnaito           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,12 @@ SRCS =	main.c\
 		ft_is_syntax_error.c\
 		ft_get_heredoc_input.c\
 		ft_make_syntax_tree.c\
+		expansion.c\
+		ft_replace_key_with_val.c\
+		ft_split_expanded_token.c\
+		ft_delete_quotes.c\
+		libft_plus.c\
+		redirection.c\
 		exe_execute.c\
 		exe_process.c\
 		exe_create_cmds.c\
@@ -49,6 +55,7 @@ SRCS =	main.c\
 		ft_delete_quotes.c\
 		libft_plus.c\
 		signal.c
+		exe_perror.c
 OBJSDIR = objs/
 OBJS = $(SRCS:%.c=$(OBJSDIR)%.o)
 

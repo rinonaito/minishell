@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/25 17:54:23 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/25 18:21:00 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include <stdio.h> // for printf
+# include <stdbool.h> // for bool
 # include <string.h> // for strlen
 //# include <sys/types.h> // for t_pid
 # include <unistd.h> // for t_pid
@@ -22,6 +23,7 @@
 # include <stdlib.h> //for free
 # include <signal.h> //for signal
 # include <errno.h> //for errno
+# include <fcntl.h> //for open 
 # include "../libft/libft.h" //for split
 
 
@@ -32,7 +34,7 @@
 # define SYNTAX_ERR (1)
 # define HEREDOC_MODE (2)
 
-//extern int	g_signal = 0;
+# define OPEN_MODE (00644)
 
 typedef enum e_token_type {
 	TK_WORD,
@@ -57,6 +59,14 @@ typedef struct s_tree {
 	struct s_tree	*r_leaf; // for node
 	struct s_tree	*l_leaf; // for node
 }						t_tree;
+
+typedef struct s_cmds{
+	char	**cmd_args;
+	char	**env;
+	pid_t	*pid_ary;
+	int		num_cmds;
+	int		i;
+}					t_cmds;
 
 /*** TOKENIZE ***/
 //tokenize.c
@@ -103,8 +113,9 @@ t_tree	*ft_make_syntax_tree(t_token *head);
 void	trace_tree_entry(t_tree *root, char **env, int *status);
 
 //process.c
-void    child_process(int fd[2], char **cmd_args, char **env, int num_cmds, int i);
-void    parent_process(int fd[2], int i, int num_cmds);
+//void    child_process(int fd[2], char **cmd_args, char **env, int num_cmds, int i);
+void	child_process(int pipe_fd[2], t_cmds *cmds_info);
+void	parent_process(int pipe_fd[2]);
 int		wait_process(pid_t *pid_ary, int num_cmds);
 
 //ft_perror.c
@@ -120,8 +131,10 @@ char    **create_cmds(t_tree *root);
 char    *ft_search_path(const char *filename);
 
 //call_builtin.c
-void	call_builtin(int fd[2], char **cmd_args, int j, int num_cmds);
-void	built_in_process(int fd[2], char **cmd_args, int i, int num_cmds);
+//void	call_builtin(int fd[2], char **cmd_args, int j, int num_cmds);
+void	call_builtin(int pipe_fd[2], t_cmds *cmds_info);
+//void	built_in_process(int fd[2], char **cmd_args, int i, int num_cmds);
+void	built_in_process(int pipe_fd[2], t_cmds *cmds_info);
 
 //is_built_in.c
 int		is_builtin(char *s);
@@ -164,5 +177,11 @@ void	ft_get_heredoc_input(t_token *head);
 //signal.c
 void	ft_signal(void);
 void	ft_signal_child(void);
+
+//redirection.c
+void	redirect_out(int *fd, t_token *param);
+void	redirect_in(int *fd, t_token *param);
+//int		redirect(t_token *param, int *parent_fd, int *child_fd, t_cmds *cmds_info);
+int		redirect(t_token *param, int *pipe_fd, t_cmds *cmds_info);
 
 #endif

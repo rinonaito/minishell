@@ -1,30 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exe_strnequ.c                                      :+:      :+:    :+:   */
+/*   ft_isalnum.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
+/*   By: rnaito <rnaito@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/11 23:40:03 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/19 15:16:09 by rnaito           ###   ########.fr       */
+/*   Created: 2023/01/13 17:41:55 by rnaito            #+#    #+#             */
+/*   Updated: 2023/02/09 14:18:22 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#include "libft.h"
 
-#include	"minishell.h"
-
-//check if two strings are exactly the same
-/*
-int	ft_strnequ(const char *s1, const char *s2)
+int	ft_isalnum(int c)
 {
-	size_t	len;
-
-	if (!s1 || !s2)
-		return (0);
-	len = ft_strlen(s1);
-	if (len != ft_strlen(s2))
-		return (0);
-	if (ft_strncmp(s1, s2, len) == 0)
+	if (ft_isalpha(c) != 0 || ft_isdigit(c) != 0)
 		return (1);
 	return (0);
 }
-*/

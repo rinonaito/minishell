@@ -6,7 +6,11 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:43:25 by taaraki           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/07/25 17:57:44 by taaraki          ###   ########.fr       */
+=======
+/*   Updated: 2023/07/25 16:01:06 by rnaito           ###   ########.fr       */
+>>>>>>> master
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,22 +22,26 @@
 
 extern int g_signal;
 
-void	parent_process(int fd[2], int i, int num_cmds)
+void	parent_process(int pipe_fd[2])
 {
-	printf(">%s\n", __func__);
-	int		status;
+//	printf(">%s\n", __func__);
 
-	close(fd[WRITE_END]);
-	//if (i != 1)//don't need this line
+//	if (pipe_fd[WRITE_END] != STDOUT_FILENO)
+//		close(pipe_fd[WRITE_END]);
+	printf("IN PARENT\npipe_fd[READ_END] = [%d]\npipe_fd[WRITE_END] = [%d]\n", pipe_fd[READ_END], pipe_fd[WRITE_END]);
+	if (dup2(pipe_fd[READ_END], STDIN_FILENO) == -1)
 	{
-		if (dup2(fd[READ_END], STDIN_FILENO) == -1)
-		{
-			close(fd[READ_END]);
-			ft_perror("dup2");
-		}
+		close(pipe_fd[READ_END]);
+		ft_perror("dup2");
 	}
+//	if (dup2(pipe_fd[WRITE_END], STDOUT_FILENO) == -1)
+//	{
+//		close(pipe_fd[WRITE_END]);
+//		ft_perror("dup2");
+//	}
 	//close it to free the resource
-	close(fd[READ_END]);
+	if (pipe_fd[READ_END] != STDIN_FILENO)
+		close(pipe_fd[READ_END]);
 }
 
 static void	exec(char **cmd_args, char **env)
@@ -41,6 +49,10 @@ static void	exec(char **cmd_args, char **env)
 	char	*file;
 
 	printf(">%s\n", __func__);
+	printf("env = %p\n", env);
+	//int i = -1;
+	//while (env[++i])
+		//printf("env[%d]:[%s]\n", i, env[i]);
 	if (!cmd_args)
 		return ;
 	file = ft_search_path(cmd_args[0]);//get the path to the command
@@ -54,25 +66,33 @@ static void	exec(char **cmd_args, char **env)
 	//{
 		//ft_perror(" access failed");
 	//}
-	if (execve(file, cmd_args, env) == -1)
-		ft_perror(" command not found");
+	int ret =  execve(file, cmd_args, env);
+	printf(" ret:[%d]\n", ret);
+	printf(" file:[%s]\n", file);
+	//if (execve(file, cmd_args, env) == -1)
+		//ft_perror(" command not found");
 }
 
-void	child_process(int fd[2], char **cmd_args, char **env, int num_cmds, int i)
+//void	child_process(int fd[2], char **cmd_args, char **env, int num_cmds, int i)
+void	child_process(int pipe_fd[2], t_cmds *cmds_info)
 {
-	printf(">%s\n", __func__);
-	close(fd[READ_END]);
-	//i is the index of command starting from 1
-	if (i < num_cmds)// - 1)
+//	if (pipe_fd[READ_END] != STDIN_FILENO)
+//	close(pipe_fd[READ_END]);
+	printf("IN CHILD\npipe_fd[READ_END] = [%d]\npipe_fd[WRITE_END] = [%d]\n", pipe_fd[READ_END], pipe_fd[WRITE_END]);
+	if (dup2(pipe_fd[READ_END], STDIN_FILENO) == -1)
 	{
-		if (dup2(fd[WRITE_END], STDOUT_FILENO) == -1)
-		{
-			close(fd[WRITE_END]);
-			ft_perror("dup2");
-		}
+		close(pipe_fd[READ_END]);
+		ft_perror("dup2");
 	}
-	close(fd[WRITE_END]);//close it to free the resource
-	exec(cmd_args, env);
+	if (dup2(pipe_fd[WRITE_END], STDOUT_FILENO) == -1)
+	{
+		close(pipe_fd[WRITE_END]);
+		ft_perror("dup2");
+	}
+//	if (pipe_fd[WRITE_END] != STDOUT_FILENO)
+//		close(pipe_fd[WRITE_END]);//close it to free the resource
+	printf("command = %s\n", cmds_info->cmd_args[0]);
+	exec(cmds_info->cmd_args, cmds_info->env);
 }
 
 int		wait_process(pid_t *pid_ary, int num_cmds)
@@ -81,7 +101,7 @@ int		wait_process(pid_t *pid_ary, int num_cmds)
 	int		i;
 	pid_t	check_pid;
 
-	printf(">%s\n", __func__);
+//	printf(">%s\n", __func__);
 	/*
 	printf(" ==========\n");
 	i = 0;
@@ -97,7 +117,7 @@ int		wait_process(pid_t *pid_ary, int num_cmds)
 	}
 	if (WIFEXITED(status))
 	{
-		printf(" [%s | %s] status: %d\n", __func__, "WIFEXITED",  WEXITSTATUS(status));
+//		printf(" [%s | %s] status: %d\n", __func__, "WIFEXITED",  WEXITSTATUS(status));
 		status = (WEXITSTATUS(status));
 		g_signal = 0;
 	}
@@ -108,6 +128,6 @@ int		wait_process(pid_t *pid_ary, int num_cmds)
 		g_signal = WTERMSIG(status);
 	}
 	else
-		printf(" not WIFEXITED nor WIFSIGNALED\n");
+//		printf(" not WIFEXITED nor WIFSIGNALED\n");
 	return (status);
 }
