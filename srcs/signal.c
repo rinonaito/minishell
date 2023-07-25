@@ -6,7 +6,7 @@
 /*   By: taaraki <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 20:59:38 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/25 15:42:05 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/25 20:15:35 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ extern int	g_signal;// = 0;//no initializer
 
 void	signal_handler_int(int signum)
 {
+	//printf(">%s\n", __func__);
 	if (signum == SIGINT)
 	{
 		write(STDERR_FILENO, "\n", 1);//write out the new line to STDERR
@@ -55,7 +56,7 @@ void	ft_signal(void)
 	sigemptyset(&sa_int.sa_mask);//clear signal masks
 	sa_int.sa_flags = 0;//set no flag
 	sa_int.sa_handler = signal_handler_int;
-	if (sigaction(SIGINT, &sa_quit, NULL) < 0)
+	if (sigaction(SIGINT, &sa_int, NULL) < 0)
 		ft_perror("sigaction");
 }
 
