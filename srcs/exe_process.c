@@ -6,11 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:43:25 by taaraki           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/07/25 17:57:44 by taaraki          ###   ########.fr       */
-=======
-/*   Updated: 2023/07/25 16:01:06 by rnaito           ###   ########.fr       */
->>>>>>> master
+/*   Updated: 2023/07/25 20:32:38 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +123,7 @@ int		wait_process(pid_t *pid_ary, int num_cmds)
 		status = 128 + (WTERMSIG(status));//128 + signal status
 		g_signal = WTERMSIG(status);
 	}
-	else
+	//else
 //		printf(" not WIFEXITED nor WIFSIGNALED\n");
 	return (status);
 }
