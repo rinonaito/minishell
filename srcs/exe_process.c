@@ -6,7 +6,11 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:43:25 by taaraki           #+#    #+#             */
+<<<<<<< HEAD
+/*   Updated: 2023/07/25 17:57:44 by taaraki          ###   ########.fr       */
+=======
 /*   Updated: 2023/07/25 16:01:06 by rnaito           ###   ########.fr       */
+>>>>>>> master
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +20,11 @@
 #include	<unistd.h>
 #include	<signal.h>
 
-//void	parent_process(int fd[2], int i, int num_cmds)
-void	parent_process(int pipe_fd[2], t_cmds *cmds_info)
+extern int g_signal;
+
+void	parent_process(int pipe_fd[2])
 {
 //	printf(">%s\n", __func__);
-	int		status;
 
 //	if (pipe_fd[WRITE_END] != STDOUT_FILENO)
 //		close(pipe_fd[WRITE_END]);
@@ -115,11 +119,13 @@ int		wait_process(pid_t *pid_ary, int num_cmds)
 	{
 //		printf(" [%s | %s] status: %d\n", __func__, "WIFEXITED",  WEXITSTATUS(status));
 		status = (WEXITSTATUS(status));
+		g_signal = 0;
 	}
 	else if (WIFSIGNALED(status))
 	{
-//		printf(" [%s | %s] status: %d\n", __func__, "WIFSIGNALED", WTERMSIG(status));
-		status = (WTERMSIG(status));
+		printf(" [%s | %s] status: %d\n", __func__, "WIFSIGNALED", WTERMSIG(status));
+		status = 128 + (WTERMSIG(status));//128 + signal status
+		g_signal = WTERMSIG(status);
 	}
 	else
 //		printf(" not WIFEXITED nor WIFSIGNALED\n");

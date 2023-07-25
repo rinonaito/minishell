@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/25 17:59:26 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/25 18:21:00 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,13 +109,13 @@ t_tree	*ft_make_syntax_tree(t_token *head);
 
 /*** EXECUTION ***/
 //execute.c
-void    trace_tree_entry(t_tree *root, char **env);
+//void    trace_tree_entry(t_tree *root, char **env);
+void	trace_tree_entry(t_tree *root, char **env, int *status);
 
 //process.c
 //void    child_process(int fd[2], char **cmd_args, char **env, int num_cmds, int i);
 void	child_process(int pipe_fd[2], t_cmds *cmds_info);
-//void    parent_process(int fd[2], int i, int num_cmds);
-void	parent_process(int pipe_fd[2], t_cmds *cmds_info);
+void	parent_process(int pipe_fd[2]);
 int		wait_process(pid_t *pid_ary, int num_cmds);
 
 //ft_perror.c
@@ -172,6 +172,11 @@ char	*ft_get_delimiter(t_token *head, int *is_quoted);
 char	*ft_make_input_str(char *delimiter);
 void	ft_for_unbraced_env(char **start, char **end, char *doller);
 void	ft_get_heredoc_input(t_token *head);
+
+/*** SIGNAL ***/
+//signal.c
+void	ft_signal(void);
+void	ft_signal_child(void);
 
 //redirection.c
 void	redirect_out(int *fd, t_token *param);
