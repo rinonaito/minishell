@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:43:25 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/24 15:10:37 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/24 19:37:30 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,17 @@ void	parent_process(int pipe_fd[2], t_cmds *cmds_info)
 //	printf(">%s\n", __func__);
 	int		status;
 
-	printf("in PARENT PROCESS\nfd[0] = %d, fd[1] = %d\n", pipe_fd[0], pipe_fd[1]);
-	if (pipe_fd[WRITE_END] != STDOUT_FILENO)
-		close(pipe_fd[WRITE_END]);
-	//if (i != 1)//don't need this line
+//	if (pipe_fd[WRITE_END] != STDOUT_FILENO)
+//		close(pipe_fd[WRITE_END]);
+	if (dup2(pipe_fd[READ_END], STDIN_FILENO) == -1)
+	{
+		close(pipe_fd[READ_END]);
+		ft_perror("dup2");
+	}
+//	if (dup2(pipe_fd[WRITE_END], STDOUT_FILENO) == -1)
 //	{
-		if (dup2(pipe_fd[READ_END], STDIN_FILENO) == -1)
-		{
-			close(pipe_fd[READ_END]);
-			ft_perror("dup2");
-		}
+//		close(pipe_fd[WRITE_END]);
+//		ft_perror("dup2");
 //	}
 	//close it to free the resource
 	if (pipe_fd[READ_END] != STDIN_FILENO)
@@ -43,6 +44,10 @@ static void	exec(char **cmd_args, char **env)
 	char	*file;
 
 	printf(">%s\n", __func__);
+	printf("env = %p\n", env);
+	//int i = -1;
+	//while (env[++i])
+		//printf("env[%d]:[%s]\n", i, env[i]);
 	if (!cmd_args)
 		return ;
 	file = ft_search_path(cmd_args[0]);//get the path to the command
@@ -56,23 +61,32 @@ static void	exec(char **cmd_args, char **env)
 	//{
 		//ft_perror(" access failed");
 	//}
-	printf(" before execve\n");
-	if (execve(file, cmd_args, env) == -1)
-		ft_perror(" command not found");
+	int ret =  execve(file, cmd_args, env);
+	printf(" ret:[%d]\n", ret);
+	printf(" file:[%s]\n", file);
+	//if (execve(file, cmd_args, env) == -1)
+		//ft_perror(" command not found");
 }
 
 //void	child_process(int fd[2], char **cmd_args, char **env, int num_cmds, int i)
 void	child_process(int pipe_fd[2], t_cmds *cmds_info)
 {
-	if (pipe_fd[READ_END] != STDIN_FILENO)
-	close(pipe_fd[READ_END]);
+//	if (pipe_fd[READ_END] != STDIN_FILENO)
+//	close(pipe_fd[READ_END]);
+	printf("IN CHILD_PROCESS\nREAD = %d WRITE = %d\n\n", pipe_fd[READ_END], pipe_fd[WRITE_END]);
+	if (dup2(pipe_fd[READ_END], STDIN_FILENO) == -1)
+	{
+		close(pipe_fd[READ_END]);
+		ft_perror("dup2");
+	}
 	if (dup2(pipe_fd[WRITE_END], STDOUT_FILENO) == -1)
 	{
 		close(pipe_fd[WRITE_END]);
 		ft_perror("dup2");
 	}
-	if (pipe_fd[WRITE_END] != STDOUT_FILENO)
-		close(pipe_fd[WRITE_END]);//close it to free the resource
+//	if (pipe_fd[WRITE_END] != STDOUT_FILENO)
+//		close(pipe_fd[WRITE_END]);//close it to free the resource
+	printf("command = %s\n", cmds_info->cmd_args[0]);
 	exec(cmds_info->cmd_args, cmds_info->env);
 }
 

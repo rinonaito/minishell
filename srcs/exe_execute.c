@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/24 15:09:17 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/25 15:16:08 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ static void	create_process(t_cmds *cmds_info, t_tree *root)
 	if (pipe(pipe_fd) == -1)
 		ft_perror("pipe\n");
 	param = root->param;
-	have_cmd =  redirect(param, pipe_fd, cmds_info);
+	have_cmd = redirect(param, pipe_fd, cmds_info);
+	printf("back to the create_process\n");
 	if (have_cmd == 1)
 		pid = fork();
 	if (pid == -1)
@@ -40,6 +41,7 @@ static void	create_process(t_cmds *cmds_info, t_tree *root)
 	}
 	else
 	{
+		printf("before parent_process\n");
 		cmds_info->pid_ary[cmds_info->i - 1] = pid;
 		parent_process(pipe_fd, cmds_info);
 	}
@@ -66,10 +68,6 @@ static void	trace_inorder(t_tree *root, t_cmds *cmds_info)
 	{
 		cmds_info->i += 1;
 		cmds_info->cmd_args = create_cmds(root);
-		/*** FROM HERE ***/ 
-		//does everything in the create_process
-		// fork to create the child process even when the command is builtin
-		// create_process no longer needs to return pid (it stores them in ary)
 		create_process(cmds_info, root);
 		/*** TO HERE ***/ 
 //		free_args(&cmds_info->cmd_args);//free cmd_args and setting NUL
@@ -89,6 +87,7 @@ void	trace_tree_entry(t_tree *root, char **env)
 		return ;
 	tmp_fdin = dup(STDIN_FILENO);//save the file descriptor(fd) of STDIN
 	cmds_info.i = 0;
+	cmds_info.env = env;
 	//trace the tree structure and create processes
 	trace_inorder(root, &cmds_info);
 	dup2(tmp_fdin, STDIN_FILENO);//set back the fd of STDIN

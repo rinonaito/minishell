@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 10:48:49 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/24 15:02:18 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/24 17:26:24 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void		redirect_out_append(int *pipe_fd, t_token *param, int type)
 		fd_out = open(filename, O_WRONLY | O_CREAT | O_TRUNC, OPEN_MODE);
 	if (type == TK_APPEND)
 		fd_out = open(filename, O_WRONLY | O_CREAT | O_APPEND, OPEN_MODE);
+	close(pipe_fd[1]);
 	pipe_fd[1] = fd_out;
 }
 
@@ -77,7 +78,6 @@ int	redirect(t_token *param, int	*pipe_fd, t_cmds *cmds_info)
 		}
 		else
 		{
-			printf("before REDIR\n");
 			call_each_redir(pipe_fd, param);
 			param = param->next->next;
 		}

@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/24 15:01:37 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/24 19:18:50 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,6 +176,7 @@ void	ft_get_heredoc_input(t_token *head);
 //redirection.c
 void	redirect_out(int *fd, t_token *param);
 void	redirect_in(int *fd, t_token *param);
+//int		redirect(t_token *param, int *parent_fd, int *child_fd, t_cmds *cmds_info);
 int		redirect(t_token *param, int *pipe_fd, t_cmds *cmds_info);
 
 #endif
