@@ -98,10 +98,16 @@ int	main(int argc, char **argv, char **env)
 	t_tree	*root;
 	int		status;
 
-	signal(SIGQUIT, SIG_IGN);
+	//signal(SIGQUIT, SIG_IGN);
 	rl_outstream = stderr;
 	while (1)
 	{
+		/*** signal handling ***/
+		//g_signal = 0;
+		//set g_signal to 0 when cmds succeeds
+		ft_signal();
+		/*** signal handling ***/
+
 		line = readline("\x1b[1;38;5;122mminishell🐣 \033[0m");
 		printf(" line[%s]\n", line);
 		if (line == NULL)
@@ -110,12 +116,6 @@ int	main(int argc, char **argv, char **env)
 			free (line);
 			break ;
 		}
-
-		/*** signal handling ***/
-		g_signal = 0;
-		ft_signal(0);
-		/*** signal handling ***/
-
 		if (strlen(line) != 0)
 			add_history(line);
 		status = STANDARD;

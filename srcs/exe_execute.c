@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/18 19:50:54 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/25 15:37:23 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,10 @@ static void	create_process(char **cmd_args, char **env, int num_cmds, int i, pid
 		ft_perror("fork\n");
 	else if (pid == 0)
 	{
+		/*** signal handling ***/
+		//signal(SIGQUIT, SIG_IGN);//shouldn't ignore 
+		ft_signal_child();	
+		/*** signal handling ***/
 		//execute builtin in child process
 		if (is_builtin(cmd_args[0]))
 		{

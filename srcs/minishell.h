@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/23 21:27:09 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/25 15:37:34 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 # define SYNTAX_ERR (1)
 # define HEREDOC_MODE (2)
 
-//int	g_signal = 0;
+//extern int	g_signal = 0;
 
 typedef enum e_token_type {
 	TK_WORD,
@@ -161,6 +161,7 @@ void	ft_get_heredoc_input(t_token *head);
 
 /*** SIGNAL ***/
 //signal.c
-void	ft_signal(int input);
+void	ft_signal(void);
+void	ft_signal_child(void);
 
 #endif
