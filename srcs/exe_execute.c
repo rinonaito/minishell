@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/25 15:16:08 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/25 16:00:17 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ static void	create_process(t_cmds *cmds_info, t_tree *root)
 	//printf("%s\n", __func__);
 	if (pipe(pipe_fd) == -1)
 		ft_perror("pipe\n");
+	printf("AT THE BEGINNING\npipe_fd[READ_END] = [%d]\npipe_fd[WRITE_END] = [%d]\n", pipe_fd[READ_END], pipe_fd[WRITE_END]);
 	param = root->param;
 	have_cmd = redirect(param, pipe_fd, cmds_info);
-	printf("back to the create_process\n");
 	if (have_cmd == 1)
 		pid = fork();
 	if (pid == -1)
@@ -41,7 +41,6 @@ static void	create_process(t_cmds *cmds_info, t_tree *root)
 	}
 	else
 	{
-		printf("before parent_process\n");
 		cmds_info->pid_ary[cmds_info->i - 1] = pid;
 		parent_process(pipe_fd, cmds_info);
 	}

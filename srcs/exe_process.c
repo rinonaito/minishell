@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:43:25 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/24 19:37:30 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/25 16:01:06 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	parent_process(int pipe_fd[2], t_cmds *cmds_info)
 
 //	if (pipe_fd[WRITE_END] != STDOUT_FILENO)
 //		close(pipe_fd[WRITE_END]);
+	printf("IN PARENT\npipe_fd[READ_END] = [%d]\npipe_fd[WRITE_END] = [%d]\n", pipe_fd[READ_END], pipe_fd[WRITE_END]);
 	if (dup2(pipe_fd[READ_END], STDIN_FILENO) == -1)
 	{
 		close(pipe_fd[READ_END]);
@@ -73,7 +74,7 @@ void	child_process(int pipe_fd[2], t_cmds *cmds_info)
 {
 //	if (pipe_fd[READ_END] != STDIN_FILENO)
 //	close(pipe_fd[READ_END]);
-	printf("IN CHILD_PROCESS\nREAD = %d WRITE = %d\n\n", pipe_fd[READ_END], pipe_fd[WRITE_END]);
+	printf("IN CHILD\npipe_fd[READ_END] = [%d]\npipe_fd[WRITE_END] = [%d]\n", pipe_fd[READ_END], pipe_fd[WRITE_END]);
 	if (dup2(pipe_fd[READ_END], STDIN_FILENO) == -1)
 	{
 		close(pipe_fd[READ_END]);
