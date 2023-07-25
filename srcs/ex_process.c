@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:43:25 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/25 21:10:16 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/25 21:14:56 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 //void	parent_process(int fd[2], int i, int num_cmds)
 void	parent_process(int pipe_fd[2], t_cmds *cmds_info)
 {
+	/*** pipein ***/
+
 //	printf(">%s\n", __func__);
 	int		status;
 
@@ -71,8 +73,12 @@ static void	exec(char **cmd_args, char **env)
 }
 
 //void	child_process(int fd[2], char **cmd_args, char **env, int num_cmds, int i)
-void	child_process(int pipe_fd[2], t_cmds *cmds_info)
+void	child_process(int pipe_fd[2], int file_fd[2], t_cmds *cmds_info)
 {
+	/*** 1.fdin ***/
+	/*** 2.pipeout ***/
+	/*** 3.fdout ***/
+
 //	if (pipe_fd[READ_END] != STDIN_FILENO)
 //	close(pipe_fd[READ_END]);
 	printf("IN CHILD\npipe_fd[READ_END] = [%d]\npipe_fd[WRITE_END] = [%d]\n", pipe_fd[READ_END], pipe_fd[WRITE_END]);
