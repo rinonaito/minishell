@@ -105,6 +105,7 @@ int	main(int argc, char **argv, char **env)
 		/*** signal handling ***/
 		//g_signal = 0;
 		//set g_signal to 0 when cmds succeeds
+		printf("g_signal($?)[%d]\n", g_signal);
 		ft_signal();
 		/*** signal handling ***/
 
@@ -127,7 +128,14 @@ int	main(int argc, char **argv, char **env)
 			return (1);
 		}
 		if (status == HEREDOC_MODE)
-			ft_get_heredoc_input(head);
+			ft_get_heredoc_input(head);// == 0)
+		//{
+			//if (ft_get_heredoc_input(head) == 0)
+			//{
+				//free(line);
+				//continue ;
+			//}
+		//}
 		if (head != NULL)
 		{
 			free(line);
@@ -135,8 +143,9 @@ int	main(int argc, char **argv, char **env)
 			root = ft_make_syntax_tree(head);
 			ft_expand_list(&head);
 			trace_param_inorder(root, env);
-			trace_tree_entry(root, env);
+			trace_tree_entry(root, env, &status);
 			ft_free_syntax_tree(root);
+			printf("status[%d]\n", status);
 		}
 		free(line);
 		line = NULL;

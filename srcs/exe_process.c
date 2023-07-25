@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:43:25 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/18 19:55:26 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/25 17:57:44 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 #include	<stdlib.h>
 #include	<unistd.h>
 #include	<signal.h>
+
+extern int g_signal;
 
 void	parent_process(int fd[2], int i, int num_cmds)
 {
@@ -97,11 +99,13 @@ int		wait_process(pid_t *pid_ary, int num_cmds)
 	{
 		printf(" [%s | %s] status: %d\n", __func__, "WIFEXITED",  WEXITSTATUS(status));
 		status = (WEXITSTATUS(status));
+		g_signal = 0;
 	}
 	else if (WIFSIGNALED(status))
 	{
 		printf(" [%s | %s] status: %d\n", __func__, "WIFSIGNALED", WTERMSIG(status));
-		status = (WTERMSIG(status));
+		status = 128 + (WTERMSIG(status));//128 + signal status
+		g_signal = WTERMSIG(status);
 	}
 	else
 		printf(" not WIFEXITED nor WIFSIGNALED\n");

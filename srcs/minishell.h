@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/25 15:37:34 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/25 17:54:23 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,8 @@ t_tree	*ft_make_syntax_tree(t_token *head);
 
 /*** EXECUTION ***/
 //execute.c
-void    trace_tree_entry(t_tree *root, char **env);
+//void    trace_tree_entry(t_tree *root, char **env);
+void	trace_tree_entry(t_tree *root, char **env, int *status);
 
 //process.c
 void    child_process(int fd[2], char **cmd_args, char **env, int num_cmds, int i);

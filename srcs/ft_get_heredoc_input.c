@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 16:29:01 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/18 20:26:49 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/25 17:44:08 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*ft_make_input_str(char *delimiter)
 	while (1)
 	{
 		line = readline("\x1b[34m>> \x1b[39m");
-		if (line == NULL || ft_strcmp(line, delimiter) == 0)
+		if (line == NULL || (ft_strcmp(line, delimiter) == 0))
 		{
 			free(line);
 			break ;

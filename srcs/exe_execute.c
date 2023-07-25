@@ -6,11 +6,13 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/25 15:37:23 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/25 17:53:23 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	"minishell.h"
+
+extern int	g_signal;
 
 //@func: create processes, including parent/child/wait processes
 //@return_val:
@@ -83,7 +85,8 @@ static void	trace_inorder(t_tree *root, char **env, int num_cmds, int *j, pid_t 
 	trace_inorder(root->r_leaf, env, num_cmds, j, pid_ary);
 }
 
-void	trace_tree_entry(t_tree *root, char **env)
+//void	trace_tree_entry(t_tree *root, char **env)
+void	trace_tree_entry(t_tree *root, char **env, int *status)
 {
 	int		num_cmds;
 	int		i;
@@ -107,6 +110,6 @@ void	trace_tree_entry(t_tree *root, char **env)
 	//while (i < num_cmds)
 		//printf(" pid[%d]\n", pid_ary[i++]);
 	//printf(" ==========\n");
-	wait_process(pid_ary, num_cmds);
+	//g_signal = wait_process(pid_ary, num_cmds);
+	*status = wait_process(pid_ary, num_cmds);
 }
-
