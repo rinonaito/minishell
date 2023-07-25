@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:43:25 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/25 18:43:13 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/25 21:10:16 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@
 #include	<unistd.h>
 #include	<signal.h>
 
-extern int g_signal;
-
-void	parent_process(int pipe_fd[2])
+//void	parent_process(int fd[2], int i, int num_cmds)
+void	parent_process(int pipe_fd[2], t_cmds *cmds_info)
 {
 //	printf(">%s\n", __func__);
+	int		status;
 
 //	if (pipe_fd[WRITE_END] != STDOUT_FILENO)
 //		close(pipe_fd[WRITE_END]);
@@ -30,6 +30,7 @@ void	parent_process(int pipe_fd[2])
 		close(pipe_fd[READ_END]);
 		ft_perror("dup2");
 	}
+//	printf("DUP: STDIN will be tread");
 //	if (dup2(pipe_fd[WRITE_END], STDOUT_FILENO) == -1)
 //	{
 //		close(pipe_fd[WRITE_END]);
@@ -115,15 +116,13 @@ int		wait_process(pid_t *pid_ary, int num_cmds)
 	{
 //		printf(" [%s | %s] status: %d\n", __func__, "WIFEXITED",  WEXITSTATUS(status));
 		status = (WEXITSTATUS(status));
-		g_signal = 0;
 	}
 	else if (WIFSIGNALED(status))
 	{
-		printf(" [%s | %s] status: %d\n", __func__, "WIFSIGNALED", WTERMSIG(status));
-		status = 128 + (WTERMSIG(status));//128 + signal status
-		g_signal = WTERMSIG(status);
+//		printf(" [%s | %s] status: %d\n", __func__, "WIFSIGNALED", WTERMSIG(status));
+		status = (WTERMSIG(status));
 	}
-//else
+	//else
 //		printf(" not WIFEXITED nor WIFSIGNALED\n");
 	return (status);
 }
