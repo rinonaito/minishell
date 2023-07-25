@@ -1,25 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_perror.c                                        :+:      :+:    :+:   */
+/*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
+/*   By: rnaito <rnaito@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/10 16:11:33 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/25 16:59:21 by rnaito           ###   ########.fr       */
+/*   Created: 2023/01/13 17:39:36 by rnaito            #+#    #+#             */
+/*   Updated: 2023/04/01 12:33:52 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#include "libft.h"
 
-#include	"minishell.h"
-#include	<stdio.h>
-#include	<stdlib.h>
-#include	<unistd.h>
-
-void	ft_perror(char *message)
+int	ft_isdigit(int c)
 {
-	//printf("%s\n", __func__);
-	printf("errno:%d\n", errno);
-	if (message)
-		perror(message);
-	exit(255);
+	if (c >= '0' && c <= '9')
+		return (1);
+	else
+		return (0);
 }

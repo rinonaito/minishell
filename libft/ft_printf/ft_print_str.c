@@ -1,25 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_perror.c                                        :+:      :+:    :+:   */
+/*   ft_print_str.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
+/*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/10 16:11:33 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/25 16:59:21 by rnaito           ###   ########.fr       */
+/*   Created: 2023/02/14 16:26:31 by rnaito            #+#    #+#             */
+/*   Updated: 2023/02/23 12:30:41 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include	"minishell.h"
-#include	<stdio.h>
-#include	<stdlib.h>
-#include	<unistd.h>
+#include "ft_printf.h"
 
-void	ft_perror(char *message)
+long	ft_print_str(char *str)
 {
-	//printf("%s\n", __func__);
-	printf("errno:%d\n", errno);
-	if (message)
-		perror(message);
-	exit(255);
+	long	count;
+
+	if (str == NULL)
+		return (write(1, "(null)", 6));
+	count = 0;
+	while (str[count] != '\0')
+	{
+		if (write (1, &str[count], 1) == -1)
+			return (-1);
+		count++;
+	}
+	return (count);
 }

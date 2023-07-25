@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 16:29:01 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/18 20:26:49 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/25 16:33:12 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,17 @@ void	ft_get_heredoc_input(t_token *head)
 	char	*delimiter;
 	int		is_quoted;
 	char	*input;
+	char	*new_input;
 
 	is_quoted = 0;
 	delimiter = ft_get_delimiter(head, &is_quoted);
 	input = ft_make_input_str(delimiter);
 	if (is_quoted == 0)
-		input = ft_expand_str(input);
-	printf("input = \n%s\n", input);
+	{
+		new_input = ft_expand_str(input);
+		if (new_input != NULL)
+			input = new_input;
+	}
 	ft_add_input_to_list(head, input);
 	return ;
 }

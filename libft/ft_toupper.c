@@ -1,25 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_perror.c                                        :+:      :+:    :+:   */
+/*   ft_toupper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
+/*   By: rnaito <rnaito@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/10 16:11:33 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/25 16:59:21 by rnaito           ###   ########.fr       */
+/*   Created: 2023/01/18 14:34:39 by rnaito            #+#    #+#             */
+/*   Updated: 2023/02/01 13:47:23 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#include "libft.h"
 
-#include	"minishell.h"
-#include	<stdio.h>
-#include	<stdlib.h>
-#include	<unistd.h>
-
-void	ft_perror(char *message)
+int	ft_toupper(int c)
 {
-	//printf("%s\n", __func__);
-	printf("errno:%d\n", errno);
-	if (message)
-		perror(message);
-	exit(255);
+	if (c >= 'a' && c <= 'z')
+		return (c - 32);
+	else
+		return (c);
 }

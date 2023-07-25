@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 21:37:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/16 20:16:16 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/21 19:27:35 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ char	**create_cmds(t_tree *root)
 		return (NULL);
 	//
 	i = 0;
-	while (root->param && root->param->type != TK_PIPE)
+	while (root->param != NULL && root->param->type == TK_WORD)
 	{
 		//cmd_args[i] = ft_strndup(root->param->token, ft_strlen(root->param->token));
 		cmd_args[i] = ft_strdup(root->param->token);
