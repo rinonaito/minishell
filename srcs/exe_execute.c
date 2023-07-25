@@ -6,8 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/25 18:24:28 by rnaito           ###   ########.fr       */
-/*                                                                            */
+/*   Updated: 2023/07/25 18:42:38 by taaraki          ###   ########.fr       */
 /* ************************************************************************** */
 
 #include	"minishell.h"
@@ -41,15 +40,15 @@ static void	create_process(t_cmds *cmds_info, t_tree *root)
 		ft_signal_child();	
 		/*** signal handling ***/
 		//execute builtin in child process
-		if (is_builtin(cmd_args[0]))
-			call_builtin(pipe_fd, cmd_args, i, num_cmds);
+		if (is_builtin(cmds_info->cmd_args[0]))
+			call_builtin(pipe_fd, cmds_info);
 		else
 			child_process(pipe_fd, cmds_info);
 	}
 	else
 	{
 		cmds_info->pid_ary[cmds_info->i - 1] = pid;
-		parent_process(pipe_fd, cmds_info);
+		parent_process(pipe_fd);
 	}
 }
 
