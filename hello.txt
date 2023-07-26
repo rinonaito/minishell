@@ -1,0 +1,10 @@
+IN BUILTIN
+pipe_fd[READ_END] = [0]
+pipe_fd[WRITE_END] = [7]
+>builtin_echo
+hello
+IN BUILTIN
+pipe_fd[READ_END] = [0]
+pipe_fd[WRITE_END] = [10]
+>builtin_echo
+aaaaaaa

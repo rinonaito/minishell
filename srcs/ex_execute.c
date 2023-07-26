@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/25 21:20:12 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/26 16:22:34 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,22 +26,32 @@ static void	create_process(t_cmds *cmds_info, t_tree *root)
 	//printf("%s\n", __func__);
 	if (pipe(pipe_fd) == -1)
 		ft_perror("pipe\n");
-	printf("AT THE BEGINNING\npipe_fd[READ_END] = [%d]\npipe_fd[WRITE_END] = [%d]\n", pipe_fd[READ_END], pipe_fd[WRITE_END]);
+	printf("AT THE BEGINNING\npipe_fd[WRIET] = [%d]\npipe_fd[READ] = [%d]\n", pipe_fd[WRITE_END], pipe_fd[READ_END]);
 	param = root->param;
-	have_cmd = redirect(param, pipe_fd, cmds_info);
+	have_cmd = redirect(param, redir_fd, pipe_fd, cmds_info);
 	if (have_cmd == 1)
 		pid = fork();
 	if (pid == -1)
 		ft_perror("fork\n");
 	else if (pid == 0)
 	{
+		printf(">> got into CHILD\n");
+//		close (pipe_fd[WRITE_END]);
+//		close (pipe_fd[READ_END]);
+		dup2(redir_fd[READ_END], STDIN_FILENO); 
+		if (redir_fd[READ_END] != STDIN_FILENO)
+			close(redir_fd[READ_END]);
+		dup2(redir_fd[WRITE_END], STDOUT_FILENO); 
+		if (redir_fd[WRITE_END] != STDOUT_FILENO)
+			close(redir_fd[WRITE_END]);
 		if (is_builtin(cmds_info->cmd_args[0]))
-			call_builtin(pipe_fd, cmds_info);
+			call_builtin(redir_fd, cmds_info);
 		else
-			child_process(pipe_fd, cmds_info);
+			child_process(redir_fd, cmds_info);
 	}
 	else
 	{
+		printf(">> got into PARENT\n");
 		cmds_info->pid_ary[cmds_info->i - 1] = pid;
 		parent_process(pipe_fd, cmds_info);
 	}

@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:43:25 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/25 21:14:56 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/26 16:21:11 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 #include	<stdlib.h>
 #include	<unistd.h>
 #include	<signal.h>
+#include	<errno.h>
 
-//void	parent_process(int fd[2], int i, int num_cmds)
 void	parent_process(int pipe_fd[2], t_cmds *cmds_info)
 {
 	/*** pipein ***/
@@ -29,7 +29,7 @@ void	parent_process(int pipe_fd[2], t_cmds *cmds_info)
 	printf("IN PARENT\npipe_fd[READ_END] = [%d]\npipe_fd[WRITE_END] = [%d]\n", pipe_fd[READ_END], pipe_fd[WRITE_END]);
 	if (dup2(pipe_fd[READ_END], STDIN_FILENO) == -1)
 	{
-		close(pipe_fd[READ_END]);
+//		close(pipe_fd[READ_END]);
 		ft_perror("dup2");
 	}
 //	printf("DUP: STDIN will be tread");
@@ -43,14 +43,16 @@ void	parent_process(int pipe_fd[2], t_cmds *cmds_info)
 		close(pipe_fd[READ_END]);
 }
 
+extern char **environ;
+
 static void	exec(char **cmd_args, char **env)
 {
 	char	*file;
 
+	int	i = 0;
 	printf(">%s\n", __func__);
-	printf("env = %p\n", env);
 	//int i = -1;
-	//while (env[++i])
+	//hile (env[++i])
 		//printf("env[%d]:[%s]\n", i, env[i]);
 	if (!cmd_args)
 		return ;
@@ -65,15 +67,21 @@ static void	exec(char **cmd_args, char **env)
 	//{
 		//ft_perror(" access failed");
 	//}
-	int ret =  execve(file, cmd_args, env);
+	for (int i = 0; cmd_args[i] != NULL; i++)
+	{
+		printf("cmd_args[%d] = [%s]\n", i, cmd_args[i]);
+	}
+	dprintf(2, " env:[%p]\n", env);
+	dprintf(2, " ERRORNO:[%s], [%d]\n", strerror(errno), errno);
+
+	int ret = execve(file, cmd_args, env);
 	printf(" ret:[%d]\n", ret);
-	printf(" file:[%s]\n", file);
 	//if (execve(file, cmd_args, env) == -1)
 		//ft_perror(" command not found");
 }
 
-//void	child_process(int fd[2], char **cmd_args, char **env, int num_cmds, int i)
-void	child_process(int pipe_fd[2], int file_fd[2], t_cmds *cmds_info)
+//void	child_process(int pipe_fd[2], int file_fd[2], t_cmds *cmds_info)
+void	child_process(int pipe_fd[2], t_cmds *cmds_info)
 {
 	/*** 1.fdin ***/
 	/*** 2.pipeout ***/
@@ -82,16 +90,16 @@ void	child_process(int pipe_fd[2], int file_fd[2], t_cmds *cmds_info)
 //	if (pipe_fd[READ_END] != STDIN_FILENO)
 //	close(pipe_fd[READ_END]);
 	printf("IN CHILD\npipe_fd[READ_END] = [%d]\npipe_fd[WRITE_END] = [%d]\n", pipe_fd[READ_END], pipe_fd[WRITE_END]);
-	if (dup2(pipe_fd[READ_END], STDIN_FILENO) == -1)
-	{
-		close(pipe_fd[READ_END]);
-		ft_perror("dup2");
-	}
-	if (dup2(pipe_fd[WRITE_END], STDOUT_FILENO) == -1)
-	{
-		close(pipe_fd[WRITE_END]);
-		ft_perror("dup2");
-	}
+//	if (dup2(pipe_fd[READ_END], STDIN_FILENO) == -1)
+//	{
+//		close(pipe_fd[READ_END]);
+//		ft_perror("dup2");
+//	}
+//	if (dup2(pipe_fd[WRITE_END], STDOUT_FILENO) == -1)
+//	{
+//		close(pipe_fd[WRITE_END]);
+//		ft_perror("dup2");
+//	}
 //	if (pipe_fd[WRITE_END] != STDOUT_FILENO)
 //		close(pipe_fd[WRITE_END]);//close it to free the resource
 	printf("command = %s\n", cmds_info->cmd_args[0]);
@@ -113,6 +121,7 @@ int		wait_process(pid_t *pid_ary, int num_cmds)
 	printf(" ==========\n");
 	*/
 	i = 0;
+	wait(NULL);
 	while (i < num_cmds)
 	{
 		waitpid(pid_ary[i], &status, 0);

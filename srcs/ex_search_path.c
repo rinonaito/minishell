@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:33:54 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/24 19:18:46 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/26 13:37:58 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char    *ft_search_path(const char *filename)
             //ft_strncpy(path, value, PATH_MAX);
 			//SEGV here (value is not null terminated)
 		}
-        ft_strlcat(path, "/", PATH_MAX);
+		ft_strlcat(path, "/", PATH_MAX);
         ft_strlcat(path, filename, PATH_MAX);
         duplicated = NULL;
         if (access(path, F_OK | X_OK) == 0)
