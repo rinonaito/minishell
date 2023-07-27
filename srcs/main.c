@@ -97,7 +97,6 @@ int	main(int argc, char **argv, char **env)
 	t_token	*head;
 	t_tree	*root;
 	int		status;
-	t_signal	sig_info;
 
 	//signal(SIGQUIT, SIG_IGN);
 	rl_outstream = stderr;
@@ -107,7 +106,7 @@ int	main(int argc, char **argv, char **env)
 		//g_signal = 0;
 		//set g_signal to 0 when cmds succeeds
 		printf("g_signal($?)[%d]\n", g_signal);
-		ft_signal(&sig_info);
+		ft_signal();
 		/*** signal handling ***/
 
 		line = readline("\x1b[1;38;5;122mminishell🐣 \033[0m");

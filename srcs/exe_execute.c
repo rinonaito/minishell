@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/27 16:32:11 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/27 16:57:04 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	signal_parent(int code)
 //@func: create processes, including parent/child/wait processes
 //@return_val:
 //		 exit status of wait process		
-static void	create_process(t_cmds *cmds_info, t_tree *root, t_signal *sig_info)
+static void	create_process(t_cmds *cmds_info, t_tree *root)
 {
 	int	pipe_fd[2];
 	pid_t	pid;
@@ -48,7 +48,7 @@ static void	create_process(t_cmds *cmds_info, t_tree *root, t_signal *sig_info)
 	pid = fork();
 
 	/*** ***/
-	ft_signal_child(sig_info);
+	ft_signal_child();
 	/*** ***/
 
 	if (pid == -1)
@@ -84,24 +84,24 @@ static void	count_num_cmds(t_tree *root, int *i)
 }
 
 //@func: trace the tree structure and create processes
-static void	trace_inorder(t_tree *root, t_cmds *cmds_info, t_signal *sig_info)
+static void	trace_inorder(t_tree *root, t_cmds *cmds_info)
 {
 	if (root == NULL)
 		return ;
-	trace_inorder(root->l_leaf, cmds_info, sig_info);
+	trace_inorder(root->l_leaf, cmds_info);
 	if (root->type != TK_PIPE)
 	{
 		cmds_info->i += 1;
 		cmds_info->cmd_args = create_cmds(root);
-		create_process(cmds_info, root, sig_info);
+		create_process(cmds_info, root);
 		/*** TO HERE ***/ 
 //		free_args(&cmds_info->cmd_args);//free cmd_args and setting NUL
 	}
-	trace_inorder(root->r_leaf, cmds_info, sig_info);
+	trace_inorder(root->r_leaf, cmds_info);
 }
 
 //void	trace_tree_entry(t_tree *root, char **env)
-void	trace_tree_entry(t_tree *root, char **env, int *status, t_signal *sig_info)
+void	trace_tree_entry(t_tree *root, char **env, int *status)
 {
 	t_cmds	cmds_info;
 	int		tmp_fdin;
@@ -115,7 +115,7 @@ void	trace_tree_entry(t_tree *root, char **env, int *status, t_signal *sig_info)
 	cmds_info.i = 0;
 	cmds_info.env = env;
 	//trace the tree structure and create processes
-	trace_inorder(root, &cmds_info, sig_info);
+	trace_inorder(root, &cmds_info);
 	dup2(tmp_fdin, STDIN_FILENO);//set back the fd of STDIN
 	close(tmp_fdin);
 	*status = wait_process(cmds_info.pid_ary, cmds_info.num_cmds);

@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/27 14:54:45 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/27 16:55:46 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,6 @@ typedef struct s_cmds{
 	int		i;
 }					t_cmds;
 
-typedef struct s_signal{
-	struct sigaction	sa_int;
-	struct sigaction	sa_quit;
-}					t_signal;
-
 /*** TOKENIZE ***/
 //tokenize.c
 t_token	*ft_tokenize(char *line, int *is_error);
@@ -114,10 +109,9 @@ t_tree	*ft_make_syntax_tree(t_token *head);
 
 /*** EXECUTION ***/
 //execute.c
-void	trace_tree_entry(t_tree *root, char **env, int *status, t_signal *sig_info);
+void	trace_tree_entry(t_tree *root, char **env, int *status);
 
 //process.c
-//void    child_process(int fd[2], char **cmd_args, char **env, int num_cmds, int i);
 void	child_process(int pipe_fd[2], t_cmds *cmds_info);
 void	parent_process(int pipe_fd[2]);
 int		wait_process(pid_t *pid_ary, int num_cmds);
@@ -134,17 +128,13 @@ char    **create_cmds(t_tree *root);
 //search_path.c
 char    *ft_search_path(const char *filename);
 
-//call_builtin.c
-//void	call_builtin(int fd[2], char **cmd_args, int j, int num_cmds);
+//builtin.c
 void	call_builtin(int pipe_fd[2], t_cmds *cmds_info);
-//void	built_in_process(int fd[2], char **cmd_args, int i, int num_cmds);
 void	built_in_process(int pipe_fd[2], t_cmds *cmds_info);
-
-//is_built_in.c
 int		is_builtin(char *s);
 
 //echo.c
-int    builtin_echo(char **args);//, t_minishell *m)
+int    builtin_echo(char **args);
 
 /*** EXPANSION ***/
 //expansion.c
@@ -179,9 +169,10 @@ void	ft_get_heredoc_input(t_token *head);
 
 /*** SIGNAL ***/
 //signal.c
-//void	ft_signal(void);
-void	ft_signal(t_signal *sig_info);
-void	ft_signal_child(t_signal *sig_info);
+//void	ft_signal(t_signal *sig_info);
+void	ft_signal(void);
+//void	ft_signal_child(t_signal *sig_info);
+void	ft_signal_child(void);
 
 //redirection.c
 void	redirect_out(int *fd, t_token *param);

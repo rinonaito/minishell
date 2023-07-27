@@ -66,7 +66,7 @@ void	test_handler(int signum)
 	printf(">%s\n", __func__);
 }
 
-void	ft_signal(t_signal *sig_info)
+void	ft_signal(void)
 {
 
 	/*** SIGQUIT ***/
@@ -86,7 +86,7 @@ void	ft_signal(t_signal *sig_info)
 		//ft_perror("sigaction");
 }
 
-void	ft_signal_child(t_signal *sig_info)
+void	ft_signal_child(void)
 {
 	/*** SIGQUIT ***/
 	signal(SIGQUIT, signal_handler_quit_child);
