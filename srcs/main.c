@@ -97,6 +97,7 @@ int	main(int argc, char **argv, char **env)
 	t_token	*head;
 	t_tree	*root;
 	int		status;
+	t_signal	sig_info;
 
 	//signal(SIGQUIT, SIG_IGN);
 	rl_outstream = stderr;
@@ -106,7 +107,7 @@ int	main(int argc, char **argv, char **env)
 		//g_signal = 0;
 		//set g_signal to 0 when cmds succeeds
 		printf("g_signal($?)[%d]\n", g_signal);
-		ft_signal();
+		ft_signal(&sig_info);
 		/*** signal handling ***/
 
 		line = readline("\x1b[1;38;5;122mminishell🐣 \033[0m");
@@ -144,6 +145,7 @@ int	main(int argc, char **argv, char **env)
 			ft_expand_list(&head);
 			trace_param_inorder(root, env);
 			trace_tree_entry(root, env, &status);
+			printf(" status(main):[%d]\n", status);
 //			ft_free_syntax_tree(root);
 		}
 		free(line);

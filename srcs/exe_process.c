@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:43:25 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/27 14:21:53 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/27 14:35:47 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,13 +108,6 @@ int		wait_process(pid_t *pid_ary, int num_cmds)
 	pid_t	check_pid;
 
 //	printf(">%s\n", __func__);
-	/*
-	printf(" ==========\n");
-	i = 0;
-	while (i < num_cmds)
-		printf(" pid[%d]\n", pid_ary[i++]);
-	printf(" ==========\n");
-	*/
 	i = 0;
 	while (i < num_cmds)
 	{
@@ -123,17 +116,17 @@ int		wait_process(pid_t *pid_ary, int num_cmds)
 	}
 	if (WIFEXITED(status))
 	{
-		printf(" [%s | %s] status: %d\n", __func__, "WIFEXITED",  WEXITSTATUS(status));
-		//status = 128 + (WEXITSTATUS(status));
-		status = 128 + g_signal;
-		g_signal = 0;
+//		printf(" [%s | %s] status: %d\n", __func__, "WIFEXITED",  WEXITSTATUS(status));
+		status = (WEXITSTATUS(status));
+		//status = 128 + g_signal;
+		//g_signal = 0;
 	}
 	else if (WIFSIGNALED(status))
 	{
 		printf(" [%s | %s] status: %d\n", __func__, "WIFSIGNALED", WTERMSIG(status));
-		//status = 128 + (WTERMSIG(status));//128 + signal status
-		status = 128 + g_signal;
-		g_signal = 0;
+		status = (WTERMSIG(status));//128 + signal status
+		//status = 128 + g_signal;
+		//g_signal = 0;
 	}
 	//else
 //		printf(" not WIFEXITED nor WIFSIGNALED\n");

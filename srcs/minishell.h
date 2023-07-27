@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/25 18:21:00 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/27 14:54:45 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,11 @@ typedef struct s_cmds{
 	int		i;
 }					t_cmds;
 
+typedef struct s_signal{
+	struct sigaction	sa_int;
+	struct sigaction	sa_quit;
+}					t_signal;
+
 /*** TOKENIZE ***/
 //tokenize.c
 t_token	*ft_tokenize(char *line, int *is_error);
@@ -109,8 +114,7 @@ t_tree	*ft_make_syntax_tree(t_token *head);
 
 /*** EXECUTION ***/
 //execute.c
-//void    trace_tree_entry(t_tree *root, char **env);
-void	trace_tree_entry(t_tree *root, char **env, int *status);
+void	trace_tree_entry(t_tree *root, char **env, int *status, t_signal *sig_info);
 
 //process.c
 //void    child_process(int fd[2], char **cmd_args, char **env, int num_cmds, int i);
@@ -175,8 +179,9 @@ void	ft_get_heredoc_input(t_token *head);
 
 /*** SIGNAL ***/
 //signal.c
-void	ft_signal(void);
-void	ft_signal_child(void);
+//void	ft_signal(void);
+void	ft_signal(t_signal *sig_info);
+void	ft_signal_child(t_signal *sig_info);
 
 //redirection.c
 void	redirect_out(int *fd, t_token *param);

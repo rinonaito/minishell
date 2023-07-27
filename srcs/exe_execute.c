@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/27 14:27:40 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/27 16:29:46 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,20 @@
 
 extern int	g_signal;
 
+void	signal_child(int code)
+{
+	printf(">child process caught the signal..\n");
+}
+
+void	signal_parent(int code)
+{
+	printf(">parent process caught the signal..\n");
+}
+
 //@func: create processes, including parent/child/wait processes
 //@return_val:
 //		 exit status of wait process		
-static void	create_process(t_cmds *cmds_info, t_tree *root)
+static void	create_process(t_cmds *cmds_info, t_tree *root, t_signal *sig_info)
 {
 	int	pipe_fd[2];
 	pid_t	pid;
@@ -35,6 +45,11 @@ static void	create_process(t_cmds *cmds_info, t_tree *root)
 	if (have_cmd == 1)
 		pid = fork();
 	*/
+
+	/*** ***/
+	ft_signal_child(sig_info);
+	/*** ***/
+
 	pid = fork();
 	if (pid == -1)
 		ft_perror("fork\n");
@@ -42,7 +57,7 @@ static void	create_process(t_cmds *cmds_info, t_tree *root)
 	{
 		/*** signal handling ***/
 		//signal(SIGQUIT, SIG_IGN);//shouldn't ignore 
-		ft_signal_child();	
+		//ft_signal_child(sig_info);
 		/*** signal handling ***/
 		//execute builtin in child process
 		if (is_builtin(cmds_info->cmd_args[0]))
@@ -52,6 +67,11 @@ static void	create_process(t_cmds *cmds_info, t_tree *root)
 	}
 	else
 	{
+		/*** ***/
+		sig_info->sa_quit.sa_handler = signal_parent;
+		if (sigaction(SIGQUIT, &sig_info->sa_quit, NULL) < 0)
+			ft_perror("sigaction");
+		/*** ***/
 		cmds_info->pid_ary[cmds_info->i - 1] = pid;
 		parent_process(pipe_fd);
 	}
@@ -69,24 +89,24 @@ static void	count_num_cmds(t_tree *root, int *i)
 }
 
 //@func: trace the tree structure and create processes
-static void	trace_inorder(t_tree *root, t_cmds *cmds_info)
+static void	trace_inorder(t_tree *root, t_cmds *cmds_info, t_signal *sig_info)
 {
 	if (root == NULL)
 		return ;
-	trace_inorder(root->l_leaf, cmds_info);
+	trace_inorder(root->l_leaf, cmds_info, sig_info);
 	if (root->type != TK_PIPE)
 	{
 		cmds_info->i += 1;
 		cmds_info->cmd_args = create_cmds(root);
-		create_process(cmds_info, root);
+		create_process(cmds_info, root, sig_info);
 		/*** TO HERE ***/ 
 //		free_args(&cmds_info->cmd_args);//free cmd_args and setting NUL
 	}
-	trace_inorder(root->r_leaf, cmds_info);
+	trace_inorder(root->r_leaf, cmds_info, sig_info);
 }
 
 //void	trace_tree_entry(t_tree *root, char **env)
-void	trace_tree_entry(t_tree *root, char **env, int *status)
+void	trace_tree_entry(t_tree *root, char **env, int *status, t_signal *sig_info)
 {
 	t_cmds	cmds_info;
 	int		tmp_fdin;
@@ -100,7 +120,7 @@ void	trace_tree_entry(t_tree *root, char **env, int *status)
 	cmds_info.i = 0;
 	cmds_info.env = env;
 	//trace the tree structure and create processes
-	trace_inorder(root, &cmds_info);
+	trace_inorder(root, &cmds_info, sig_info);
 	dup2(tmp_fdin, STDIN_FILENO);//set back the fd of STDIN
 	close(tmp_fdin);
 	*status = wait_process(cmds_info.pid_ary, cmds_info.num_cmds);
