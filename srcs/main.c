@@ -87,7 +87,7 @@ void	trace_param_inorder(t_tree *root, char **env)
 		return ;
 	trace_param_inorder(root->l_leaf, env);
 	if (root != NULL && root->param != NULL)
-		//printf("param =%s$\n", root->param->token);
+		printf("param =%s$\n", root->param->token);
 	trace_param_inorder(root->r_leaf, env);
 }
 
@@ -105,8 +105,10 @@ int	main(int argc, char **argv, char **env)
 		/*** signal handling ***/
 		//g_signal = 0;
 		//set g_signal to 0 when cmds succeeds
-		printf("g_signal($?)[%d]\n", g_signal);
 		ft_signal();
+		//status = g_signal;
+		printf(" g_signal  [%d]\n", g_signal);
+		printf(" status($?)[%d]\n", status);
 		/*** signal handling ***/
 
 		line = readline("\x1b[1;38;5;122mminishell🐣 \033[0m");
@@ -142,7 +144,7 @@ int	main(int argc, char **argv, char **env)
 			line = NULL;
 			root = ft_make_syntax_tree(head);
 			ft_expand_list(&head);
-			trace_param_inorder(root, env);
+			//trace_param_inorder(root, env);
 			trace_tree_entry(root, env, &status);
 			printf(" status(main):[%d]\n", status);
 //			ft_free_syntax_tree(root);

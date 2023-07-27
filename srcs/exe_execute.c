@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/27 16:57:04 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/27 19:04:11 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,24 +49,34 @@ static void	create_process(t_cmds *cmds_info, t_tree *root)
 
 	/*** ***/
 	ft_signal_child();
+	//
+	//struct sigaction sa;
+	//sigemptyset(&sa.sa_mask);
+	//sa.sa_flags = 0;
 	/*** ***/
 
 	if (pid == -1)
 		ft_perror("fork\n");
 	else if (pid == 0)
 	{
-		/*** signal handling ***/
-		//signal(SIGQUIT, SIG_IGN);//shouldn't ignore 
-		//ft_signal_child(sig_info);
-		/*** signal handling ***/
-		//execute builtin in child process
+		/*** ***/
+		//sa.sa_handler = signal_child;
+		//if (sigaction(SIGQUIT, &sa, NULL) < 0)
+			//ft_perror("sigaction");
+		/*** ***/
 		if (is_builtin(cmds_info->cmd_args[0]))
 			call_builtin(pipe_fd, cmds_info);
 		else
 			child_process(pipe_fd, cmds_info);
+		printf(" *** return  from child process ***\n");
 	}
 	else
 	{
+		/*** ***/
+		//sa.sa_handler = signal_parent;
+		//if (sigaction(SIGQUIT, &sa, NULL) < 0)
+			//ft_perror("sigaction");
+		/*** ***/
 		cmds_info->pid_ary[cmds_info->i - 1] = pid;
 		parent_process(pipe_fd);
 	}

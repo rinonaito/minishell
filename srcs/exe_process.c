@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:43:25 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/27 17:41:31 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/27 18:38:49 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,11 @@ static void	exec(char **cmd_args, char **env)
 	//{
 		//ft_perror(" access failed");
 	//}
-	//int ret =  execve(file, cmd_args, env);
-	//printf(" ret:[%d]\n", ret);
-	//printf(" file:[%s]\n", file);
-	if (execve(file, cmd_args, env) == -1)
+	int ret =  execve(file, cmd_args, env);
+	printf(" ret:[%d]\n", ret);
+	printf(" file:[%s]\n", file);
+	//if (execve(file, cmd_args, env) == -1)
+	if (ret == -1)
 	{
 		ft_printf_fd(STDERR_FILENO, "bash: %s: command not found\n", cmd_args[0]);
 		exit(127);//command not found -> 127

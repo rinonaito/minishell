@@ -6,7 +6,7 @@
 #    By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 16:01:50 by rnaito            #+#    #+#              #
-#    Updated: 2023/07/25 20:33:26 by taaraki          ###   ########.fr        #
+#    Updated: 2023/07/27 18:27:09 by taaraki          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,6 +64,7 @@ vpath %.a $(LIBFT_DIR)
 all: $(NAME)
 $(NAME): $(NAME_LIBFT) $(OBJS)
 	$(CC) $(CFLAGS) $(LIBS) $(OBJS) -o $@
+	@echo > ~/.inputrc set echo-control-characters off
 $(OBJSDIR)%.o: %.c
 	mkdir -p $(OBJSDIR)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
