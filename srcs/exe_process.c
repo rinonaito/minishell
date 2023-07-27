@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:43:25 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/27 14:35:47 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/27 17:41:31 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,15 @@ static void	exec(char **cmd_args, char **env)
 	//{
 		//ft_perror(" access failed");
 	//}
-	int ret =  execve(file, cmd_args, env);
-	printf(" ret:[%d]\n", ret);
-	printf(" file:[%s]\n", file);
-	//if (execve(file, cmd_args, env) == -1)
-		//ft_perror(" command not found");
+	//int ret =  execve(file, cmd_args, env);
+	//printf(" ret:[%d]\n", ret);
+	//printf(" file:[%s]\n", file);
+	if (execve(file, cmd_args, env) == -1)
+	{
+		ft_printf_fd(STDERR_FILENO, "bash: %s: command not found\n", cmd_args[0]);
+		exit(127);//command not found -> 127
+	}
+		//ft_error("bash: %s: command not found");
 }
 
 //void	child_process(int fd[2], char **cmd_args, char **env, int num_cmds, int i)
@@ -116,17 +120,19 @@ int		wait_process(pid_t *pid_ary, int num_cmds)
 	}
 	if (WIFEXITED(status))
 	{
-//		printf(" [%s | %s] status: %d\n", __func__, "WIFEXITED",  WEXITSTATUS(status));
+		printf(" [%s] status: %d\n", "WIFEXITED",  WEXITSTATUS(status));
 		status = (WEXITSTATUS(status));
 		//status = 128 + g_signal;
-		//g_signal = 0;
+		printf(" g_signal:[%d]\n", g_signal);
+		g_signal = 0;
 	}
 	else if (WIFSIGNALED(status))
 	{
-		printf(" [%s | %s] status: %d\n", __func__, "WIFSIGNALED", WTERMSIG(status));
+		printf(" [%s] status: %d\n", "WIFSIGNALED", WTERMSIG(status));
 		status = (WTERMSIG(status));//128 + signal status
 		//status = 128 + g_signal;
-		//g_signal = 0;
+		printf(" g_signal:[%d]\n", g_signal);
+		g_signal = 0;
 	}
 	//else
 //		printf(" not WIFEXITED nor WIFSIGNALED\n");
