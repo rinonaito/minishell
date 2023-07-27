@@ -1,5 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
+/* ************************************************************************** */ /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
@@ -29,8 +28,31 @@ void	signal_handler_int(int signum)
 	}
 }
 
+void	signal_handler_int_child(int signum)
+{
+	//printf(">%s\n", __func__);
+	if (signum == SIGINT)
+	{
+		write(STDERR_FILENO, "\n", 1);//write out the new line to STDERR
+		rl_replace_line("", 0);//replace the line with empty string
+		rl_on_new_line();//display a new prompt at the right position
+		rl_redisplay();//redisplay the prompt
+		//printf("g_signal:[%d]\n", g_signal);
+		g_signal = 2;
+		//printf("g_signal:[%d]\n", g_signal);
+	}
+}
+
 void	signal_handler_quit(int signum)
 {
+}
+
+void	signal_handler_quit_child(int signum)
+{
+	if (signum == SIGQUIT)
+	{
+		g_signal = 3;
+	}
 }
 
 void	test_handler(int signum)

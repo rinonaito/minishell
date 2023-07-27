@@ -87,7 +87,7 @@ void	trace_param_inorder(t_tree *root, char **env)
 		return ;
 	trace_param_inorder(root->l_leaf, env);
 	if (root != NULL && root->param != NULL)
-		printf("param =%s$\n", root->param->token);
+		//printf("param =%s$\n", root->param->token);
 	trace_param_inorder(root->r_leaf, env);
 }
 

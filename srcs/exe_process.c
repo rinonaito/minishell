@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:43:25 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/25 20:32:38 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/27 14:21:53 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@ void	parent_process(int pipe_fd[2])
 
 //	if (pipe_fd[WRITE_END] != STDOUT_FILENO)
 //		close(pipe_fd[WRITE_END]);
-	printf("IN PARENT\npipe_fd[READ_END] = [%d]\npipe_fd[WRITE_END] = [%d]\n", pipe_fd[READ_END], pipe_fd[WRITE_END]);
+	//printf(">IN PARENT\npipe_fd[READ_END] = [%d]\npipe_fd[WRITE_END] = [%d]\n", pipe_fd[READ_END], pipe_fd[WRITE_END]);
+	//
+	close(pipe_fd[WRITE_END]);
 	if (dup2(pipe_fd[READ_END], STDIN_FILENO) == -1)
 	{
 		close(pipe_fd[READ_END]);
@@ -36,7 +38,8 @@ void	parent_process(int pipe_fd[2])
 //		ft_perror("dup2");
 //	}
 	//close it to free the resource
-	if (pipe_fd[READ_END] != STDIN_FILENO)
+	//commenting out
+	//if (pipe_fd[READ_END] != STDIN_FILENO)
 		close(pipe_fd[READ_END]);
 }
 
@@ -45,7 +48,7 @@ static void	exec(char **cmd_args, char **env)
 	char	*file;
 
 	printf(">%s\n", __func__);
-	printf("env = %p\n", env);
+	//printf("env = %p\n", env);
 	//int i = -1;
 	//while (env[++i])
 		//printf("env[%d]:[%s]\n", i, env[i]);
@@ -74,20 +77,27 @@ void	child_process(int pipe_fd[2], t_cmds *cmds_info)
 {
 //	if (pipe_fd[READ_END] != STDIN_FILENO)
 //	close(pipe_fd[READ_END]);
-	printf("IN CHILD\npipe_fd[READ_END] = [%d]\npipe_fd[WRITE_END] = [%d]\n", pipe_fd[READ_END], pipe_fd[WRITE_END]);
-	if (dup2(pipe_fd[READ_END], STDIN_FILENO) == -1)
+	//printf(">IN CHILD\npipe_fd[READ_END] = [%d]\npipe_fd[WRITE_END] = [%d]\n", pipe_fd[READ_END], pipe_fd[WRITE_END]);
+	/***  FROM HERE ***/
+	close(pipe_fd[READ_END]);
+	//if (dup2(pipe_fd[READ_END], STDIN_FILENO) == -1)
+	//{
+		//close(pipe_fd[READ_END]);
+		//ft_perror("dup2");
+	//}
+	/*** TO HERE ***/
+	if (cmds_info->i < cmds_info->num_cmds)
 	{
-		close(pipe_fd[READ_END]);
-		ft_perror("dup2");
+		if (dup2(pipe_fd[WRITE_END], STDOUT_FILENO) == -1)
+		{
+			close(pipe_fd[WRITE_END]);
+			ft_perror("dup2");
+		}
 	}
-	if (dup2(pipe_fd[WRITE_END], STDOUT_FILENO) == -1)
-	{
-		close(pipe_fd[WRITE_END]);
-		ft_perror("dup2");
-	}
+	close(pipe_fd[WRITE_END]);
 //	if (pipe_fd[WRITE_END] != STDOUT_FILENO)
 //		close(pipe_fd[WRITE_END]);//close it to free the resource
-	printf("command = %s\n", cmds_info->cmd_args[0]);
+	//printf("command = %s\n", cmds_info->cmd_args[0]);
 	exec(cmds_info->cmd_args, cmds_info->env);
 }
 
@@ -113,15 +123,17 @@ int		wait_process(pid_t *pid_ary, int num_cmds)
 	}
 	if (WIFEXITED(status))
 	{
-//		printf(" [%s | %s] status: %d\n", __func__, "WIFEXITED",  WEXITSTATUS(status));
-		status = (WEXITSTATUS(status));
+		printf(" [%s | %s] status: %d\n", __func__, "WIFEXITED",  WEXITSTATUS(status));
+		//status = 128 + (WEXITSTATUS(status));
+		status = 128 + g_signal;
 		g_signal = 0;
 	}
 	else if (WIFSIGNALED(status))
 	{
 		printf(" [%s | %s] status: %d\n", __func__, "WIFSIGNALED", WTERMSIG(status));
-		status = 128 + (WTERMSIG(status));//128 + signal status
-		g_signal = WTERMSIG(status);
+		//status = 128 + (WTERMSIG(status));//128 + signal status
+		status = 128 + g_signal;
+		g_signal = 0;
 	}
 	//else
 //		printf(" not WIFEXITED nor WIFSIGNALED\n");
