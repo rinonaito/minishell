@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/27 16:29:46 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/27 16:32:11 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,12 @@ static void	create_process(t_cmds *cmds_info, t_tree *root, t_signal *sig_info)
 	if (have_cmd == 1)
 		pid = fork();
 	*/
+	pid = fork();
 
 	/*** ***/
 	ft_signal_child(sig_info);
 	/*** ***/
 
-	pid = fork();
 	if (pid == -1)
 		ft_perror("fork\n");
 	else if (pid == 0)
@@ -67,11 +67,6 @@ static void	create_process(t_cmds *cmds_info, t_tree *root, t_signal *sig_info)
 	}
 	else
 	{
-		/*** ***/
-		sig_info->sa_quit.sa_handler = signal_parent;
-		if (sigaction(SIGQUIT, &sig_info->sa_quit, NULL) < 0)
-			ft_perror("sigaction");
-		/*** ***/
 		cmds_info->pid_ary[cmds_info->i - 1] = pid;
 		parent_process(pipe_fd);
 	}

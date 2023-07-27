@@ -15,7 +15,7 @@ extern int	g_signal;// = 0;//no initializer
 
 void	signal_handler_int(int signum)
 {
-	printf(">%s\n", __func__);
+	//printf(">%s\n", __func__);
 	if (signum == SIGINT)
 	{
 		write(STDERR_FILENO, "\n", 1);//write out the new line to STDERR
@@ -89,7 +89,7 @@ void	ft_signal(t_signal *sig_info)
 void	ft_signal_child(t_signal *sig_info)
 {
 	/*** SIGQUIT ***/
-	signal(SIGQUIT, test_handler);
+	signal(SIGQUIT, signal_handler_quit_child);
 	//sigemptyset(&sig_info->sa_quit.sa_mask);
 	//sig_info->sa_quit.sa_flags = 0;
 		//sig_info->sa_quit.sa_handler = signal_handler_quit_child;
@@ -98,7 +98,7 @@ void	ft_signal_child(t_signal *sig_info)
 		//ft_perror("sigaction");
 
 	/*** SIGINT ***/
-	signal(SIGINT, test_handler);
+	signal(SIGINT, signal_handler_int_child);
 	//sigemptyset(&sig_info->sa_int.sa_mask);//clear signal masks
 	//sig_info->sa_int.sa_flags = 0;//set no flag
 		//sig_info->sa_int.sa_handler = signal_handler_int_child;
