@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/26 15:09:56 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/31 18:44:09 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,8 @@ int    builtin_echo(char **args);//, t_minishell *m)
 
 /*** EXPANSION ***/
 //expansion.c
+char	*ft_get_token_sin_quotes(char *with_quotes);
+char	*ft_delete_quotes(char *with_quotes);
 char	*ft_check_quotes(char *old_start);
 char	*ft_expand_str(char *old_token);
 void	ft_expand_list(t_token **param);
@@ -162,10 +164,6 @@ int		ft_split_with_ifs(char *space_char, char **old, size_t *i, char *new);
 void	ft_for_middle(char *space_char, char *ifs, char **new, char *old);
 char	*ft_split_token(char *ifs, char *old);
 void	ft_split_expanded_token(t_token *param);
-
-//ft_delete_quotes.c
-void	ft_delete_quotes(t_token *param);
-char	*ft_get_token_sin_quotes(char *with_quotes);
 
 //ft_get_heredoc_input.c
 char	*ft_get_delimiter(t_token *head, int *is_quoted);
