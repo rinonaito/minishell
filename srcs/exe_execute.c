@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/27 19:04:11 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/27 19:18:20 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,9 @@ static void	create_process(t_cmds *cmds_info, t_tree *root)
 		//if (sigaction(SIGQUIT, &sa, NULL) < 0)
 			//ft_perror("sigaction");
 		/*** ***/
-		if (is_builtin(cmds_info->cmd_args[0]))
-			call_builtin(pipe_fd, cmds_info);
-		else
+		//if (is_builtin(cmds_info->cmd_args[0]))
+			//call_builtin(pipe_fd, cmds_info);
+		//else
 			child_process(pipe_fd, cmds_info);
 		printf(" *** return  from child process ***\n");
 	}
