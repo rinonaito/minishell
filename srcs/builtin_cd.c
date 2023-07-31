@@ -6,7 +6,7 @@
 /*   By: taaraki <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 19:55:33 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/31 21:54:19 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/31 22:16:06 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,25 @@ typedef struct s_cmds{
 }					t_cmds;
 */
 
-int		absolute_path(char *path)
+static int		relative_path(char *path, char *buff_cwd)
+{
+	//char	buff_cwd[PATH_MAX];
+	char	*full_path;
+	int		ret;
+
+	printf(" >%s\n", __func__);
+	ft_memset(buff_cwd, '\0', PATH_MAX);
+	getcwd(buff_cwd, PATH_MAX); //printf("buff_cwd:[%s]\n", buff_cwd);
+	if (!buff_cwd)
+		return (-1);
+	full_path = ft_strjoin(buff_cwd, "/");
+	full_path = ft_strjoin(full_path, path);
+	//printf(" full_path:[%s]\n", full_path);
+	ret = chdir(full_path);
+	return (ret);
+}
+
+static int		absolute_path(char *path, char *buff_cwd)
 {
 	int		ret;
 
@@ -33,9 +51,9 @@ int		absolute_path(char *path)
 	return (ret);
 }
 
-static int	update_oldpwd(t_cmds *cmds_info)
+static int	update_oldpwd(t_cmds *cmds_info, char *buff_cwd)
 {
-	char	buff_cwd[PATH_MAX];
+	//char	buff_cwd[PATH_MAX];
 	char	*oldpwd;
 
 	printf(" >%s\n", __func__);
@@ -54,7 +72,7 @@ static int	update_oldpwd(t_cmds *cmds_info)
 		//add_env(oldpwd, cmds_info);
 	free(oldpwd);
 	oldpwd = NULL;
-	return (ret);
+	return (0);
 	
 }
 
@@ -83,7 +101,7 @@ int		builtin_cd(t_cmds *cmds_info)
 		return (-1);//error
 	if (!cmd_args[1])
 	{
-		//update_oldpwd(cmds_info);
+		//update_oldpwd(cmds_info, buff_cwd);
 		//go to the home directory
 		char home[] = "/Users/taaraki";
 		ret = chdir(home);
@@ -92,9 +110,9 @@ int		builtin_cd(t_cmds *cmds_info)
 	{
 		//update_oldpwd(cmds_info);
 		if (ft_strncmp("/", cmd_args[1], 1) == 0)
-			ret = absolute_path(cmd_args[1]);
-		//else
-			//ret = relative_path(cmd_args[1]);
+			ret = absolute_path(cmd_args[1], buff_cwd);
+		else
+			ret = relative_path(cmd_args[1], buff_cwd);
 	}
 	return (ret);
 }

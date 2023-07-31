@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/31 20:37:30 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/31 22:13:48 by taaraki          ###   ########.fr       */
 /* ************************************************************************** */
 
 #include	"minishell.h"
@@ -23,6 +23,16 @@ static void	create_process(t_cmds *cmds_info, t_tree *root)
 	t_token *param;
 	int		have_cmd;
 
+	/*** is_builtin && num_cmds == 1***/
+	if (is_builtin(cmds_info->cmd_args[0]) && cmds_info->num_cmds == 1)
+	{
+		int ret = builtin_cd(cmds_info);	
+		printf(" ret:[%d]\n", ret);
+		//call_builtin(pipe_fd, cmds_info);
+		return ;
+	}
+	/*** is_builtin && num_cmds == 1***/
+
 	//printf("%s\n", __func__);
 	if (pipe(pipe_fd) == -1)
 		ft_perror("pipe\n");
@@ -35,10 +45,6 @@ static void	create_process(t_cmds *cmds_info, t_tree *root)
 		ft_perror("fork\n");
 	else if (pid == 0)
 	{
-		/*** signal handling ***/
-		//signal(SIGQUIT, SIG_IGN);//shouldn't ignore 
-		//ft_signal_child();	
-		/*** signal handling ***/
 		//execute builtin in child process
 		if (is_builtin(cmds_info->cmd_args[0]))
 			call_builtin(pipe_fd, cmds_info);

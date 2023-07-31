@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:16:53 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/31 20:42:18 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/31 22:08:29 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,10 @@ void	built_in_process(int pipe_fd[2], t_cmds *cmds_info)
 			//exit(1);
 		int ret = builtin_cd(cmds_info);
 		printf(" ret:[%d]\n", ret);
+		if (ret == -1)
+			exit(1);
+		else
+			exit(0);
 	}
 }
 
