@@ -6,7 +6,7 @@
 #    By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 16:01:50 by rnaito            #+#    #+#              #
-#    Updated: 2023/07/25 21:10:02 by rnaito           ###   ########.fr        #
+#    Updated: 2023/07/31 18:18:38 by rnaito           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,6 @@ SRCS =	main.c\
 		expansion.c\
 		ft_replace_key_with_val.c\
 		ft_split_expanded_token.c\
-		ft_delete_quotes.c\
 		libft_plus.c\
 		redirection.c\
 		ex_execute.c\

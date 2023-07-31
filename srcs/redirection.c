@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 10:48:49 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/26 14:50:34 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/26 16:46:10 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ int	redirect(t_token *param, int *redir_fd, int *pipe_fd, t_cmds *cmds_info)
 		redir_fd[READ_END] = STDIN_FILENO;
 	else
 		redir_fd[READ_END] = pipe_fd[READ_END];
-	printf("INITIATE WITH redir[WRITE] = [%d], redir[READ] = [%d]\n", redir_fd[WRITE_END], redir_fd[READ_END]);
 	have_cmd = 0;
 	while (param != NULL && param->type != TK_PIPE)	
 	{
@@ -99,6 +98,5 @@ int	redirect(t_token *param, int *redir_fd, int *pipe_fd, t_cmds *cmds_info)
 			param = param->next->next;
 		}
 	}
-	printf("END WITH redir[WRITE] = [%d], redir[READ] = [%d]\n", redir_fd[WRITE_END], redir_fd[READ_END]);
 	return (have_cmd);
 }

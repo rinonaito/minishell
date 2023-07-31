@@ -1,10 +1,10 @@
 IN BUILTIN
 pipe_fd[READ_END] = [0]
-pipe_fd[WRITE_END] = [7]
+pipe_fd[WRITE_END] = [12]
 >builtin_echo
-hello
+bbbbb
 IN BUILTIN
 pipe_fd[READ_END] = [0]
-pipe_fd[WRITE_END] = [10]
+pipe_fd[WRITE_END] = [17]
 >builtin_echo
-aaaaaaa
+jahsdkajshdkja

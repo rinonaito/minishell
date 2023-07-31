@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/26 15:09:11 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/31 18:35:28 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ int	main(int argc, char **argv, char **env)
 			line = NULL;
 			root = ft_make_syntax_tree(head);
 			ft_expand_list(&head);
-			trace_param_inorder(root);
+//			trace_param_inorder(root);
 			trace_tree_entry(root, env);
 //			ft_free_syntax_tree(root);
 		}
