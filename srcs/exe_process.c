@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:43:25 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/31 22:07:31 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/31 23:31:18 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,15 @@ static void	exec(char **cmd_args, char **env)
 	//{
 		//ft_perror(" access failed");
 	//}
-	int ret =  execve(file, cmd_args, env);
-	printf(" ret:[%d]\n", ret);
+	//int ret =  execve(file, cmd_args, env);
+	//printf(" ret:[%d]\n", ret);
 	printf(" file:[%s]\n", file);
-	//if (execve(file, cmd_args, env) == -1)
+	if (execve(file, cmd_args, env) == -1)
+	{
+		ft_printf_fd(STDERR_FILENO, "bash: %s: command not found\n", cmd_args[0]);
 		//ft_perror(" command not found");
+		exit(1);
+	}
 }
 
 //void	child_process(int fd[2], char **cmd_args, char **env, int num_cmds, int i)
@@ -97,14 +101,6 @@ int		wait_process(pid_t *pid_ary, int num_cmds)
 	int		i;
 	pid_t	check_pid;
 
-//	printf(">%s\n", __func__);
-	/*
-	printf(" ==========\n");
-	i = 0;
-	while (i < num_cmds)
-		printf(" pid[%d]\n", pid_ary[i++]);
-	printf(" ==========\n");
-	*/
 	i = 0;
 	while (i < num_cmds)
 	{

@@ -6,7 +6,7 @@
 /*   By: taaraki <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 19:55:33 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/31 22:48:20 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/31 23:24:12 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ static int		relative_path(char *path, char *buff_cwd)
 	full_path = ft_strjoin(full_path, path);
 	//printf(" full_path:[%s]\n", full_path);
 	ret = chdir(full_path);
+	free(full_path);
+	full_path = NULL;
 	return (ret);
 }
 
@@ -103,7 +105,7 @@ int		builtin_cd(t_cmds *cmds_info)
 	{
 		//update_oldpwd(cmds_info, buff_cwd);
 		//go to the home directory
-		char home[] = "/Users/taaraki";
+		char *home = getenv("HOME");//"/Users/taaraki";
 		ret = chdir(home);
 	}
 	else
@@ -114,5 +116,8 @@ int		builtin_cd(t_cmds *cmds_info)
 		else
 			ret = relative_path(cmd_args[1], buff_cwd);
 	}
+	if (ret == -1)
+		ft_printf_fd(STDERR_FILENO, "bash: %s: %s: %s\n", cmd_args[0], strerror(errno), cmd_args[1]);
+	//printf(" strerror:[%s]\n", strerror(errno));
 	return (ret);
 }
