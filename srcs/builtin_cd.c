@@ -6,7 +6,7 @@
 /*   By: taaraki <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 19:55:33 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/31 22:16:06 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/31 22:22:13 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ static int	update_oldpwd(t_cmds *cmds_info, char *buff_cwd)
 	*/ 
 	//if (exits_env(oldpwd, cmds_info->env))
 		//add_env(oldpwd, cmds_info);
+	//else
+		//replace_env(oldpwd, cmds_info);
 	free(oldpwd);
 	oldpwd = NULL;
 	return (0);
