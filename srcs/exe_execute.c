@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/31 22:13:48 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/31 22:43:10 by taaraki          ###   ########.fr       */
 /* ************************************************************************** */
 
 #include	"minishell.h"
@@ -23,12 +23,20 @@ static void	create_process(t_cmds *cmds_info, t_tree *root)
 	t_token *param;
 	int		have_cmd;
 
-	/*** is_builtin && num_cmds == 1***/
+	/*** is_builtin && num_cmds == 1 ***/
 	if (is_builtin(cmds_info->cmd_args[0]) && cmds_info->num_cmds == 1)
 	{
-		int ret = builtin_cd(cmds_info);	
-		printf(" ret:[%d]\n", ret);
-		//call_builtin(pipe_fd, cmds_info);
+		if (ft_strequ(cmds_info->cmd_args[0], "cd"))
+		{
+			int ret = builtin_cd(cmds_info);	
+			printf(" ret:[%d]\n", ret);
+			//call_builtin(pipe_fd, cmds_info);
+		}
+		else if (ft_strequ(cmds_info->cmd_args[0], "pwd"))
+		{
+			int ret = builtin_pwd(cmds_info);	
+			printf(" ret:[%d]\n", ret);
+		}
 		return ;
 	}
 	/*** is_builtin && num_cmds == 1***/

@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:16:53 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/31 22:08:29 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/31 22:28:16 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 //@func: check if a string is equal to one of the builtin commands
 int	is_builtin(char *s)
 {
-	//const char	*lst[] = {"echo", "cd", "pwd", "export", "unset", \
-												//"env", "exit", NULL};
-	const char	*lst[] = {"echo", "cd", "export", "unset", \
+	const char	*lst[] = {"echo", "cd", "pwd", "export", "unset", \
 												"env", "exit", NULL};
+	//const char	*lst[] = {"echo", "cd", "export", "unset", \
+												//"env", "exit", NULL};
 	int			i;
 
 	if (!s)

@@ -6,7 +6,7 @@
 /*   By: taaraki <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 19:55:33 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/31 22:22:13 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/31 22:48:20 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,7 @@ static int		relative_path(char *path, char *buff_cwd)
 
 	printf(" >%s\n", __func__);
 	ft_memset(buff_cwd, '\0', PATH_MAX);
-	getcwd(buff_cwd, PATH_MAX); //printf("buff_cwd:[%s]\n", buff_cwd);
-	if (!buff_cwd)
+	if (!getcwd(buff_cwd, PATH_MAX)) //printf("buff_cwd:[%s]\n", buff_cwd);
 		return (-1);
 	full_path = ft_strjoin(buff_cwd, "/");
 	full_path = ft_strjoin(full_path, path);
@@ -42,7 +41,7 @@ static int		relative_path(char *path, char *buff_cwd)
 	return (ret);
 }
 
-static int		absolute_path(char *path, char *buff_cwd)
+static int		absolute_path(char *path)
 {
 	int		ret;
 
@@ -58,8 +57,7 @@ static int	update_oldpwd(t_cmds *cmds_info, char *buff_cwd)
 
 	printf(" >%s\n", __func__);
 	ft_memset(buff_cwd, '\0', PATH_MAX);
-	getcwd(buff_cwd, PATH_MAX); //printf("buff_cwd:[%s]\n", buff_cwd);
-	if (!buff_cwd)
+	if (!getcwd(buff_cwd, PATH_MAX))
 		return (-1);
 	oldpwd = ft_strjoin("OLDPWD=", buff_cwd);
 	if (!oldpwd)
@@ -112,7 +110,7 @@ int		builtin_cd(t_cmds *cmds_info)
 	{
 		//update_oldpwd(cmds_info);
 		if (ft_strncmp("/", cmd_args[1], 1) == 0)
-			ret = absolute_path(cmd_args[1], buff_cwd);
+			ret = absolute_path(cmd_args[1]);
 		else
 			ret = relative_path(cmd_args[1], buff_cwd);
 	}

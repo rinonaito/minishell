@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/31 20:33:23 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/31 22:42:37 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,5 +186,6 @@ int		redirect(t_token *param, int *pipe_fd, t_cmds *cmds_info);
 
 /*** BUILTINS ***/
 int		builtin_cd(t_cmds *cmds_info);
+int		builtin_pwd(t_cmds *cmds_info);
 
 #endif
