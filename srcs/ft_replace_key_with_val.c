@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 15:11:52 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/19 15:46:25 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/31 20:01:06 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_for_braced_env(char **start, char **end, char *doller)
 	is_error = 0;
 	*start = doller + 2;
 	*end = ft_strchr(*start, '}');
-	if (*end == NULL)
+	if (*end == NULL || ft_isdigit((int)*start) == 1)
 		is_error = 1;
 	return (is_error);
 }
@@ -41,6 +41,7 @@ void	ft_for_unbraced_env(char **start, char **end, char *doller)
 	}
 	if (*end == NULL)
 		*end = &((*start)[i]);
+//	if (ft_isdigit() == 0)
 }
 
 char	*ft_get_key_of_env(char *doller)
