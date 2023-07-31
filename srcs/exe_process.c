@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:43:25 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/25 18:43:13 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/07/31 20:39:57 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	parent_process(int pipe_fd[2])
 
 //	if (pipe_fd[WRITE_END] != STDOUT_FILENO)
 //		close(pipe_fd[WRITE_END]);
-	printf("IN PARENT\npipe_fd[READ_END] = [%d]\npipe_fd[WRITE_END] = [%d]\n", pipe_fd[READ_END], pipe_fd[WRITE_END]);
+	//printf("IN PARENT\npipe_fd[READ_END] = [%d]\npipe_fd[WRITE_END] = [%d]\n", pipe_fd[READ_END], pipe_fd[WRITE_END]);
 	if (dup2(pipe_fd[READ_END], STDIN_FILENO) == -1)
 	{
 		close(pipe_fd[READ_END]);

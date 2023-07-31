@@ -6,7 +6,7 @@
 #    By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 16:01:50 by rnaito            #+#    #+#              #
-#    Updated: 2023/07/25 18:45:17 by taaraki          ###   ########.fr        #
+#    Updated: 2023/07/31 20:32:03 by taaraki          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,8 @@ SRCS =	main.c\
 		exe_search_path.c\
 		exe_builtin_echo.c\
 		signal.c\
-		exe_perror.c
+		exe_perror.c\
+		builtin_cd.c
 OBJSDIR = objs/
 OBJS = $(SRCS:%.c=$(OBJSDIR)%.o)
 
