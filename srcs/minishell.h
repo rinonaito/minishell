@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/01 22:03:36 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/08/01 22:08:58 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,9 +174,7 @@ void	ft_get_heredoc_input(t_token *head, int status);
 
 /*** SIGNAL ***/
 //signal.c
-//void	ft_signal(t_signal *sig_info);
-void	ft_signal(void);
-//void	ft_signal_child(t_signal *sig_info);
+void	ft_signal(int *status);
 void	ft_signal_child(void);
 
 //redirection.c
@@ -186,10 +184,10 @@ void	redirect_in(int *fd, t_token *param);
 int		redirect(t_token *param, int *redir_fd, int *pipe_fd, t_cmds *cmds_info);
 
 /*** BUILTINS ***/
+int		builtin_echo(t_cmds *cmds_info);
 int		builtin_cd(t_cmds *cmds_info);
 int		builtin_pwd(t_cmds *cmds_info);
-int		builtin_echo(t_cmds *cmds_info);
-
+int		builtin_exit(t_cmds *cmds_info);
 
 t_env	*make_env_list(char	**env);
 void	builtin_env(t_env *head);

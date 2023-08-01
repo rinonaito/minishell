@@ -57,7 +57,7 @@ void	test_handler(int signum)
 	printf(">%s\n", __func__);
 }
 
-void	ft_signal(void)
+void	ft_signal(int *status)
 {
 	/*** SIGQUIT ***/
 	signal(SIGQUIT, SIG_IGN);
@@ -74,6 +74,8 @@ void	ft_signal(void)
 	//sig_info->sa_int.sa_handler = signal_handler_int;
 	//if (sigaction(SIGINT, &sig_info->sa_int, NULL) < 0)
 		//ft_perror("sigaction");
+	if (g_signal == 1)
+		*status = 1;
 }
 
 void	ft_signal_child(void)
