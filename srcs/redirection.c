@@ -6,13 +6,13 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 10:48:49 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/25 17:13:59 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/01 17:29:28 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	"minishell.h"
 
-void		redirect_out_append(int *pipe_fd, t_token *param, int type)
+void	redirect_out_append(int *redir_fd, t_token *param, int type)
 {
 	int			fd_out;
 	char		*filename;
@@ -24,65 +24,79 @@ void		redirect_out_append(int *pipe_fd, t_token *param, int type)
 	{
 		fd_out = open(filename, O_WRONLY | O_CREAT | O_APPEND, OPEN_MODE);
 	}
-	printf("FD of [%s] : [%d]\n", filename, fd_out);
+//	printf("FD of [%s] : [%d]\n", filename, fd_out);
 	if (fd_out == -1)
 		ft_perror("bash");
-	if (pipe_fd[WRITE_END] != STDOUT_FILENO)
+	if (redir_fd[WRITE_END] != STDOUT_FILENO && redir_fd[WRITE_END] != fd_out)
 	{
-		printf("close FD: [%d]\n", pipe_fd[WRITE_END]);
-		close(pipe_fd[WRITE_END]);
+//		printf("close FD: [%d]\n", redir_fd[WRITE_END]);
+		close(redir_fd[WRITE_END]);
 	}
-	pipe_fd[WRITE_END] = fd_out;
+	redir_fd[WRITE_END] = fd_out;
 }
 
-void		redirect_in(int *pipe_fd, t_token *param)
+void	redirect_in(int *redir_fd, t_token *param)
 {
 	int		fd_in;
 	char	*filename;
 
 	filename = param->next->token;
-	fd_in = open(filename, O_RDONLY);
-	printf("FD of [%s] : [%d]\n", filename, fd_in);
-	printf("close FD: [%d]\n", pipe_fd[READ_END]);
+	fd_in = open(filename, O_RDWR);
 	if (fd_in == -1)
 		ft_perror("bash");
-	if (pipe_fd[READ_END] != STDIN_FILENO)
+	if (redir_fd[READ_END] != STDIN_FILENO && redir_fd[READ_END] != fd_in)
 	{
-		printf("close FD: [%d]\n", pipe_fd[READ_END]);
-		close(pipe_fd[READ_END]);
+//		printf("close FD: [%d]\n", redir_fd[READ_END]);
+		close(redir_fd[READ_END]);
 	}
-	pipe_fd[READ_END] = fd_in;	
+//	printf("FD of [%s] = [%d]\n", filename, fd_in);
+	redir_fd[READ_END] = fd_in;
 }
 
-void		heredoc(int *pipe_fd, t_token *param)
+void	heredoc(int *redir_fd, t_token *param)
 {
-	printf("HEREDOC\n wiring in fd[%d]\n", pipe_fd[READ_END]);
-	write(pipe_fd[READ_END], param->heredoc, ft_strlen(param->heredoc));
+	int		fd_in;
+
+	printf("HEREDOC\n wiring in fd[%d]\n", redir_fd[READ_END]);
+	fd_in = open("tempfile", O_RDWR | O_CREAT | O_CLOEXEC);
+	if (fd_in == -1)
+	{
+		printf("aaaaaaaaaaaaaaaaa\n");
+		ft_perror("bash");
+	}
+	write(fd_in, param->heredoc, ft_strlen(param->heredoc));
+	if (redir_fd[READ_END] != STDIN_FILENO && redir_fd[READ_END] != fd_in)
+		close(redir_fd[READ_END]);
+	printf("FD of tempfile = [%d]\n", fd_in);
+	redir_fd[READ_END] = fd_in;
 }
 
-void	call_each_redir(int *pipe_fd, t_token *param)
+void	call_each_redir(int *redir_fd, t_token *param)
 {
 	if (param->type == TK_REDIR_IN)
-		redirect_in(pipe_fd, param);
+		redirect_in(redir_fd, param);
 	if (param->type == TK_REDIR_OUT)
-		redirect_out_append(pipe_fd, param, TK_REDIR_OUT);
+		redirect_out_append(redir_fd, param, TK_REDIR_OUT);
 	if (param->type == TK_HEREDOC)
-		heredoc(pipe_fd, param);
+		heredoc(redir_fd, param);
 	if (param->type == TK_APPEND)
-		redirect_out_append(pipe_fd, param, TK_APPEND);
+		redirect_out_append(redir_fd, param, TK_APPEND);
 }
 
-int	redirect(t_token *param, int *pipe_fd, t_cmds *cmds_info)
+int	redirect(t_token *param, int *redir_fd, int *pipe_fd, t_cmds *cmds_info)
 {
 	int	have_cmd;
 
 	if (cmds_info->i == cmds_info->num_cmds)
-	{
-		close(pipe_fd[WRITE_END]);
-		pipe_fd[WRITE_END] = STDOUT_FILENO;
-	}
+		redir_fd[WRITE_END] = STDOUT_FILENO;
+	else
+		redir_fd[WRITE_END] = pipe_fd[WRITE_END];
+	if (cmds_info->i == 1)
+		redir_fd[READ_END] = STDIN_FILENO;
+	else
+		redir_fd[READ_END] = pipe_fd[READ_END];
 	have_cmd = 0;
-	while (param != NULL && param->type != TK_PIPE)	
+	while (param != NULL && param->type != TK_PIPE)
 	{
 		if (param->type == TK_WORD)
 		{
@@ -92,7 +106,7 @@ int	redirect(t_token *param, int *pipe_fd, t_cmds *cmds_info)
 		}
 		else
 		{
-			call_each_redir(pipe_fd, param);
+			call_each_redir(redir_fd, param);
 			param = param->next->next;
 		}
 	}

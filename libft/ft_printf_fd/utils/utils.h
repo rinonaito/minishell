@@ -6,12 +6,21 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 16:02:54 by taaraki           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/07/31 23:13:52 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef UTILS_FD_H
 # define UTILS_FD_H
+=======
+/*   Updated: 2023/07/27 17:17:43 by taaraki          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef UTILS_H
+# define UTILS_H
+>>>>>>> master
 
 # include	<stddef.h>
 # include	<stdlib.h>
