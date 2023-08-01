@@ -6,7 +6,11 @@
 #    By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 16:01:50 by rnaito            #+#    #+#              #
+<<<<<<< HEAD
 #    Updated: 2023/07/27 18:27:09 by taaraki          ###   ########.fr        #
+=======
+#    Updated: 2023/07/31 18:18:38 by rnaito           ###   ########.fr        #
+>>>>>>> master
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,11 +27,6 @@ LIBFT_DIR = libft/
 #####################################
 NAME = minishell
 INCLUDES = -I $(SRCSDIR) -I $(LIBFT_DIR)
-
-RL_DIR = $(shell brew --prefix readline)
-LIBS +=  -L$(RL_DIR)/lib
-INCLUDES += -I$(RL_DIR)/include
-
 SRCSDIR = srcs/
 SRCS =	main.c\
 		tokenize.c\
@@ -38,9 +37,9 @@ SRCS =	main.c\
 		ft_make_syntax_tree.c\
 		ft_replace_key_with_val.c\
 		ft_split_expanded_token.c\
-		ft_delete_quotes.c\
 		libft_plus.c\
 		redirection.c\
+<<<<<<< HEAD
 		exe_execute.c\
 		exe_process.c\
 		exe_create_cmds.c\
@@ -50,6 +49,15 @@ SRCS =	main.c\
 		expansion.c\
 		signal.c\
 		exe_perror.c
+=======
+		ex_execute.c\
+		ex_process.c\
+		ex_create_cmds.c\
+		ex_builtin.c\
+		ex_search_path.c\
+		ex_builtin_echo.c\
+		ex_perror.c
+>>>>>>> master
 OBJSDIR = objs/
 OBJS = $(SRCS:%.c=$(OBJSDIR)%.o)
 
