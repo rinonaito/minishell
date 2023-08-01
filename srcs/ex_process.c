@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:43:25 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/01 18:52:53 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/01 19:37:09 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 #include	<unistd.h>
 #include	<signal.h>
 #include	<errno.h>
+
+extern int	g_signal;
 
 void	parent_process(int pipe_fd[2], t_cmds *cmds_info)
 {

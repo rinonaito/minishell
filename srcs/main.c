@@ -6,12 +6,14 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/01 18:49:39 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/01 19:31:35 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 //#include "debug.h"
+
+int	g_signal = 0;
 
 //void	ft_strncpy(char *dst, char *src, int n)
 //{
@@ -83,10 +85,10 @@ void	trace_param_inorder(t_tree *root, char **env)
 {
 	if (root == NULL)
 		return ;
-	trace_param_inorder(root->l_leaf);
+	trace_param_inorder(root->l_leaf, env);
 	if (root != NULL && root->param != NULL)
 		printf("param =%s$\n", root->param->token);
-	trace_param_inorder(root->r_leaf);
+	trace_param_inorder(root->r_leaf, env);
 }
 
 int	main(int argc, char **argv, char **env)
