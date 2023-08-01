@@ -6,7 +6,7 @@
 #    By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 16:01:50 by rnaito            #+#    #+#              #
-#    Updated: 2023/08/01 19:58:52 by taaraki          ###   ########.fr        #
+#    Updated: 2023/08/01 20:15:38 by taaraki          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ LIBS += -L$(RL_DIR)/lib
 INCLUDES += -I$(RL_DIR)/include
 
 SRCSDIR = srcs/
-SRCS =	main_forbuiltins.c\
+SRCS =	main.c\
 		tokenize.c\
 		ft_get_token.c\
 		list.c\
@@ -38,7 +38,6 @@ SRCS =	main_forbuiltins.c\
 		ft_make_syntax_tree.c\
 		ft_replace_key_with_val.c\
 		ft_split_expanded_token.c\
-		ft_delete_quotes.c\
 		make_env_list.c\
 		builtin_env.c\
 		libft_plus.c\

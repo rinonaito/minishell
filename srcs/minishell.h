@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/01 19:12:15 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/08/01 20:11:35 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 # include <errno.h> //for errno
 # include <fcntl.h> //for open 
 # include "../libft/libft.h" //for split
+
+extern int g_signal;
 
 
 # define READ_END (0)
