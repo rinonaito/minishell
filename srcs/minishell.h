@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/19 17:48:34 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/01 19:12:15 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include <stdio.h> // for printf
+# include <stdbool.h> // for bool
 # include <string.h> // for strlen
 //# include <sys/types.h> // for t_pid
 # include <unistd.h> // for t_pid
@@ -22,6 +23,7 @@
 # include <stdlib.h> //for free
 # include <signal.h> //for signal
 # include <errno.h> //for errno
+# include <fcntl.h> //for open 
 # include "../libft/libft.h" //for split
 
 
@@ -31,6 +33,8 @@
 # define STANDARD (0)
 # define SYNTAX_ERR (1)
 # define HEREDOC_MODE (2)
+
+# define OPEN_MODE (00644)
 
 typedef enum e_token_type {
 	TK_WORD,
@@ -61,6 +65,14 @@ typedef struct s_env {
 	char			*val;
 	struct s_env	*next;
 }						t_env;
+
+typedef struct s_cmds{
+	char	**cmd_args;
+	char	**env;
+	pid_t	*pid_ary;
+	int		num_cmds;
+	int		i;
+}					t_cmds;
 
 /*** TOKENIZE ***/
 //tokenize.c
@@ -103,11 +115,12 @@ t_tree	*ft_make_syntax_tree(t_token *head);
 
 /*** EXECUTION ***/
 //execute.c
-void    trace_tree_entry(t_tree *root, char **env);
+void	trace_tree_entry(t_tree *root, char **env, int *status);
 
 //process.c
-void    child_process(int fd[2], char **cmd_args, char **env, int num_cmds, int i);
-void    parent_process(int fd[2], int i, int num_cmds);
+void	child_process(int pipe_fd[2], t_cmds *cmds_info);
+//void    parent_process(int fd[2], int i, int num_cmds);
+void	parent_process(int pipe_fd[2], t_cmds *cmds_info);
 int		wait_process(pid_t *pid_ary, int num_cmds);
 
 //ft_perror.c
@@ -122,29 +135,30 @@ char    **create_cmds(t_tree *root);
 //search_path.c
 char    *ft_search_path(const char *filename);
 
+//builtin.c
 //call_builtin.c
-void	call_builtin(int fd[2], char **cmd_args, int j, int num_cmds);
-void	built_in_process(int fd[2], char **cmd_args, int i, int num_cmds);
-
-//is_built_in.c
+void	call_builtin(int pipe_fd[2], t_cmds *cmds_info);
+void	built_in_process(int pipe_fd[2], t_cmds *cmds_info);
 int		is_builtin(char *s);
 
 //echo.c
-int    builtin_echo(char **args);//, t_minishell *m)
+int    builtin_echo(char **args);
 
 /*** EXPANSION ***/
 //expansion.c
+char	*ft_get_token_sin_quotes(char *with_quotes);
+char	*ft_delete_quotes(char *with_quotes);
 char	*ft_check_quotes(char *old_start);
-char	*ft_expand_str(char *old_token);
-void	ft_expand_list(t_token **param);
+char	*ft_expand_str(char *old_token, int status);
+void	ft_expand_list(t_token **param, int status);
 
 //ft_replace_key_with_val.c
 int		ft_for_braced_env(char **start, char **end, char *doller);
 void	ft_for_unbraced_env(char **start, char **end, char *doller);
-char	*ft_get_key_of_env(char *token);
+char	*ft_get_key_of_env(char *token, int *is_error);
 char	*ft_make_new_token(char *token, char *doller,
 			char *before, char *after);
-char	*ft_replace_key_with_val(char **old_token, char *doller);
+char	*ft_replace_key_with_val(char **old_token, char *doller, int status);
 
 //ft_split_expanded_token.c
 int		ft_for_start(char *space_char, char *ifs, char **new, char *old);
@@ -153,15 +167,28 @@ void	ft_for_middle(char *space_char, char *ifs, char **new, char *old);
 char	*ft_split_token(char *ifs, char *old);
 void	ft_split_expanded_token(t_token *param);
 
-//ft_delete_quotes.c
-void	ft_delete_quotes(t_token *param);
-char	*ft_get_token_sin_quotes(char *with_quotes);
-
 //ft_get_heredoc_input.c
 char	*ft_get_delimiter(t_token *head, int *is_quoted);
 char	*ft_make_input_str(char *delimiter);
 void	ft_for_unbraced_env(char **start, char **end, char *doller);
-void	ft_get_heredoc_input(t_token *head);
+void	ft_get_heredoc_input(t_token *head, int status);
+
+/*** SIGNAL ***/
+//signal.c
+//void	ft_signal(t_signal *sig_info);
+void	ft_signal(void);
+//void	ft_signal_child(t_signal *sig_info);
+void	ft_signal_child(void);
+
+//redirection.c
+void	redirect_out(int *fd, t_token *param);
+void	redirect_in(int *fd, t_token *param);
+//int		redirect(t_token *param, int *parent_fd, int *child_fd, t_cmds *cmds_info);
+int		redirect(t_token *param, int *redir_fd, int *pipe_fd, t_cmds *cmds_info);
+
+/*** BUILTINS ***/
+int		builtin_cd(t_cmds *cmds_info);
+int		builtin_pwd(t_cmds *cmds_info);
 
 
 t_env	*make_env_list(char	**env);

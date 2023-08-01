@@ -1,25 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_perror.c                                        :+:      :+:    :+:   */
+/*   ft_putchar_i.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/10 16:11:33 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/18 19:37:44 by taaraki          ###   ########.fr       */
+/*   Created: 2023/03/25 15:14:23 by taaraki           #+#    #+#             */
+/*   Updated: 2023/07/27 17:14:36 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include	"minishell.h"
-#include	<stdio.h>
-#include	<stdlib.h>
-#include	<unistd.h>
+#include	"utils.h"
 
-void	ft_perror(char *message)
+int	ft_putchar_i(int fd, char c)
 {
-	//printf("%s\n", __func__);
-	printf("errno:%d\n", errno);
-	if (message)
-		perror(message);
-	exit(255);
+	write(fd, &c, 1);
+	return (sizeof(char));
 }

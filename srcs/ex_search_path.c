@@ -6,12 +6,12 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:33:54 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/18 19:22:38 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/08/01 15:08:35 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	"minishell.h"
-#include	"debug.h"
+//#include	"debug.h"
 
 void    ft_strncpy(char *dst, char *src, int n)
 {
@@ -62,7 +62,7 @@ char    *ft_search_path(const char *filename)
             //ft_strncpy(path, value, PATH_MAX);
 			//SEGV here (value is not null terminated)
 		}
-        ft_strlcat(path, "/", PATH_MAX);
+		ft_strlcat(path, "/", PATH_MAX);
         ft_strlcat(path, filename, PATH_MAX);
         duplicated = NULL;
         if (access(path, F_OK | X_OK) == 0)
