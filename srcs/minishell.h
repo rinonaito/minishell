@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/01 14:28:02 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/01 14:46:38 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,7 @@ void	ft_split_expanded_token(t_token *param);
 char	*ft_get_delimiter(t_token *head, int *is_quoted);
 char	*ft_make_input_str(char *delimiter);
 void	ft_for_unbraced_env(char **start, char **end, char *doller);
-void	ft_get_heredoc_input(t_token *head);
+void	ft_get_heredoc_input(t_token *head, int status);
 
 //redirection.c
 void	redirect_out(int *fd, t_token *param);

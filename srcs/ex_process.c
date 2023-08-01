@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:43:25 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/26 16:50:11 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/01 16:09:23 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ static void	exec(char **cmd_args, char **env)
 {
 	char	*file;
 
-	int	i = 0;
 	printf(">%s\n", __func__);
 	//int i = -1;
 	//hile (env[++i])
@@ -70,7 +69,6 @@ static void	exec(char **cmd_args, char **env)
 //	}
 //	dprintf(2, " env:[%p]\n", env);
 //	dprintf(2, " ERRORNO:[%s], [%d]\n", strerror(errno), errno);
-
 	int ret = execve(file, cmd_args, env);
 //	printf(" ret:[%d]\n", ret);
 	//if (execve(file, cmd_args, env) == -1)
@@ -118,7 +116,6 @@ int		wait_process(pid_t *pid_ary, int num_cmds)
 	printf(" ==========\n");
 	*/
 	i = 0;
-	wait(NULL);
 	while (i < num_cmds)
 	{
 		waitpid(pid_ary[i], &status, 0);
