@@ -6,11 +6,7 @@
 #    By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 16:01:50 by rnaito            #+#    #+#              #
-<<<<<<< HEAD
-#    Updated: 2023/07/27 18:27:09 by taaraki          ###   ########.fr        #
-=======
-#    Updated: 2023/07/31 18:18:38 by rnaito           ###   ########.fr        #
->>>>>>> master
+#    Updated: 2023/08/01 19:04:44 by rnaito           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,17 +35,9 @@ SRCS =	main.c\
 		ft_split_expanded_token.c\
 		libft_plus.c\
 		redirection.c\
-<<<<<<< HEAD
-		exe_execute.c\
-		exe_process.c\
-		exe_create_cmds.c\
-		exe_builtin.c\
-		exe_search_path.c\
-		exe_builtin_echo.c\
-		expansion.c\
 		signal.c\
-		exe_perror.c
-=======
+		builtin_pwd.c\
+		builtin_cd.c
 		ex_execute.c\
 		ex_process.c\
 		ex_create_cmds.c\
@@ -57,7 +45,6 @@ SRCS =	main.c\
 		ex_search_path.c\
 		ex_builtin_echo.c\
 		ex_perror.c
->>>>>>> master
 OBJSDIR = objs/
 OBJS = $(SRCS:%.c=$(OBJSDIR)%.o)
 

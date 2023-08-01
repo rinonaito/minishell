@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/01 18:31:23 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/01 18:57:04 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,33 @@ static void	create_process(t_cmds *cmds_info, t_tree *root, t_signal *sig_info)
 	t_token *param;
 	int		have_cmd;
 
+	/*** is_builtin && num_cmds == 1 ***/
+	if (is_builtin(cmds_info->cmd_args[0]) && cmds_info->num_cmds == 1)
+	{
+		if (ft_strequ(cmds_info->cmd_args[0], "cd"))
+		{
+			int ret = builtin_cd(cmds_info);	
+			printf(" ret:[%d]\n", ret);
+			//call_builtin(pipe_fd, cmds_info);
+		}
+		else if (ft_strequ(cmds_info->cmd_args[0], "pwd"))
+		{
+			int ret = builtin_pwd(cmds_info);	
+			printf(" ret:[%d]\n", ret);
+		}
+		return ;
+	}
+	/*** is_builtin && num_cmds == 1***/
+
 	//printf("%s\n", __func__);
 	if (pipe(pipe_fd) == -1)
 		ft_perror("pipe\n");
 	//printf(">AT THE BEGINNING\npipe_fd[READ_END] = [%d]\npipe_fd[WRITE_END] = [%d]\n", pipe_fd[READ_END], pipe_fd[WRITE_END]);
 	/*** commenting out ***/
-	/*
 	param = root->param;
 	have_cmd = redirect(param, redir_fd, pipe_fd, cmds_info);
 	if (have_cmd == 1)
 		pid = fork();
-	*/
-	pid = fork();
 
 	/*** ***/
 	ft_signal_child(sig_info);

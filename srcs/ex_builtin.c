@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:16:53 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/01 18:34:45 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/01 18:57:56 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	is_builtin(char *s)
 {
 	const char	*lst[] = {"echo", "cd", "pwd", "export", "unset", \
 												"env", "exit", NULL};
+	//const char	*lst[] = {"echo", "cd", "export", "unset", \
+												//"env", "exit", NULL};
 	int			i;
 
 	if (!s)
@@ -58,8 +60,6 @@ void	call_builtin(int pipe_fd[2], t_cmds *cmds_info)
 void	built_in_process(int pipe_fd[2], t_cmds *cmds_info)
 {
 //	printf(">%s\n", __func__);
-//	if (pipe_fd[READ_END] != STDIN_FILENO)
-//		close(pipe_fd[READ_END]);
 	printf("IN BUILTIN\npipe_fd[READ_END] = [%d]\npipe_fd[WRITE_END] = [%d]\n", pipe_fd[READ_END], pipe_fd[WRITE_END]);
 	if (builtin_echo(cmds_info->cmd_args) == 0)
 		exit(0);
