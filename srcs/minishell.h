@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/27 16:51:17 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/08/01 17:37:38 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,11 +114,12 @@ t_tree	*ft_make_syntax_tree(t_token *head);
 
 /*** EXECUTION ***/
 //execute.c
-void	trace_tree_entry(t_tree *root, char **env, int *status, t_signal *sig_info);
+void    trace_tree_entry(t_tree *root, char **env);
 
 //process.c
 void	child_process(int pipe_fd[2], t_cmds *cmds_info);
-void	parent_process(int pipe_fd[2]);
+//void    parent_process(int fd[2], int i, int num_cmds);
+void	parent_process(int pipe_fd[2], t_cmds *cmds_info);
 int		wait_process(pid_t *pid_ary, int num_cmds);
 
 //ft_perror.c
@@ -145,17 +146,19 @@ int    builtin_echo(char **args);//, t_minishell *m)
 
 /*** EXPANSION ***/
 //expansion.c
+char	*ft_get_token_sin_quotes(char *with_quotes);
+char	*ft_delete_quotes(char *with_quotes);
 char	*ft_check_quotes(char *old_start);
-char	*ft_expand_str(char *old_token);
-void	ft_expand_list(t_token **param);
+char	*ft_expand_str(char *old_token, int status);
+void	ft_expand_list(t_token **param, int status);
 
 //ft_replace_key_with_val.c
 int		ft_for_braced_env(char **start, char **end, char *doller);
 void	ft_for_unbraced_env(char **start, char **end, char *doller);
-char	*ft_get_key_of_env(char *token);
+char	*ft_get_key_of_env(char *token, int *is_error);
 char	*ft_make_new_token(char *token, char *doller,
 			char *before, char *after);
-char	*ft_replace_key_with_val(char **old_token, char *doller);
+char	*ft_replace_key_with_val(char **old_token, char *doller, int status);
 
 //ft_split_expanded_token.c
 int		ft_for_start(char *space_char, char *ifs, char **new, char *old);
@@ -164,15 +167,11 @@ void	ft_for_middle(char *space_char, char *ifs, char **new, char *old);
 char	*ft_split_token(char *ifs, char *old);
 void	ft_split_expanded_token(t_token *param);
 
-//ft_delete_quotes.c
-void	ft_delete_quotes(t_token *param);
-char	*ft_get_token_sin_quotes(char *with_quotes);
-
 //ft_get_heredoc_input.c
 char	*ft_get_delimiter(t_token *head, int *is_quoted);
 char	*ft_make_input_str(char *delimiter);
 void	ft_for_unbraced_env(char **start, char **end, char *doller);
-void	ft_get_heredoc_input(t_token *head);
+void	ft_get_heredoc_input(t_token *head, int status);
 
 /*** SIGNAL ***/
 //signal.c
@@ -183,6 +182,6 @@ void	ft_signal_child(t_signal *sig_info);
 void	redirect_out(int *fd, t_token *param);
 void	redirect_in(int *fd, t_token *param);
 //int		redirect(t_token *param, int *parent_fd, int *child_fd, t_cmds *cmds_info);
-int		redirect(t_token *param, int *pipe_fd, t_cmds *cmds_info);
+int		redirect(t_token *param, int *redir_fd, int *pipe_fd, t_cmds *cmds_info);
 
 #endif

@@ -1,0 +1,5 @@
+IN BUILTIN
+pipe_fd[READ_END] = [0]
+pipe_fd[WRITE_END] = [6]
+>builtin_echo
+aaa

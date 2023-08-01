@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:16:53 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/25 16:45:36 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/26 16:52:58 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,25 +61,20 @@ void	built_in_process(int pipe_fd[2], t_cmds *cmds_info)
 //	if (pipe_fd[READ_END] != STDIN_FILENO)
 //		close(pipe_fd[READ_END]);
 	printf("IN BUILTIN\npipe_fd[READ_END] = [%d]\npipe_fd[WRITE_END] = [%d]\n", pipe_fd[READ_END], pipe_fd[WRITE_END]);
-	if (dup2(pipe_fd[READ_END], STDIN_FILENO) == -1)
-	{
-		close(pipe_fd[READ_END]);
-		ft_perror("dup2");
-	}
-	if (dup2(pipe_fd[WRITE_END], STDOUT_FILENO) == -1)
-	{
-		close(pipe_fd[WRITE_END]);
-		ft_perror("dup2");
-	}
-//	if (pipe_fd[WRITE_END] != STDOUT_FILENO)
-//		close(pipe_fd[WRITE_END]);//why close
-	//execute_builtin(cmd_args);
-	{
-//		printf(" ***** %s *****\n", cmds_info->cmd_args[0]);
-		if (builtin_echo(cmds_info->cmd_args) == 0)
-			exit(0);
-		else
-			exit(1);
-	}
+//	if (dup2(pipe_fd[READ_END], STDIN_FILENO) == -1)
+//	{
+//		close(pipe_fd[READ_END]);
+//		ft_perror("dup2");
+//	}
+//	if (dup2(pipe_fd[WRITE_END], STDOUT_FILENO) == -1)
+//	{
+//		close(pipe_fd[WRITE_END]);
+//		ft_perror("dup2");
+//	}
+//	printf(" ***** %s *****\n", cmds_info->cmd_args[0]);
+	if (builtin_echo(cmds_info->cmd_args) == 0)
+		exit(0);
+	else
+		exit(1);
 }
 
