@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/01 19:36:18 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/08/01 22:07:04 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,11 @@ static void	create_process(t_cmds *cmds_info, t_tree *root)
 		else if (ft_strequ(cmds_info->cmd_args[0], "pwd"))
 		{
 			int ret = builtin_pwd(cmds_info);	
+			printf(" ret:[%d]\n", ret);
+		}
+		else if (ft_strequ(cmds_info->cmd_args[0], "echo"))
+		{
+			int ret = builtin_echo(cmds_info);	
 			printf(" ret:[%d]\n", ret);
 		}
 		return ;
@@ -130,4 +135,3 @@ void	trace_tree_entry(t_tree *root, char **env, int *status)
 	//printf(" ==========\n");
 	*status = wait_process(cmds_info.pid_ary, cmds_info.num_cmds);
 }
-

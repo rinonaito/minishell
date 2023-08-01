@@ -6,18 +6,20 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 18:36:24 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/24 17:21:20 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/01 22:05:51 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	"minishell.h"
 
-int    builtin_echo(char **cmd_args)
+int    builtin_echo(t_cmds *cmd_info)
 {
+	char	**cmd_args;
     bool    new_line;
     int   	i;
 
 	printf(">%s\n", __func__);
+	cmd_args = cmd_info->cmd_args;
     new_line = true;
 	if (!cmd_args || !cmd_args[0])
 		return (1);

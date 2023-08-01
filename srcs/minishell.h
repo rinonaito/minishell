@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/01 20:11:35 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/08/01 22:03:36 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,9 +143,6 @@ void	call_builtin(int pipe_fd[2], t_cmds *cmds_info);
 void	built_in_process(int pipe_fd[2], t_cmds *cmds_info);
 int		is_builtin(char *s);
 
-//echo.c
-int    builtin_echo(char **args);
-
 /*** EXPANSION ***/
 //expansion.c
 char	*ft_get_token_sin_quotes(char *with_quotes);
@@ -191,6 +188,7 @@ int		redirect(t_token *param, int *redir_fd, int *pipe_fd, t_cmds *cmds_info);
 /*** BUILTINS ***/
 int		builtin_cd(t_cmds *cmds_info);
 int		builtin_pwd(t_cmds *cmds_info);
+int		builtin_echo(t_cmds *cmds_info);
 
 
 t_env	*make_env_list(char	**env);
