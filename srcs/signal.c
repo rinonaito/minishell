@@ -15,7 +15,6 @@ extern int	g_signal;// = 0;//no initializer
 
 void	signal_handler_int(int signum)
 {
-	signal(SIGINT, SIG_IGN);
 	//printf(">%s\n", __func__);
 	if (signum == SIGINT)
 	{
@@ -23,33 +22,34 @@ void	signal_handler_int(int signum)
 		rl_replace_line("", 0);//replace the line with empty string
 		rl_on_new_line();//display a new prompt at the right position
 		rl_redisplay();//redisplay the prompt
-		//printf("g_signal:[%d]\n", g_signal);
 		g_signal = 1;
-		//printf("g_signal:[%d]\n", g_signal);
 	}
 }
 
 void	signal_handler_int_child(int signum)
 {
-	printf("\n***>%s***\n", __func__);
-	write(STDERR_FILENO, "SIGINT_CHILD\n", 13);
+	//printf(">%s\n", __func__);
+	//write(STDERR_FILENO, " SIGINT_CHILD\n", 14);
 	if (signum == SIGINT)
 	{
 		g_signal = 2;
-		/*
 		write(STDERR_FILENO, "\n", 1);//write out the new line to STDERR
-		rl_replace_line("", 0);//replace the line with empty string
-		rl_on_new_line();//display a new prompt at the right position
-		rl_redisplay();//redisplay the prompt
-		//printf("g_signal:[%d]\n", g_signal);
-		g_signal = 2;
-		//printf("g_signal:[%d]\n", g_signal);
-		*/
 	}
 }
 
-void	signal_handler_quit(int signum)
+//void	signal_handler_quit(int signum)
+//{
+//}
+
+void	signal_handler_quit_child(int signum)
 {
+	//printf(">%s\n", __func__);
+	//write(STDERR_FILENO, " SIGQUIT_CHILD\n", 15);
+	if (signum == SIGQUIT)
+	{
+		g_signal = 3;
+		ft_printf_fd(STDERR_FILENO, "Quit: %d\n", g_signal);
+	}
 }
 
 void	signal_handler_quit_child(int signum)
@@ -69,7 +69,6 @@ void	test_handler(int signum)
 
 void	ft_signal(t_signal *sig_info)
 {
-
 	/*** SIGQUIT ***/
 	signal(SIGQUIT, SIG_IGN);
 	//sigemptyset(&sig_info->sa_quit.sa_mask);

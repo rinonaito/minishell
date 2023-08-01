@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/01 17:39:12 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/08/01 18:31:23 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ static void	create_process(t_cmds *cmds_info, t_tree *root, t_signal *sig_info)
 		ft_perror("fork\n");
 	else if (pid == 0)
 	{
-//		printf(">> got into CHILD\n");
 		dup2(redir_fd[READ_END], STDIN_FILENO); 
 		if (redir_fd[READ_END] != STDIN_FILENO)
 			close(redir_fd[READ_END]);
@@ -58,9 +57,8 @@ static void	create_process(t_cmds *cmds_info, t_tree *root, t_signal *sig_info)
 	}
 	else
 	{
-		printf(">> got into PARENT(%d)\n", pid);
 		cmds_info->pid_ary[cmds_info->i - 1] = pid;
-		parent_process(pipe_fd, cmds_info);
+		parent_process(pipe_fd);
 	}
 }
 

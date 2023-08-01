@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 16:01:33 by rnaito            #+#    #+#             */
-/*   Updated: 2023/05/09 15:40:17 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/07/27 17:32:29 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdlib.h>
 # include <limits.h>
 # include "ft_printf/ft_printf.h"
+# include "ft_printf_fd/ft_printf_fd.h"
 
 typedef struct s_list
 {

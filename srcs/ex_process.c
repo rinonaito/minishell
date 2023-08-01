@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:43:25 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/01 16:09:23 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/01 18:27:34 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,27 +19,9 @@
 
 void	parent_process(int pipe_fd[2], t_cmds *cmds_info)
 {
-	/*** pipein ***/
-
-//	printf(">%s\n", __func__);
-	int		status;
-
-//	if (pipe_fd[WRITE_END] != STDOUT_FILENO)
-//		close(pipe_fd[WRITE_END]);
 	if (dup2(pipe_fd[READ_END], STDIN_FILENO) == -1)
-	{
-//		close(pipe_fd[READ_END]);
 		ft_perror("dup2");
-	}
-//	printf("DUP: STDIN will be tread");
-//	if (dup2(pipe_fd[WRITE_END], STDOUT_FILENO) == -1)
-//	{
-//		close(pipe_fd[WRITE_END]);
-//		ft_perror("dup2");
-//	}
-	//close it to free the resource
-	if (pipe_fd[READ_END] != STDIN_FILENO)
-		close(pipe_fd[READ_END]);
+	close(pipe_fd[READ_END]);
 }
 
 static void	exec(char **cmd_args, char **env)
@@ -72,32 +54,17 @@ static void	exec(char **cmd_args, char **env)
 	int ret = execve(file, cmd_args, env);
 //	printf(" ret:[%d]\n", ret);
 	//if (execve(file, cmd_args, env) == -1)
-		//ft_perror(" command not found");
+	if (ret == -1)
+	{
+		ft_printf_fd(STDERR_FILENO, "bash: %s: command not found\n", cmd_args[0]);
+		exit(127);//command not found -> 127
+	}
+		//ft_error("bash: %s: command not found");
 }
 
-//void	child_process(int pipe_fd[2], int file_fd[2], t_cmds *cmds_info)
 void	child_process(int pipe_fd[2], t_cmds *cmds_info)
 {
-	/*** 1.fdin ***/
-	/*** 2.pipeout ***/
-	/*** 3.fdout ***/
-
-//	if (pipe_fd[READ_END] != STDIN_FILENO)
-//	close(pipe_fd[READ_END]);
 	printf("IN CHILD\npipe_fd[READ_END] = [%d]\npipe_fd[WRITE_END] = [%d]\n", pipe_fd[READ_END], pipe_fd[WRITE_END]);
-//	if (dup2(pipe_fd[READ_END], STDIN_FILENO) == -1)
-//	{
-//		close(pipe_fd[READ_END]);
-//		ft_perror("dup2");
-//	}
-//	if (dup2(pipe_fd[WRITE_END], STDOUT_FILENO) == -1)
-//	{
-//		close(pipe_fd[WRITE_END]);
-//		ft_perror("dup2");
-//	}
-//	if (pipe_fd[WRITE_END] != STDOUT_FILENO)
-//		close(pipe_fd[WRITE_END]);//close it to free the resource
-	printf("command = %s\n", cmds_info->cmd_args[0]);
 	exec(cmds_info->cmd_args, cmds_info->env);
 }
 
@@ -108,13 +75,6 @@ int		wait_process(pid_t *pid_ary, int num_cmds)
 	pid_t	check_pid;
 
 //	printf(">%s\n", __func__);
-	/*
-	printf(" ==========\n");
-	i = 0;
-	while (i < num_cmds)
-		printf(" pid[%d]\n", pid_ary[i++]);
-	printf(" ==========\n");
-	*/
 	i = 0;
 	while (i < num_cmds)
 	{
@@ -123,15 +83,17 @@ int		wait_process(pid_t *pid_ary, int num_cmds)
 	}
 	if (WIFEXITED(status))
 	{
-//		printf(" [%s | %s] status: %d\n", __func__, "WIFEXITED",  WEXITSTATUS(status));
+		printf(" [%s] status: %d\n", "WIFEXITED",  WEXITSTATUS(status));
 		status = (WEXITSTATUS(status));
+		printf(" g_signal:[%d]\n", g_signal);
+		g_signal = 0;
 	}
 	else if (WIFSIGNALED(status))
 	{
-//		printf(" [%s | %s] status: %d\n", __func__, "WIFSIGNALED", WTERMSIG(status));
-		status = (WTERMSIG(status));
+		printf(" [%s] status: %d\n", "WIFSIGNALED", WTERMSIG(status));
+		status = 128 + (WTERMSIG(status));//128 + signal status
+		printf(" g_signal:[%d]\n", g_signal);
+		g_signal = 0;
 	}
-	//else
-//		printf(" not WIFEXITED nor WIFSIGNALED\n");
 	return (status);
 }
