@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 21:37:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/01 19:17:55 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/08/01 21:49:53 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,8 @@ char	**create_cmds(t_tree *root)
 		i++;
 		root->param = root->param->next;
 	}
-//	cmd_args[i] = NULL;
-	cmd_args[num_param] = NULL;
+	cmd_args[i] = NULL;
+	//cmd_args[num_param] = NULL;
 	root->param = temp;
 	return (cmd_args);
 }
