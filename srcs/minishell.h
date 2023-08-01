@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/31 18:44:09 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/01 12:16:28 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,7 @@ void	ft_expand_list(t_token **param);
 //ft_replace_key_with_val.c
 int		ft_for_braced_env(char **start, char **end, char *doller);
 void	ft_for_unbraced_env(char **start, char **end, char *doller);
-char	*ft_get_key_of_env(char *token);
+char	*ft_get_key_of_env(char *token, int *is_error);
 char	*ft_make_new_token(char *token, char *doller,
 			char *before, char *after);
 char	*ft_replace_key_with_val(char **old_token, char *doller);

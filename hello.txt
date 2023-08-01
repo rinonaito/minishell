@@ -1,0 +1,15 @@
+IN BUILTIN
+pipe_fd[READ_END] = [0]
+pipe_fd[WRITE_END] = [6]
+>builtin_echo
+aaa
+IN BUILTIN
+pipe_fd[READ_END] = [0]
+pipe_fd[WRITE_END] = [11]
+>builtin_echo
+ashajsdhkajsh
+IN BUILTIN
+pipe_fd[READ_END] = [0]
+pipe_fd[WRITE_END] = [6]
+>builtin_echo
+hello

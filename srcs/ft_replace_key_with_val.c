@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 15:11:52 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/31 20:01:06 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/01 12:21:32 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_for_braced_env(char **start, char **end, char *doller)
 	is_error = 0;
 	*start = doller + 2;
 	*end = ft_strchr(*start, '}');
-	if (*end == NULL || ft_isdigit((int)*start) == 1)
+	if (*end == NULL || ft_isdigit((int)**start) == 1)
 		is_error = 1;
 	return (is_error);
 }
@@ -41,22 +41,22 @@ void	ft_for_unbraced_env(char **start, char **end, char *doller)
 	}
 	if (*end == NULL)
 		*end = &((*start)[i]);
-//	if (ft_isdigit() == 0)
+	if (ft_isdigit((int)*start[0]) == 1)
+		*end = &((*start)[1]);
 }
 
-char	*ft_get_key_of_env(char *doller)
+char	*ft_get_key_of_env(char *doller, int *is_error)
 {
 	char	*start;
 	char	*end;
 	char	*env_key;
-	int		is_error;
 
 	start = NULL;
 	end = NULL;
 	if (*(doller + 1) == '{')
 	{
-		is_error = ft_for_braced_env(&start, &end, doller);
-		if (is_error == 1)
+		*is_error = ft_for_braced_env(&start, &end, doller);
+		if (*is_error == 1)
 			return (NULL);
 	}
 	else
@@ -93,8 +93,12 @@ char	*ft_replace_key_with_val(char **old_token, char *doller)
 	char		*env_key;
 	char		*env_val;
 	char		*new_token;
+	int			is_error;
 
-	env_key = ft_get_key_of_env(doller);
+	is_error = 0;
+	env_key = ft_get_key_of_env(doller, &is_error);
+	if (is_error == 1)
+		ft_perror("bad substitution");
 	if (env_key != NULL)
 	{
 		env_val = getenv(env_key);
