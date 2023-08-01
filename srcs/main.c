@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/01 19:58:40 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/08/01 20:33:10 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	main(int argc, char **argv, char **env)
 	while (1)
 	{
 		/*** signal handling ***/
-		ft_signal();
+		ft_signal(&status);
 		printf(" g_signal  [%d]\n", g_signal);
 		printf(" status($?)[%d]\n", status);
 		/*** signal handling ***/
