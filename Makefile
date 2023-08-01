@@ -6,7 +6,7 @@
 #    By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 16:01:50 by rnaito            #+#    #+#              #
-#    Updated: 2023/07/25 18:45:17 by taaraki          ###   ########.fr        #
+#    Updated: 2023/07/31 18:18:38 by rnaito           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,11 +23,6 @@ LIBFT_DIR = libft/
 #####################################
 NAME = minishell
 INCLUDES = -I $(SRCSDIR) -I $(LIBFT_DIR)
-
-RL_DIR = $(shell brew --prefix readline)
-LIBS +=  -L$(RL_DIR)/lib
-INCLUDES += -I$(RL_DIR)/include
-
 SRCSDIR = srcs/
 SRCS =	main.c\
 		tokenize.c\
@@ -39,17 +34,15 @@ SRCS =	main.c\
 		expansion.c\
 		ft_replace_key_with_val.c\
 		ft_split_expanded_token.c\
-		ft_delete_quotes.c\
 		libft_plus.c\
 		redirection.c\
-		exe_execute.c\
-		exe_process.c\
-		exe_create_cmds.c\
-		exe_builtin.c\
-		exe_search_path.c\
-		exe_builtin_echo.c\
-		signal.c\
-		exe_perror.c
+		ex_execute.c\
+		ex_process.c\
+		ex_create_cmds.c\
+		ex_builtin.c\
+		ex_search_path.c\
+		ex_builtin_echo.c\
+		ex_perror.c
 OBJSDIR = objs/
 OBJS = $(SRCS:%.c=$(OBJSDIR)%.o)
 
