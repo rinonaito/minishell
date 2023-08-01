@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 15:11:52 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/01 13:09:15 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/01 14:34:57 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ void	ft_for_unbraced_env(char **start, char **end, char *doller)
 		*end = &((*start)[i]);
 	if (ft_isdigit((int)*start[0]) == 1)
 		*end = &((*start)[0]);
+	if (*start[0] == '?')
+		*end = &((*start)[1]);
 }
 
 char	*ft_get_key_of_env(char *doller, int *is_error)
@@ -62,11 +64,7 @@ char	*ft_get_key_of_env(char *doller, int *is_error)
 	start = NULL;
 	end = NULL;
 	if (*(doller + 1) == '{')
-	{
 		*is_error = ft_for_braced_env(&start, &end, doller);
-		if (*is_error == 1)
-			return (NULL);
-	}
 	else
 		ft_for_unbraced_env(&start, &end, doller);
 	if (start != NULL && end != NULL)
@@ -96,7 +94,7 @@ char	*ft_make_new_token(char *token, char *doller, char *before, char *after)
 	return (new_token);
 }
 
-char	*ft_replace_key_with_val(char **old_token, char *doller)
+char	*ft_replace_key_with_val(char **old_token, char *doller, int status)
 {
 	char		*env_key;
 	char		*env_val;
@@ -104,12 +102,16 @@ char	*ft_replace_key_with_val(char **old_token, char *doller)
 	int			is_error;
 
 	is_error = 0;
+	env_val = NULL;
 	env_key = ft_get_key_of_env(doller, &is_error);
-	if (is_error == 1)
+	if (ft_strcmp(env_key, "?") == 0)
+		env_val = ft_itoa(status);
+	if (is_error == 1 && env_val == NULL)
 		ft_perror("bad substitution");
 	if (env_key != NULL)
 	{
-		env_val = getenv(env_key);
+		if (env_val == NULL)
+			env_val = getenv(env_key);
 		if (env_val == NULL)
 			env_val = "\0";
 		printf("key = %s, val = %s\n", env_key, env_val);

@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/01 12:16:28 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/01 14:28:02 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,8 +147,8 @@ int    builtin_echo(char **args);//, t_minishell *m)
 char	*ft_get_token_sin_quotes(char *with_quotes);
 char	*ft_delete_quotes(char *with_quotes);
 char	*ft_check_quotes(char *old_start);
-char	*ft_expand_str(char *old_token);
-void	ft_expand_list(t_token **param);
+char	*ft_expand_str(char *old_token, int status);
+void	ft_expand_list(t_token **param, int status);
 
 //ft_replace_key_with_val.c
 int		ft_for_braced_env(char **start, char **end, char *doller);
@@ -156,7 +156,7 @@ void	ft_for_unbraced_env(char **start, char **end, char *doller);
 char	*ft_get_key_of_env(char *token, int *is_error);
 char	*ft_make_new_token(char *token, char *doller,
 			char *before, char *after);
-char	*ft_replace_key_with_val(char **old_token, char *doller);
+char	*ft_replace_key_with_val(char **old_token, char *doller, int status);
 
 //ft_split_expanded_token.c
 int		ft_for_start(char *space_char, char *ifs, char **new, char *old);

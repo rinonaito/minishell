@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 15:21:01 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/31 20:02:05 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/01 14:23:17 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	*ft_check_quotes(char *old_start)
 	return (old_start);
 }
 
-char	*ft_expand_str(char *old_token)
+char	*ft_expand_str(char *old_token, int status)
 {
 	char		*new_start;
 	char		*env_expanded;
@@ -78,7 +78,7 @@ char	*ft_expand_str(char *old_token)
 		i += new_start - &old_token[i];
 		if (old_token[i] == '$')
 		{
-			env_expanded = ft_replace_key_with_val(&old_token, &old_token[i]);
+			env_expanded = ft_replace_key_with_val(&old_token, &old_token[i], status);
 			if (env_expanded != NULL)
 				i = -1;
 		}
@@ -89,7 +89,7 @@ char	*ft_expand_str(char *old_token)
 	return (env_expanded);
 }
 
-void	ft_expand_list(t_token **param)
+void	ft_expand_list(t_token **param, int status)
 {
 	char		*old_token;
 	char		*env_expanded;
@@ -102,7 +102,7 @@ void	ft_expand_list(t_token **param)
 	{
 		old_token = (*param)->token;
 		if (old_token != NULL)
-			env_expanded = ft_expand_str(old_token);
+			env_expanded = ft_expand_str(old_token, status);
 		new_token = ft_delete_quotes(env_expanded);
 		if (new_token != NULL)
 		{
