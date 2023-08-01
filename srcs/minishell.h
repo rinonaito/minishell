@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/01 18:49:02 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/01 19:12:15 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,12 @@ typedef struct s_tree {
 	struct s_tree	*l_leaf; // for node
 }						t_tree;
 
+typedef struct s_env {
+	char			*key;
+	char			*val;
+	struct s_env	*next;
+}						t_env;
+
 typedef struct s_cmds{
 	char	**cmd_args;
 	char	**env;
@@ -67,11 +73,6 @@ typedef struct s_cmds{
 	int		num_cmds;
 	int		i;
 }					t_cmds;
-
-typedef struct s_signal{
-	struct sigaction	sa_int;
-	struct sigaction	sa_quit;
-}					t_signal;
 
 /*** TOKENIZE ***/
 //tokenize.c
@@ -188,5 +189,9 @@ int		redirect(t_token *param, int *redir_fd, int *pipe_fd, t_cmds *cmds_info);
 /*** BUILTINS ***/
 int		builtin_cd(t_cmds *cmds_info);
 int		builtin_pwd(t_cmds *cmds_info);
+
+
+t_env	*make_env_list(char	**env);
+void	builtin_env(t_env *head);
 
 #endif
