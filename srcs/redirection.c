@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 10:48:49 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/01 17:29:28 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/02 17:53:44 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,17 +57,17 @@ void	heredoc(int *redir_fd, t_token *param)
 {
 	int		fd_in;
 
-	printf("HEREDOC\n wiring in fd[%d]\n", redir_fd[READ_END]);
+//	printf("HEREDOC\n wiring in fd[%d]\n", redir_fd[READ_END]);
 	fd_in = open("tempfile", O_RDWR | O_CREAT | O_CLOEXEC);
 	if (fd_in == -1)
 	{
-		printf("aaaaaaaaaaaaaaaaa\n");
+//		printf("aaaaaaaaaaaaaaaaa\n");
 		ft_perror("bash");
 	}
 	write(fd_in, param->heredoc, ft_strlen(param->heredoc));
 	if (redir_fd[READ_END] != STDIN_FILENO && redir_fd[READ_END] != fd_in)
 		close(redir_fd[READ_END]);
-	printf("FD of tempfile = [%d]\n", fd_in);
+//	printf("FD of tempfile = [%d]\n", fd_in);
 	redir_fd[READ_END] = fd_in;
 }
 
@@ -96,6 +96,7 @@ int	redirect(t_token *param, int *redir_fd, int *pipe_fd, t_cmds *cmds_info)
 	else
 		redir_fd[READ_END] = pipe_fd[READ_END];
 	have_cmd = 0;
+	printf("<INITIALIZE>\nredir[READEND] = %d, redir[WRITE_END] = %d\n", redir_fd[READ_END], redir_fd[WRITE_END]);
 	while (param != NULL && param->type != TK_PIPE)
 	{
 		if (param->type == TK_WORD)
@@ -110,5 +111,6 @@ int	redirect(t_token *param, int *redir_fd, int *pipe_fd, t_cmds *cmds_info)
 			param = param->next->next;
 		}
 	}
+	printf("<SET REDIR >\nredir[READEND] = %d, redir[WRITE_END] = %d\n", redir_fd[READ_END], redir_fd[WRITE_END]);
 	return (have_cmd);
 }
