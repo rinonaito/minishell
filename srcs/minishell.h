@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/01 22:08:58 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/08/03 15:10:47 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,10 +178,10 @@ void	ft_signal(int *status);
 void	ft_signal_child(void);
 
 //redirection.c
-void	redirect_out(int *fd, t_token *param);
-void	redirect_in(int *fd, t_token *param);
-//int		redirect(t_token *param, int *parent_fd, int *child_fd, t_cmds *cmds_info);
 int		redirect(t_token *param, int *redir_fd, int *pipe_fd, t_cmds *cmds_info);
+
+//call_each_redir.c
+void	call_each_redir(int *redir_fd, t_token *param);
 
 /*** BUILTINS ***/
 int		builtin_echo(t_cmds *cmds_info);

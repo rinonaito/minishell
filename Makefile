@@ -6,7 +6,7 @@
 #    By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 16:01:50 by rnaito            #+#    #+#              #
-#    Updated: 2023/08/01 20:15:38 by taaraki          ###   ########.fr        #
+#    Updated: 2023/08/03 15:07:17 by rnaito           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,7 @@ SRCS =	main.c\
 		builtin_env.c\
 		libft_plus.c\
 		redirection.c\
+		call_each_redir.c\
 		signal.c\
 		builtin_pwd.c\
 		builtin_cd.c\
