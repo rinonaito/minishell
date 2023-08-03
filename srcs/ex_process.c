@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:43:25 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/03 14:48:12 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/03 20:43:37 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,12 @@
 
 extern int	g_signal;
 
-void	parent_process(int redir_fd[2], t_cmds *cmds_info)
-{
-	printf("<IN PARENT> redir[READ]=[%d], redir[WRITE]=[%d]\n", redir_fd[READ_END], redir_fd[WRITE_END]);
-	if (dup2(redir_fd[READ_END], STDIN_FILENO) == -1)
-		ft_perror("dup2");
-	close(redir_fd[READ_END]);
-}
+//void	parent_process(int pipe_fd[2], t_cmds *cmds_info)
+//{
+//	printf("<IN PARENT> pipe_fd[READ]=[%d], pipe_fd[WRITE]=[%d]\n", pipe_fd[READ_END], pipe_fd[WRITE_END]);
+//	if (dup2(redir_fd[READ_END], STDIN_FILENO) == -1)
+//		ft_perror("dup2");
+//}
 
 static void	exec(char **cmd_args, char **env)
 {
@@ -49,7 +48,6 @@ static void	exec(char **cmd_args, char **env)
 		//ft_perror(" access failed");
 	//}
 //	printf(" file:[%s]\n", file);
-	printf("before execve\n");
 	if (execve(file, cmd_args, env) == -1)
 	{
 		ft_printf_fd(STDERR_FILENO, "bash: %s: command not found\n", cmd_args[0]);
@@ -59,7 +57,6 @@ static void	exec(char **cmd_args, char **env)
 
 void	child_process(int pipe_fd[2], t_cmds *cmds_info)
 {
-	printf("before exec\n");
 	exec(cmds_info->cmd_args, cmds_info->env);
 }
 

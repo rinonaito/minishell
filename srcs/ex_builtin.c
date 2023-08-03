@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:16:53 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/01 22:12:26 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/03 20:43:06 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ void	call_builtin(int pipe_fd[2], t_cmds *cmds_info)
 void	built_in_process(int pipe_fd[2], t_cmds *cmds_info)
 {
 //	printf(">%s\n", __func__);
-	printf("IN BUILTIN\npipe_fd[READ_END] = [%d]\npipe_fd[WRITE_END] = [%d]\n", pipe_fd[READ_END], pipe_fd[WRITE_END]);
 	if (builtin_echo(cmds_info) == 0)
 		exit(0);
 	else
