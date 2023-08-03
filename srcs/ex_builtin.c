@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exe_builtin.c                                 :+:      :+:    :+:   */
+/*   ex_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:16:53 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/03 20:43:06 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/04 07:43:35 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ int	is_builtin(char *s)
 {
 	const char	*lst[] = {"echo", "cd", "pwd", "export", "unset", \
 												"env", "exit", NULL};
-	//const char	*lst[] = {"echo", "cd", "export", "unset", \
-												//"env", "exit", NULL};
 	int			i;
 
 	if (!s)
@@ -33,28 +31,26 @@ int	is_builtin(char *s)
 	return (0);
 }
 
-//void	call_builtin(int fd[2], char **cmd_args, int j, int num_cmds)
-void	call_builtin(int pipe_fd[2], t_cmds *cmds_info)
+int	call_builtin(t_cmds *cmds_info)
 {
-	const char	*lst[] = {"echo", "cd", "pwd", "export", "unset", \
-												"env", "exit", NULL};
-	int			i;
+	int	ret;
 
-//	printf(">%s\n", __func__);
-//	if (!cmds_info->cmd_args || !cmds_info->cmd_args[0])
-//		return ;
-	i = 0;
-	while (lst[i])
-	{
-		if (ft_strequ(lst[i], cmds_info->cmd_args[0]))
-		{
-//			printf(" calling builin function : %s\n",lst[i]); 
-			built_in_process(pipe_fd, cmds_info);
-			return ;
-		}
-		i++;
-	}
-	return ;
+	ret = 0;
+	if (ft_strequ(cmds_info->cmd_args[0], "echo"))
+		ret = builtin_echo(cmds_info);	
+	else if (ft_strequ(cmds_info->cmd_args[0], "cd"))
+		ret = builtin_cd(cmds_info);	
+	else if (ft_strequ(cmds_info->cmd_args[0], "pwd"))
+		ret = builtin_pwd(cmds_info);	
+	//else if (ft_strequ(cmds_info->cmd_args[0], "export"))
+		//ret = builtin_export(cmds_info);	
+	//else if (ft_strequ(cmds_info->cmd_args[0], "unset"))
+		//ret = builtin_unset(cmds_info);	
+	//else if (ft_strequ(cmds_info->cmd_args[0], "env"))
+		//ret = builtin_env(cmds_info);	
+	//else if (ft_strequ(cmds_info->cmd_args[0], "exit"))
+		//ret = builtin_exit(cmds_info);	
+	return (ret);
 }
 
 void	built_in_process(int pipe_fd[2], t_cmds *cmds_info)

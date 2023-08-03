@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   create_process.c                                   :+:      :+:    :+:   */
+/*   ex_process.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:43:25 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/03 20:43:37 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/04 07:58:49 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,17 @@ extern int	g_signal;
 //	if (dup2(redir_fd[READ_END], STDIN_FILENO) == -1)
 //		ft_perror("dup2");
 //}
+
+void	parent_process(int pipe_fd[2], t_cmds *cmds_info, int pid)
+{
+	cmds_info->pid_ary[cmds_info->i - 1] = pid;
+	if (cmds_info->i != cmds_info->num_cmds)
+	{
+		close (pipe_fd[WRITE_END]);
+		dup2(pipe_fd[READ_END], STDIN_FILENO);
+	}
+
+}
 
 static void	exec(char **cmd_args, char **env)
 {
@@ -55,9 +66,20 @@ static void	exec(char **cmd_args, char **env)
 	}
 }
 
-void	child_process(int pipe_fd[2], t_cmds *cmds_info)
+void	child_process(int redir_fd[2], t_cmds *cmds_info)
 {
-	exec(cmds_info->cmd_args, cmds_info->env);
+	int	num;
+
+	dup2(redir_fd[WRITE_END], STDOUT_FILENO); 
+	if (redir_fd[READ_END] != STDIN_FILENO)
+		dup2(redir_fd[READ_END], STDIN_FILENO); 
+	if (is_builtin(cmds_info->cmd_args[0]))
+	{
+		num = call_builtin(cmds_info);
+		exit(num);
+	}
+	else
+		exec(cmds_info->cmd_args, cmds_info->env);
 }
 
 int		wait_process(pid_t *pid_ary, int num_cmds)
