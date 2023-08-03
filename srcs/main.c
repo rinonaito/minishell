@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/01 20:33:10 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/08/03 19:11:38 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	trace_param_inorder(t_tree *root, char **env)
 		return ;
 	trace_param_inorder(root->l_leaf, env);
 	if (root != NULL && root->param != NULL)
-		printf("param =%s$\n", root->param->token);
+//		printf("param =%s$\n", root->param->token);
 	trace_param_inorder(root->r_leaf, env);
 }
 
@@ -104,14 +104,14 @@ int	main(int argc, char **argv, char **env)
 	{
 		/*** signal handling ***/
 		ft_signal(&status);
-		printf(" g_signal  [%d]\n", g_signal);
-		printf(" status($?)[%d]\n", status);
+//		printf(" g_signal  [%d]\n", g_signal);
+//		printf(" status($?)[%d]\n", status);
 		/*** signal handling ***/
 		line = readline("\x1b[1;38;5;122mminishell🐣 \033[0m");
-		printf(" line[%s]\n", line);
+//		printf(" line[%s]\n", line);
 		if (line == NULL)
 		{
-			printf("line is null\n");
+//			printf("line is null\n");
 			free (line);
 			break ;
 		}
@@ -135,7 +135,7 @@ int	main(int argc, char **argv, char **env)
 			ft_expand_list(&head, mode);
 			//trace_param_inorder(root, env);
 			trace_tree_entry(root, env, &status);
-			printf(" status(main):[%d]\n", status);
+//			printf(" status(main):[%d]\n", status);
 //			ft_free_syntax_tree(root);
 		}
 		free(line);

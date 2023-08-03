@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 13:03:35 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/01 19:11:29 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/08/03 19:10:44 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ t_token	*ft_tokenize(char *line, int *status)
 		*status = SYNTAX_ERR;
 		ft_lstclear_ms(&head);
 	}
-	if (is_heredoc == 1)
+	if (is_heredoc == 1 && *status != SYNTAX_ERR)
 		*status = HEREDOC_MODE;
 	return (head);
 }

@@ -54,7 +54,7 @@ void	signal_handler_quit_child(int signum)
 
 void	test_handler(int signum)
 {
-	printf(">%s\n", __func__);
+//	printf(">%s\n", __func__);
 }
 
 void	ft_signal(int *status)

@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:33:54 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/01 15:08:35 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/03 20:58:34 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char    *ft_search_path(const char *filename)
         if (access(path, F_OK | X_OK) == 0)
         {
             duplicated = ft_strdup(path);
-			printf(">%s, access ok\n", __func__);
+//			printf(">%s, access ok\n", __func__);
             return (duplicated);
         }
         value = end + 1;//shift to the next character

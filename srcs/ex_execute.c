@@ -6,70 +6,51 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/01 22:09:10 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/08/03 20:57:28 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	"minishell.h"
 
-//@func: create processes, including parent/child/wait processes
-//@return_val:
-//		 exit status of wait process		
-static void	create_process(t_cmds *cmds_info, t_tree *root)
+static void without_child_process(t_cmds *cmds_info, int *redir_fd)
 {
-	int	pipe_fd[2];
-	int	redir_fd[2];
+	int	original_in;
+	int	original_out;
+	
+//	printf("redir[READ]=[%d], redir[WRITE]=[%d]\n", redir_fd[READ_END], redir_fd[WRITE_END]);
+	original_in = dup(STDIN_FILENO);
+	original_out = dup(STDOUT_FILENO);
+	dup2(redir_fd[READ_END], STDIN_FILENO); 
+	dup2(redir_fd[WRITE_END], STDOUT_FILENO); 
+	if (ft_strequ(cmds_info->cmd_args[0], "cd"))
+		builtin_cd(cmds_info);	
+	else if (ft_strequ(cmds_info->cmd_args[0], "pwd"))
+		builtin_pwd(cmds_info);	
+	else if (ft_strequ(cmds_info->cmd_args[0], "echo"))
+		builtin_echo(cmds_info);	
+	dup2(original_in, STDIN_FILENO); 
+	dup2(original_out, STDOUT_FILENO);
+	if (redir_fd[READ_END] != STDIN_FILENO)
+		close(redir_fd[READ_END]);
+	if (redir_fd[WRITE_END] != STDOUT_FILENO)
+		close(redir_fd[WRITE_END]);
+}
+
+static void	with_child_process(t_cmds *cmds_info, int *redir_fd, int *pipe_fd)
+{
 	pid_t	pid;
-	t_token *param;
-	int		have_cmd;
-
-	/*** is_builtin && num_cmds == 1 ***/
-	if (is_builtin(cmds_info->cmd_args[0]) && cmds_info->num_cmds == 1)
-	{
-		if (ft_strequ(cmds_info->cmd_args[0], "cd"))
-		{
-			int ret = builtin_cd(cmds_info);	
-			printf(" ret:[%d]\n", ret);
-			//call_builtin(pipe_fd, cmds_info);
-		}
-		else if (ft_strequ(cmds_info->cmd_args[0], "pwd"))
-		{
-			int ret = builtin_pwd(cmds_info);	
-			printf(" ret:[%d]\n", ret);
-		}
-		else if (ft_strequ(cmds_info->cmd_args[0], "echo"))
-		{
-			int ret = builtin_echo(cmds_info);	
-			printf(" ret:[%d]\n", ret);
-		}
-		return ;
-	}
-	/*** is_builtin && num_cmds == 1***/
-
-	//printf("%s\n", __func__);
-	if (pipe(pipe_fd) == -1)
-		ft_perror("pipe\n");
-	//printf(">AT THE BEGINNING\npipe_fd[READ_END] = [%d]\npipe_fd[WRITE_END] = [%d]\n", pipe_fd[READ_END], pipe_fd[WRITE_END]);
-	/*** commenting out ***/
-	param = root->param;
-	have_cmd = redirect(param, redir_fd, pipe_fd, cmds_info);
-	if (have_cmd == 1)
-		pid = fork();
-
+	
+	pid = fork();
 	/*** ***/
 	ft_signal_child();
 	/*** ***/
-
 	if (pid == -1)
 		ft_perror("fork\n");
 	else if (pid == 0)
 	{
-		dup2(redir_fd[READ_END], STDIN_FILENO); 
-		if (redir_fd[READ_END] != STDIN_FILENO)
-			close(redir_fd[READ_END]);
 		dup2(redir_fd[WRITE_END], STDOUT_FILENO); 
-		if (redir_fd[WRITE_END] != STDOUT_FILENO)
-			close(redir_fd[WRITE_END]);
+		if (redir_fd[READ_END] != STDIN_FILENO)
+			dup2(redir_fd[READ_END], STDIN_FILENO); 
 		if (is_builtin(cmds_info->cmd_args[0]))
 			call_builtin(redir_fd, cmds_info);
 		else
@@ -78,8 +59,38 @@ static void	create_process(t_cmds *cmds_info, t_tree *root)
 	else
 	{
 		cmds_info->pid_ary[cmds_info->i - 1] = pid;
-		parent_process(pipe_fd, cmds_info);
+		if (cmds_info->i != cmds_info->num_cmds)
+		{
+			close (pipe_fd[WRITE_END]);
+			dup2(pipe_fd[READ_END], STDIN_FILENO);
+		}
+//		parent_process(pipe_fd, cmds_info);
 	}
+}
+
+//@func: create processes, including parent/child/wait processes
+//@return_val:
+//		 exit status of wait process		
+//static void	create_process(t_cmds *cmds_info, t_tree *root)
+static void create_process(t_cmds *cmds_info, t_tree *root)
+{
+	int	pipe_fd[2];
+	int	redir_fd[2];
+	t_token *param;
+	int		have_cmd;
+
+	/*** is_builtin && num_cmds == 1 ***/
+	if (pipe(pipe_fd) == -1)
+		ft_perror("pipe\n");
+//	printf("pipe[READ]=[%d], pipe[WRITE]=[%d]\n", pipe_fd[READ_END], pipe_fd[WRITE_END]);
+	param = root->param;
+	have_cmd = redirect(param, redir_fd, pipe_fd, cmds_info);
+	if (is_builtin(cmds_info->cmd_args[0]) && cmds_info->num_cmds == 1)
+		without_child_process(cmds_info, redir_fd);
+	else if (have_cmd == 1)
+		with_child_process(cmds_info, redir_fd, pipe_fd);
+	unlink(cmds_info->heredoc_file);
+	free(cmds_info->heredoc_file);
 }
 
 //@func: count the number of commands
@@ -123,15 +134,9 @@ void	trace_tree_entry(t_tree *root, char **env, int *status)
 	tmp_fdin = dup(STDIN_FILENO);//save the file descriptor(fd) of STDIN
 	cmds_info.i = 0;
 	cmds_info.env = env;
-	//trace the tree structure and create processes
+	cmds_info.heredoc_file = NULL;
 	trace_inorder(root, &cmds_info);
 	dup2(tmp_fdin, STDIN_FILENO);//set back the fd of STDIN
 	close(tmp_fdin);
-	/*** print process IDs***/
-	//printf(" ==========\n");
-	//int	i = 0;
-	//while (i < num_cmds)
-		//printf(" pid[%d]\n", pid_ary[i++]);
-	//printf(" ==========\n");
 	*status = wait_process(cmds_info.pid_ary, cmds_info.num_cmds);
 }
