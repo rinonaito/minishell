@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 15:00:26 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/03 15:17:02 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/03 16:42:47 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,19 +45,47 @@ static void	redirect_in(int *redir_fd, t_token *param)
 	redir_fd[READ_END] = fd_in;
 }
 
+char	*generate_random_str()
+{
+	int		rand_fd;
+	int		bytes_read;
+	char	*filename;
+	size_t	i;
+
+	filename = malloc(sizeof(char) * 10);
+	rand_fd = open("/dev/urandom", O_RDONLY);
+	i = 0;
+	while (i < 9)
+	{
+		read(rand_fd, &filename[i], 1);
+		while (ft_isalnum(filename[i]) == 0)
+			read(rand_fd, &filename[i], 1);
+		i++;	
+	}
+	filename[i] = '\0';
+	if (open(filename, O_RDONLY) == -1)
+		return (filename);
+	free(filename);
+	generate_random_str();
+	return (NULL);
+}
+
 static void	heredoc(int *redir_fd, t_token *param)
 {
 	int		fd_in;
+	int		is_newname;
+	char	*filename;
 
-	fd_in = open("tempfile", O_WRONLY | O_CREAT | O_CLOEXEC | O_TRUNC, OPEN_MODE);
+	filename = generate_random_str();
+	printf("filename = %s\n", filename);
+	fd_in = open(filename, O_WRONLY | O_CREAT | O_CLOEXEC | O_TRUNC, OPEN_MODE);
 	if (fd_in == -1)
 		ft_perror("bash");
 	write(fd_in, param->heredoc, ft_strlen(param->heredoc));
 	close (fd_in);
-	fd_in = open("tempfile", O_RDONLY | O_CLOEXEC, OPEN_MODE);
+	fd_in = open(filename, O_RDONLY | O_CLOEXEC, OPEN_MODE);
 	if (redir_fd[READ_END] != STDIN_FILENO && redir_fd[READ_END] != fd_in)
 		close(redir_fd[READ_END]);
-	printf("FD of tempfile = [%d]\n", fd_in);
 	redir_fd[READ_END] = fd_in;
 }
 
