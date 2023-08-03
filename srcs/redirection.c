@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 10:48:49 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/03 18:28:48 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/03 18:53:31 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,11 @@
 static void	initialize(int *redir_fd, int *pipe_fd, t_cmds *cmds_info)
 {
 	if (cmds_info->i == cmds_info->num_cmds)
+	{
 		redir_fd[WRITE_END] = STDOUT_FILENO;
+//		close(pipe_fd[WRITE_END]);
+//		close(pipe_fd[READ_END]);
+	}
 	else
 		redir_fd[WRITE_END] = pipe_fd[WRITE_END];
 	if (cmds_info->i == 1)

@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/03 18:28:50 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/03 18:53:05 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,11 @@ static void without_child_process(t_cmds *cmds_info, int *redir_fd)
 	dup2(redir_fd[READ_END], STDIN_FILENO); 
 	dup2(redir_fd[WRITE_END], STDOUT_FILENO); 
 	if (ft_strequ(cmds_info->cmd_args[0], "cd"))
-	{
-		int ret = builtin_cd(cmds_info);	
-//		printf(" ret:[%d]\n", ret);
-		//call_builtin(pipe_fd, cmds_info);
-	}
+		builtin_cd(cmds_info);	
 	else if (ft_strequ(cmds_info->cmd_args[0], "pwd"))
-	{
-		int ret = builtin_pwd(cmds_info);	
-//		printf(" ret:[%d]\n", ret);
-	}
+		builtin_pwd(cmds_info);	
 	else if (ft_strequ(cmds_info->cmd_args[0], "echo"))
-	{
-		int ret = builtin_echo(cmds_info);	
-//		printf(" ret:[%d]\n", ret);
-	}
+		builtin_echo(cmds_info);	
 	dup2(original_in, STDIN_FILENO); 
 	dup2(original_out, STDOUT_FILENO);
 	if (redir_fd[READ_END] != STDIN_FILENO)
@@ -58,7 +48,6 @@ static void	with_child_process(t_cmds *cmds_info, int *redir_fd, int *pipe_fd)
 		ft_perror("fork\n");
 	else if (pid == 0)
 	{
-		printf("<IN CHILD> redir[READ]=[%d], redir[WRITE]=[%d]\n", redir_fd[READ_END], redir_fd[WRITE_END]);
 		dup2(redir_fd[READ_END], STDIN_FILENO); 
 		dup2(redir_fd[WRITE_END], STDOUT_FILENO); 
 		if (is_builtin(cmds_info->cmd_args[0]))
