@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 10:48:49 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/02 17:53:44 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/03 14:53:16 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ void	redirect_out_append(int *redir_fd, t_token *param, int type)
 
 	filename = param->next->token;
 	if (type == TK_REDIR_OUT)
-		fd_out = open(filename, O_WRONLY | O_CREAT | O_TRUNC, OPEN_MODE);
+		fd_out = open(filename, O_WRONLY | O_CREAT | O_CLOEXEC | O_TRUNC, OPEN_MODE);
 	if (type == TK_APPEND)
 	{
-		fd_out = open(filename, O_WRONLY | O_CREAT | O_APPEND, OPEN_MODE);
+		fd_out = open(filename, O_WRONLY | O_CREAT | O_CLOEXEC | O_APPEND, OPEN_MODE);
 	}
 //	printf("FD of [%s] : [%d]\n", filename, fd_out);
 	if (fd_out == -1)
@@ -41,7 +41,7 @@ void	redirect_in(int *redir_fd, t_token *param)
 	char	*filename;
 
 	filename = param->next->token;
-	fd_in = open(filename, O_RDWR);
+	fd_in = open(filename, O_RDWR | O_CLOEXEC);
 	if (fd_in == -1)
 		ft_perror("bash");
 	if (redir_fd[READ_END] != STDIN_FILENO && redir_fd[READ_END] != fd_in)
@@ -58,16 +58,15 @@ void	heredoc(int *redir_fd, t_token *param)
 	int		fd_in;
 
 //	printf("HEREDOC\n wiring in fd[%d]\n", redir_fd[READ_END]);
-	fd_in = open("tempfile", O_RDWR | O_CREAT | O_CLOEXEC);
+	fd_in = open("tempfile", O_WRONLY | O_CREAT | O_CLOEXEC | O_TRUNC, OPEN_MODE);
 	if (fd_in == -1)
-	{
-//		printf("aaaaaaaaaaaaaaaaa\n");
 		ft_perror("bash");
-	}
 	write(fd_in, param->heredoc, ft_strlen(param->heredoc));
+	close (fd_in);
+	fd_in = open("tempfile", O_RDONLY | O_CLOEXEC , OPEN_MODE);
 	if (redir_fd[READ_END] != STDIN_FILENO && redir_fd[READ_END] != fd_in)
 		close(redir_fd[READ_END]);
-//	printf("FD of tempfile = [%d]\n", fd_in);
+	printf("FD of tempfile = [%d]\n", fd_in);
 	redir_fd[READ_END] = fd_in;
 }
 

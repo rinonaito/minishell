@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/02 18:36:37 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/03 14:47:02 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ static void without_child_process(t_cmds *cmds_info, int *redir_fd)
 //		printf(" ret:[%d]\n", ret);
 	}
 	dup2(original_in, STDIN_FILENO); 
+	dup2(original_out, STDOUT_FILENO);
 	if (redir_fd[READ_END] != STDIN_FILENO)
 		close(redir_fd[READ_END]);
-	dup2(original_out, STDOUT_FILENO);
 	if (redir_fd[WRITE_END] != STDOUT_FILENO)
 		close(redir_fd[WRITE_END]);
 	return ;
@@ -58,12 +58,9 @@ static void	with_child_process(t_cmds *cmds_info, int *redir_fd, int *pipe_fd)
 		ft_perror("fork\n");
 	else if (pid == 0)
 	{
+		printf("<IN CHILD> redir[READ]=[%d], redir[WRITE]=[%d]\n", redir_fd[READ_END], redir_fd[WRITE_END]);
 		dup2(redir_fd[READ_END], STDIN_FILENO); 
-		if (redir_fd[READ_END] != STDIN_FILENO)
-			close(redir_fd[READ_END]);
 		dup2(redir_fd[WRITE_END], STDOUT_FILENO); 
-		if (redir_fd[WRITE_END] != STDOUT_FILENO)
-			close(redir_fd[WRITE_END]);
 		if (is_builtin(cmds_info->cmd_args[0]))
 			call_builtin(redir_fd, cmds_info);
 		else
@@ -72,7 +69,7 @@ static void	with_child_process(t_cmds *cmds_info, int *redir_fd, int *pipe_fd)
 	else
 	{
 		cmds_info->pid_ary[cmds_info->i - 1] = pid;
-		parent_process(pipe_fd, cmds_info);
+		parent_process(redir_fd, cmds_info);
 	}
 }
 

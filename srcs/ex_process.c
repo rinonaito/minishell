@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:43:25 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/02 18:01:13 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/03 14:48:12 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,12 @@
 
 extern int	g_signal;
 
-void	parent_process(int pipe_fd[2], t_cmds *cmds_info)
+void	parent_process(int redir_fd[2], t_cmds *cmds_info)
 {
-	if (dup2(pipe_fd[READ_END], STDIN_FILENO) == -1)
+	printf("<IN PARENT> redir[READ]=[%d], redir[WRITE]=[%d]\n", redir_fd[READ_END], redir_fd[WRITE_END]);
+	if (dup2(redir_fd[READ_END], STDIN_FILENO) == -1)
 		ft_perror("dup2");
-	close(pipe_fd[READ_END]);
+	close(redir_fd[READ_END]);
 }
 
 static void	exec(char **cmd_args, char **env)
@@ -51,7 +52,7 @@ static void	exec(char **cmd_args, char **env)
 	printf("before execve\n");
 	if (execve(file, cmd_args, env) == -1)
 	{
-//		ft_printf_fd(STDERR_FILENO, "bash: %s: command not found\n", cmd_args[0]);
+		ft_printf_fd(STDERR_FILENO, "bash: %s: command not found\n", cmd_args[0]);
 		exit(127);//command not found -> 127
 	}
 }
