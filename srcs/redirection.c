@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 10:48:49 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/03 15:12:33 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/03 18:28:48 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ static void	initialize(int *redir_fd, int *pipe_fd, t_cmds *cmds_info)
 
 static int	set_redir_fd(t_token *param, int *redir_fd, t_cmds *cmds_info)
 {
-	int	have_cmd;
+	int		have_cmd;
+	char	*tmp_file;
 
 	have_cmd = 0;
 	while (param != NULL && param->type != TK_PIPE)
@@ -39,7 +40,9 @@ static int	set_redir_fd(t_token *param, int *redir_fd, t_cmds *cmds_info)
 		}
 		else
 		{
-			call_each_redir(redir_fd, param);
+			tmp_file = call_each_redir(redir_fd, param);
+			if (tmp_file != NULL)
+				cmds_info->heredoc_file = tmp_file;
 			param = param->next->next;
 		}
 	}

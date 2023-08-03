@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/03 15:10:47 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/03 18:19:28 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@
 # include "../libft/libft.h" //for split
 
 extern int g_signal;
-
 
 # define READ_END (0)
 # define WRITE_END (1)
@@ -74,6 +73,7 @@ typedef struct s_cmds{
 	pid_t	*pid_ary;
 	int		num_cmds;
 	int		i;
+	char	*heredoc_file;
 }					t_cmds;
 
 /*** TOKENIZE ***/
@@ -181,7 +181,7 @@ void	ft_signal_child(void);
 int		redirect(t_token *param, int *redir_fd, int *pipe_fd, t_cmds *cmds_info);
 
 //call_each_redir.c
-void	call_each_redir(int *redir_fd, t_token *param);
+char	*call_each_redir(int *redir_fd, t_token *param);
 
 /*** BUILTINS ***/
 int		builtin_echo(t_cmds *cmds_info);

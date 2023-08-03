@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/03 15:36:42 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/03 18:28:50 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,8 @@ static void	create_process(t_cmds *cmds_info, t_tree *root)
 		without_child_process(cmds_info, redir_fd);
 	else if (have_cmd == 1)
 		with_child_process(cmds_info, redir_fd, pipe_fd);
-	unlink("tempfile");
+	printf("heredoc_file = %s\n", cmds_info->heredoc_file);
+	unlink(cmds_info->heredoc_file);
 }
 
 //@func: count the number of commands
@@ -136,6 +137,7 @@ void	trace_tree_entry(t_tree *root, char **env, int *status)
 	tmp_fdin = dup(STDIN_FILENO);//save the file descriptor(fd) of STDIN
 	cmds_info.i = 0;
 	cmds_info.env = env;
+	cmds_info.heredoc_file = NULL;
 	//trace the tree structure and create processes
 	trace_inorder(root, &cmds_info);
 	dup2(tmp_fdin, STDIN_FILENO);//set back the fd of STDIN

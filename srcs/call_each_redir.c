@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 15:00:26 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/03 16:42:47 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/03 18:30:03 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,7 @@ static void	redirect_out_append(int *redir_fd, t_token *param, int type)
 	if (type == TK_REDIR_OUT)
 		fd_out = open(filename, O_WRONLY | O_CREAT | O_CLOEXEC | O_TRUNC, OPEN_MODE);
 	if (type == TK_APPEND)
-	{
 		fd_out = open(filename, O_WRONLY | O_CREAT | O_CLOEXEC | O_APPEND, OPEN_MODE);
-	}
 	if (fd_out == -1)
 		ft_perror("bash");
 	if (redir_fd[WRITE_END] != STDOUT_FILENO && redir_fd[WRITE_END] != fd_out)
@@ -45,7 +43,7 @@ static void	redirect_in(int *redir_fd, t_token *param)
 	redir_fd[READ_END] = fd_in;
 }
 
-char	*generate_random_str()
+char	*generate_random_str(void)
 {
 	int		rand_fd;
 	int		bytes_read;
@@ -60,7 +58,7 @@ char	*generate_random_str()
 		read(rand_fd, &filename[i], 1);
 		while (ft_isalnum(filename[i]) == 0)
 			read(rand_fd, &filename[i], 1);
-		i++;	
+		i++;
 	}
 	filename[i] = '\0';
 	if (open(filename, O_RDONLY) == -1)
@@ -70,14 +68,13 @@ char	*generate_random_str()
 	return (NULL);
 }
 
-static void	heredoc(int *redir_fd, t_token *param)
+static char	*heredoc(int *redir_fd, t_token *param)
 {
 	int		fd_in;
 	int		is_newname;
 	char	*filename;
 
 	filename = generate_random_str();
-	printf("filename = %s\n", filename);
 	fd_in = open(filename, O_WRONLY | O_CREAT | O_CLOEXEC | O_TRUNC, OPEN_MODE);
 	if (fd_in == -1)
 		ft_perror("bash");
@@ -87,16 +84,21 @@ static void	heredoc(int *redir_fd, t_token *param)
 	if (redir_fd[READ_END] != STDIN_FILENO && redir_fd[READ_END] != fd_in)
 		close(redir_fd[READ_END]);
 	redir_fd[READ_END] = fd_in;
+	return (filename);
 }
 
-void	call_each_redir(int *redir_fd, t_token *param)
+char	*call_each_redir(int *redir_fd, t_token *param)
 {
+	char	*filename;
+
+	filename = NULL;
 	if (param->type == TK_REDIR_IN)
 		redirect_in(redir_fd, param);
 	if (param->type == TK_REDIR_OUT)
 		redirect_out_append(redir_fd, param, TK_REDIR_OUT);
 	if (param->type == TK_HEREDOC)
-		heredoc(redir_fd, param);
+		filename = heredoc(redir_fd, param);
 	if (param->type == TK_APPEND)
 		redirect_out_append(redir_fd, param, TK_APPEND);
+	return (filename);
 }
