@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:43:25 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/04 07:58:49 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/08/04 08:25:23 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,6 @@
 #include	<errno.h>
 
 extern int	g_signal;
-
-//void	parent_process(int pipe_fd[2], t_cmds *cmds_info)
-//{
-//	printf("<IN PARENT> pipe_fd[READ]=[%d], pipe_fd[WRITE]=[%d]\n", pipe_fd[READ_END], pipe_fd[WRITE_END]);
-//	if (dup2(redir_fd[READ_END], STDIN_FILENO) == -1)
-//		ft_perror("dup2");
-//}
 
 void	parent_process(int pipe_fd[2], t_cmds *cmds_info, int pid)
 {
@@ -41,10 +34,6 @@ static void	exec(char **cmd_args, char **env)
 {
 	char	*file;
 
-//	printf(">%s\n", __func__);
-	//int i = -1;
-	//hile (env[++i])
-		//printf("env[%d]:[%s]\n", i, env[i]);
 	if (!cmd_args)
 		return ;
 	file = ft_search_path(cmd_args[0]);//get the path to the command
