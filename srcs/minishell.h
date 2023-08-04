@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/03 18:19:28 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/04 14:05:07 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ extern int g_signal;
 # define SYNTAX_ERR (1)
 # define HEREDOC_MODE (2)
 
-# define OPEN_MODE (00644)
+# define OPEN_MODE (0644)
 
 typedef enum e_token_type {
 	TK_WORD,
