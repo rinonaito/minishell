@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/03 20:57:28 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/04 13:15:21 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ static void without_child_process(t_cmds *cmds_info, int *redir_fd)
 		builtin_pwd(cmds_info);	
 	else if (ft_strequ(cmds_info->cmd_args[0], "echo"))
 		builtin_echo(cmds_info);	
-	dup2(original_in, STDIN_FILENO); 
-	dup2(original_out, STDOUT_FILENO);
 	if (redir_fd[READ_END] != STDIN_FILENO)
 		close(redir_fd[READ_END]);
 	if (redir_fd[WRITE_END] != STDOUT_FILENO)
 		close(redir_fd[WRITE_END]);
+	dup2(original_in, STDIN_FILENO); 
+	dup2(original_out, STDOUT_FILENO);
 }
 
 static void	with_child_process(t_cmds *cmds_info, int *redir_fd, int *pipe_fd)
@@ -44,6 +44,7 @@ static void	with_child_process(t_cmds *cmds_info, int *redir_fd, int *pipe_fd)
 	/*** ***/
 	ft_signal_child();
 	/*** ***/
+//	printf("redir[READ]=[%d], redir[WRITE]=[%d]\n", redir_fd[READ_END], redir_fd[WRITE_END]);
 	if (pid == -1)
 		ft_perror("fork\n");
 	else if (pid == 0)
@@ -82,9 +83,9 @@ static void create_process(t_cmds *cmds_info, t_tree *root)
 	/*** is_builtin && num_cmds == 1 ***/
 	if (pipe(pipe_fd) == -1)
 		ft_perror("pipe\n");
-//	printf("pipe[READ]=[%d], pipe[WRITE]=[%d]\n", pipe_fd[READ_END], pipe_fd[WRITE_END]);
 	param = root->param;
 	have_cmd = redirect(param, redir_fd, pipe_fd, cmds_info);
+//	printf("<before execute>\nredir[WRITE]=[%d], redir[READ]=[%d]\n", redir_fd[WRITE_END], redir_fd[READ_END]);
 	if (is_builtin(cmds_info->cmd_args[0]) && cmds_info->num_cmds == 1)
 		without_child_process(cmds_info, redir_fd);
 	else if (have_cmd == 1)
