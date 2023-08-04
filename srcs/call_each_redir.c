@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 15:00:26 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/03 20:34:11 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/04 13:35:43 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ static void	redirect_out_append(int *redir_fd, t_token *param, int type)
 		fd_out = open(filename, O_WRONLY | O_CREAT | O_CLOEXEC | O_APPEND, OPEN_MODE);
 	if (fd_out == -1)
 		ft_perror("bash");
-	if (redir_fd[WRITE_END] != STDOUT_FILENO)
-		close(redir_fd[WRITE_END]);
+//	if (redir_fd[WRITE_END] != STDOUT_FILENO)
+//		close(redir_fd[WRITE_END]);
 	redir_fd[WRITE_END] = fd_out;
 }
 
@@ -38,8 +38,8 @@ static void	redirect_in(int *redir_fd, t_token *param)
 	fd_in = open(filename, O_RDWR | O_CLOEXEC);
 	if (fd_in == -1)
 		ft_perror("bash");
-	if (redir_fd[READ_END] != STDIN_FILENO)
-		close(redir_fd[READ_END]);
+//	if (redir_fd[READ_END] != STDIN_FILENO)
+//		close(redir_fd[READ_END]);
 	redir_fd[READ_END] = fd_in;
 }
 
