@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/03 19:11:38 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/05 18:09:27 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,9 @@ int	main(int argc, char **argv, char **env)
 	int		mode;
 	int		status;
 
+	if (argc != 1)
+		printf("argc != 1\n");
+	argv[0] = NULL;
 	rl_outstream = stderr;
 	while (1)
 	{

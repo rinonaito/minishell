@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 16:29:01 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/01 14:46:48 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/05 18:12:06 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ char	*ft_make_input_str(char *delimiter)
 		if (line == NULL || ft_strcmp(line, delimiter) == 0)
 		{
 			free(line);
+			line = NULL;
 			break ;
 		}
 		with_nl = ft_strjoin(line, "\n");

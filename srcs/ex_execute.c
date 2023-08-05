@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/04 08:03:37 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/08/05 18:28:37 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,9 @@ static void without_child_process(t_cmds *cmds_info, int *redir_fd)
 	original_out = dup(STDOUT_FILENO);
 	dup2(redir_fd[READ_END], STDIN_FILENO); 
 	dup2(redir_fd[WRITE_END], STDOUT_FILENO); 
+	/*** changed ***/
 	ret = call_builtin(cmds_info);
-/*
-	if (ft_strequ(cmds_info->cmd_args[0], "cd"))
-		builtin_cd(cmds_info);	
-	else if (ft_strequ(cmds_info->cmd_args[0], "pwd"))
-		builtin_pwd(cmds_info);	
-	else if (ft_strequ(cmds_info->cmd_args[0], "echo"))
-		builtin_echo(cmds_info);	
-*/
+	/*** ***/
 	dup2(original_in, STDIN_FILENO); 
 	dup2(original_out, STDOUT_FILENO);
 	if (redir_fd[READ_END] != STDIN_FILENO)
@@ -104,7 +98,7 @@ static void	trace_inorder(t_tree *root, t_cmds *cmds_info)
 		cmds_info->cmd_args = create_cmds(root);
 		create_process(cmds_info, root);
 		/*** TO HERE ***/ 
-//		free_args(&cmds_info->cmd_args);//free cmd_args and setting NUL
+		free_args(&cmds_info->cmd_args);//free cmd_args and setting NUL
 	}
 	trace_inorder(root->r_leaf, cmds_info);
 }

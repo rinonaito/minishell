@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:16:53 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/04 07:43:35 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/08/05 17:56:37 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,3 @@ int	call_builtin(t_cmds *cmds_info)
 		//ret = builtin_exit(cmds_info);	
 	return (ret);
 }
-
-void	built_in_process(int pipe_fd[2], t_cmds *cmds_info)
-{
-//	printf(">%s\n", __func__);
-	if (builtin_echo(cmds_info) == 0)
-		exit(0);
-	else
-		exit(1);
-}
-

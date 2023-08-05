@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:43:25 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/04 08:25:23 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/08/05 18:23:00 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	parent_process(int pipe_fd[2], t_cmds *cmds_info, int pid)
 		close (pipe_fd[WRITE_END]);
 		dup2(pipe_fd[READ_END], STDIN_FILENO);
 	}
-
 }
 
 static void	exec(char **cmd_args, char **env)
@@ -36,18 +35,8 @@ static void	exec(char **cmd_args, char **env)
 
 	if (!cmd_args)
 		return ;
-	file = ft_search_path(cmd_args[0]);//get the path to the command
-	//if (access(file, F_OK | X_OK) == 0)
-	//{
-		//printf(" access success");
-		//if (execve(file, cmd_args, env) == -1)
-			//ft_perror(" command not found");
-	//}
-	//else
-	//{
-		//ft_perror(" access failed");
-	//}
-//	printf(" file:[%s]\n", file);
+	file = ft_search_path(cmd_args[0]);
+	//	printf(" file:[%s]\n", file);
 	if (execve(file, cmd_args, env) == -1)
 	{
 		ft_printf_fd(STDERR_FILENO, "bash: %s: command not found\n", cmd_args[0]);
@@ -75,7 +64,6 @@ int		wait_process(pid_t *pid_ary, int num_cmds)
 {
 	int		status;
 	int		i;
-	pid_t	check_pid;
 
 	i = 0;
 	status = 0;
