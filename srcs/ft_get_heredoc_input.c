@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 16:29:01 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/06 18:17:57 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/08/06 19:43:12 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,21 +45,26 @@ char	*ft_make_input_str(char *delimiter)
 	char	*input;
 	char	*joined;
 
+	g_signal = 0;
+	ft_signal_heredoc();
+	rl_event_hook = (rl_hook_func_t *)rl_quit;
+
 	input = "\0";
 	while (g_signal == 0)
 	{
-		ft_signal_heredoc();
-		if (g_signal == 1)
+		if (g_signal == SIGINT)
 		{
-			//free(line); //line = NULL;
+			//rl_done = 1;
+			free(line);
+			line = NULL;
 			return (NULL);
 		}
-		printf(" g_signal:[%d]\n", g_signal);
 		line = readline("\x1b[34m>> \x1b[39m");
 		if (line == NULL || ft_strcmp(line, delimiter) == 0)
 		{
 			free(line);
 			line = NULL;
+			printf(" break\n");
 			break ;
 		}
 		with_nl = ft_strjoin(line, "\n");
