@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/04 13:22:54 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/06 17:42:17 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ static void create_process(t_cmds *cmds_info, t_tree *root)
 		with_child_process(cmds_info, redir_fd, pipe_fd);
 	unlink(cmds_info->heredoc_file);
 	free(cmds_info->heredoc_file);
+	cmds_info->heredoc_file = NULL;
 }
 
 //@func: count the number of commands
