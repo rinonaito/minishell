@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/06 17:07:35 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/08/06 18:16:10 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ int	main(int argc, char **argv, char **env)
 	rl_outstream = stderr;
 	while (1)
 	{
+		//g_signal = 0;
 		/*** signal handling ***/
 		ft_signal(&status);
 //		printf(" g_signal  [%d]\n", g_signal);
@@ -138,6 +139,8 @@ int	main(int argc, char **argv, char **env)
 				line = NULL;
 				continue ;
 			}
+			else
+				printf(" ft_get_heredoc_input(head, mode) == 0\n");
 		}
 		if (head != NULL)
 		{

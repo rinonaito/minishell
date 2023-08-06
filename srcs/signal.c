@@ -50,7 +50,7 @@ void	signal_handler_int_heredoc(int signum)
 	{
 		g_signal = 1;
 		rl_done = 1;
-		//close(STDIN_FILENO);
+		close(STDIN_FILENO);
 		//ft_printf_fd(STDERR_FILENO, "Quit: %d\n", g_signal);
 	}
 }
