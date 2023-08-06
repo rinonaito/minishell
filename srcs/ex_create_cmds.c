@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 21:37:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/01 21:49:53 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/08/05 18:03:06 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	**free_args(char ***argv)
 		p[i] = NULL;
 		i++;
 	}
-	p = NULL;
+	argv = NULL;
 	return (NULL);
 }
 
