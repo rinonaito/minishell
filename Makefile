@@ -6,7 +6,7 @@
 #    By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 16:01:50 by rnaito            #+#    #+#              #
-#    Updated: 2023/08/05 18:10:21 by taaraki          ###   ########.fr        #
+#    Updated: 2023/08/06 19:47:47 by taaraki          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,16 +44,16 @@ SRCS =	main.c\
 		redirection.c\
 		call_each_redir.c\
 		signal.c\
-		builtin_pwd.c\
-		builtin_cd.c\
 		ex_execute.c\
 		ex_process.c\
 		ex_create_cmds.c\
-		ex_builtin.c\
 		ex_search_path.c\
-		ex_builtin_echo.c\
 		ex_perror.c\
-		expansion.c
+		expansion.c\
+		builtin.c\
+		builtin_pwd.c\
+		builtin_cd.c\
+		builtin_echo.c
 OBJSDIR = objs/
 OBJS = $(SRCS:%.c=$(OBJSDIR)%.o)
 
