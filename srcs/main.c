@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/06 19:57:16 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/08/06 20:17:01 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,17 +106,13 @@ int	main(int argc, char **argv, char **env)
 	while (1)
 	{
 		rl_event_hook = NULL;
-		//g_signal = 0;
+		g_signal = 0;
 		/*** signal handling ***/
 		ft_signal(&status);
-//		printf(" g_signal  [%d]\n", g_signal);
-//		printf(" status($?)[%d]\n", status);
 		/*** signal handling ***/
 		line = readline("\x1b[1;38;5;122mminishell🐣 \033[0m");
-//		printf(" line[%s]\n", line);
 		if (line == NULL)
 		{
-//			printf("line is null\n");
 			free (line);
 			break ;
 		}
@@ -156,6 +152,8 @@ int	main(int argc, char **argv, char **env)
 		}
 		free(line);
 		line = NULL;
+		printf(" g_signal  [%d]\n", g_signal);
+		printf(" status($?)[%d]\n", status);
 		//sleep(2);
 	//	system ("leaks -q minishell");
 	}
