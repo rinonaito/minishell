@@ -45,7 +45,6 @@ void	signal_handler_quit_child(int signum)
 
 void	signal_handler_int_heredoc(int signum)
 {
-	//printf(">%s\n", __func__);
 	if (signum == SIGINT)
 	{
 		g_signal = SIGINT;
@@ -56,20 +55,16 @@ void	signal_handler_int_heredoc(int signum)
 void	*rl_quit(void)
 {
 	if (g_signal == SIGINT)
+	{
 		rl_done = 1;
+		//printf(" >%s, rl_done:[%d], g_signal:[%d]\n", __func__, rl_done, g_signal);
+	}
 	return (NULL);
 }
 
-//void	test_handler(int signum)
-//{
-	//printf(">%s\n", __func__);
-//}
-
 void	ft_signal(int *status)
 {
-	/*** SIGQUIT ***/
 	signal(SIGQUIT, SIG_IGN);
-	/*** SIGINT ***/
 	signal(SIGINT, signal_handler_int);
 
 	if (g_signal == 1)
