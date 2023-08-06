@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/06 19:38:59 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/08/06 21:27:00 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,7 @@ int	ft_get_heredoc_input(t_token *head, int status);
 
 /*** SIGNAL ***/
 //signal.c
-void	ft_signal(int *status);
+void	ft_signal(void);
 void	ft_signal_child(void);
 void	ft_signal_heredoc(void);
 void	*rl_quit(void);

@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/06 20:17:01 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/08/06 21:28:34 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,12 +103,13 @@ int	main(int argc, char **argv, char **env)
 		printf("argc != 1\n");
 	argv[0] = NULL;
 	rl_outstream = stderr;
+	status = 0;
 	while (1)
 	{
 		rl_event_hook = NULL;
-		g_signal = 0;
 		/*** signal handling ***/
-		ft_signal(&status);
+		g_signal = 0;
+		ft_signal();
 		/*** signal handling ***/
 		line = readline("\x1b[1;38;5;122mminishell🐣 \033[0m");
 		if (line == NULL)
@@ -118,6 +119,11 @@ int	main(int argc, char **argv, char **env)
 		}
 		if (strlen(line) != 0)
 			add_history(line);
+		/*** ***/
+		if (g_signal == SIGINT)
+			status = 1;
+		/*** ***/
+		printf(" status($?)[%d]\n", status);
 		mode = STANDARD;
 		head = ft_tokenize(line, &mode);
 		if (head == NULL && mode == SYNTAX_ERR)
@@ -134,6 +140,7 @@ int	main(int argc, char **argv, char **env)
 				printf(" ft_get_heredoc_input(head, mode) == 1\n");
 				free(line);
 				line = NULL;
+				status = 1;
 				continue ;
 			}
 			else
@@ -147,13 +154,11 @@ int	main(int argc, char **argv, char **env)
 			ft_expand_list(&head, mode);
 			//trace_param_inorder(root, env);
 			trace_tree_entry(root, env, &status);
-//			printf(" status(main):[%d]\n", status);
 //			ft_free_syntax_tree(root);
 		}
 		free(line);
 		line = NULL;
 		printf(" g_signal  [%d]\n", g_signal);
-		printf(" status($?)[%d]\n", status);
 		//sleep(2);
 	//	system ("leaks -q minishell");
 	}

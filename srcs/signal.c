@@ -29,8 +29,8 @@ void	signal_handler_int_child(int signum)
 {
 	if (signum == SIGINT)
 	{
-		g_signal = SIGINT;
 		write(STDERR_FILENO, "\n", 1);//write out the new line to STDERR
+		g_signal = SIGINT;
 	}
 }
 
@@ -38,8 +38,8 @@ void	signal_handler_quit_child(int signum)
 {
 	if (signum == SIGQUIT)
 	{
-		g_signal = SIGQUIT;
 		ft_printf_fd(STDERR_FILENO, "Quit: %d\n", g_signal);
+		g_signal = SIGQUIT;
 	}
 }
 
@@ -47,8 +47,8 @@ void	signal_handler_int_heredoc(int signum)
 {
 	if (signum == SIGINT)
 	{
-		g_signal = SIGINT;
 		rl_done = 1;
+		g_signal = SIGINT;
 	}
 }
 
@@ -58,17 +58,15 @@ void	*rl_quit(void)
 	{
 		rl_done = 1;
 		//printf(" >%s, rl_done:[%d], g_signal:[%d]\n", __func__, rl_done, g_signal);
+		g_signal = SIGINT;
 	}
 	return (NULL);
 }
 
-void	ft_signal(int *status)
+void	ft_signal(void)
 {
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, signal_handler_int);
-
-	if (g_signal == 1)
-		*status = 1;
 }
 
 void	ft_signal_child(void)
