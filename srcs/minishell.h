@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/04 14:05:07 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/06 18:02:50 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,9 +120,8 @@ t_tree	*ft_make_syntax_tree(t_token *head);
 void	trace_tree_entry(t_tree *root, char **env, int *status);
 
 //process.c
-void	child_process(int pipe_fd[2], t_cmds *cmds_info);
-//void    parent_process(int fd[2], int i, int num_cmds);
-void	parent_process(int pipe_fd[2], t_cmds *cmds_info);
+void	child_process(int redir_fd[2], t_cmds *cmds_info);
+void	parent_process(int pipe_fd[2], t_cmds *cmds_info, int pid);
 int		wait_process(pid_t *pid_ary, int num_cmds);
 
 //ft_perror.c
@@ -138,10 +137,8 @@ char    **create_cmds(t_tree *root);
 char    *ft_search_path(const char *filename);
 
 //builtin.c
-//call_builtin.c
-void	call_builtin(int pipe_fd[2], t_cmds *cmds_info);
-void	built_in_process(int pipe_fd[2], t_cmds *cmds_info);
-int		is_builtin(char *s);
+int	is_builtin(char *s);
+int	call_builtin(t_cmds *cmds_info);
 
 /*** EXPANSION ***/
 //expansion.c

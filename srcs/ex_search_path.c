@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_search_path.c                                   :+:      :+:    :+:   */
+/*   ex_search_path.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:33:54 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/03 20:58:34 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/05 18:23:07 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void    ft_strncpy(char *dst, char *src, int n)
     i = 0;
 	if (!dst)
 		return ;
-    while (src != '\0' && i < n)
+    while (src[i] != '\0' && i < n)
     {
 		//printf(" i:[%d],src:[%s]\n", i, &src[i]);
         dst[i] = src[i];
@@ -29,10 +29,6 @@ void    ft_strncpy(char *dst, char *src, int n)
     dst[i] = '\0';
 }
 
-//NOTE: 
-//############################################	
-//		THIS FUNCTION MIGHT CAUSE SEGV
-//############################################	
 //@func: get the path name in the form of "/path/cmd"
 //@args:
 //		 const char *filename: command name
