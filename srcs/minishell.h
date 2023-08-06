@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/04 07:59:26 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/08/06 16:22:52 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ int		wait_process(pid_t *pid_ary, int num_cmds);
 void    ft_perror(char *message);
 
 //ft_free.c
-char	**free_args(char ***argv);
+char	**free_args(char **argv);
 
 //create_cmds.c
 char    **create_cmds(t_tree *root);
