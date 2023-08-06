@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 16:29:01 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/05 18:12:06 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/08/06 17:18:12 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,15 @@ char	*ft_make_input_str(char *delimiter)
 	char	*joined;
 
 	input = "\0";
-	while (1)
+	while (g_signal == 0)
 	{
+		ft_signal_heredoc();
+		if (g_signal == 1)
+		{
+			//free(line); //line = NULL;
+			return (NULL);
+		}
+		printf(" g_signal:[%d]\n", g_signal);
 		line = readline("\x1b[34m>> \x1b[39m");
 		if (line == NULL || ft_strcmp(line, delimiter) == 0)
 		{
@@ -70,7 +77,8 @@ void	ft_add_input_to_list(t_token *head, char *input)
 	head -> heredoc = input;
 }
 
-void	ft_get_heredoc_input(t_token *head, int status)
+//void	ft_get_heredoc_input(t_token *head, int status)
+int	ft_get_heredoc_input(t_token *head, int status)
 {
 	char	*delimiter;
 	int		is_quoted;
@@ -80,6 +88,13 @@ void	ft_get_heredoc_input(t_token *head, int status)
 	is_quoted = 0;
 	delimiter = ft_get_delimiter(head, &is_quoted);
 	input = ft_make_input_str(delimiter);
+	/*** ***/
+	if (!input)
+	{
+		printf(" !input\n");
+		return (1);
+	}
+	/*** ***/
 	if (is_quoted == 0)
 	{
 		new_input = ft_expand_str(input, status);
@@ -87,5 +102,5 @@ void	ft_get_heredoc_input(t_token *head, int status)
 			input = new_input;
 	}
 	ft_add_input_to_list(head, input);
-	return ;
+	return (0);
 }

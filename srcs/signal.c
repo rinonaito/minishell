@@ -15,7 +15,6 @@ extern int	g_signal;// = 0;//no initializer
 
 void	signal_handler_int(int signum)
 {
-	//printf(">%s\n", __func__);
 	if (signum == SIGINT)
 	{
 		write(STDERR_FILENO, "\n", 1);//write out the new line to STDERR
@@ -28,8 +27,6 @@ void	signal_handler_int(int signum)
 
 void	signal_handler_int_child(int signum)
 {
-	//printf(">%s\n", __func__);
-	//write(STDERR_FILENO, " SIGINT_CHILD\n", 14);
 	if (signum == SIGINT)
 	{
 		g_signal = 2;
@@ -37,14 +34,8 @@ void	signal_handler_int_child(int signum)
 	}
 }
 
-//void	signal_handler_quit(int signum)
-//{
-//}
-
 void	signal_handler_quit_child(int signum)
 {
-	//printf(">%s\n", __func__);
-	//write(STDERR_FILENO, " SIGQUIT_CHILD\n", 15);
 	if (signum == SIGQUIT)
 	{
 		g_signal = 3;
@@ -52,10 +43,22 @@ void	signal_handler_quit_child(int signum)
 	}
 }
 
-void	test_handler(int signum)
+void	signal_handler_int_heredoc(int signum)
 {
-//	printf(">%s\n", __func__);
+	//printf(">%s\n", __func__);
+	if (signum == SIGINT)
+	{
+		g_signal = 1;
+		rl_done = 1;
+		//close(STDIN_FILENO);
+		//ft_printf_fd(STDERR_FILENO, "Quit: %d\n", g_signal);
+	}
 }
+
+//void	test_handler(int signum)
+//{
+	//printf(">%s\n", __func__);
+//}
 
 void	ft_signal(int *status)
 {
@@ -80,21 +83,12 @@ void	ft_signal(int *status)
 
 void	ft_signal_child(void)
 {
-	/*** SIGQUIT ***/
 	signal(SIGQUIT, signal_handler_quit_child);
-	//sigemptyset(&sig_info->sa_quit.sa_mask);
-	//sig_info->sa_quit.sa_flags = 0;
-		//sig_info->sa_quit.sa_handler = signal_handler_quit_child;
-	//sig_info->sa_quit.sa_handler = test_handler;
-	//if (sigaction(SIGQUIT, &sig_info->sa_quit, NULL) < 0)
-		//ft_perror("sigaction");
-
-	/*** SIGINT ***/
 	signal(SIGINT, signal_handler_int_child);
-	//sigemptyset(&sig_info->sa_int.sa_mask);//clear signal masks
-	//sig_info->sa_int.sa_flags = 0;//set no flag
-		//sig_info->sa_int.sa_handler = signal_handler_int_child;
-	//sig_info->sa_int.sa_handler = test_handler;
-	//if (sigaction(SIGINT, &sig_info->sa_int, NULL) < 0)
-		//ft_perror("sigaction");
+}
+
+void	ft_signal_heredoc(void)
+{
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, signal_handler_int_heredoc);
 }

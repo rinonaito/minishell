@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/06 16:32:17 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/08/06 17:40:45 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ static void create_process(t_cmds *cmds_info, t_tree *root)
 	else if (have_cmd == 1)
 		with_child_process(cmds_info, redir_fd, pipe_fd);
 	unlink(cmds_info->heredoc_file);
-	if (!cmds_info->heredoc_file)//check if the heredoc_file is set
-		free(cmds_info->heredoc_file);
+	free(cmds_info->heredoc_file);
+	cmds_info->heredoc_file = NULL;
 }
 
 //@func: count the number of commands
@@ -98,7 +98,7 @@ static void	trace_inorder(t_tree *root, t_cmds *cmds_info)
 		cmds_info->i += 1;
 		cmds_info->cmd_args = create_cmds(root);
 		create_process(cmds_info, root);
-		cmds_info->cmd_args = free_args(cmds_info->cmd_args);
+		//cmds_info->cmd_args = free_args(cmds_info->cmd_args);
 	}
 	trace_inorder(root->r_leaf, cmds_info);
 }

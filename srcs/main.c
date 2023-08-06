@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/05 18:09:27 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/08/06 17:07:35 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,16 @@ int	main(int argc, char **argv, char **env)
 			return (1);
 		}
 		if (mode == HEREDOC_MODE)
-			ft_get_heredoc_input(head, mode);
+		{
+			//ft_get_heredoc_input(head, mode);
+			if (ft_get_heredoc_input(head, mode) == 1)
+			{
+				printf(" ft_get_heredoc_input(head, mode) == 1\n");
+				free(line);
+				line = NULL;
+				continue ;
+			}
+		}
 		if (head != NULL)
 		{
 			free(line);
