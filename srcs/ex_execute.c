@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/06 18:04:23 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/08/06 21:23:33 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,9 +116,11 @@ void	trace_tree_entry(t_tree *root, char **env, int *status)
 	tmp_fdin = dup(STDIN_FILENO);//save the file descriptor(fd) of STDIN
 	cmds_info.i = 0;
 	cmds_info.env = env;
+	cmds_info.env_lst = make_env_lst(env);
 	cmds_info.heredoc_file = NULL;
 	trace_inorder(root, &cmds_info);
 	dup2(tmp_fdin, STDIN_FILENO);//set back the fd of STDIN
 	close(tmp_fdin);
 	*status = wait_process(cmds_info.pid_ary, cmds_info.num_cmds);
+	free_cmds_info(&cmds_info);
 }

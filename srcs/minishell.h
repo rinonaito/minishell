@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/06 18:02:50 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/08/06 20:13:14 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ typedef struct s_env {
 typedef struct s_cmds{
 	char	**cmd_args;
 	char	**env;
+	t_env	*env_lst;
 	pid_t	*pid_ary;
 	int		num_cmds;
 	int		i;
@@ -186,7 +187,10 @@ int		builtin_cd(t_cmds *cmds_info);
 int		builtin_pwd(t_cmds *cmds_info);
 int		builtin_exit(t_cmds *cmds_info);
 
-t_env	*make_env_list(char	**env);
-void	builtin_env(t_env *head);
+t_env	*make_env_lst(char	**env);
+int		builtin_env(t_cmds *cmds_info);
+
+
+void	free_cmds_info(t_cmds *cmds_info);
 
 #endif

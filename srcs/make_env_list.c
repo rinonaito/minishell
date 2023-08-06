@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 17:40:58 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/20 16:12:07 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/06 21:22:22 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,45 +47,45 @@ void	ft_lstadd_back_env(t_env **head, t_env *new)
 	tail->next = new;
 }
 
-char	*get_key(char **env)
+char	*get_key(char *env, char **val_start)
 {
 	char	*start;
 	char	*end;
 	char	*key;
 
-	start = *env;
+	start = env;
 	end = ft_strchr(start, '=');
 	key = ft_strndup(start, end - start);
-	*env = end + 1;
+	*val_start = end + 1;
 	return (key);
 }
 
-char	*get_val(char *env)
+char	*get_val(char *val_start)
 {
 	char	*val;
 	size_t	val_len;
 
-	val_len = ft_strlen(env);
-	val = ft_strndup(env, val_len);
+	val_len = ft_strlen(val_start);
+	val = ft_strndup(val_start, val_len);
 	return (val);
 }
 
-t_env	*make_env_list(char	**env)
+t_env	*make_env_lst(char	**env)
 {
 	t_env	*head;
-	t_env	*new;
 	char	*key;
 	char	*val;
+	char	*val_start;
 	size_t	i;
 
 	head = NULL;
 	i = 0;
+	val_start = NULL;
 	while (env[i] != NULL)
 	{
-		key = get_key(&env[i]);
-		val = get_val(env[i]);
-		new = ft_lstnew_env(key, val);
-		ft_lstadd_back_env(&head, new);
+		key = get_key(env[i], &val_start);
+		val = get_val(val_start);
+		ft_lstadd_back_env(&head, ft_lstnew_env(key, val));
 		i++;
 	}
 	return (head);

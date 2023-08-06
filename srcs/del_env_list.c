@@ -1,31 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstclear.c                                      :+:      :+:    :+:   */
+/*   ft_lstdelone.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/02 14:58:59 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/06 19:47:41 by rnaito           ###   ########.fr       */
+/*   Created: 2023/02/02 14:57:08 by rnaito            #+#    #+#             */
+/*   Updated: 2023/02/09 21:20:58 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstclear(t_list **lst, void (*del)(void *))
+void	ft_lstdelone(t_list *lst, void (*del)(void*))
 {
-	t_list	*current_node;
-	t_list	*temp;
-
-	if (lst == NULL || del == NULL || *lst == NULL)
+	if (lst == NULL || del == NULL)
 		return ;
-	current_node = *lst;
-	while (current_node != NULL)
-	{
-		temp = current_node->next;
-		del(current_node->content);
-		free(current_node);
-		current_node = temp;
-	}
-	*lst = NULL;
+	del(lst->content);
+	free(lst);
 }
