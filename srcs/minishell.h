@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/08 12:56:22 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/08 16:38:38 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct s_tree {
 typedef struct s_env {
 	char			*key;
 	char			*val;
+	int			is_env;
 	struct s_env	*next;
 }						t_env;
 
@@ -187,9 +188,17 @@ int		builtin_cd(t_cmds *cmds_info);
 int		builtin_pwd(t_cmds *cmds_info);
 int		builtin_exit(t_cmds *cmds_info);
 
-t_env	*make_env_lst(char	**env);
-int		builtin_env(t_cmds *cmds_info);
 
+//make_env_lst.c
+t_env	*ft_lstnew_env(char	*key, char *val, int is_env);
+t_env	*ft_lstlast_env(t_env *head);
+void	ft_lstadd_back_env(t_env **head, t_env *new);
+char	*get_key(char *env, char **val_start);
+char	*get_val(char *val_start);
+t_env	*make_env_lst(char	**env);
+
+int		builtin_env(t_cmds *cmds_info);
+int	builtin_export(t_cmds *cmds_info);
 
 void	clear_env_lst(t_env **lst);
 

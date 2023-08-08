@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 17:41:26 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/06 18:54:10 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/08 18:01:33 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,15 @@ int	builtin_env(t_cmds *cmds_info)
 
 	head = cmds_info->env_lst;
 	tmp = head;
-	printf("head = %p\n", head);
 	while (head != NULL)
 	{
-		printf("%s=%s\n", head->key, head->val);
+		if (head->is_env == 1)
+		{
+			printf("%s=", head->key);
+			if (head->val != NULL)
+				printf("%s", head->val);
+			printf("\n");
+		}
 		head = head->next;
 	}
 	cmds_info->env_lst = tmp;

@@ -6,7 +6,7 @@
 #    By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 16:01:50 by rnaito            #+#    #+#              #
-#    Updated: 2023/08/08 12:55:56 by rnaito           ###   ########.fr        #
+#    Updated: 2023/08/08 15:21:12 by rnaito           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,6 @@ SRCS =	main.c\
 		my_getenv.c\
 		ft_split_expanded_token.c\
 		make_env_list.c\
-		builtin_env.c\
 		libft_plus.c\
 		redirection.c\
 		call_each_redir.c\
@@ -54,6 +53,8 @@ SRCS =	main.c\
 		ex_builtin.c\
 		ex_search_path.c\
 		ex_builtin_echo.c\
+		builtin_env.c\
+		builtin_export.c\
 		ex_perror.c\
 		expansion.c
 OBJSDIR = objs/
