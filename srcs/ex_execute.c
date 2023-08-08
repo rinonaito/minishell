@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/06 21:23:33 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/07 15:34:08 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ static void	trace_inorder(t_tree *root, t_cmds *cmds_info)
 	trace_inorder(root->r_leaf, cmds_info);
 }
 
-void	trace_tree_entry(t_tree *root, char **env, int *status)
+void	trace_tree_entry(t_tree *root, char **env, int *status, t_env *env_lst)
 {
 	t_cmds	cmds_info;
 	int		tmp_fdin;
@@ -116,7 +116,7 @@ void	trace_tree_entry(t_tree *root, char **env, int *status)
 	tmp_fdin = dup(STDIN_FILENO);//save the file descriptor(fd) of STDIN
 	cmds_info.i = 0;
 	cmds_info.env = env;
-	cmds_info.env_lst = make_env_lst(env);
+	cmds_info.env_lst = env_lst;
 	cmds_info.heredoc_file = NULL;
 	trace_inorder(root, &cmds_info);
 	dup2(tmp_fdin, STDIN_FILENO);//set back the fd of STDIN

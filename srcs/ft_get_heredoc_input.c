@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 16:29:01 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/05 18:12:06 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/08/08 11:12:34 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	ft_add_input_to_list(t_token *head, char *input)
 	head -> heredoc = input;
 }
 
-void	ft_get_heredoc_input(t_token *head, int status)
+void	ft_get_heredoc_input(t_token *head, int status, t_env *env_lst)
 {
 	char	*delimiter;
 	int		is_quoted;
@@ -82,7 +82,7 @@ void	ft_get_heredoc_input(t_token *head, int status)
 	input = ft_make_input_str(delimiter);
 	if (is_quoted == 0)
 	{
-		new_input = ft_expand_str(input, status);
+		new_input = ft_expand_str(input, status, env_lst);
 		if (new_input != NULL)
 			input = new_input;
 	}

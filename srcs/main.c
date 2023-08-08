@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/06 19:00:39 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/08 11:35:38 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ int	main(int argc, char **argv, char **env)
 	t_tree	*root;
 	int		mode;
 	int		status;
+	t_env	*env_lst;
 
 	if (argc != 1)
 		printf("argc != 1\n");
@@ -128,16 +129,17 @@ int	main(int argc, char **argv, char **env)
 //			system ("leaks -q minishell");
 			return (1);
 		}
+		env_lst = make_env_lst(env);
 		if (mode == HEREDOC_MODE)
-			ft_get_heredoc_input(head, mode);
+			ft_get_heredoc_input(head, mode, env_lst);
 		if (head != NULL)
 		{
 			free(line);
 			line = NULL;
 			root = ft_make_syntax_tree(head);
-			ft_expand_list(&head, mode);
+			ft_expand_list(&head, mode, env_lst);
 			//trace_param_inorder(root, env);
-			trace_tree_entry(root, env, &status);
+			trace_tree_entry(root, env, &status, env_lst);
 //			printf(" status(main):[%d]\n", status);
 //			ft_free_syntax_tree(root);
 		}
