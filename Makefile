@@ -6,7 +6,7 @@
 #    By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 16:01:50 by rnaito            #+#    #+#              #
-#    Updated: 2023/08/08 11:03:33 by rnaito           ###   ########.fr        #
+#    Updated: 2023/08/08 12:55:56 by rnaito           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,7 +47,7 @@ SRCS =	main.c\
 		signal.c\
 		builtin_pwd.c\
 		builtin_cd.c\
-		free_cmds_info.c\
+		clear_env_lst.c\
 		ex_execute.c\
 		ex_process.c\
 		ex_create_cmds.c\

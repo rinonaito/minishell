@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/08 11:29:07 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/08 12:56:22 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,7 +191,7 @@ t_env	*make_env_lst(char	**env);
 int		builtin_env(t_cmds *cmds_info);
 
 
-void	free_cmds_info(t_cmds *cmds_info);
+void	clear_env_lst(t_env **lst);
 
 char	*my_getenv(char *key, t_env *env_lst);
 

@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 15:14:22 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/08 11:40:29 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/08 12:52:18 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,6 @@ char	*my_getenv(char *key, t_env *env_lst)
 			val = env_lst->val;
 		env_lst = env_lst->next;
 	}
+	env_lst = tmp;
 	return (val);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clear_env_list.c                                   :+:      :+:    :+:   */
+/*   clear_env_lst.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/06 19:48:18 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/06 20:10:48 by rnaito           ###   ########.fr       */
+/*   Created: 2023/08/08 12:55:32 by rnaito            #+#    #+#             */
+/*   Updated: 2023/08/08 12:55:34 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,4 @@ void	clear_env_lst(t_env **lst)
 		current_node = temp;
 	}
 	*lst = NULL;
-}
-
-void	free_cmds_info(t_cmds *cmds_info)
-{
-	free(cmds_info->pid_ary);
-	clear_env_lst(&(cmds_info->env_lst));	
 }

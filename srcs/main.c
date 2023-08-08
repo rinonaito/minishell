@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/08 11:35:38 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/08 12:50:24 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ int	main(int argc, char **argv, char **env)
 		printf("argc != 1\n");
 	argv[0] = NULL;
 	rl_outstream = stderr;
+	env_lst = make_env_lst(env);
 	while (1)
 	{
 		/*** signal handling ***/
@@ -129,7 +130,6 @@ int	main(int argc, char **argv, char **env)
 //			system ("leaks -q minishell");
 			return (1);
 		}
-		env_lst = make_env_lst(env);
 		if (mode == HEREDOC_MODE)
 			ft_get_heredoc_input(head, mode, env_lst);
 		if (head != NULL)
