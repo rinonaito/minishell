@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 15:18:14 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/08 17:58:29 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/08 18:14:57 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	set_env(t_cmds *cmds_info)
 {
 	size_t	i;
-	int	is_env;
+	int		is_env;
 	char	*key;
 	char	*val;
 	char	*val_start;
@@ -23,7 +23,7 @@ void	set_env(t_cmds *cmds_info)
 	i = 1;
 	while (cmds_info->cmd_args[i] != NULL)
 	{
-		key = get_key(cmds_info->cmd_args[i], &val_start);	
+		key = get_key(cmds_info->cmd_args[i], &val_start);
 		if (ft_strchr(cmds_info->cmd_args[i], '=') != NULL)
 		{
 			is_env = 1;
@@ -34,7 +34,8 @@ void	set_env(t_cmds *cmds_info)
 			is_env = 0;
 			val = NULL;
 		}
-		ft_lstadd_back_env(&(cmds_info->env_lst), ft_lstnew_env(key, val, is_env));
+		ft_lstadd_back_env(&(cmds_info->env_lst),
+			ft_lstnew_env(key, val, is_env));
 		i++;
 	}
 }
@@ -59,7 +60,6 @@ void	print_env(t_cmds *cmds_info)
 
 int	builtin_export(t_cmds *cmds_info)
 {
-
 	if (cmds_info->cmd_args[1] != NULL)
 		set_env(cmds_info);
 	else
