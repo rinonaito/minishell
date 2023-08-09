@@ -6,38 +6,40 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 15:18:14 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/08 18:14:57 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/09 10:41:58 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	set_env(t_cmds *cmds_info)
+t_env	*search_same_key(t_env *head, char *key)
+{
+	t_env	*tmp;
+
+	tmp = head;
+	while (head != NULL)
+	{
+		if (ft_strcmp(head->key, key) == 0)
+			return (head);
+		head = head->next;
+	}
+	head = tmp;
+	return (NULL);
+}
+
+void	change_val(t_env *same_key_node, char *new_val)
 {
 	size_t	i;
-	int		is_env;
-	char	*key;
-	char	*val;
-	char	*val_start;
 
-	i = 1;
-	while (cmds_info->cmd_args[i] != NULL)
+	free(same_key_node->val);
+	same_key_node->val = malloc(sizeof(char) * ft_strlen(new_val) + 1);	
+	i = 0;
+	while (new_val[i] != '\0')
 	{
-		key = get_key(cmds_info->cmd_args[i], &val_start);
-		if (ft_strchr(cmds_info->cmd_args[i], '=') != NULL)
-		{
-			is_env = 1;
-			val = get_val(val_start);
-		}
-		else
-		{
-			is_env = 0;
-			val = NULL;
-		}
-		ft_lstadd_back_env(&(cmds_info->env_lst),
-			ft_lstnew_env(key, val, is_env));
+		(same_key_node->val)[i] = new_val[i];
 		i++;
 	}
+	(same_key_node->val)[i] = '\0';
 }
 
 void	print_env(t_cmds *cmds_info)
@@ -60,9 +62,29 @@ void	print_env(t_cmds *cmds_info)
 
 int	builtin_export(t_cmds *cmds_info)
 {
-	if (cmds_info->cmd_args[1] != NULL)
-		set_env(cmds_info);
-	else
+	char	*key;
+	char	*val;
+	char	*val_start;
+	t_env	*same_key_node;
+	size_t	i;
+
+	if (cmds_info->cmd_args[1] == NULL)
 		print_env(cmds_info);
+	else
+	{
+		i = 0;
+		while (cmds_info->cmd_args[i] != NULL)
+		{
+			key = get_key(cmds_info->cmd_args[i], &val_start);
+			val = get_val(val_start);
+			same_key_node= search_same_key(cmds_info->env_lst, key);
+			if (same_key_node == NULL)
+				ft_lstadd_back_env(&(cmds_info->env_lst),
+					ft_lstnew_env(key, val, 1));
+			else
+				change_val(same_key_node, val);
+			i++;
+		}
+	}
 	return (0);
 }

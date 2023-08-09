@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 17:40:58 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/08 17:51:45 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/08 22:08:14 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	*get_key(char *env, char **val_start)
 	if (end == NULL)
 	{
 		end = ft_strchr(start, '\0');
-		*val_start = end;
+		*val_start = NULL;
 	}
 	else
 		*val_start = end + 1;
@@ -72,6 +72,8 @@ char	*get_val(char *val_start)
 	char	*val;
 	size_t	val_len;
 
+	if (val_start == NULL)
+		return (NULL);
 	val_len = ft_strlen(val_start);
 	val = ft_strndup(val_start, val_len);
 	return (val);
