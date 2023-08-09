@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/08 16:38:38 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/09 12:19:34 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,7 +190,7 @@ int		builtin_exit(t_cmds *cmds_info);
 
 
 //make_env_lst.c
-t_env	*ft_lstnew_env(char	*key, char *val, int is_env);
+t_env	*ft_lstnew_env(char	*key, char *val);
 t_env	*ft_lstlast_env(t_env *head);
 void	ft_lstadd_back_env(t_env **head, t_env *new);
 char	*get_key(char *env, char **val_start);

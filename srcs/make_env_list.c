@@ -6,13 +6,13 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 17:40:58 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/08 22:08:14 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/09 12:25:21 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_env	*ft_lstnew_env(char	*key, char *val, int is_env)
+t_env	*ft_lstnew_env(char	*key, char *val)
 {
 	t_env	*new;
 
@@ -21,7 +21,6 @@ t_env	*ft_lstnew_env(char	*key, char *val, int is_env)
 		return (NULL);
 	new->key = key;
 	new->val = val;
-	new->is_env = is_env;
 	new->next = NULL;
 	return (new);
 }
@@ -75,7 +74,13 @@ char	*get_val(char *val_start)
 	if (val_start == NULL)
 		return (NULL);
 	val_len = ft_strlen(val_start);
-	val = ft_strndup(val_start, val_len);
+	if (val_len == 0)
+	{
+		val = malloc(sizeof(char));
+		*val = '\0';
+	}
+	else
+		val = ft_strndup(val_start, val_len);
 	return (val);
 }
 
@@ -94,7 +99,7 @@ t_env	*make_env_lst(char	**env)
 	{
 		key = get_key(env[i], &val_start);
 		val = get_val(val_start);
-		ft_lstadd_back_env(&head, ft_lstnew_env(key, val, 1));
+		ft_lstadd_back_env(&head, ft_lstnew_env(key, val));
 		i++;
 	}
 	return (head);
