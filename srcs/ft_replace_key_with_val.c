@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_expand_env.c                                    :+:      :+:    :+:   */
+/*   ft_replace_key_with_val.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 15:11:52 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/01 14:34:57 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/10 14:17:44 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ char	*ft_make_new_token(char *token, char *doller, char *before, char *after)
 	return (new_token);
 }
 
-char	*ft_replace_key_with_val(char **old_token, char *doller, int status)
+char	*ft_replace_key_with_val(char **old_token, char *doller, int status, t_env *env_lst)
 {
 	char		*env_key;
 	char		*env_val;
@@ -111,7 +111,7 @@ char	*ft_replace_key_with_val(char **old_token, char *doller, int status)
 	if (env_key != NULL)
 	{
 		if (env_val == NULL)
-			env_val = getenv(env_key);
+			env_val = my_getenv(env_key, env_lst);
 		if (env_val == NULL)
 			env_val = "\0";
 		printf("key = %s, val = %s\n", env_key, env_val);

@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 19:55:33 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/31 23:37:26 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/08/10 13:52:03 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int		builtin_cd(t_cmds *cmds_info)
 	{
 		//update_oldpwd(cmds_info, buff_cwd);
 		//go to the home directory
-		char *home = getenv("HOME");//"/Users/taaraki";
+		char *home = my_getenv("HOME", cmds_info->env_lst);//"/Users/taaraki";
 		ret = chdir(home);
 	}
 	else

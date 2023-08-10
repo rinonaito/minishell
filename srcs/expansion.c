@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_expand_env.c                                    :+:      :+:    :+:   */
+/*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 15:21:01 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/01 19:14:41 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/08/10 14:17:46 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	*ft_check_quotes(char *old_start)
 	return (old_start);
 }
 
-char	*ft_expand_str(char *old_token, int status)
+char	*ft_expand_str(char *old_token, int status, t_env *env_lst)
 {
 	char		*new_start;
 	char		*env_expanded;
@@ -78,7 +78,7 @@ char	*ft_expand_str(char *old_token, int status)
 		i += new_start - &old_token[i];
 		if (old_token[i] == '$')
 		{
-			env_expanded = ft_replace_key_with_val(&old_token, &old_token[i], status);
+			env_expanded = ft_replace_key_with_val(&old_token, &old_token[i], status, env_lst);
 			if (env_expanded != NULL)
 				i = -1;
 		}
@@ -89,7 +89,7 @@ char	*ft_expand_str(char *old_token, int status)
 	return (env_expanded);
 }
 
-void	ft_expand_list(t_token **param, int status)
+void	ft_expand_list(t_token **param, int status, t_env *env_lst)
 {
 	char		*old_token;
 	char		*env_expanded;
@@ -102,7 +102,8 @@ void	ft_expand_list(t_token **param, int status)
 	{
 		old_token = (*param)->token;
 		if (old_token != NULL)
-			env_expanded = ft_expand_str(old_token, status);
+			env_expanded = ft_expand_str(old_token, status, env_lst);
+		ft_split_expanded_token(*param, env_lst);
 		new_token = ft_delete_quotes(env_expanded);
 		if (new_token != NULL)
 		{

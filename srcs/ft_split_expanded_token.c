@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 19:28:29 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/18 20:26:35 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/08 11:27:17 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,13 +85,13 @@ char	*ft_split_token(char *ifs, char *old)
 	return (new);
 }
 
-void	ft_split_expanded_token(t_token *param)
+void	ft_split_expanded_token(t_token *param, t_env *env_lst)
 {
 	char	*ifs;
 	char	*new_token;
 	char	*old_token;
 
-	ifs = getenv("IFS");
+	ifs = my_getenv("IFS", env_lst);
 	if (ifs == NULL)
 		ifs = " \t\n";
 //	ifs = "/";

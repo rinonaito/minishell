@@ -1,30 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_env.c                                      :+:      :+:    :+:   */
+/*   clear_env_lst.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/19 17:41:26 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/09 12:09:30 by rnaito           ###   ########.fr       */
+/*   Created: 2023/08/08 12:55:32 by rnaito            #+#    #+#             */
+/*   Updated: 2023/08/08 12:55:34 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	builtin_env(t_cmds *cmds_info)
+void	clear_env_lst(t_env **lst)
 {
-	t_env	*tmp;
-	t_env	*head;
+	t_env	*current_node;
+	t_env	*temp;
 
-	head = cmds_info->env_lst;
-	tmp = head;
-	while (head != NULL)
+	if (lst == NULL || *lst == NULL)
+		return ;
+	current_node = *lst;
+	while (current_node != NULL)
 	{
-		if (head->val != NULL)
-			printf("%s=%s\n", head->key, head->val);
-		head = head->next;
+		temp = current_node->next;
+		free(current_node->key);
+		free(current_node->val);
+		free(current_node);
+		current_node = temp;
 	}
-	cmds_info->env_lst = tmp;
-	return (0);
+	*lst = NULL;
 }

@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_env.c                                      :+:      :+:    :+:   */
+/*   my_getenv.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/19 17:41:26 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/09 12:09:30 by rnaito           ###   ########.fr       */
+/*   Created: 2023/08/07 15:14:22 by rnaito            #+#    #+#             */
+/*   Updated: 2023/08/10 13:51:57 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	builtin_env(t_cmds *cmds_info)
+char	*my_getenv(char *key, t_env *env_lst)
 {
+	char	*val;
 	t_env	*tmp;
-	t_env	*head;
 
-	head = cmds_info->env_lst;
-	tmp = head;
-	while (head != NULL)
+	tmp = env_lst;
+	val = NULL;
+	while (env_lst != NULL && val == NULL)
 	{
-		if (head->val != NULL)
-			printf("%s=%s\n", head->key, head->val);
-		head = head->next;
+		if (ft_strcmp(env_lst->key, key) == 0)
+			val = env_lst->val;
+		env_lst = env_lst->next;
 	}
-	cmds_info->env_lst = tmp;
-	return (0);
+	env_lst = tmp;
+	return (val);
 }

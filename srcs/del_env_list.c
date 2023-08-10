@@ -1,30 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_env.c                                      :+:      :+:    :+:   */
+/*   ft_lstdelone.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/19 17:41:26 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/09 12:09:30 by rnaito           ###   ########.fr       */
+/*   Created: 2023/02/02 14:57:08 by rnaito            #+#    #+#             */
+/*   Updated: 2023/02/09 21:20:58 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	builtin_env(t_cmds *cmds_info)
+void	ft_lstdelone(t_list *lst, void (*del)(void*))
 {
-	t_env	*tmp;
-	t_env	*head;
-
-	head = cmds_info->env_lst;
-	tmp = head;
-	while (head != NULL)
-	{
-		if (head->val != NULL)
-			printf("%s=%s\n", head->key, head->val);
-		head = head->next;
-	}
-	cmds_info->env_lst = tmp;
-	return (0);
+	if (lst == NULL || del == NULL)
+		return ;
+	del(lst->content);
+	free(lst);
 }
