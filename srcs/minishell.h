@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/09 12:19:34 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/10 14:09:25 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ typedef struct s_tree {
 typedef struct s_env {
 	char			*key;
 	char			*val;
-	int			is_env;
 	struct s_env	*next;
 }						t_env;
 
@@ -187,6 +186,10 @@ int		builtin_echo(t_cmds *cmds_info);
 int		builtin_cd(t_cmds *cmds_info);
 int		builtin_pwd(t_cmds *cmds_info);
 int		builtin_exit(t_cmds *cmds_info);
+int		builtin_env(t_cmds *cmds_info);
+int		builtin_export(t_cmds *cmds_info);
+int		builtin_unset(t_cmds *cmds_info);
+t_env	*search_same_key(t_env *head, char *key);
 
 
 //make_env_lst.c
@@ -197,11 +200,10 @@ char	*get_key(char *env, char **val_start);
 char	*get_val(char *val_start);
 t_env	*make_env_lst(char	**env);
 
-int		builtin_env(t_cmds *cmds_info);
-int	builtin_export(t_cmds *cmds_info);
-
+//clear_env_lst.c
 void	clear_env_lst(t_env **lst);
 
+//my_get_env.c
 char	*my_getenv(char *key, t_env *env_lst);
 
 #endif
