@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/10 15:05:43 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/10 15:30:47 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,5 +84,6 @@ int	main(int argc, char **argv, char **env)
 		//sleep(2);
 	//	system ("leaks -q minishell");
 	}
+	printf("AFTER READLINE RETURNS NULL\n");
 	return (0);
 }
