@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 15:21:01 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/10 14:17:46 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/10 15:21:28 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ char	*ft_delete_quotes(char *with_quotes)
 {
 	char	*sin_quotes;
 
+	sin_quotes = NULL;
 	if (with_quotes != NULL)
 	{
 		sin_quotes = ft_get_token_sin_quotes(with_quotes);
@@ -67,7 +68,6 @@ char	*ft_expand_str(char *old_token, int status, t_env *env_lst)
 {
 	char		*new_start;
 	char		*env_expanded;
-	char		*new_token;
 	int			i;
 
 	env_expanded = NULL;

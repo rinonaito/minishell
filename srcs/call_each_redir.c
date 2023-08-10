@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 15:00:26 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/04 14:10:12 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/10 15:17:43 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ static void	redirect_in(int *redir_fd, t_token *param)
 char	*generate_random_str(void)
 {
 	int		rand_fd;
-	int		bytes_read;
 	char	*filename;
 	size_t	i;
 
@@ -71,7 +70,6 @@ char	*generate_random_str(void)
 static char	*heredoc(int *redir_fd, t_token *param)
 {
 	int		fd_in;
-	int		is_newname;
 	char	*filename;
 
 	filename = generate_random_str();

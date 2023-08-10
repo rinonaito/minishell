@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 22:23:05 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/31 23:38:15 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/08/10 15:25:02 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,10 @@
 int		builtin_pwd(t_cmds *cmds_info)
 {
 	char	buff_cwd[PATH_MAX];
-	int		ret;
 	
 	printf(" >%s\n", __func__);
+	if (!cmds_info)//adding this just to meet the compile requirements
+		return (1);
 	ft_memset(buff_cwd, '\0', PATH_MAX);
 	if (!getcwd(buff_cwd, PATH_MAX))
 		return (-1);

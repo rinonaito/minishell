@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/10 14:52:42 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/10 15:18:49 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static void without_child_process(t_cmds *cmds_info, int *redir_fd)
 	dup2(redir_fd[READ_END], STDIN_FILENO); 
 	dup2(redir_fd[WRITE_END], STDOUT_FILENO); 
 	ret = call_builtin(cmds_info);
+	g_signal = ret;//temporarily setting this to avoid compile error with flag
 	if (redir_fd[READ_END] != STDIN_FILENO)
 		close(redir_fd[READ_END]);
 	if (redir_fd[WRITE_END] != STDOUT_FILENO)

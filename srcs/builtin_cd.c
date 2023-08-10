@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 19:55:33 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/10 13:52:03 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/10 15:26:02 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ static int	update_oldpwd(t_cmds *cmds_info, char *buff_cwd)
 		if oldpwd exists in env, add it to env
 		otherwise, replace oldpwd with a new one
 	*/ 
+	if (!cmds_info)//using this just to meet the compile requirements
+		return (1);
 	//if (exits_env(oldpwd, cmds_info->env))
 		//add_env(oldpwd, cmds_info);
 	//else
@@ -103,7 +105,7 @@ int		builtin_cd(t_cmds *cmds_info)
 		return (-1);//error
 	if (!cmd_args[1])
 	{
-		//update_oldpwd(cmds_info, buff_cwd);
+		update_oldpwd(cmds_info, buff_cwd);
 		//go to the home directory
 		char *home = my_getenv("HOME", cmds_info->env_lst);//"/Users/taaraki";
 		ret = chdir(home);
