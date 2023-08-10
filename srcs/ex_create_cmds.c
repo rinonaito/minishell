@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exe_create_cmds.c                                  :+:      :+:    :+:   */
+/*   ex_create_cmds.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 21:37:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/06 18:54:05 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/10 14:50:42 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	"minishell.h"
 
 //@func: free cmd_args used for executing commands
-char	**free_args(char ***argv)
+char	**free_args(char **argv)
 {
 	char	**p;
 	int		i;
 
 	if (!argv)
 		return (NULL);
-	p = *argv;
+	p = argv;
 	i = 0;
 	while (p[i])
 	{
@@ -28,6 +28,7 @@ char	**free_args(char ***argv)
 		p[i] = NULL;
 		i++;
 	}
+	free(argv);
 	argv = NULL;
 	return (NULL);
 }
@@ -73,7 +74,7 @@ char	**create_cmds(t_tree *root)
 		if (!cmd_args[i])
 		{
 			printf("!cmd_args[i]\n");
-			return (free_args(&cmd_args));
+			return (free_args(cmd_args));
 		}
 		i++;
 		root->param = root->param->next;

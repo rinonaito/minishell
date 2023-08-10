@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/10 14:09:25 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/10 15:00:01 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ int		wait_process(pid_t *pid_ary, int num_cmds);
 void    ft_perror(char *message);
 
 //ft_free.c
-char	**free_args(char ***argv);
+char	**free_args(char **argv);
 
 //create_cmds.c
 char    **create_cmds(t_tree *root);
@@ -168,12 +168,14 @@ void	ft_split_expanded_token(t_token *param, t_env *env_lst);
 char	*ft_get_delimiter(t_token *head, int *is_quoted);
 char	*ft_make_input_str(char *delimiter);
 void	ft_for_unbraced_env(char **start, char **end, char *doller);
-void	ft_get_heredoc_input(t_token *head, int status, t_env *env_lst);
+int	ft_get_heredoc_input(t_token *head, int status, t_env *env_lst);
 
 /*** SIGNAL ***/
 //signal.c
-void	ft_signal(int *status);
+void	ft_signal(void);
 void	ft_signal_child(void);
+void	ft_signal_heredoc(void);
+void	*rl_quit(void);
 
 //redirection.c
 int		redirect(t_token *param, int *redir_fd, int *pipe_fd, t_cmds *cmds_info);

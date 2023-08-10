@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/08 12:54:56 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/10 14:52:42 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,7 @@ static void	trace_inorder(t_tree *root, t_cmds *cmds_info)
 		cmds_info->i += 1;
 		cmds_info->cmd_args = create_cmds(root);
 		create_process(cmds_info, root);
-		/*** TO HERE ***/ 
-		free_args(&cmds_info->cmd_args);//free cmd_args and setting NUL
+		//cmds_info->cmd_args = free_args(cmds_info->cmd_args);
 	}
 	trace_inorder(root->r_leaf, cmds_info);
 }

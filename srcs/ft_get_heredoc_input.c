@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 16:29:01 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/08 11:12:34 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/10 14:55:42 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,17 @@ char	*ft_make_input_str(char *delimiter)
 	char	*input;
 	char	*joined;
 
+	/*** ***/
+	ft_signal_heredoc();
+	rl_event_hook = (rl_hook_func_t *)rl_quit;
+	rl_done = 0;
+	/*** ***/
 	input = "\0";
 	while (1)
 	{
+		//printf(" rl_done:[%d], g_signal:[%d]\n", rl_done, g_signal);
+		if (g_signal == SIGINT)
+			return (NULL);
 		line = readline("\x1b[34m>> \x1b[39m");
 		if (line == NULL || ft_strcmp(line, delimiter) == 0)
 		{
@@ -70,7 +78,10 @@ void	ft_add_input_to_list(t_token *head, char *input)
 	head -> heredoc = input;
 }
 
-void	ft_get_heredoc_input(t_token *head, int status, t_env *env_lst)
+//return_val:
+//		0: if there's no problem
+//		1: if the readline is stopped by signal
+int	ft_get_heredoc_input(t_token *head, int status, t_env *env_lst)
 {
 	char	*delimiter;
 	int		is_quoted;
@@ -80,6 +91,8 @@ void	ft_get_heredoc_input(t_token *head, int status, t_env *env_lst)
 	is_quoted = 0;
 	delimiter = ft_get_delimiter(head, &is_quoted);
 	input = ft_make_input_str(delimiter);
+	if (!input)
+		return (1);
 	if (is_quoted == 0)
 	{
 		new_input = ft_expand_str(input, status, env_lst);
@@ -87,5 +100,5 @@ void	ft_get_heredoc_input(t_token *head, int status, t_env *env_lst)
 			input = new_input;
 	}
 	ft_add_input_to_list(head, input);
-	return ;
+	return (0);
 }
