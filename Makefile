@@ -6,7 +6,7 @@
 #    By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 16:01:50 by rnaito            #+#    #+#              #
-#    Updated: 2023/08/06 19:47:47 by taaraki          ###   ########.fr        #
+#    Updated: 2023/08/10 15:03:09 by rnaito           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,9 +37,9 @@ SRCS =	main.c\
 		ft_get_heredoc_input.c\
 		ft_make_syntax_tree.c\
 		ft_replace_key_with_val.c\
+		my_getenv.c\
 		ft_split_expanded_token.c\
 		make_env_list.c\
-		builtin_env.c\
 		libft_plus.c\
 		redirection.c\
 		call_each_redir.c\
@@ -53,6 +53,10 @@ SRCS =	main.c\
 		builtin.c\
 		builtin_pwd.c\
 		builtin_cd.c\
+		builtin_env.c\
+		clear_env_lst.c\
+		builtin_export.c\
+		builtin_unset.c\
 		builtin_echo.c
 OBJSDIR = objs/
 OBJS = $(SRCS:%.c=$(OBJSDIR)%.o)

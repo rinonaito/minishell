@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 16:29:01 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/06 20:10:57 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/08/10 14:55:42 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ char	*ft_make_input_str(char *delimiter)
 	char	*input;
 	char	*joined;
 
-	//g_signal = 0;//do this in main
 	/*** ***/
 	ft_signal_heredoc();
 	rl_event_hook = (rl_hook_func_t *)rl_quit;
@@ -82,7 +81,7 @@ void	ft_add_input_to_list(t_token *head, char *input)
 //return_val:
 //		0: if there's no problem
 //		1: if the readline is stopped by signal
-int	ft_get_heredoc_input(t_token *head, int status)
+int	ft_get_heredoc_input(t_token *head, int status, t_env *env_lst)
 {
 	char	*delimiter;
 	int		is_quoted;
@@ -92,13 +91,11 @@ int	ft_get_heredoc_input(t_token *head, int status)
 	is_quoted = 0;
 	delimiter = ft_get_delimiter(head, &is_quoted);
 	input = ft_make_input_str(delimiter);
-	/*** ***/
 	if (!input)
 		return (1);
-	/*** ***/
 	if (is_quoted == 0)
 	{
-		new_input = ft_expand_str(input, status);
+		new_input = ft_expand_str(input, status, env_lst);
 		if (new_input != NULL)
 			input = new_input;
 	}

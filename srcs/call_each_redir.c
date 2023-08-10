@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 15:00:26 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/03 20:34:11 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/04 14:10:12 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ static void	redirect_out_append(int *redir_fd, t_token *param, int type)
 
 	filename = param->next->token;
 	if (type == TK_REDIR_OUT)
-		fd_out = open(filename, O_WRONLY | O_CREAT | O_CLOEXEC | O_TRUNC, OPEN_MODE);
+		fd_out = open(filename, O_WRONLY | O_CREAT | O_TRUNC, OPEN_MODE);
 	if (type == TK_APPEND)
-		fd_out = open(filename, O_WRONLY | O_CREAT | O_CLOEXEC | O_APPEND, OPEN_MODE);
+		fd_out = open(filename, O_WRONLY | O_CREAT | O_APPEND, OPEN_MODE);
 	if (fd_out == -1)
 		ft_perror("bash");
 	if (redir_fd[WRITE_END] != STDOUT_FILENO)
@@ -35,7 +35,7 @@ static void	redirect_in(int *redir_fd, t_token *param)
 	char	*filename;
 
 	filename = param->next->token;
-	fd_in = open(filename, O_RDWR | O_CLOEXEC);
+	fd_in = open(filename, O_RDONLY);
 	if (fd_in == -1)
 		ft_perror("bash");
 	if (redir_fd[READ_END] != STDIN_FILENO)
@@ -75,12 +75,12 @@ static char	*heredoc(int *redir_fd, t_token *param)
 	char	*filename;
 
 	filename = generate_random_str();
-	fd_in = open(filename, O_WRONLY | O_CREAT | O_CLOEXEC | O_TRUNC, OPEN_MODE);
+	fd_in = open(filename, O_WRONLY | O_CREAT | O_TRUNC, OPEN_MODE);
 	if (fd_in == -1)
 		ft_perror("bash");
 	write(fd_in, param->heredoc, ft_strlen(param->heredoc));
 	close (fd_in);
-	fd_in = open(filename, O_RDONLY | O_CLOEXEC, OPEN_MODE);
+	fd_in = open(filename, O_RDONLY);
 	if (fd_in == -1)
 		ft_perror("bash");
 	redir_fd[READ_END] = fd_in;

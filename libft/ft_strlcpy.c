@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rnaito <rnaito@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/13 14:48:13 by rnaito            #+#    #+#             */
-/*   Updated: 2023/02/09 14:23:42 by rnaito           ###   ########.fr       */
+/*   Created: 2023/08/09 11:14:31 by rnaito            #+#    #+#             */
+/*   Updated: 2023/08/09 11:14:47 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
 static void	makestr(char *dst, const char *src, size_t size)
