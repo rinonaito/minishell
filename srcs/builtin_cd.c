@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 19:55:33 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/10 16:46:55 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/08/10 16:55:29 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ static int	update_oldpwd(t_cmds *cmds_info, char *buff_cwd)
 	}
 	//else
 		//replace_env(oldpwd, cmds_info);
+		//change_val(a, old_val)
 	free(oldpwd);
 	oldpwd = NULL;
 	return (0);
