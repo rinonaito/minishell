@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 13:03:35 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/11 14:31:34 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/11 16:05:42 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,46 +46,11 @@ int	ft_put_token_inlist(t_token **head, char *token)
 	type = ft_check_token_type(token);
 	if (type == TK_HEREDOC)
 		is_heredoc = 1;
-	new = ft_lstnew_ms(token, type);
-	ft_lstadd_back_ms(head, new);
+	new = ft_lstnew_token(token, type);
+	ft_lstadd_back_token(head, new);
 	return (is_heredoc);
 }
 
-//@func: make the list of token 
-//@param:
-//	t_token **head: head node of the list
-//	char	*line: input string
-//@return_val: return 0 if there is NO quotation error
-//	return 1 if the quotation is not closed
-int	ft_make_token_list(t_token **head, char *line)
-{
-	char	*token;
-	t_token	*temp;
-	int		is_heredoc;
-
-	is_heredoc = 0;
-	while (ft_strlen(line) != 0)
-	{
-		token = ft_get_token(&line);
-		if (token == NULL)
-			break ;
-		else
-		{
-			if (ft_put_token_inlist(head, token) == 1)
-				is_heredoc = 1;
-		}
-	}
-	temp = *head;
-	if ((*head)->next != NULL)
-	{
-		(*head)->next->prev = NULL;
-		(*head) = (*head)->next;
-	}
-	else
-		(*head) = NULL;
-	free (temp);
-	return (is_heredoc);
-}
 
 //@func: tokenize the input
 //@param:
@@ -99,12 +64,12 @@ t_token	*ft_tokenize(char *line, int *status)
 	if (ft_strlen(line) == 0)
 		return (NULL);
 	if (line != NULL)
-		head = ft_lstnew_ms(NULL, 0);
-	is_heredoc = ft_make_token_list(&head, line);
+		head = ft_lstnew_token(NULL, 0);
+	is_heredoc = make_token_list(&head, line);
 	if (ft_is_syntax_error(head) == 1)
 	{
 		*status = SYNTAX_ERR;
-		ft_lstclear_ms(&head);
+		ft_lstclear_token(&head);
 	}
 	if (is_heredoc == 1 && *status != SYNTAX_ERR)
 		*status = HEREDOC_MODE;

@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/11 15:12:03 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/11 16:06:16 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,12 +91,12 @@ char	*ft_start_with_operator(char *start);
 char	*ft_skip_to_closing_quote(char *str);
 char	*ft_get_token(char **line);
 
-//list.c
-t_token	*ft_lstnew_ms(char *token, int type);
-t_token	*ft_lstlast_ms(t_token *node);
-void	ft_lstadd_back_ms(t_token **head, t_token *new);
-void	ft_lstdel(t_token **current_node);
-void	ft_lstclear_ms(t_token **head);
+//make_token_list.c
+t_token	*ft_lstnew_token(char *token, int type);
+t_token	*ft_lstlast_token(t_token *node);
+void	ft_lstadd_back_token(t_token **head, t_token *new);
+void	ft_lstclear_token(t_token **head);
+int	make_token_list(t_token **head, char *line);
 
 //libft_plus.c
 char	*ft_strndup(char *str, size_t len);
