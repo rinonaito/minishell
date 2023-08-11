@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 17:40:58 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/09 12:25:21 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/11 15:12:42 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,43 +45,6 @@ void	ft_lstadd_back_env(t_env **head, t_env *new)
 	}
 	tail = ft_lstlast_env(*head);
 	tail->next = new;
-}
-
-char	*get_key(char *env, char **val_start)
-{
-	char	*start;
-	char	*end;
-	char	*key;
-
-	start = env;
-	end = ft_strchr(start, '=');
-	if (end == NULL)
-	{
-		end = ft_strchr(start, '\0');
-		*val_start = NULL;
-	}
-	else
-		*val_start = end + 1;
-	key = ft_strndup(start, end - start);
-	return (key);
-}
-
-char	*get_val(char *val_start)
-{
-	char	*val;
-	size_t	val_len;
-
-	if (val_start == NULL)
-		return (NULL);
-	val_len = ft_strlen(val_start);
-	if (val_len == 0)
-	{
-		val = malloc(sizeof(char));
-		*val = '\0';
-	}
-	else
-		val = ft_strndup(val_start, val_len);
-	return (val);
 }
 
 t_env	*make_env_lst(char	**env)

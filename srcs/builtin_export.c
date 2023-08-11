@@ -6,42 +6,11 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 15:18:14 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/11 14:25:40 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/11 15:07:19 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	is_wrong_key_name(char *key)
-{
-	size_t	i;
-
-	if (ft_isalpha(key[0]) != 1 && key[0] != '_')
-		return (1);
-	i = 1;
-	while(key[i] != '\0')
-	{
-		if (ft_isalnum(key[i]) != 1 && key[i] != '_')
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-t_env	*search_same_key(t_env *head, char *key)
-{
-	t_env	*tmp;
-
-	tmp = head;
-	while (head != NULL)
-	{
-		if (ft_strequ(head->key, key))
-			return (head);
-		head = head->next;
-	}
-	head = tmp;
-	return (NULL);
-}
 
 void	change_val(t_env *same_key_node, char *val)
 {
@@ -99,9 +68,7 @@ int	builtin_export(t_cmds *cmds_info)
 		{
 			key = get_key(cmds_info->cmd_args[i], &val_start);
 			if (is_wrong_key_name(key) == 1)
-			{
 				return (1);
-			}
 			val = get_val(val_start);
 			same_key_node = search_same_key(cmds_info->env_lst, key);
 			if (same_key_node == NULL)
@@ -113,4 +80,4 @@ int	builtin_export(t_cmds *cmds_info)
 		}
 	}
 	return (0);
-} 
+}

@@ -6,7 +6,7 @@
 #    By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 16:01:50 by rnaito            #+#    #+#              #
-#    Updated: 2023/08/10 15:16:39 by taaraki          ###   ########.fr        #
+#    Updated: 2023/08/11 15:13:46 by rnaito           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,7 @@ SRCS =	main.c\
 		my_getenv.c\
 		ft_split_expanded_token.c\
 		make_env_list.c\
+		env_lst_utils.c\
 		libft_plus.c\
 		redirection.c\
 		call_each_redir.c\
