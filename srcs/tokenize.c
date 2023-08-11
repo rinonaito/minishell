@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 13:03:35 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/03 19:10:44 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/11 14:31:34 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,15 @@
 //@return_val: type(TK_WORD or TK_OPERATOR) of the token
 int	ft_check_token_type(char *token)
 {
-	if (ft_strcmp(token, "|") == 0)
+	if (ft_strequ(token, "|"))
 		return (TK_PIPE);
-	if (ft_strcmp(token, "<") == 0)
+	if (ft_strequ(token, "<"))
 		return (TK_REDIR_IN);
-	if (ft_strcmp(token, ">") == 0)
+	if (ft_strequ(token, ">"))
 		return (TK_REDIR_OUT);
-	if (ft_strcmp(token, "<<") == 0)
+	if (ft_strequ(token, "<<"))
 		return (TK_HEREDOC);
-	if (ft_strcmp(token, ">>") == 0)
+	if (ft_strequ(token, ">>"))
 		return (TK_APPEND);
 	return (TK_WORD);
 }

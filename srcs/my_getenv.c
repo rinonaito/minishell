@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 15:14:22 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/10 13:51:57 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/11 14:26:13 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*my_getenv(char *key, t_env *env_lst)
 	val = NULL;
 	while (env_lst != NULL && val == NULL)
 	{
-		if (ft_strcmp(env_lst->key, key) == 0)
+		if (ft_strequ(env_lst->key, key))
 			val = env_lst->val;
 		env_lst = env_lst->next;
 	}

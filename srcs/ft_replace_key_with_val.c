@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 15:11:52 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/10 14:17:44 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/11 14:28:58 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ char	*ft_replace_key_with_val(char **old_token, char *doller, int status, t_env 
 	is_error = 0;
 	env_val = NULL;
 	env_key = ft_get_key_of_env(doller, &is_error);
-	if (ft_strcmp(env_key, "?") == 0)
+	if (ft_strequ(env_key, "?"))
 		env_val = ft_itoa(status);
 	if (is_error == 1 && env_val == NULL)
 		ft_perror("bad substitution");

@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 15:18:14 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/10 20:34:31 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/11 14:25:40 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_env	*search_same_key(t_env *head, char *key)
 	tmp = head;
 	while (head != NULL)
 	{
-		if (ft_strcmp(head->key, key) == 0)
+		if (ft_strequ(head->key, key))
 			return (head);
 		head = head->next;
 	}
@@ -99,7 +99,9 @@ int	builtin_export(t_cmds *cmds_info)
 		{
 			key = get_key(cmds_info->cmd_args[i], &val_start);
 			if (is_wrong_key_name(key) == 1)
+			{
 				return (1);
+			}
 			val = get_val(val_start);
 			same_key_node = search_same_key(cmds_info->env_lst, key);
 			if (same_key_node == NULL)

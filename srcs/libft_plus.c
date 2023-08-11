@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 14:14:00 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/18 21:44:28 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/11 14:34:25 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,22 +50,6 @@ char	*ft_strndup(char *str, size_t len)
 	}
 	new[i] = '\0';
 	return (new);
-}
-
-int	ft_strcmp(char *str1, char *str2)
-{
-	size_t	i;
-
-	i = 0;
-	while (str1[i] != '\0' || str2[i] != '\0')
-	{
-		if (str1[i] != str2[i])
-			return (str1[i] - str2[i]);
-		i++;
-	}
-	if (str1[i] == str2[i])
-		return (0);
-	return (1);
 }
 
 char	*ft_find_endoftoken(char *str)
