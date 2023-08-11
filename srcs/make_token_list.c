@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 15:53:40 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/11 16:11:04 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/11 18:19:15 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ t_token	*ft_lstnew_token(char *token, int type)
 	new->type = type;
 	new->heredoc = NULL;
 	new->next = NULL;
+	new->prev = NULL;
 	return (new);
 }
 
@@ -71,13 +72,15 @@ void	ft_lstclear_token(t_token **head)
 	return ;
 }
 
-int	make_token_list(t_token **head, char *line)
+t_token	*make_token_list(char *line, int *have_heredoc)
 {
 	char	*token;
-	t_token	*temp;
-	int		is_heredoc;
+	t_token	*head;
+	t_token	*new;
+	int		token_type;
 
-	is_heredoc = 0;
+	*have_heredoc = 0;
+	head = NULL;
 	while (ft_strlen(line) != 0)
 	{
 		token = ft_get_token(&line);
@@ -85,18 +88,12 @@ int	make_token_list(t_token **head, char *line)
 			break ;
 		else
 		{
-			if (ft_put_token_inlist(head, token) == 1)
-				is_heredoc = 1;
+			token_type = get_token_type(token);
+			new = ft_lstnew_token(token, token_type);
+			ft_lstadd_back_token(&head, new);
+			if (token_type == TK_HEREDOC)
+				*have_heredoc = 1;
 		}
 	}
-	temp = *head;
-	if ((*head)->next != NULL)
-	{
-		(*head)->next->prev = NULL;
-		(*head) = (*head)->next;
-	}
-	else
-		(*head) = NULL;
-	free (temp);
-	return (is_heredoc);
+	return (head);
 }

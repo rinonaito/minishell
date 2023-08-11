@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/11 16:06:16 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/11 18:37:05 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,16 @@ typedef struct s_cmds{
 
 /*** TOKENIZE ***/
 //tokenize.c
-t_token	*ft_tokenize(char *line, int *is_error);
-int		ft_make_token_list(t_token **head, char *line);
-int		ft_put_token_inlist(t_token **head, char *token);
-int		ft_check_token_type(char *token);
+t_token	*tokenize(char *line, int *is_error);
+int		is_syntax_error(t_token *head);
+int		get_token_type(char *token);
+
+//make_token_list.c
+t_token	*ft_lstnew_token(char *token, int type);
+t_token	*ft_lstlast_token(t_token *node);
+void	ft_lstadd_back_token(t_token **head, t_token *new);
+void	ft_lstclear_token(t_token **head);
+t_token	*make_token_list(char *line, int *have_heredoc);
 
 //ft_get_token.c
 char	*ft_skip_space(char *line);
@@ -91,12 +97,6 @@ char	*ft_start_with_operator(char *start);
 char	*ft_skip_to_closing_quote(char *str);
 char	*ft_get_token(char **line);
 
-//make_token_list.c
-t_token	*ft_lstnew_token(char *token, int type);
-t_token	*ft_lstlast_token(t_token *node);
-void	ft_lstadd_back_token(t_token **head, t_token *new);
-void	ft_lstclear_token(t_token **head);
-int	make_token_list(t_token **head, char *line);
 
 //libft_plus.c
 char	*ft_strndup(char *str, size_t len);
@@ -107,7 +107,6 @@ char	*ft_find_endoftoken(char *str);
 char	*ft_find_quote(char *str);
 
 //ft_is_syntax_error.c
-int		ft_is_syntax_error(t_token *head);
 
 //ft_make_syntax_tree.c
 void	ft_free_syntax_tree(t_tree *root);
