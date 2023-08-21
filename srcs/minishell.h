@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/21 21:18:56 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/21 21:55:45 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,9 +164,6 @@ char	*ft_split_token(char *ifs, char *old);
 void	ft_split_expanded_token(t_token *param, t_env *env_lst);
 
 //ft_get_heredoc_input.c
-char	*ft_get_delimiter(t_token *head, int *is_quoted);
-char	*ft_make_input_str(char *delimiter);
-void	ft_for_unbraced_env(char **start, char **end, char *doller);
 int	get_heredoc_content(t_token *head, int status, t_env *env_lst);
 
 /*** SIGNAL ***/

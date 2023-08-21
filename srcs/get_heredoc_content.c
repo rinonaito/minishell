@@ -6,13 +6,13 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 21:20:45 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/21 21:42:06 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/21 21:53:47 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_get_delimiter(t_token *head, int *is_quoted)
+static char	*ft_get_delimiter(t_token *head, int *is_quoted)
 {
 	char	*delimiter;
 	char	*opening_quote;
@@ -56,7 +56,7 @@ static char	*join_heredoc_lines(char *joined_heredoc, char *new_input)
 	return (joined_heredoc);
 }
 
-char	*read_from_heredoc(char *delimiter)
+static char	*read_from_heredoc(char *delimiter)
 {
 	char	*heredoc_oneline;
 	char	*heredoc_all;
@@ -84,7 +84,7 @@ char	*read_from_heredoc(char *delimiter)
 	return (heredoc_all);
 }
 
-void	ft_add_input_to_list(t_token *head, char *input)
+static void	add_heredoc_to_token_list(t_token *head, char *input)
 {
 	while (head->type != TK_HEREDOC)
 		head = head->next;
@@ -95,20 +95,21 @@ int	get_heredoc_content(t_token *head, int status, t_env *env_lst)
 {
 	char	*delimiter;
 	int		is_quoted;
-	char	*input;
-	char	*new_input;
+	char	*heredoc_content;
+	char	*expanded_content;
+//	char	*new_input;
 
 	is_quoted = 0;
 	delimiter = ft_get_delimiter(head, &is_quoted);
-	input = read_from_heredoc(delimiter);
-	if (!input)
+	heredoc_content = read_from_heredoc(delimiter);
+	if (! heredoc_content)
 		return (1);
 	if (!is_quoted)
 	{
-		new_input = ft_expand_str(input, status, env_lst);
-		if (new_input != NULL)
-			input = new_input;
+		expanded_content = ft_expand_str(heredoc_content, status, env_lst);
+		if (expanded_content != NULL)
+			heredoc_content = expanded_content;
 	}
-	ft_add_input_to_list(head, input);
+	add_heredoc_to_token_list(head, heredoc_content);
 	return (0);
 }
