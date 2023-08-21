@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_get_heredoc_input.c                             :+:      :+:    :+:   */
+/*   get_heredoc_input.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 16:29:01 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/11 14:27:17 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/21 21:09:16 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*ft_get_delimiter(t_token *head, int *is_quoted)
 	return (delimiter);
 }
 
-char	*ft_make_input_str(char *delimiter)
+char	*read_from_heredoc(char *delimiter)
 {
 	char	*line;
 	char	*with_nl;
@@ -78,9 +78,6 @@ void	ft_add_input_to_list(t_token *head, char *input)
 	head -> heredoc = input;
 }
 
-//return_val:
-//		0: if there's no problem
-//		1: if the readline is stopped by signal
 int	ft_get_heredoc_input(t_token *head, int status, t_env *env_lst)
 {
 	char	*delimiter;
@@ -90,10 +87,10 @@ int	ft_get_heredoc_input(t_token *head, int status, t_env *env_lst)
 
 	is_quoted = 0;
 	delimiter = ft_get_delimiter(head, &is_quoted);
-	input = ft_make_input_str(delimiter);
+	input = read_from_heredoc(delimiter);
 	if (!input)
 		return (1);
-	if (is_quoted == 0)
+	if (!is_quoted)
 	{
 		new_input = ft_expand_str(input, status, env_lst);
 		if (new_input != NULL)

@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/11 18:36:19 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/21 20:51:29 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	main(int argc, char **argv, char **env)
 		if (g_signal == SIGINT)
 			status = 1;
 		/*** ***/
-		printf(" status($?)[%d]\n", status);
+//		printf(" status($?)[%d]\n", status);
 		mode = STANDARD;
 		head = tokenize(line, &mode);
 		if (head == NULL && mode == SYNTAX_ERR)
@@ -80,7 +80,7 @@ int	main(int argc, char **argv, char **env)
 		}
 		free(line);
 		line = NULL;
-		printf(" g_signal  [%d]\n", g_signal);
+//		printf(" g_signal  [%d]\n", g_signal);
 		//sleep(2);
 	//	system ("leaks -q minishell");
 	}

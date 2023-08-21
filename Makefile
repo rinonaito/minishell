@@ -6,7 +6,7 @@
 #    By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 16:01:50 by rnaito            #+#    #+#              #
-#    Updated: 2023/08/11 15:57:06 by rnaito           ###   ########.fr        #
+#    Updated: 2023/08/21 20:28:11 by rnaito           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ SRCS =	main.c\
 		tokenize.c\
 		ft_get_token.c\
 		ft_is_syntax_error.c\
-		ft_get_heredoc_input.c\
+		get_heredoc_input.c\
 		ft_make_syntax_tree.c\
 		ft_replace_key_with_val.c\
 		my_getenv.c\
