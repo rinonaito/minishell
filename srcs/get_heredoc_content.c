@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_heredoc_input.c                                :+:      :+:    :+:   */
+/*   get_heredoc_content.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/16 16:29:01 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/21 21:09:16 by rnaito           ###   ########.fr       */
+/*   Created: 2023/08/21 21:20:45 by rnaito            #+#    #+#             */
+/*   Updated: 2023/08/21 21:42:06 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,37 +38,50 @@ char	*ft_get_delimiter(t_token *head, int *is_quoted)
 	return (delimiter);
 }
 
+static char	*join_heredoc_lines(char *joined_heredoc, char *new_input)
+{
+	char	*input_with_nl;
+	char	*tmp;
+	bool	is_first_line;
+	
+	if (ft_strlen(joined_heredoc) == 0)
+		is_first_line = true;
+	else
+		is_first_line = false;
+	input_with_nl = ft_strjoin(new_input, "\n");
+	tmp = joined_heredoc;
+	joined_heredoc = ft_strjoin(joined_heredoc, input_with_nl);
+	if (!is_first_line)
+		free(tmp);
+	return (joined_heredoc);
+}
+
 char	*read_from_heredoc(char *delimiter)
 {
-	char	*line;
-	char	*with_nl;
-	char	*input;
-	char	*joined;
+	char	*heredoc_oneline;
+	char	*heredoc_all;
 
 	/*** ***/
 	ft_signal_heredoc();
 	rl_event_hook = (rl_hook_func_t *)rl_quit;
 	rl_done = 0;
 	/*** ***/
-	input = "\0";
+	heredoc_all = "\0";
 	while (1)
 	{
 		//printf(" rl_done:[%d], g_signal:[%d]\n", rl_done, g_signal);
 		if (g_signal == SIGINT)
 			return (NULL);
-		line = readline("\x1b[34m>> \x1b[39m");
-		if (line == NULL || ft_strequ(line, delimiter))
+		heredoc_oneline = readline("\x1b[34m>> \x1b[39m");
+		if (heredoc_oneline == NULL || ft_strequ(heredoc_oneline, delimiter))
 		{
-			free(line);
-			line = NULL;
+			free(heredoc_oneline);
 			break ;
 		}
-		with_nl = ft_strjoin(line, "\n");
-		joined = ft_strjoin(input, with_nl);
-		input = joined;
-		free (line);
+		heredoc_all = join_heredoc_lines(heredoc_all, heredoc_oneline);
+		free (heredoc_oneline);
 	}
-	return (input);
+	return (heredoc_all);
 }
 
 void	ft_add_input_to_list(t_token *head, char *input)
@@ -78,7 +91,7 @@ void	ft_add_input_to_list(t_token *head, char *input)
 	head -> heredoc = input;
 }
 
-int	ft_get_heredoc_input(t_token *head, int status, t_env *env_lst)
+int	get_heredoc_content(t_token *head, int status, t_env *env_lst)
 {
 	char	*delimiter;
 	int		is_quoted;
