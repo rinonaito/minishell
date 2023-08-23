@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/23 13:16:51 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/23 13:32:39 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,12 +194,10 @@ void	ft_lstadd_back_env(t_env **head, t_env *new);
 t_env	*make_env_lst(char	**env);
 
 //env_lst_utils.c
-int	is_wrong_key_name(char *key);
+int		is_wrong_key_name(char *key);
 t_env	*search_same_key(t_env *head, char *key);
 char	*get_key(char *env, char **val_start);
 char	*get_val(char *val_start);
-
-//clear_env_lst.c
 void	clear_env_lst(t_env **lst);
 
 //my_get_env.c

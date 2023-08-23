@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 15:06:44 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/11 15:13:20 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/23 13:32:36 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,23 @@ char	*get_val(char *val_start)
 	else
 		val = ft_strndup(val_start, val_len);
 	return (val);
+}
+
+void	clear_env_lst(t_env **lst)
+{
+	t_env	*current_node;
+	t_env	*temp;
+
+	if (lst == NULL || *lst == NULL)
+		return ;
+	current_node = *lst;
+	while (current_node != NULL)
+	{
+		temp = current_node->next;
+		free(current_node->key);
+		free(current_node->val);
+		free(current_node);
+		current_node = temp;
+	}
+	*lst = NULL;
 }
