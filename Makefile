@@ -6,7 +6,7 @@
 #    By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 16:01:50 by rnaito            #+#    #+#              #
-#    Updated: 2023/08/21 21:20:32 by rnaito           ###   ########.fr        #
+#    Updated: 2023/08/23 11:54:33 by rnaito           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,6 @@ SRCSDIR = srcs/
 SRCS =	main.c\
 		tokenize.c\
 		ft_get_token.c\
-		ft_is_syntax_error.c\
 		get_heredoc_content.c\
 		ft_make_syntax_tree.c\
 		ft_replace_key_with_val.c\
@@ -40,6 +39,7 @@ SRCS =	main.c\
 		ft_split_expanded_token.c\
 		make_env_list.c\
 		make_token_list.c\
+		make_token_list_utils.c\
 		env_lst_utils.c\
 		libft_plus.c\
 		redirection.c\

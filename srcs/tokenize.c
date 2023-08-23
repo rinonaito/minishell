@@ -6,28 +6,13 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 13:03:35 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/11 18:34:56 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/23 11:52:00 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	get_token_type(char *token)
-{
-	if (ft_strequ(token, "|"))
-		return (TK_PIPE);
-	if (ft_strequ(token, "<"))
-		return (TK_REDIR_IN);
-	if (ft_strequ(token, ">"))
-		return (TK_REDIR_OUT);
-	if (ft_strequ(token, "<<"))
-		return (TK_HEREDOC);
-	if (ft_strequ(token, ">>"))
-		return (TK_APPEND);
-	return (TK_WORD);
-}
-
-int	is_syntax_error(t_token *head)
+static int	is_syntax_error(t_token *head)
 {
 	while (head != NULL)
 	{

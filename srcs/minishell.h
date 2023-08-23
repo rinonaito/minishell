@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/21 21:55:45 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/23 11:50:50 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,15 +80,16 @@ typedef struct s_cmds{
 /*** TOKENIZE ***/
 //tokenize.c
 t_token	*tokenize(char *line, int *is_error);
-int		is_syntax_error(t_token *head);
-int		get_token_type(char *token);
 
 //make_token_list.c
+t_token	*make_token_list(char *line, int *have_heredoc);
+
+//make_token_list_utils.c
 t_token	*ft_lstnew_token(char *token, int type);
 t_token	*ft_lstlast_token(t_token *node);
 void	ft_lstadd_back_token(t_token **head, t_token *new);
 void	ft_lstclear_token(t_token **head);
-t_token	*make_token_list(char *line, int *have_heredoc);
+int		get_token_type(char *token);
 
 //ft_get_token.c
 char	*ft_skip_space(char *line);
