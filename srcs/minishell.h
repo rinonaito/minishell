@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/23 13:32:39 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/23 17:03:38 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,27 +140,24 @@ int	is_builtin(char *s);
 int	call_builtin(t_cmds *cmds_info);
 
 /*** EXPANSION ***/
-//expansion.c
-char	*ft_get_token_sin_quotes(char *with_quotes);
-char	*ft_delete_quotes(char *with_quotes);
-char	*ft_check_quotes(char *old_start);
-char	*ft_expand_str(char *old_token, int status, t_env *env_lst);
+//exp_expand_list.c
 void	ft_expand_list(t_token **param, int status, t_env *env_lst);
 
-//ft_replace_key_with_val.c
-int		ft_for_braced_env(char **start, char **end, char *doller);
-void	ft_for_unbraced_env(char **start, char **end, char *doller);
-char	*ft_get_key_of_env(char *token, int *is_error);
-char	*ft_make_new_token(char *token, char *doller,
-			char *before, char *after);
-char	*ft_replace_key_with_val(char **old_token, char *doller, int status, t_env *env_lst);
+//exp_expand_str.c
+char	*ft_expand_str(char *old_token, int status, t_env *env_lst);
 
-//ft_split_expanded_token.c
+//exp_remove_quotes.c
+char	*remove_quotes(char *with_quotes);
+
+//exp_replace_key_with_val_utils.c
+char	*replace_key_with_val(char **old_token, char *doller, int status, t_env *env_lst);
+
+//exp_word_split.c
 int		ft_for_start(char *space_char, char *ifs, char **new, char *old);
 int		ft_split_with_ifs(char *space_char, char **old, size_t *i, char *new);
 void	ft_for_middle(char *space_char, char *ifs, char **new, char *old);
 char	*ft_split_token(char *ifs, char *old);
-void	ft_split_expanded_token(t_token *param, t_env *env_lst);
+void	split_expanded_word(t_token *param, t_env *env_lst);
 
 //ft_get_heredoc_input.c
 int	get_heredoc_content(t_token *head, int status, t_env *env_lst);

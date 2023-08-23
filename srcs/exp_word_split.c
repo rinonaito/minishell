@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_split_expanded_token.c                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/13 19:28:29 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/23 13:18:54 by rnaito           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
 int	ft_for_start(char *space_char, char *ifs, char **new, char *old)
@@ -85,7 +73,7 @@ char	*ft_split_token(char *ifs, char *old)
 	return (new);
 }
 
-void	ft_split_expanded_token(t_token *param, t_env *env_lst)
+void	split_expanded_word(t_token *param, t_env *env_lst)
 {
 	char	*ifs;
 	char	*new_token;
@@ -94,8 +82,6 @@ void	ft_split_expanded_token(t_token *param, t_env *env_lst)
 	ifs = my_getenv("IFS", env_lst);
 	if (ifs == NULL)
 		ifs = " \t\n";
-//	ifs = "/";
-//	printf("ifs = %s\n", ifs);
 	while (param != NULL)
 	{
 		old_token = param->token;

@@ -6,7 +6,7 @@
 #    By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 16:01:50 by rnaito            #+#    #+#              #
-#    Updated: 2023/08/23 13:33:24 by rnaito           ###   ########.fr        #
+#    Updated: 2023/08/23 16:09:47 by rnaito           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,9 +36,7 @@ SRCS =	main.c\
 		quotes_utils.c\
 		get_heredoc_content.c\
 		ft_make_syntax_tree.c\
-		ft_replace_key_with_val.c\
 		my_getenv.c\
-		ft_split_expanded_token.c\
 		make_env_list.c\
 		make_token_list.c\
 		make_token_list_utils.c\
@@ -52,7 +50,11 @@ SRCS =	main.c\
 		ex_create_cmds.c\
 		ex_search_path.c\
 		ex_perror.c\
-		expansion.c\
+		exp_expand_str.c\
+		exp_expand_list.c\
+		exp_remove_quotes.c\
+		exp_replace_key_with_val.c\
+		exp_word_split.c\
 		builtin.c\
 		builtin_pwd.c\
 		builtin_cd.c\

@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_replace_key_with_val.c                          :+:      :+:    :+:   */
+/*   replace_key_with_val_utils.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/05 15:11:52 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/21 20:33:39 by rnaito           ###   ########.fr       */
+/*   Created: 2023/08/23 14:18:01 by rnaito            #+#    #+#             */
+/*   Updated: 2023/08/23 14:39:18 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_for_braced_env(char **start, char **end, char *doller)
+static int	for_braced_env(char **start, char **end, char *doller)
 {
 	int		is_error;
 	size_t	i;
@@ -32,7 +32,7 @@ int	ft_for_braced_env(char **start, char **end, char *doller)
 	return (is_error);
 }
 
-void	ft_for_unbraced_env(char **start, char **end, char *doller)
+static void	for_unbraced_env(char **start, char **end, char *doller)
 {
 	size_t	i;
 
@@ -55,7 +55,7 @@ void	ft_for_unbraced_env(char **start, char **end, char *doller)
 		*end = &((*start)[1]);
 }
 
-char	*ft_get_key_of_env(char *doller, int *is_error)
+static char	*get_key_of_env(char *doller, int *is_error)
 {
 	char	*start;
 	char	*end;
@@ -64,9 +64,9 @@ char	*ft_get_key_of_env(char *doller, int *is_error)
 	start = NULL;
 	end = NULL;
 	if (*(doller + 1) == '{')
-		*is_error = ft_for_braced_env(&start, &end, doller);
+		*is_error = for_braced_env(&start, &end, doller);
 	else
-		ft_for_unbraced_env(&start, &end, doller);
+		for_unbraced_env(&start, &end, doller);
 	if (start != NULL && end != NULL)
 		env_key = ft_strndup(start, end - start);
 	else
@@ -74,7 +74,7 @@ char	*ft_get_key_of_env(char *doller, int *is_error)
 	return (env_key);
 }
 
-char	*ft_make_new_token(char *token, char *doller, char *before, char *after)
+static char	*make_new_token(char *token, char *doller, char *before, char *after)
 {
 	char	*new_token;
 	int		len_before;
@@ -94,7 +94,7 @@ char	*ft_make_new_token(char *token, char *doller, char *before, char *after)
 	return (new_token);
 }
 
-char	*ft_replace_key_with_val(char **old_token, char *doller, int status, t_env *env_lst)
+char	*replace_key_with_val(char **old_token, char *doller, int status, t_env *env_lst)
 {
 	char		*env_key;
 	char		*env_val;
@@ -103,7 +103,7 @@ char	*ft_replace_key_with_val(char **old_token, char *doller, int status, t_env 
 
 	is_error = 0;
 	env_val = NULL;
-	env_key = ft_get_key_of_env(doller, &is_error);
+	env_key = get_key_of_env(doller, &is_error);
 	if (ft_strequ(env_key, "?"))
 		env_val = ft_itoa(status);
 	if (is_error == 1 && env_val == NULL)
@@ -114,7 +114,7 @@ char	*ft_replace_key_with_val(char **old_token, char *doller, int status, t_env 
 			env_val = my_getenv(env_key, env_lst);
 		if (env_val == NULL)
 			env_val = "\0";
-		new_token = ft_make_new_token(*old_token, doller, env_key, env_val);
+		new_token = make_new_token(*old_token, doller, env_key, env_val);
 		*old_token = new_token;
 		free (env_key);
 		return (new_token);

@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 21:20:45 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/23 13:22:40 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/23 14:42:06 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static char	*get_delimiter(t_token *head, int *is_quoted)
 		if (closing_quote != NULL && opening_quote != closing_quote)
 		{
 			*is_quoted = 1;
-			return (ft_get_token_sin_quotes(delimiter));
+			return (remove_quotes(delimiter));
 		}
 	}
 	return (delimiter);
