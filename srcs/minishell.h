@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/23 12:59:20 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/23 13:16:51 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,15 +98,14 @@ char	*get_token(char **line);
 char	*get_token_end(char *token_start);
 char	*get_token_start(char *line);
 
-//skip_to_closing_quote.c
-char	*ft_skip_to_closing_quote(char *str);
+//quotes_utils.c
+char	*skip_to_closing_quote(char *str);
+char	*find_quote(char *str);
 
 //libft_plus.c
 char	*ft_strndup(char *str, size_t len);
-
 char	*ft_strchrchr(char *str, char c1, char c2, int *not_closed);
 int		ft_strequ(const char *s1, const char *s2);
-char	*ft_find_quote(char *str);
 
 //ft_make_syntax_tree.c
 void	ft_free_syntax_tree(t_tree *root);

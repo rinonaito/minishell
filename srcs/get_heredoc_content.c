@@ -6,13 +6,13 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 21:20:45 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/23 11:53:32 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/23 13:18:26 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*ft_get_delimiter(t_token *head, int *is_quoted)
+static char	*get_delimiter(t_token *head, int *is_quoted)
 {
 	char	*delimiter;
 	char	*opening_quote;
@@ -27,8 +27,8 @@ static char	*ft_get_delimiter(t_token *head, int *is_quoted)
 		delimiter = head->next->token;
 	if (delimiter != NULL)
 	{
-		opening_quote = ft_find_quote(delimiter);
-		closing_quote = ft_skip_to_closing_quote(opening_quote);
+		opening_quote = find_quote(delimiter);
+		closing_quote = skip_to_closing_quote(opening_quote);
 		if (closing_quote != NULL && opening_quote != closing_quote)
 		{
 			*is_quoted = 1;
@@ -97,12 +97,11 @@ int	get_heredoc_content(t_token *head, int status, t_env *env_lst)
 	int		is_quoted;
 	char	*heredoc_content;
 	char	*expanded_content;
-//	char	*new_input;
 
 	is_quoted = 0;
-	delimiter = ft_get_delimiter(head, &is_quoted);
+	delimiter = get_delimiter(head, &is_quoted);
 	heredoc_content = read_from_heredoc(delimiter);
-	if (! heredoc_content)
+	if (!heredoc_content)
 		return (1);
 	if (!is_quoted)
 	{

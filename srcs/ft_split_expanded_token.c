@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 19:28:29 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/08 11:27:17 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/23 13:18:54 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	ft_for_middle(char *space_char, char *ifs, char **new, char *old)
 	j = ft_strlen(*new);
 	while (old[i] != '\0')
 	{
-		closing_quote = ft_skip_to_closing_quote(&old[i]);
+		closing_quote = skip_to_closing_quote(&old[i]);
 		if (closing_quote == NULL)
 			closing_quote = &old[i];
 		while (&old[i] < closing_quote && old[i] != '\0')

@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_get_token.c                                     :+:      :+:    :+:   */
+/*   quotes_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/29 13:31:20 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/23 12:49:16 by rnaito           ###   ########.fr       */
+/*   Created: 2023/08/23 13:14:51 by rnaito            #+#    #+#             */
+/*   Updated: 2023/08/23 13:19:44 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_skip_to_closing_quote(char *old_start)
+char	*skip_to_closing_quote(char *old_start)
 {
 	char	*closing_quote;
 
@@ -27,3 +27,16 @@ char	*ft_skip_to_closing_quote(char *old_start)
 	return (old_start);
 }
 
+char	*find_quote(char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] == '\'' || str[i] == '\"')
+			return (&str[i]);
+		i++;
+	}
+	return (NULL);
+}

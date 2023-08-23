@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 14:14:00 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/23 12:53:52 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/23 13:15:10 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,16 +52,3 @@ char	*ft_strndup(char *str, size_t len)
 	return (new);
 }
 
-char	*ft_find_quote(char *str)
-{
-	size_t	i;
-
-	i = 0;
-	while (str[i] != '\0')
-	{
-		if (str[i] == '\'' || str[i] == '\"')
-			return (&str[i]);
-		i++;
-	}
-	return (NULL);
-}

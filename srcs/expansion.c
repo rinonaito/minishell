@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 15:21:01 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/10 15:21:28 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/08/23 13:19:40 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*ft_get_token_sin_quotes(char *with_quotes)
 	sin_quotes = ft_calloc(ft_strlen(with_quotes) + 1, sizeof(char));
 	while (with_quotes[i] != '\0')
 	{
-		closing_quote = ft_skip_to_closing_quote(&with_quotes[i]);
+		closing_quote = skip_to_closing_quote(&with_quotes[i]);
 		if (closing_quote == NULL || closing_quote == &with_quotes[i])
 			sin_quotes[j++] = with_quotes[i++];
 		else
@@ -57,7 +57,7 @@ char	*ft_check_quotes(char *old_start)
 
 	if (*old_start == '\'')
 	{
-		new_start = ft_skip_to_closing_quote(old_start);
+		new_start = skip_to_closing_quote(old_start);
 		if (new_start != NULL)
 			return (new_start);
 	}

@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 12:56:19 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/23 12:57:52 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/23 13:17:39 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static char	*for_token_end_with_ifs(char *str)
 	i = 0;
 	while (str[i] != '\0')
 	{
-		new_start = ft_skip_to_closing_quote(&str[i]);
+		new_start = skip_to_closing_quote(&str[i]);
 		if (new_start != NULL)
 			i += new_start - &str[i];
 		if (str[i] == ' ' || str[i] == '\t')
@@ -41,7 +41,7 @@ static char	*for_token_end_with_operator(char *start, char *end)
 	len = end - start;
 	while (i < len)
 	{
-		new_start = ft_skip_to_closing_quote(&start[i]);
+		new_start = skip_to_closing_quote(&start[i]);
 		if (new_start == NULL)
 			return (end);
 		else
