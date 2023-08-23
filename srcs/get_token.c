@@ -1,39 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   make_token_list.c                                  :+:      :+:    :+:   */
+/*   get_token.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/11 15:53:40 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/23 12:13:22 by rnaito           ###   ########.fr       */
+/*   Created: 2023/08/23 12:55:59 by rnaito            #+#    #+#             */
+/*   Updated: 2023/08/23 12:56:12 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token	*make_token_list(char *line, int *have_heredoc)
+char	*get_token(char **line)
 {
+	char	*token_start;
+	char	*token_end;
 	char	*token;
-	t_token	*head;
-	t_token	*new;
-	int		token_type;
 
-	*have_heredoc = 0;
-	head = NULL;
-	while (ft_strlen(line) != 0)
+	token_start = get_token_start(*line);
+	token_end = get_token_end(token_start);
+	token = ft_strndup(token_start, token_end - token_start);
+	*line = token_end;
+	if (token != NULL && ft_strlen(token) == 0)
 	{
-		token = get_token(&line);
-		if (token == NULL)
-			break ;
-		else
-		{
-			token_type = get_token_type(token);
-			new = ft_lstnew_token(token, token_type);
-			ft_lstadd_back_token(&head, new);
-			if (token_type == TK_HEREDOC)
-				*have_heredoc = 1;
-		}
+		free(token);
+		return (NULL);
 	}
-	return (head);
+	return (token);
 }

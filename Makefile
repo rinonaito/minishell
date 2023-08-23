@@ -6,7 +6,7 @@
 #    By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 16:01:50 by rnaito            #+#    #+#              #
-#    Updated: 2023/08/23 11:54:33 by rnaito           ###   ########.fr        #
+#    Updated: 2023/08/23 12:59:41 by rnaito           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,9 @@ INCLUDES += -I$(RL_DIR)/include
 SRCSDIR = srcs/
 SRCS =	main.c\
 		tokenize.c\
-		ft_get_token.c\
+		get_token.c\
+		get_token_utils.c\
+		skip_to_closing_quote.c\
 		get_heredoc_content.c\
 		ft_make_syntax_tree.c\
 		ft_replace_key_with_val.c\

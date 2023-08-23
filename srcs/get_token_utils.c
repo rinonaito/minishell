@@ -1,28 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_get_token.c                                     :+:      :+:    :+:   */
+/*   get_token_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/29 13:31:20 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/11 18:38:50 by rnaito           ###   ########.fr       */
+/*   Created: 2023/08/23 12:56:19 by rnaito            #+#    #+#             */
+/*   Updated: 2023/08/23 12:57:52 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_skip_space(char *line)
+static char	*for_token_end_with_ifs(char *str)
 {
 	size_t	i;
+	char	*new_start;
 
+	new_start = NULL;
 	i = 0;
-	while (line[i] != '\0' && (line[i] == ' ' || line[i] == '\t'))
+	while (str[i] != '\0')
+	{
+		new_start = ft_skip_to_closing_quote(&str[i]);
+		if (new_start != NULL)
+			i += new_start - &str[i];
+		if (str[i] == ' ' || str[i] == '\t')
+			return (&str[i]);
 		i++;
-	return (&line[i]);
+	}
+	return (&str[i]);
 }
 
-char	*ft_find_operator(char *start, char *end)
+static char	*for_token_end_with_operator(char *start, char *end)
 {
 	size_t	i;
 	size_t	len;
@@ -34,7 +43,7 @@ char	*ft_find_operator(char *start, char *end)
 	{
 		new_start = ft_skip_to_closing_quote(&start[i]);
 		if (new_start == NULL)
-			return (NULL);
+			return (end);
 		else
 			i += new_start - &start[i];
 		if (start[i] == '|' || start[i] == '<' || start[i] == '>')
@@ -44,7 +53,7 @@ char	*ft_find_operator(char *start, char *end)
 	return (end);
 }
 
-char	*ft_start_with_operator(char *start)
+static char	*get_end_for_operator_token(char *start)
 {
 	char	*end;
 
@@ -68,42 +77,31 @@ char	*ft_start_with_operator(char *start)
 	return (end);
 }
 
-char	*ft_skip_to_closing_quote(char *old_start)
+static char	*get_end_for_word_token(char *token_start)
 {
-	char	*closing_quote;
+	char	*token_end;
 
-	closing_quote = NULL;
-	if (old_start == NULL)
-		return (NULL);
-	if (*old_start == '\'' || *old_start == '\"')
-	{
-		closing_quote = ft_strchr(old_start + 1, *old_start);
-		return (closing_quote);
-	}
-	return (old_start);
+	token_end = for_token_end_with_ifs(token_start);
+	token_end = for_token_end_with_operator(token_start, token_end);
+	return (token_end);
+}
+		
+char	*get_token_end(char *token_start)
+{
+	char	*token_end;
+
+	token_end = get_end_for_operator_token(token_start);
+	if (token_end == NULL)
+		token_end = get_end_for_word_token(token_start);
+	return (token_end);
 }
 
-char	*ft_get_token(char **line)
+char	*get_token_start(char *line)
 {
-	char	*start;
-	char	*end;
-	char	*token;
+	size_t	i;
 
-	start = ft_skip_space(*line);
-	end = ft_start_with_operator(start);
-	if (end == NULL)
-	{
-		end = ft_find_endoftoken(start);
-		end = ft_find_operator(start, end);
-	}
-	if (end == NULL)
-		end = ft_find_endoftoken(start);
-	*line = end;
-	token = ft_strndup(start, end - start);
-	if (token != NULL && ft_strlen(token) == 0)
-	{
-		free(token);
-		return (NULL);
-	}
-	return (token);
+	i = 0;
+	while (line[i] != '\0' && (line[i] == ' ' || line[i] == '\t'))
+		i++;
+	return (&line[i]);
 }
