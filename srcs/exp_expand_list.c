@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_list.c                                      :+:      :+:    :+:   */
+/*   exp_expand_list.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 13:41:43 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/23 17:33:33 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/24 17:56:29 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,32 @@
 
 void	ft_expand_list(t_token **param, int status, t_env *env_lst)
 {
-	char		*old_token;
-	char		*env_expanded;
-	char		*new_token;
+	char		*to_be_expanded;
+	char		*expanded;
+//	char		*splitted;
+//	char		*new_token;
 	char		*temp_token;
 	t_token		*temp;
 
 	temp = *param;
 	while (*param != NULL)
 	{
-		old_token = (*param)->token;
-		if (old_token != NULL)
-			env_expanded = ft_expand_str(old_token, status, env_lst);
-		printf("env_expanded = %s\n", env_expanded);
-		split_expanded_word(*param, env_lst);
-		new_token = remove_quotes(env_expanded);
-		if (new_token != NULL)
-		{
-			temp_token = (*param)->token;
-			(*param)->token = new_token;
-			free(temp_token);
-		}
+		to_be_expanded = (*param)->token;
+		if (to_be_expanded != NULL)
+			expanded = ft_expand_str(to_be_expanded, status, env_lst, false);
+		printf("env_expanded = %s\n", expanded);
+//		splitted = split_expanded_word(expanded, env_lst);
+//		printf("splitted = %s\n", splitted);
+//		new_token = remove_quotes(expanded);
+//		if (new_token != NULL)
+//		{
+//			temp_token = (*param)->token;
+//			(*param)->token = new_token;
+//			free(temp_token);
+//		}
+		temp_token = (*param)->token;
+		(*param)->token = expanded;
+		free(temp_token);
 		*param = (*param)->next;
 	}
 	*param = temp;

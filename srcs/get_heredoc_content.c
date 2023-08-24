@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 21:20:45 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/23 14:42:06 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/24 17:55:20 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ static void	add_heredoc_to_token_list(t_token *head, char *input)
 {
 	while (head->type != TK_HEREDOC)
 		head = head->next;
-	head -> heredoc = input;
+	head->heredoc = input;
 }
 
 int	get_heredoc_content(t_token *head, int status, t_env *env_lst)
@@ -105,10 +105,11 @@ int	get_heredoc_content(t_token *head, int status, t_env *env_lst)
 		return (1);
 	if (!is_quoted)
 	{
-		expanded_content = ft_expand_str(heredoc_content, status, env_lst);
+		expanded_content = ft_expand_str(heredoc_content, status, env_lst, true);
 		if (expanded_content != NULL)
 			heredoc_content = expanded_content;
 	}
+	printf("heredoc_content = %s\n", heredoc_content);
 	add_heredoc_to_token_list(head, heredoc_content);
 	return (0);
 }

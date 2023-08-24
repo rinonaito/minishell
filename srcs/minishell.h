@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/23 17:03:38 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/24 19:26:02 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,20 +144,23 @@ int	call_builtin(t_cmds *cmds_info);
 void	ft_expand_list(t_token **param, int status, t_env *env_lst);
 
 //exp_expand_str.c
-char	*ft_expand_str(char *old_token, int status, t_env *env_lst);
+char	*ft_expand_str(char *old_token, int status, t_env *env_lst, bool is_heredoc);
 
 //exp_remove_quotes.c
 char	*remove_quotes(char *with_quotes);
 
 //exp_replace_key_with_val_utils.c
-char	*replace_key_with_val(char **old_token, char *doller, int status, t_env *env_lst);
+char	*get_key_of_env(char *doller, int *is_error);
+//char	*replace_key_with_val(char **old_token, char *doller, int status, t_env *env_lst);
+char	*replace_key_with_val(char **old_token, char *doller, char *env_key, char *env_val);
+
 
 //exp_word_split.c
 int		ft_for_start(char *space_char, char *ifs, char **new, char *old);
 int		ft_split_with_ifs(char *space_char, char **old, size_t *i, char *new);
 void	ft_for_middle(char *space_char, char *ifs, char **new, char *old);
-char	*ft_split_token(char *ifs, char *old);
-void	split_expanded_word(t_token *param, t_env *env_lst);
+char	*ft_split_token(char *ifs, char *old, char *space_charset);
+char	*split_expanded_word(char *expanded, t_env *env_lst);
 
 //ft_get_heredoc_input.c
 int	get_heredoc_content(t_token *head, int status, t_env *env_lst);

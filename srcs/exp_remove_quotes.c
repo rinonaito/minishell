@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 14:37:12 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/23 17:24:22 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/25 00:25:21 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,14 @@ char	*remove_quotes(char *with_quotes)
 	while (with_quotes[i] != '\0')
 	{
 		closing_quote = skip_to_closing_quote(&with_quotes[i]);
+		//スキップしなかった場合
 		if (closing_quote == NULL || closing_quote == &with_quotes[i])
 			sin_quotes[j++] = with_quotes[i++];
+		//スキップした場合
 		else
 		{
 			i++;
-			while (&with_quotes[i] != closing_quote)
+			while (&with_quotes[i] != closing_quote && with_quotes[i] != '\n')
 				sin_quotes[j++] = with_quotes[i++];
 			i++;
 		}

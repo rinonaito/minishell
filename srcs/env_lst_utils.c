@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 15:06:44 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/23 13:32:36 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/24 23:37:20 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ char	*get_val(char *val_start)
 {
 	char	*val;
 	size_t	val_len;
+	char	*tmp;
 
 	if (val_start == NULL)
 		return (NULL);
@@ -79,6 +80,12 @@ char	*get_val(char *val_start)
 	}
 	else
 		val = ft_strndup(val_start, val_len);
+	if (find_quote(val) != NULL)
+	{
+		tmp = val;
+		val = remove_quotes(val);
+		free(tmp);
+	}
 	return (val);
 }
 
