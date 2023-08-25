@@ -1,16 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_token.c                                        :+:      :+:    :+:   */
+/*   tkn_get_token.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 12:55:59 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/23 12:56:12 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/25 18:31:00 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static char	*get_token_start(char *line)
+{
+	size_t	i;
+
+	i = 0;
+	while (line[i] != '\0' && (line[i] == ' ' || line[i] == '\t'))
+		i++;
+	return (&line[i]);
+}
 
 char	*get_token(char **line)
 {

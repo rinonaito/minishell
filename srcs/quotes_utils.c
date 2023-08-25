@@ -6,25 +6,33 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 13:14:51 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/23 17:07:49 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/25 19:06:05 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*skip_to_closing_quote(char *old_start)
+static bool	is_opening_quote(char to_be_checked)
+{
+	if (to_be_checked == '\'' || to_be_checked == '\"')
+		return (true);
+	else
+		return (false);
+}
+
+char	*skip_to_closing_quote(char *to_be_checked)
 {
 	char	*closing_quote;
 
 	closing_quote = NULL;
-	if (old_start == NULL)
+	if (to_be_checked == NULL)
 		return (NULL);
-	if (*old_start == '\'' || *old_start == '\"')
+	if (is_opening_quote(*to_be_checked))
 	{
-		closing_quote = ft_strchr(old_start + 1, *old_start);
+		closing_quote = ft_strchr(to_be_checked + 1, *to_be_checked);
 		return (closing_quote);
 	}
-	return (old_start);
+	return (to_be_checked);
 }
 
 char	*find_quote(char *str)

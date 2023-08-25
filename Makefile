@@ -6,7 +6,7 @@
 #    By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 16:01:50 by rnaito            #+#    #+#              #
-#    Updated: 2023/08/23 16:09:47 by rnaito           ###   ########.fr        #
+#    Updated: 2023/08/25 17:49:49 by rnaito           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,31 +30,31 @@ INCLUDES += -I$(RL_DIR)/include
 
 SRCSDIR = srcs/
 SRCS =	main.c\
-		tokenize.c\
-		get_token.c\
-		get_token_utils.c\
+		tkn_tokenize.c\
+		tkn_get_token.c\
+		tkn_get_token_utils.c\
+		tkn_make_token_list.c\
+		tkn_make_token_list_utils.c\
+		tkn_make_syntax_tree.c\
+		env_my_getenv.c\
+		env_make_list.c\
+		env_make_list_utils.c\
+		exp_expand_str.c\
+		exp_expand_list.c\
+		exp_remove_quotes.c\
+		exp_replace_key_with_val.c\
+		exp_word_split.c\
+		redir_redirection.c\
+		redir_call_each_redirection.c\
+		redir_get_heredoc_content.c\
 		quotes_utils.c\
-		get_heredoc_content.c\
-		ft_make_syntax_tree.c\
-		my_getenv.c\
-		make_env_list.c\
-		make_token_list.c\
-		make_token_list_utils.c\
-		env_lst_utils.c\
 		libft_plus.c\
-		redirection.c\
-		call_each_redir.c\
 		signal.c\
 		ex_execute.c\
 		ex_process.c\
 		ex_create_cmds.c\
 		ex_search_path.c\
 		ex_perror.c\
-		exp_expand_str.c\
-		exp_expand_list.c\
-		exp_remove_quotes.c\
-		exp_replace_key_with_val.c\
-		exp_word_split.c\
 		builtin.c\
 		builtin_pwd.c\
 		builtin_cd.c\

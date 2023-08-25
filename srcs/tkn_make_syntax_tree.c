@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_make_syntax_tree.c                              :+:      :+:    :+:   */
+/*   tkn_make_syntax_tree.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 21:42:38 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/25 14:38:02 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/25 21:46:42 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ft_free_syntax_tree(t_tree *root)
 //@param:
 //	t_token *token: token with the type "TK_PIPE"
 //@return_val: pionter of the new node 
-t_tree	*ft_make_node(t_token **token)
+static t_tree	*ft_make_node(t_token **token)
 {
 	t_tree	*new_node;
 
@@ -49,7 +49,7 @@ t_tree	*ft_make_node(t_token **token)
 //	t_tree *right: pointer of the right leaf
 //	t_tree *left: pointer of the left leaf
 //@return_val: pointer of the completed node
-void	ft_complete_node(t_tree **node, t_tree *right, t_tree *left)
+static void	ft_complete_node(t_tree **node, t_tree *right, t_tree *left)
 {
 	if (*node == NULL)
 		return ;
@@ -61,7 +61,7 @@ void	ft_complete_node(t_tree **node, t_tree *right, t_tree *left)
 //initiate with type "TK_PIPE"
 //@param: pointer of the token with the type non"TK_PIPE"
 //@return_val: pointer of the new leaf
-t_tree	*ft_make_leaf(t_token **token)
+static t_tree	*ft_make_leaf(t_token **token)
 {
 	t_tree	*new_leaf;
 

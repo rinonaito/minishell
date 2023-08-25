@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   make_env_list.c                                    :+:      :+:    :+:   */
+/*   env_make_list.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 17:40:58 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/23 13:25:20 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/25 18:55:46 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_env	*ft_lstnew_env(char	*key, char *val)
 	return (new);
 }
 
-t_env	*ft_lstlast_env(t_env *head)
+static t_env	*ft_lstlast_env(t_env *head)
 {
 	if (head == NULL)
 		return (NULL);
@@ -47,6 +47,15 @@ void	ft_lstadd_back_env(t_env **head, t_env *new)
 	tail->next = new;
 }
 
+static void	*free_key_val(char *key, char *val)
+{
+	free(key);
+	key = NULL;
+	free(val);
+	val = NULL;
+	return (NULL);
+}
+
 t_env	*make_env_lst(char	**env)
 {
 	t_env	*head;
@@ -62,6 +71,11 @@ t_env	*make_env_lst(char	**env)
 	{
 		key = get_key(env[i], &val_start);
 		val = get_val(val_start);
+		if (key == NULL || val == NULL)
+		{
+			clear_env_lst(&head);
+			return (free_key_val(key, val));
+		}
 		ft_lstadd_back_env(&head, ft_lstnew_env(key, val));
 		i++;
 	}

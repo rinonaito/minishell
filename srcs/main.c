@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/24 17:03:20 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/25 18:24:00 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,15 @@ int	main(int argc, char **argv, char **env)
 //		printf(" status($?)[%d]\n", status);
 		mode = STANDARD;
 		head = tokenize(line, &mode);
-		if (head == NULL && mode == SYNTAX_ERR)
+		if (head == NULL)
 		{
-			printf("syntax error\n");
-//			system ("leaks -q minishell");
-			continue;
+			if (mode == SYNTAX_ERR)
+			{
+				printf("syntax error\n");
+				continue;
+			}
+			else
+				return (1);
 		}
 		if (mode == HEREDOC_MODE)
 		{

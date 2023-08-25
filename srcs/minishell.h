@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/25 10:37:06 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/25 21:46:58 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,25 +78,28 @@ typedef struct s_cmds{
 }					t_cmds;
 
 /*** TOKENIZE ***/
-//tokenize.c
+//tkn_tokenize.c
 t_token	*tokenize(char *line, int *is_error);
 
-//make_token_list.c
+//tkn_get_token.c
+char	*get_token(char **line);
+
+//tkn_get_token_utils.c
+char	*get_token_end(char *token_start);
+
+//tkn_make_token_list.c
 t_token	*make_token_list(char *line, int *have_heredoc);
 
-//make_token_list_utils.c
+//tkn_make_token_list_utils.c
+int		get_token_type(char *token);
 t_token	*ft_lstnew_token(char *token, int type);
 t_token	*ft_lstlast_token(t_token *node);
 void	ft_lstadd_back_token(t_token **head, t_token *new);
 void	ft_lstclear_token(t_token **head);
-int		get_token_type(char *token);
 
-//get_token.c
-char	*get_token(char **line);
-
-//get_token_utils.c
-char	*get_token_end(char *token_start);
-char	*get_token_start(char *line);
+//tkn_make_syntax_tree.c
+void	ft_free_syntax_tree(t_tree *root);
+t_tree	*ft_make_syntax_tree(t_token *head);
 
 //quotes_utils.c
 char	*skip_to_closing_quote(char *str);
@@ -106,13 +109,6 @@ char	*find_quote(char *str);
 char	*ft_strndup(char *str, size_t len);
 char	*ft_strchrchr(char *str, char c1, char c2, int *not_closed);
 int		ft_strequ(const char *s1, const char *s2);
-
-//ft_make_syntax_tree.c
-void	ft_free_syntax_tree(t_tree *root);
-t_tree	*ft_make_node(t_token **token);
-void	ft_complete_node(t_tree **node, t_tree *right, t_tree *left);
-t_tree	*ft_make_leaf(t_token **token);
-t_tree	*ft_make_syntax_tree(t_token *head);
 
 /*** EXECUTION ***/
 //execute.c
@@ -186,9 +182,9 @@ int		builtin_env(t_cmds *cmds_info);
 int		builtin_export(t_cmds *cmds_info);
 int		builtin_unset(t_cmds *cmds_info);
 
+/*** ENV VARIABLE ***/
 //make_env_lst.c
 t_env	*ft_lstnew_env(char	*key, char *val);
-t_env	*ft_lstlast_env(t_env *head);
 void	ft_lstadd_back_env(t_env **head, t_env *new);
 t_env	*make_env_lst(char	**env);
 

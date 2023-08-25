@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_token_utils.c                                  :+:      :+:    :+:   */
+/*   tkn_get_token_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 12:56:19 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/23 13:17:39 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/25 18:31:39 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ static char	*get_end_for_word_token(char *token_start)
 	token_end = for_token_end_with_operator(token_start, token_end);
 	return (token_end);
 }
-		
+
 char	*get_token_end(char *token_start)
 {
 	char	*token_end;
@@ -94,14 +94,4 @@ char	*get_token_end(char *token_start)
 	if (token_end == NULL)
 		token_end = get_end_for_word_token(token_start);
 	return (token_end);
-}
-
-char	*get_token_start(char *line)
-{
-	size_t	i;
-
-	i = 0;
-	while (line[i] != '\0' && (line[i] == ' ' || line[i] == '\t'))
-		i++;
-	return (&line[i]);
 }
