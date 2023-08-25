@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 21:42:38 by rnaito            #+#    #+#             */
-/*   Updated: 2023/07/18 14:40:08 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/25 14:38:02 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ t_tree	*ft_make_node(t_token **token)
 	t_tree	*new_node;
 
 	new_node = malloc(sizeof(t_tree));
+	if (new_node == NULL)
+		return (NULL);
 	new_node->type = TK_PIPE;
 	new_node->param = NULL;
 	new_node->r_leaf = NULL;
@@ -66,6 +68,8 @@ t_tree	*ft_make_leaf(t_token **token)
 	if (*token == NULL)
 		return (NULL);
 	new_leaf = malloc(sizeof(t_tree));
+	if (new_leaf == NULL)
+		return (NULL);
 	new_leaf->type = TK_WORD;
 	new_leaf->param = *token;
 	new_leaf->r_leaf = NULL;
@@ -84,19 +88,26 @@ t_tree	*ft_make_syntax_tree(t_token *token)
 	t_tree	*node;
 	t_tree	*right;
 	t_tree	*left;
+	int		num_of_pipe;
 
 	node = NULL;
 	left = ft_make_leaf(&token);
+	num_of_pipe = 0;
 	while (token != NULL)
 	{
 		if (token->type == TK_PIPE)
+		{
+			num_of_pipe++;
 			node = ft_make_node(&token);
+		}
 		if (token != NULL && token->type != TK_PIPE)
 			right = ft_make_leaf(&token);
+		if ((node == NULL && num_of_pipe != 0) || right == NULL)
+			return (NULL);
 		ft_complete_node(&node, right, left);
 		left = node;
 	}
-	if (node == NULL)
+	if (num_of_pipe == 0)
 		return (left);
 	return (node);
 }
