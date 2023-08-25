@@ -6,7 +6,7 @@
 #    By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 16:01:50 by rnaito            #+#    #+#              #
-#    Updated: 2023/08/25 17:49:49 by rnaito           ###   ########.fr        #
+#    Updated: 2023/08/25 23:36:42 by rnaito           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,7 @@ SRCS =	main.c\
 		env_make_list.c\
 		env_make_list_utils.c\
 		exp_expand_str.c\
+		exp_expand_str_utils.c\
 		exp_expand_list.c\
 		exp_remove_quotes.c\
 		exp_replace_key_with_val.c\

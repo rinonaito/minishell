@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/25 18:24:00 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/25 22:44:46 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,12 @@ int	main(int argc, char **argv, char **env)
 		{
 			free(line);
 			line = NULL;
-			root = ft_make_syntax_tree(head);
-			ft_expand_list(&head, status, env_lst);
+			root = make_syntax_tree(head);
+			if (expand_list(&head, status, env_lst) != 0)
+				exit(1);
 			trace_tree_entry(root, env, &status, env_lst);
 //			printf(" status(main):[%d]\n", status);
-//			ft_free_syntax_tree(root);
+//			free_syntax_tree(root);
 		}
 		free(line);
 		line = NULL;

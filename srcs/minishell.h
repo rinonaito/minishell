@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/25 21:46:58 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/25 23:53:41 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,33 @@ void	ft_lstadd_back_token(t_token **head, t_token *new);
 void	ft_lstclear_token(t_token **head);
 
 //tkn_make_syntax_tree.c
-void	ft_free_syntax_tree(t_tree *root);
-t_tree	*ft_make_syntax_tree(t_token *head);
+void	free_syntax_tree(t_tree *root);
+t_tree	*make_syntax_tree(t_token *head);
+
+/*** EXPANSION ***/
+//exp_expand_list.c
+int	expand_list(t_token **param, int status, t_env *env_lst);
+
+//exp_expand_str.c
+char	*ft_expand_str(char *old_token, int status, t_env *env_lst, bool is_heredoc);
+
+//exp_remove_quotes.c
+char	*remove_quotes(char *with_quotes);
+
+//exp_expand_str_utils.c
+char	*get_key_of_env(char *doller, int *is_error);
+char	*get_val_of_env(char *env_key, int exit_status, t_env *env_lst,
+				bool is_heredoc);
+
+//exp_replace_key_with_val_utils.c
+char	*replace_key_with_val(char *old_token, char *doller, char *env_key, char *env_val);
+
+//exp_word_split.c
+int		ft_for_start(char *space_char, char *ifs, char **new, char *old);
+int		ft_split_with_ifs(char *space_char, char **old, size_t *i, char *new);
+void	ft_for_middle(char *space_char, char *ifs, char **new, char *old);
+char	*ft_split_token(char *ifs, char *old, char *space_charset);
+char	*split_expanded_word(char *expanded, t_env *env_lst);
 
 //quotes_utils.c
 char	*skip_to_closing_quote(char *str);
@@ -134,28 +159,6 @@ char    *ft_search_path(const char *filename);
 //builtin.c
 int	is_builtin(char *s);
 int	call_builtin(t_cmds *cmds_info);
-
-/*** EXPANSION ***/
-//exp_expand_list.c
-void	ft_expand_list(t_token **param, int status, t_env *env_lst);
-
-//exp_expand_str.c
-char	*ft_expand_str(char *old_token, int status, t_env *env_lst, bool is_heredoc);
-
-//exp_remove_quotes.c
-char	*remove_quotes(char *with_quotes);
-
-//exp_replace_key_with_val_utils.c
-char	*get_key_of_env(char *doller, int *is_error);
-char	*replace_key_with_val(char *old_token, char *doller, char *env_key, char *env_val);
-
-
-//exp_word_split.c
-int		ft_for_start(char *space_char, char *ifs, char **new, char *old);
-int		ft_split_with_ifs(char *space_char, char **old, size_t *i, char *new);
-void	ft_for_middle(char *space_char, char *ifs, char **new, char *old);
-char	*ft_split_token(char *ifs, char *old, char *space_charset);
-char	*split_expanded_word(char *expanded, t_env *env_lst);
 
 //ft_get_heredoc_input.c
 int	get_heredoc_content(t_token *head, int status, t_env *env_lst);
