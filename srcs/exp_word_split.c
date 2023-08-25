@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 16:28:26 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/25 00:11:41 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/25 10:38:07 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,6 @@ void	ft_for_middle(char *space_char, char *ifs, char **new, char *old)
 			if (ft_split_with_ifs(space_char, &old, &i, &(*new)[j]) == 1)
 				break ;
 		}
-		printf("old[%zu]=%c\n", i, old[i]);
-		printf("new[%zu]=%c\n", j, (*new)[j]);
 		j++;
 	}
 }
@@ -99,10 +97,7 @@ char	*split_expanded_word(char *before_split, t_env *env_lst)
 	space_charset = " \t\n\0";
 	ifs = my_getenv("IFS", env_lst);
 	if (ifs == NULL)
-	{
-		printf("ifs is NULL\n");
 		ifs = space_charset;
-	}
 	after_split = ft_split_token(ifs, before_split, space_charset);
 	return (after_split);
 }

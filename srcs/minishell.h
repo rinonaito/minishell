@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/24 19:26:02 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/25 10:37:06 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,8 +151,7 @@ char	*remove_quotes(char *with_quotes);
 
 //exp_replace_key_with_val_utils.c
 char	*get_key_of_env(char *doller, int *is_error);
-//char	*replace_key_with_val(char **old_token, char *doller, int status, t_env *env_lst);
-char	*replace_key_with_val(char **old_token, char *doller, char *env_key, char *env_val);
+char	*replace_key_with_val(char *old_token, char *doller, char *env_key, char *env_val);
 
 
 //exp_word_split.c

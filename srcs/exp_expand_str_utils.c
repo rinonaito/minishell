@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 13:37:50 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/25 10:34:13 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/25 10:01:54 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,10 +118,10 @@ char	*ft_expand_str(char *to_be_expanded, int exit_status, t_env *env_lst, bool 
 	char	*env_val;
 	int		is_error;
 
-	if (to_be_expanded == NULL)
-		return (NULL);
 	env_expanded = NULL;
 	i = 0;
+	if (to_be_expanded == NULL)
+		return (NULL);
 	while (to_be_expanded[i] != '\0')
 	{
 		i += get_len_of_quoted_str(&to_be_expanded[i], is_heredoc);
@@ -131,9 +131,7 @@ char	*ft_expand_str(char *to_be_expanded, int exit_status, t_env *env_lst, bool 
 			if (is_error)
 				printf("bad_sbsti!!!\n");
 			env_val = get_val_of_env(env_key, exit_status, env_lst, is_heredoc);
-			env_expanded = replace_key_with_val(to_be_expanded, &to_be_expanded[i], env_key, env_val);
-			to_be_expanded = env_expanded;
-			i = -1;
+			env_expanded = replace_key_with_val(&to_be_expanded, &to_be_expanded[i], env_key, env_val);
 		}
 		i++;
 	}
