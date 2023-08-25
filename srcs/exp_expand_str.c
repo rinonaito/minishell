@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 13:37:50 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/24 19:30:19 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/25 08:58:23 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ char	*get_val_of_env(char *env_key, int exit_status, t_env *env_lst, bool is_her
 {
 	char	*env_val;
 	char	*splitted;
-	char	*without_quotes;
+//	char	*without_quotes;
 
 	if (ft_strequ(env_key, "?"))
 		env_val = ft_itoa(exit_status);
@@ -105,8 +105,9 @@ char	*get_val_of_env(char *env_key, int exit_status, t_env *env_lst, bool is_her
 	if (!is_heredoc)
 	{
 		splitted = split_expanded_word(env_val, env_lst);
-		without_quotes = remove_quotes(splitted);
-		return (without_quotes);
+//		without_quotes = remove_quotes(splitted);
+//		return (without_quotes);
+		return (splitted);
 	}
 	return (env_val);
 }
@@ -114,6 +115,7 @@ char	*get_val_of_env(char *env_key, int exit_status, t_env *env_lst, bool is_her
 char	*ft_expand_str(char *to_be_expanded, int exit_status, t_env *env_lst, bool is_heredoc)
 {
 	char		*env_expanded;
+	char		*without_quotes;
 	int			i;
 	char	*env_key;
 	char	*env_val;
@@ -121,6 +123,8 @@ char	*ft_expand_str(char *to_be_expanded, int exit_status, t_env *env_lst, bool 
 
 	env_expanded = NULL;
 	i = 0;
+	if (to_be_expanded == NULL)
+		return (NULL);
 	while (to_be_expanded[i] != '\0')
 	{
 		i += get_len_of_quoted_str(&to_be_expanded[i], is_heredoc);
@@ -136,6 +140,8 @@ char	*ft_expand_str(char *to_be_expanded, int exit_status, t_env *env_lst, bool 
 	}
 	if (env_expanded == NULL)
 		env_expanded = ft_strndup(to_be_expanded, ft_strlen(to_be_expanded));
-	return (env_expanded);
+	without_quotes = remove_quotes(env_expanded);
+	return (without_quotes);
+//	return (env_expanded);
 }
 
