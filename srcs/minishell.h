@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/25 23:53:41 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/26 16:40:40 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,12 @@ typedef enum e_token_type {
 	TK_APPEND,
 	TK_HEREDOC,
 }		t_token_type;
+
+typedef enum e_expand_mode {
+	FOR_NORMAL,
+	FOR_HEREDOC,
+	FOR_D_QUOTED,	
+}		t_expand_mode;
 
 typedef struct s_token {
 	char				*token;
@@ -106,7 +112,7 @@ t_tree	*make_syntax_tree(t_token *head);
 int	expand_list(t_token **param, int status, t_env *env_lst);
 
 //exp_expand_str.c
-char	*ft_expand_str(char *old_token, int status, t_env *env_lst, bool is_heredoc);
+char	*ft_expand_str(char *old_token, int status, t_env *env_lst, int expand_mode);
 
 //exp_remove_quotes.c
 char	*remove_quotes(char *with_quotes);
@@ -120,10 +126,7 @@ char	*get_val_of_env(char *env_key, int exit_status, t_env *env_lst,
 char	*replace_key_with_val(char *old_token, char *doller, char *env_key, char *env_val);
 
 //exp_word_split.c
-int		ft_for_start(char *space_char, char *ifs, char **new, char *old);
 int		ft_split_with_ifs(char *space_char, char **old, size_t *i, char *new);
-void	ft_for_middle(char *space_char, char *ifs, char **new, char *old);
-char	*ft_split_token(char *ifs, char *old, char *space_charset);
 char	*split_expanded_word(char *expanded, t_env *env_lst);
 
 //quotes_utils.c
