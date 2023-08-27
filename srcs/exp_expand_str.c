@@ -6,19 +6,19 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 13:37:50 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/26 16:39:20 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/26 18:47:31 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	get_len_of_quoted_str(char *to_be_checked, bool is_heredoc)
+static int	get_len_of_quoted_str(char *to_be_checked, int *expand_mode)
 {
 	char	*closing_quote;
 	int	len_of_quoted_str;
 
 	len_of_quoted_str = 0;
-	if (!is_heredoc && *to_be_checked == '\'')
+	if (*expand_mode != FOR_HEREDOC && *to_be_checked == '\'')
 	{
 		closing_quote = skip_to_closing_quote(to_be_checked);
 		len_of_quoted_str = closing_quote - to_be_checked;
@@ -39,7 +39,7 @@ char	*ft_expand_str(char *to_be_expanded, int exit_status, t_env *env_lst,
 	i = 0;
 	while (to_be_expanded != NULL && to_be_expanded[i] != '\0')
 	{
-		i += get_len_of_quoted_str(&to_be_expanded[i], expand_mode);
+		i += get_len_of_quoted_str(&to_be_expanded[i], &expand_mode);
 		if (to_be_expanded[i] == '$')
 		{
 			env_key = get_key_of_env(&to_be_expanded[i], &is_error);
@@ -51,6 +51,7 @@ char	*ft_expand_str(char *to_be_expanded, int exit_status, t_env *env_lst,
 			to_be_expanded = env_expanded;
 			i = -1;
 		}
+			
 		i++;
 	}
 	if (env_expanded == NULL)

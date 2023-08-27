@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 13:37:50 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/25 23:35:33 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/26 17:03:08 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ char	*get_key_of_env(char *doller, int *is_error)
 }
 
 char	*get_val_of_env(char *env_key, int exit_status, t_env *env_lst,
-				bool is_heredoc)
+				int expand_mode)
 {
 	char	*env_val;
 	char	*splitted;
@@ -91,7 +91,8 @@ char	*get_val_of_env(char *env_key, int exit_status, t_env *env_lst,
 		if (env_val == NULL)
 			env_val = "\0";
 	}
-	if (!is_heredoc)
+	printf("expand_mode = %d\n", expand_mode);
+	if (expand_mode == FOR_NORMAL)
 	{
 		splitted = split_expanded_word(env_val, env_lst);
 		return (splitted);
