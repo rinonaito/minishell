@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/27 19:39:20 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/27 20:13:35 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int	main(int argc, char **argv, char **env)
 		if (line == NULL)
 		{
 			free (line);
+			printf("before breaking\n");
 			break ;
 		}
 		if (strlen(line) != 0)
@@ -55,12 +56,8 @@ int	main(int argc, char **argv, char **env)
 		if (head == NULL)
 		{
 			if (mode == SYNTAX_ERR)
-			{
 				printf("syntax error\n");
-				continue;
-			}
-			else
-				return (1);
+			continue;
 		}
 		if (mode == HEREDOC_MODE)
 		{
