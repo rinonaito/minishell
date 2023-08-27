@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 16:28:26 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/26 16:25:05 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/27 11:23:52 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ char	*split_expanded_word(char *before_split, t_env *env_lst)
 	char	*space_charset;
 	char	*after_split;
 
-	printf("before_split = %s\n", before_split);
 	space_charset = " \t\n\0";
 	ifs = my_getenv("IFS", env_lst);
 	if (ifs == NULL)
