@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 19:55:33 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/10 16:55:29 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/08/27 19:07:05 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,8 @@ int		builtin_cd(t_cmds *cmds_info)
 	else
 	{
 		//update_oldpwd(cmds_info);
-		if (ft_strncmp("/", cmd_args[1], 1) == 0)
+		//if (ft_strncmp("/", cmd_args[1], 1) == 0)
+		if (cmd_args[1][0] == '/')
 			ret = absolute_path(cmd_args[1]);
 		else
 			ret = relative_path(cmd_args[1], buff_cwd);
