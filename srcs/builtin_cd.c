@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 19:55:33 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/10 15:26:02 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/08/27 19:07:05 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ static int	update_oldpwd(t_cmds *cmds_info, char *buff_cwd)
 {
 	//char	buff_cwd[PATH_MAX];
 	char	*oldpwd;
+	char	*key;
+	char	*val;
 
 	printf(" >%s\n", __func__);
 	ft_memset(buff_cwd, '\0', PATH_MAX);
@@ -65,15 +67,22 @@ static int	update_oldpwd(t_cmds *cmds_info, char *buff_cwd)
 	if (!oldpwd)
 		return (-1);
 	/*
-		if oldpwd exists in env, add it to env
+		if oldpwd does not exists in env, add it to env.
 		otherwise, replace oldpwd with a new one
 	*/ 
-	if (!cmds_info)//using this just to meet the compile requirements
-		return (1);
+	//if (!cmds_info)//using this just to meet the compile requirements
+		//return (1);
 	//if (exits_env(oldpwd, cmds_info->env))
 		//add_env(oldpwd, cmds_info);
+	if (search_same_key(cmds_info->env_lst, "OLDPWD"))
+	{
+		key = ft_strdup("OLDPWD");
+		val = ft_strdup(buff_cwd);
+		ft_lstadd_back_env(&cmds_info->env_lst, ft_lstnew_env(key, val));
+	}
 	//else
 		//replace_env(oldpwd, cmds_info);
+		//change_val(a, old_val)
 	free(oldpwd);
 	oldpwd = NULL;
 	return (0);
@@ -113,7 +122,8 @@ int		builtin_cd(t_cmds *cmds_info)
 	else
 	{
 		//update_oldpwd(cmds_info);
-		if (ft_strncmp("/", cmd_args[1], 1) == 0)
+		//if (ft_strncmp("/", cmd_args[1], 1) == 0)
+		if (cmd_args[1][0] == '/')
 			ret = absolute_path(cmd_args[1]);
 		else
 			ret = relative_path(cmd_args[1], buff_cwd);
