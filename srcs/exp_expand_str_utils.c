@@ -6,12 +6,11 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 13:37:50 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/26 17:03:08 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/27 16:59:31 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 static int	for_braced_env(char **start, char **end, char *doller)
 {
@@ -56,28 +55,28 @@ static void	for_unbraced_env(char **start, char **end, char *doller)
 		*end = &((*start)[1]);
 }
 
-
-char	*get_key_of_env(char *doller, int *is_error)
+char	*get_key(char *doller)
 {
 	char	*start;
 	char	*end;
 	char	*env_key;
+	int		is_error;
 
 	start = NULL;
 	end = NULL;
-	*is_error = 0;
+	is_error = 0;
 	if (*(doller + 1) == '{')
-		*is_error = for_braced_env(&start, &end, doller);
+		is_error = for_braced_env(&start, &end, doller);
 	else
 		for_unbraced_env(&start, &end, doller);
-	if (start != NULL && end != NULL)
+	if (start != NULL && end != NULL && !is_error)
 		env_key = ft_strndup(start, end - start);
 	else
 		return (NULL);
 	return (env_key);
 }
 
-char	*get_val_of_env(char *env_key, int exit_status, t_env *env_lst,
+char	*get_val(char *env_key, int exit_status, t_env *env_lst,
 				int expand_mode)
 {
 	char	*env_val;
@@ -91,7 +90,6 @@ char	*get_val_of_env(char *env_key, int exit_status, t_env *env_lst,
 		if (env_val == NULL)
 			env_val = "\0";
 	}
-	printf("expand_mode = %d\n", expand_mode);
 	if (expand_mode == FOR_NORMAL)
 	{
 		splitted = split_expanded_word(env_val, env_lst);

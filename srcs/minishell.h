@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/27 11:10:29 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/27 16:57:24 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,11 +116,12 @@ char	*ft_expand_str(char *old_token, int status, t_env *env_lst, int expand_mode
 
 //exp_remove_quotes.c
 char	*remove_quotes(char *with_quotes);
+char	*remove_quotes_if_needed(char *env_expanded, int expand_mode);
 
 //exp_expand_str_utils.c
-char	*get_key_of_env(char *doller, int *is_error);
-char	*get_val_of_env(char *env_key, int exit_status, t_env *env_lst,
-				int expand_mode);
+char	*get_key(char *doller);
+char	*get_val(char *env_key, int exit_status, t_env *env_lst,
+		int expand_mode);
 
 //exp_replace_key_with_val_utils.c
 char	*replace_key_with_val(char *old_token, char *doller, char *env_key, char *env_val);
@@ -197,8 +198,8 @@ t_env	*make_env_lst(char	**env);
 //env_lst_utils.c
 int		is_wrong_key_name(char *key);
 t_env	*search_same_key(t_env *head, char *key);
-char	*get_key(char *env, char **val_start);
-char	*get_val(char *val_start);
+char	*get_key_for_env_list(char *env, char **val_start);
+char	*get_val_for_env_list(char *val_start);
 void	clear_env_lst(t_env **lst);
 
 //my_get_env.c

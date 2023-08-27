@@ -6,20 +6,21 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 16:28:26 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/27 11:23:52 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/27 16:03:21 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	for_the_beginning(char *space_char, char *ifs, char *after_split, char *before_split)
+static int	for_the_beginning(char *space_charset, char *ifs,
+		char *after_split, char *before_split)
 {
 	size_t	len_of_beginning;
 
 	len_of_beginning = 0;
 	while (ft_strchr(ifs, *before_split) != NULL && *before_split != '\0')
 	{
-		if (ft_strchr(space_char, *before_split) == NULL)
+		if (ft_strchr(space_charset, *before_split) == NULL)
 		{
 			*after_split = ' ';
 			after_split++;
@@ -32,10 +33,8 @@ static int	for_the_beginning(char *space_char, char *ifs, char *after_split, cha
 
 int	ft_split_with_ifs(char *space_char, char **old, size_t *i, char *new)
 {
-	//区切り文字だが空白文字ではないので、区切り文字をスペースに変換する
 	if (ft_strchr(space_char, (*old)[*i]) == NULL)
 		(*i)++;
-	//区切り文字かつ空白文字なので省略する
 	else
 	{
 		while (ft_strchr(space_char, (*old)[*i]) != NULL && (*old)[*i] != '\0')
@@ -62,13 +61,10 @@ static void	for_the_rest(char *space_char, char *ifs, char **new, char *old)
 			closing_quote = &old[i];
 		while (&old[i] < closing_quote && old[i] != '\0')
 			(*new)[j++] = old[i++];
-		//区切り文字でない場合
 		if (ft_strchr(ifs, old[i]) == NULL)
 			(*new)[j] = old[i++];
-		//区切り文字の場合
 		else
 		{
-			
 			if (ft_split_with_ifs(space_char, &old, &i, &(*new)[j]) == 1)
 				break ;
 		}
@@ -84,8 +80,10 @@ static char	*split_val(char *ifs, char *before_split, char *space_charset)
 	after_split = ft_calloc(ft_strlen(before_split) + 1, sizeof(char));
 	if (after_split == NULL)
 		return (NULL);
-	len_of_beginning = for_the_beginning(space_charset, ifs, after_split, before_split);
-	for_the_rest(space_charset, ifs, &after_split, &before_split[len_of_beginning]);
+	len_of_beginning = for_the_beginning(space_charset, ifs,
+			after_split, before_split);
+	for_the_rest(space_charset, ifs, &after_split,
+		&before_split[len_of_beginning]);
 	return (after_split);
 }
 

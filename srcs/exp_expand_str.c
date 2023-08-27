@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 13:37:50 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/27 11:55:07 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/27 16:54:06 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	get_len_of_quoted_str(char *to_be_checked, int *expand_mode)
 {
 	char	*closing_quote;
-	int	len_of_quoted_str;
+	int		len_of_quoted_str;
 
 	len_of_quoted_str = 0;
 	if (*expand_mode != FOR_HEREDOC && *to_be_checked == '\'')
@@ -26,7 +26,7 @@ static int	get_len_of_quoted_str(char *to_be_checked, int *expand_mode)
 	return (len_of_quoted_str);
 }
 
-static int check_expand_mode(int expand_mode, char *to_be_expanded, int	i)
+static int	check_expand_mode(int expand_mode, char *to_be_expanded, int i)
 {
 	int	j;
 	int	num_of_d_quotes;
@@ -50,16 +50,35 @@ static int check_expand_mode(int expand_mode, char *to_be_expanded, int	i)
 	}
 }
 
+static char	*for_token_without_env(char *env_expanded, char *to_be_expanded)
+{
+	if (env_expanded == NULL)
+	{
+		if (to_be_expanded != NULL)
+			env_expanded = ft_strndup(to_be_expanded,
+					ft_strlen(to_be_expanded));
+		else
+			env_expanded = NULL;
+	}
+	return (env_expanded);
+}
+
+static void	get_ready_for_next_env(char **to_be_expanded, char *expanded,
+		int *i)
+{
+	*to_be_expanded = expanded;
+	*i = -1;
+}
+
 char	*ft_expand_str(char *to_be_expanded, int exit_status, t_env *env_lst,
 				int expand_mode)
 {
 	char		*env_key;
 	char		*env_val;
-	char		*env_expanded;
+	char		*expanded;
 	int			i;
-	int		is_error;
 
-	env_expanded = NULL;
+	expanded = NULL;
 	i = 0;
 	while (to_be_expanded != NULL && to_be_expanded[i] != '\0')
 	{
@@ -67,27 +86,16 @@ char	*ft_expand_str(char *to_be_expanded, int exit_status, t_env *env_lst,
 		if (to_be_expanded[i] == '$')
 		{
 			expand_mode = check_expand_mode(expand_mode, to_be_expanded, i);
-			env_key = get_key_of_env(&to_be_expanded[i], &is_error);
-			if (is_error)
-				printf("bad_sbsti!!!\n");
-			env_val = get_val_of_env(env_key, exit_status, env_lst, expand_mode);
-			env_expanded = replace_key_with_val(to_be_expanded,
-				&to_be_expanded[i], env_key, env_val);
-			to_be_expanded = env_expanded;
-			i = -1;
+			env_key = get_key(&to_be_expanded[i]);
+			if (env_key == NULL)
+				return (NULL);
+			env_val = get_val(env_key, exit_status, env_lst, expand_mode);
+			expanded = replace_key_with_val(to_be_expanded,
+					&to_be_expanded[i], env_key, env_val);
+			get_ready_for_next_env(&to_be_expanded, expanded, &i);
 		}
 		i++;
 	}
-	if (env_expanded == NULL)
-	{
-		if (to_be_expanded != NULL)
-			env_expanded = ft_strndup(to_be_expanded, ft_strlen(to_be_expanded));
-		else
-			env_expanded = NULL;
-	}
-	if (expand_mode == FOR_HEREDOC)
-		return (env_expanded);
-	else
-		return (remove_quotes(env_expanded));
+	expanded = for_token_without_env(expanded, to_be_expanded);
+	return (remove_quotes_if_needed(expanded, expand_mode));
 }
-

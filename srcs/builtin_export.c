@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 15:18:14 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/11 15:07:19 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/27 17:42:58 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,14 +66,13 @@ int	builtin_export(t_cmds *cmds_info)
 		i = 1;
 		while ((cmds_info->cmd_args)[i] != NULL)
 		{
-			key = get_key(cmds_info->cmd_args[i], &val_start);
+			key = get_key_for_env_list(cmds_info->cmd_args[i], &val_start);
 			if (is_wrong_key_name(key) == 1)
 				return (1);
-			val = get_val(val_start);
+			val = get_val_for_env_list(val_start);
 			same_key_node = search_same_key(cmds_info->env_lst, key);
 			if (same_key_node == NULL)
-				ft_lstadd_back_env(&(cmds_info->env_lst),
-					ft_lstnew_env(key, val));
+				ft_lstadd_back_env(&(cmds_info->env_lst), ft_lstnew_env(key, val));
 			else
 				change_val(same_key_node, val);
 			i++;

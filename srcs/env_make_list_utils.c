@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 15:06:44 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/24 23:37:20 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/27 17:08:59 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_env	*search_same_key(t_env *head, char *key)
 	return (NULL);
 }
 
-char	*get_key(char *env, char **val_start)
+char	*get_key_for_env_list(char *env, char **val_start)
 {
 	char	*start;
 	char	*end;
@@ -64,7 +64,7 @@ char	*get_key(char *env, char **val_start)
 	return (key);
 }
 
-char	*get_val(char *val_start)
+char	*get_val_for_env_list(char *val_start)
 {
 	char	*val;
 	size_t	val_len;

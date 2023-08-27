@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 17:40:58 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/25 18:55:46 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/27 16:49:32 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ t_env	*make_env_lst(char	**env)
 	i = 0;
 	while (env[i] != NULL)
 	{
-		key = get_key(env[i], &val_start);
-		val = get_val(val_start);
+		key = get_key_for_env_list(env[i], &val_start);
+		val = get_val_for_env_list(val_start);
 		if (key == NULL || val == NULL)
 		{
 			clear_env_lst(&head);
