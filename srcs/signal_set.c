@@ -27,6 +27,8 @@ void	ft_signal_child(void)
 
 void	ft_signal_heredoc(void)
 {
+	rl_event_hook = (rl_hook_func_t *)rl_quit;
+	rl_done = 0;
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, signal_handler_int_heredoc);
 }
