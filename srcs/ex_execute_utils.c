@@ -6,13 +6,13 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/27 19:09:45 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/27 20:07:17 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	"minishell.h"
 
-void	without_child_process(t_cmds *cmds_info, int *redir_fd)
+int	without_child_process(t_cmds *cmds_info, int *redir_fd)
 {
 	int	original_in;
 	int	original_out;
@@ -30,6 +30,7 @@ void	without_child_process(t_cmds *cmds_info, int *redir_fd)
 		close(redir_fd[WRITE_END]);
 	dup2(original_in, STDIN_FILENO);
 	dup2(original_out, STDOUT_FILENO);
+	return (ret);
 }
 
 void	with_child_process(t_cmds *cmds_info, int *redir_fd, int *pipe_fd)
@@ -50,24 +51,27 @@ void	with_child_process(t_cmds *cmds_info, int *redir_fd, int *pipe_fd)
 //@return_val:
 //		 exit status of wait process		
 //static void	create_process(t_cmds *cmds_info, t_tree *root)
-void	create_process(t_cmds *cmds_info, t_tree *root)
+int	create_process(t_cmds *cmds_info, t_tree *root)
 {
 	int		pipe_fd[2];
 	int		redir_fd[2];
 	t_token	*param;
 	int		have_cmd;
+	int		ret;
 
+	ret = RET_UNSET;
 	if (pipe(pipe_fd) == -1)
 		ft_perror("pipe\n");
 	param = root->param;
 	have_cmd = redirect(param, redir_fd, pipe_fd, cmds_info);
 	if (is_builtin(cmds_info->cmd_args[0]) && cmds_info->num_cmds == 1)
-		without_child_process(cmds_info, redir_fd);
+		ret = without_child_process(cmds_info, redir_fd);
 	else if (have_cmd == 1)
 		with_child_process(cmds_info, redir_fd, pipe_fd);
 	unlink(cmds_info->heredoc_file);
 	free(cmds_info->heredoc_file);
 	cmds_info->heredoc_file = NULL;
+	return (ret);
 }
 
 //@func: count the number of commands
@@ -84,6 +88,8 @@ void	count_num_cmds(t_tree *root, int *i)
 //@func: trace the tree structure and create processes
 void	trace_inorder(t_tree *root, t_cmds *cmds_info)
 {
+	int	ret;
+
 	if (root == NULL)
 		return ;
 	trace_inorder(root->l_leaf, cmds_info);
@@ -91,8 +97,9 @@ void	trace_inorder(t_tree *root, t_cmds *cmds_info)
 	{
 		cmds_info->i += 1;
 		cmds_info->cmd_args = create_cmds(root);
-		create_process(cmds_info, root);
+		ret = create_process(cmds_info, root);
 		//cmds_info->cmd_args = free_args(cmds_info->cmd_args);
 	}
 	trace_inorder(root->r_leaf, cmds_info);
+	return ;
 }

@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/27 19:08:10 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/27 20:07:03 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ extern int g_signal;
 # define HEREDOC_MODE (2)
 
 # define OPEN_MODE (0644)
+
+# define RET_UNSET (1000)
 
 typedef enum e_token_type {
 	TK_WORD,
@@ -144,12 +146,11 @@ int		ft_strequ(const char *s1, const char *s2);
 void	trace_tree_entry(t_tree *root, char **env, int *status, t_env *env_lst);
 
 //ex_execute_utils.c
-void	without_child_process(t_cmds *cmds_info, int *redir_fd);
+int		without_child_process(t_cmds *cmds_info, int *redir_fd);
 void	with_child_process(t_cmds *cmds_info, int *redir_fd, int *pipe_fd);
-void	create_process(t_cmds *cmds_info, t_tree *root);
+int		create_process(t_cmds *cmds_info, t_tree *root);
 void	count_num_cmds(t_tree *root, int *i);
 void	trace_inorder(t_tree *root, t_cmds *cmds_info);
-
 
 //process.c
 void	child_process(int redir_fd[2], t_cmds *cmds_info);
