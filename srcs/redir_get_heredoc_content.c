@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 21:20:45 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/26 16:40:16 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/27 18:55:24 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static char	*join_heredoc_lines(char *joined_heredoc, char *new_input)
 	char	*input_with_nl;
 	char	*tmp;
 	bool	is_first_line;
-	
+
 	if (ft_strlen(joined_heredoc) == 0)
 		is_first_line = true;
 	else
@@ -61,15 +61,12 @@ static char	*read_from_heredoc(char *delimiter)
 	char	*heredoc_oneline;
 	char	*heredoc_all;
 
-	/*** ***/
 	ft_signal_heredoc();
 	rl_event_hook = (rl_hook_func_t *)rl_quit;
 	rl_done = 0;
-	/*** ***/
 	heredoc_all = "\0";
 	while (1)
 	{
-		//printf(" rl_done:[%d], g_signal:[%d]\n", rl_done, g_signal);
 		if (g_signal == SIGINT)
 			return (NULL);
 		heredoc_oneline = readline("\x1b[34m>> \x1b[39m");
@@ -105,11 +102,11 @@ int	get_heredoc_content(t_token *head, int status, t_env *env_lst)
 		return (1);
 	if (!is_quoted)
 	{
-		expanded_content = ft_expand_str(heredoc_content, status, env_lst, FOR_HEREDOC);
+		expanded_content = ft_expand_str(heredoc_content, status, env_lst,
+				FOR_HEREDOC);
 		if (expanded_content != NULL)
 			heredoc_content = expanded_content;
 	}
-	printf("heredoc_content = %s\n", heredoc_content);
 	add_heredoc_to_token_list(head, heredoc_content);
 	return (0);
 }

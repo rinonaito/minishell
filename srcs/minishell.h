@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/27 16:57:24 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/27 19:08:10 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,8 +140,16 @@ char	*ft_strchrchr(char *str, char c1, char c2, int *not_closed);
 int		ft_strequ(const char *s1, const char *s2);
 
 /*** EXECUTION ***/
-//execute.c
+//ex_execute.c
 void	trace_tree_entry(t_tree *root, char **env, int *status, t_env *env_lst);
+
+//ex_execute_utils.c
+void	without_child_process(t_cmds *cmds_info, int *redir_fd);
+void	with_child_process(t_cmds *cmds_info, int *redir_fd, int *pipe_fd);
+void	create_process(t_cmds *cmds_info, t_tree *root);
+void	count_num_cmds(t_tree *root, int *i);
+void	trace_inorder(t_tree *root, t_cmds *cmds_info);
+
 
 //process.c
 void	child_process(int redir_fd[2], t_cmds *cmds_info);
@@ -164,9 +172,6 @@ char    *ft_search_path(const char *filename);
 int	is_builtin(char *s);
 int	call_builtin(t_cmds *cmds_info);
 
-//ft_get_heredoc_input.c
-int	get_heredoc_content(t_token *head, int status, t_env *env_lst);
-
 /*** SIGNAL ***/
 //signal.c
 void	ft_signal(void);
@@ -174,11 +179,15 @@ void	ft_signal_child(void);
 void	ft_signal_heredoc(void);
 void	*rl_quit(void);
 
-//redirection.c
+/*** REDIRECTION ***/
+//redir_redirection.c
 int		redirect(t_token *param, int *redir_fd, int *pipe_fd, t_cmds *cmds_info);
 
-//call_each_redir.c
+//redir_call_each_redir.c
 char	*call_each_redir(int *redir_fd, t_token *param);
+
+//redir_get_heredoc_input.c
+int		get_heredoc_content(t_token *head, int status, t_env *env_lst);
 
 /*** BUILTINS ***/
 int		builtin_echo(t_cmds *cmds_info);

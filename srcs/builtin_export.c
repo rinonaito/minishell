@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 15:18:14 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/27 17:42:58 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/27 17:59:43 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,15 @@ void	print_env(t_env *env_lst)
 	env_lst = tmp;
 }
 
+static void	change_env_list(t_env *same_key_node, t_env **env_list, char *key,
+		char *val)
+{
+	if (same_key_node == NULL)
+		ft_lstadd_back_env(env_list, ft_lstnew_env(key, val));
+	else
+		change_val(same_key_node, val);
+}
+
 int	builtin_export(t_cmds *cmds_info)
 {
 	char	*key;
@@ -71,10 +80,7 @@ int	builtin_export(t_cmds *cmds_info)
 				return (1);
 			val = get_val_for_env_list(val_start);
 			same_key_node = search_same_key(cmds_info->env_lst, key);
-			if (same_key_node == NULL)
-				ft_lstadd_back_env(&(cmds_info->env_lst), ft_lstnew_env(key, val));
-			else
-				change_val(same_key_node, val);
+			change_env_list(same_key_node, &(cmds_info->env_lst), key, val);
 			i++;
 		}
 	}

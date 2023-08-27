@@ -6,7 +6,7 @@
 #    By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 16:01:50 by rnaito            #+#    #+#              #
-#    Updated: 2023/08/25 23:36:42 by rnaito           ###   ########.fr        #
+#    Updated: 2023/08/27 19:09:17 by rnaito           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,6 +52,7 @@ SRCS =	main.c\
 		libft_plus.c\
 		signal.c\
 		ex_execute.c\
+		ex_execute_utils.c\
 		ex_process.c\
 		ex_create_cmds.c\
 		ex_search_path.c\
