@@ -6,12 +6,13 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 23:37:47 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/01 00:11:19 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/08/27 20:50:32 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	"minishell.h"
 
+/*
 static int		within_long(char *s)
 {
 	long long	x;
@@ -31,16 +32,17 @@ static int		within_long(char *s)
 			return (1);
 		if (sign == -1)
 		{
-			if (x > LONG_MAX / 10 || (x == LONG_MAX / 10 && *s >= '8')
+			if (x > LONG_MAX / 10 || (x == LONG_MAX / 10 && *s >= '8'))
 				return (1);
 		}
-		else if (x > LONG_MAX / 10 || (x == LONG_MAX / 10 && *s >= '7')
+		else if (x > LONG_MAX / 10 || (x == LONG_MAX / 10 && *s >= '7'))
 				return (1);
 		x = x * 10 + (*s - '0');
 		s++;
 	}
 	return (0);
 }
+*/
 
 int		builtin_exit(t_cmds *cmds_info)
 {

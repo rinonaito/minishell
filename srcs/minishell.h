@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/27 20:07:03 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/27 21:06:38 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,6 +178,10 @@ int	call_builtin(t_cmds *cmds_info);
 void	ft_signal(void);
 void	ft_signal_child(void);
 void	ft_signal_heredoc(void);
+void	signal_handler_int(int signum);
+void	signal_handler_int_child(int signum);
+void	signal_handler_quit_child(int signum);
+void	signal_handler_int_heredoc(int signum);
 void	*rl_quit(void);
 
 /*** REDIRECTION ***/
