@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   make_env_list.c                                    :+:      :+:    :+:   */
+/*   env_make_list.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 17:40:58 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/09 12:25:21 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/27 16:49:32 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_env	*ft_lstnew_env(char	*key, char *val)
 	return (new);
 }
 
-t_env	*ft_lstlast_env(t_env *head)
+static t_env	*ft_lstlast_env(t_env *head)
 {
 	if (head == NULL)
 		return (NULL);
@@ -47,41 +47,13 @@ void	ft_lstadd_back_env(t_env **head, t_env *new)
 	tail->next = new;
 }
 
-char	*get_key(char *env, char **val_start)
+static void	*free_key_val(char *key, char *val)
 {
-	char	*start;
-	char	*end;
-	char	*key;
-
-	start = env;
-	end = ft_strchr(start, '=');
-	if (end == NULL)
-	{
-		end = ft_strchr(start, '\0');
-		*val_start = NULL;
-	}
-	else
-		*val_start = end + 1;
-	key = ft_strndup(start, end - start);
-	return (key);
-}
-
-char	*get_val(char *val_start)
-{
-	char	*val;
-	size_t	val_len;
-
-	if (val_start == NULL)
-		return (NULL);
-	val_len = ft_strlen(val_start);
-	if (val_len == 0)
-	{
-		val = malloc(sizeof(char));
-		*val = '\0';
-	}
-	else
-		val = ft_strndup(val_start, val_len);
-	return (val);
+	free(key);
+	key = NULL;
+	free(val);
+	val = NULL;
+	return (NULL);
 }
 
 t_env	*make_env_lst(char	**env)
@@ -93,12 +65,17 @@ t_env	*make_env_lst(char	**env)
 	size_t	i;
 
 	head = NULL;
-	i = 0;
 	val_start = NULL;
+	i = 0;
 	while (env[i] != NULL)
 	{
-		key = get_key(env[i], &val_start);
-		val = get_val(val_start);
+		key = get_key_for_env_list(env[i], &val_start);
+		val = get_val_for_env_list(val_start);
+		if (key == NULL || val == NULL)
+		{
+			clear_env_lst(&head);
+			return (free_key_val(key, val));
+		}
 		ft_lstadd_back_env(&head, ft_lstnew_env(key, val));
 		i++;
 	}

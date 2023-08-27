@@ -6,7 +6,7 @@
 #    By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 16:01:50 by rnaito            #+#    #+#              #
-#    Updated: 2023/08/10 15:16:39 by taaraki          ###   ########.fr        #
+#    Updated: 2023/08/27 19:09:17 by rnaito           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,31 +30,37 @@ INCLUDES += -I$(RL_DIR)/include
 
 SRCSDIR = srcs/
 SRCS =	main.c\
-		tokenize.c\
-		ft_get_token.c\
-		list.c\
-		ft_is_syntax_error.c\
-		ft_get_heredoc_input.c\
-		ft_make_syntax_tree.c\
-		ft_replace_key_with_val.c\
-		my_getenv.c\
-		ft_split_expanded_token.c\
-		make_env_list.c\
+		tkn_tokenize.c\
+		tkn_get_token.c\
+		tkn_get_token_utils.c\
+		tkn_make_token_list.c\
+		tkn_make_token_list_utils.c\
+		tkn_make_syntax_tree.c\
+		env_my_getenv.c\
+		env_make_list.c\
+		env_make_list_utils.c\
+		exp_expand_str.c\
+		exp_expand_str_utils.c\
+		exp_expand_list.c\
+		exp_remove_quotes.c\
+		exp_replace_key_with_val.c\
+		exp_word_split.c\
+		redir_redirection.c\
+		redir_call_each_redirection.c\
+		redir_get_heredoc_content.c\
+		quotes_utils.c\
 		libft_plus.c\
-		redirection.c\
-		call_each_redir.c\
 		signal.c\
 		ex_execute.c\
+		ex_execute_utils.c\
 		ex_process.c\
 		ex_create_cmds.c\
 		ex_search_path.c\
 		ex_perror.c\
-		expansion.c\
 		builtin.c\
 		builtin_pwd.c\
 		builtin_cd.c\
 		builtin_env.c\
-		clear_env_lst.c\
 		builtin_export.c\
 		builtin_unset.c\
 		builtin_echo.c

@@ -1,32 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clear_env_lst.c                                    :+:      :+:    :+:   */
+/*   env_my_getenv.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/08 12:55:32 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/08 12:55:34 by rnaito           ###   ########.fr       */
+/*   Created: 2023/08/07 15:14:22 by rnaito            #+#    #+#             */
+/*   Updated: 2023/08/23 13:30:51 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	clear_env_lst(t_env **lst)
+char	*my_getenv(char *key, t_env *env_lst)
 {
-	t_env	*current_node;
-	t_env	*temp;
+	char	*val;
+	t_env	*tmp;
 
-	if (lst == NULL || *lst == NULL)
-		return ;
-	current_node = *lst;
-	while (current_node != NULL)
+	tmp = env_lst;
+	val = NULL;
+	while (env_lst != NULL && val == NULL)
 	{
-		temp = current_node->next;
-		free(current_node->key);
-		free(current_node->val);
-		free(current_node);
-		current_node = temp;
+		if (ft_strequ(env_lst->key, key))
+			val = env_lst->val;
+		env_lst = env_lst->next;
 	}
-	*lst = NULL;
+	env_lst = tmp;
+	return (val);
 }

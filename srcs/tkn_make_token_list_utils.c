@@ -1,18 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   list.c                                             :+:      :+:    :+:   */
+/*   tkn_make_token_list_utils.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/29 13:37:34 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/03 19:07:15 by rnaito           ###   ########.fr       */
+/*   Created: 2023/08/23 11:44:51 by rnaito            #+#    #+#             */
+/*   Updated: 2023/08/23 11:49:43 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token	*ft_lstnew_ms(char *token, int type)
+int	get_token_type(char *token)
+{
+	if (ft_strequ(token, "|"))
+		return (TK_PIPE);
+	if (ft_strequ(token, "<"))
+		return (TK_REDIR_IN);
+	if (ft_strequ(token, ">"))
+		return (TK_REDIR_OUT);
+	if (ft_strequ(token, "<<"))
+		return (TK_HEREDOC);
+	if (ft_strequ(token, ">>"))
+		return (TK_APPEND);
+	return (TK_WORD);
+}
+
+t_token	*ft_lstnew_token(char *token, int type)
 {
 	t_token	*new;
 
@@ -23,10 +38,11 @@ t_token	*ft_lstnew_ms(char *token, int type)
 	new->type = type;
 	new->heredoc = NULL;
 	new->next = NULL;
+	new->prev = NULL;
 	return (new);
 }
 
-t_token	*ft_lstlast_ms(t_token *node)
+t_token	*ft_lstlast_token(t_token *node)
 {
 	if (node == NULL)
 		return (NULL);
@@ -35,7 +51,7 @@ t_token	*ft_lstlast_ms(t_token *node)
 	return (node);
 }
 
-void	ft_lstadd_back_ms(t_token **head, t_token *new)
+void	ft_lstadd_back_token(t_token **head, t_token *new)
 {
 	t_token	*tail;
 
@@ -44,20 +60,12 @@ void	ft_lstadd_back_ms(t_token **head, t_token *new)
 		*head = new;
 		return ;
 	}
-	tail = ft_lstlast_ms(*head);
+	tail = ft_lstlast_token(*head);
 	tail->next = new;
 	new->prev = tail;
 }
 
-void	ft_lstdel(t_token **current_node)
-{
-	free((*current_node)->token);
-	(*current_node)->token = NULL;
-	(*current_node)->type = 0;
-	(*current_node)->next = NULL;
-}
-
-void	ft_lstclear_ms(t_token **head)
+void	ft_lstclear_token(t_token **head)
 {
 	t_token	*current_node;
 	t_token	*temp;
@@ -68,12 +76,14 @@ void	ft_lstclear_ms(t_token **head)
 	while (current_node->next != NULL)
 	{				
 		temp = current_node->next;
-		ft_lstdel(&current_node);
+		free(current_node->token);
+		current_node->token = NULL;
+		current_node->type = 0;
 		free(current_node);
 		current_node = temp;
 	}
-	ft_lstdel(&current_node);
 	free(current_node);
 	*head = NULL;
 	return ;
 }
+
