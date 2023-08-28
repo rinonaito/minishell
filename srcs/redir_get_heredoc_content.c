@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 21:20:45 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/27 18:55:24 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/28 20:27:51 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ static char	*join_heredoc_lines(char *joined_heredoc, char *new_input)
 	input_with_nl = ft_strjoin(new_input, "\n");
 	tmp = joined_heredoc;
 	joined_heredoc = ft_strjoin(joined_heredoc, input_with_nl);
+	free (input_with_nl);
 	if (!is_first_line)
 		free(tmp);
 	return (joined_heredoc);

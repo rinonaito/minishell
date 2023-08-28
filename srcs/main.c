@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/28 20:01:50 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/28 21:04:49 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	main(int argc, char **argv, char **env)
 			printf("before breaking\n");
 			break ;
 		}
-		if (strlen(line) != 0)
+		if (ft_strlen(line) != 0)
 			add_history(line);
 		/*** ***/
 		if (g_signal == SIGINT)
