@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:43:25 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/28 14:50:23 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/28 15:51:02 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	child_process(int redir_fd[2], t_cmds *cmds_info)
 		exec(cmds_info->cmd_args, cmds_info->env);
 }
 
-int		wait_process(pid_t *pid_ary, int num_cmds)
+int		wait_process(pid_t *pid_ary, int num_cmds, int ret)
 {
 	int		status;
 	int		i;
@@ -72,12 +72,12 @@ int		wait_process(pid_t *pid_ary, int num_cmds)
 		waitpid(pid_ary[i], &status, 0);
 		i++;
 	}
-	if (WIFEXITED(status))
+	if (ret == RET_UNSET && WIFEXITED(status))
 	{
 //		printf(" [%s] status: %d\n", "WIFEXITED",  WEXITSTATUS(status));
 		status = (WEXITSTATUS(status));
 	}
-	else if (WIFSIGNALED(status))
+	else if (ret == RET_UNSET && WIFSIGNALED(status))
 	{
 //		printf(" [%s] status: %d\n", "WIFSIGNALED", WTERMSIG(status));
 		status = 128 + (WTERMSIG(status));//128 + signal status

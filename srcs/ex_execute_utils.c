@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/28 14:48:34 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/28 15:50:02 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int	without_child_process(t_cmds *cmds_info, int *redir_fd)
 	dup2(redir_fd[READ_END], STDIN_FILENO);
 	dup2(redir_fd[WRITE_END], STDOUT_FILENO);
 	ret = call_builtin(cmds_info);
-//	g_signal = ret;//temporarily setting this to avoid compile error with flag
 	if (redir_fd[READ_END] != STDIN_FILENO)
 		close(redir_fd[READ_END]);
 	if (redir_fd[WRITE_END] != STDOUT_FILENO)
@@ -33,7 +32,6 @@ int	without_child_process(t_cmds *cmds_info, int *redir_fd)
 	return (ret);
 }
 
-//void	with_child_process(t_cmds *cmds_info, int *redir_fd, int *pipe_fd)
 void	with_child_process(t_cmds *cmds_info, int *redir_fd)
 {
 	pid_t	pid;
@@ -87,20 +85,21 @@ void	count_num_cmds(t_tree *root, int *i)
 }
 
 //@func: trace the tree structure and create processes
-void	trace_inorder(t_tree *root, t_cmds *cmds_info)
+int	trace_inorder(t_tree *root, t_cmds *cmds_info)
 {
 	int	ret;
 
+	ret = RET_UNSET;
 	if (root == NULL)
-		return ;
+		return (ret);
 	trace_inorder(root->l_leaf, cmds_info);
 	if (root->type != TK_PIPE)
 	{
 		cmds_info->i += 1;
 		cmds_info->cmd_args = create_cmds(root);
 		ret = create_process(cmds_info, root);
-		//cmds_info->cmd_args = free_args(cmds_info->cmd_args);
+		cmds_info->cmd_args = free_args(cmds_info->cmd_args);
 	}
 	trace_inorder(root->r_leaf, cmds_info);
-	return ;
+	return (ret);
 }

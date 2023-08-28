@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/27 21:02:12 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/28 15:47:55 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,20 @@ void	trace_tree_entry(t_tree *root, char **env, int *status, t_env *env_lst)
 {
 	t_cmds	cmds_info;
 	int		tmp_fdin;
+	int		ret;
 
 	cmds_info.num_cmds = 0;
 	count_num_cmds(root, &(cmds_info.num_cmds));
 	cmds_info.pid_ary = malloc(sizeof(pid_t) * cmds_info.num_cmds);
-	if(!cmds_info.pid_ary)
+	if (!cmds_info.pid_ary)
 		return ;
-	tmp_fdin = dup(STDIN_FILENO);//save the file descriptor(fd) of STDIN
+	tmp_fdin = dup(STDIN_FILENO);
 	cmds_info.i = 0;
 	cmds_info.env = env;
 	cmds_info.env_lst = env_lst;
 	cmds_info.heredoc_file = NULL;
-	trace_inorder(root, &cmds_info);
-	dup2(tmp_fdin, STDIN_FILENO);//set back the fd of STDIN
+	ret = trace_inorder(root, &cmds_info);
+	dup2(tmp_fdin, STDIN_FILENO);
 	close(tmp_fdin);
-	*status = wait_process(cmds_info.pid_ary, cmds_info.num_cmds);
+	*status = wait_process(cmds_info.pid_ary, cmds_info.num_cmds, ret);
 }
