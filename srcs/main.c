@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/27 20:59:31 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/27 21:03:13 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int	main(int argc, char **argv, char **env)
 		if (line == NULL)
 		{
 			free (line);
+			printf("before breaking\n");
 			break ;
 		}
 		if (strlen(line) != 0)
