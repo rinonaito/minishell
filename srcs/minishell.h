@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/27 21:06:38 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/08/28 16:29:13 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,6 +201,7 @@ int		builtin_pwd(t_cmds *cmds_info);
 int		builtin_exit(t_cmds *cmds_info);
 int		builtin_env(t_cmds *cmds_info);
 int		builtin_export(t_cmds *cmds_info);
+void	change_val(t_env *same_key_node, char *val);
 int		builtin_unset(t_cmds *cmds_info);
 
 /*** ENV VARIABLE ***/
