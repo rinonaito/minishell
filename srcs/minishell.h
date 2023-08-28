@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/28 20:21:28 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/28 21:47:27 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,10 @@ void	ft_lstadd_back_token(t_token **head, t_token *new);
 void	ft_lstclear_token(t_token **head);
 
 //tkn_make_syntax_tree.c
-void	free_syntax_tree(t_tree *root);
 t_tree	*make_syntax_tree(t_token *head);
+
+//tkn_free_syntax_tree.c
+void	free_syntax_tree(t_tree *root, t_token *head);
 
 /*** EXPANSION ***/
 //exp_expand_list.c
