@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:43:25 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/28 15:51:02 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/28 15:58:36 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,14 @@ int		wait_process(pid_t *pid_ary, int num_cmds, int ret)
 		waitpid(pid_ary[i], &status, 0);
 		i++;
 	}
-	if (ret == RET_UNSET && WIFEXITED(status))
+	if (ret != RET_UNSET)
+		status = ret;
+	else if (WIFEXITED(status))
 	{
 //		printf(" [%s] status: %d\n", "WIFEXITED",  WEXITSTATUS(status));
 		status = (WEXITSTATUS(status));
 	}
-	else if (ret == RET_UNSET && WIFSIGNALED(status))
+	else if (WIFSIGNALED(status))
 	{
 //		printf(" [%s] status: %d\n", "WIFSIGNALED", WTERMSIG(status));
 		status = 128 + (WTERMSIG(status));//128 + signal status
