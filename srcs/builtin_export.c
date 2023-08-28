@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 15:18:14 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/27 19:14:44 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/08/28 16:11:18 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	change_val(t_env *same_key_node, char *val)
 		return ;
 	free(same_key_node->val);
 	same_key_node->val = NULL;
-	//new_val = malloc(sizeof(char) * ft_strlen(new_val) + 1);
 	new_val = malloc(sizeof(char) * ft_strlen(val) + 1);
 	i = 0;
 	while (val[i] != '\0')
