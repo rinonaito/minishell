@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 21:42:38 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/25 22:03:06 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/28 19:47:38 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	free_syntax_tree(t_tree *root)
 		return ;
 	free_syntax_tree(root->l_leaf);
 	free_syntax_tree(root->r_leaf);
+	ft_lstclear_token(&(root->param));
 	free(root);
 	root = NULL;
 }
