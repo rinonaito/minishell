@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:43:25 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/06 20:50:43 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/08/28 15:58:36 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@
 
 extern int	g_signal;
 
-void	parent_process(int pipe_fd[2], t_cmds *cmds_info, int pid)
+void	parent_process(int redir_fd[2], t_cmds *cmds_info, int pid)
 {
 	cmds_info->pid_ary[cmds_info->i - 1] = pid;
 	if (cmds_info->i != cmds_info->num_cmds)
 	{
-		close (pipe_fd[WRITE_END]);
-		dup2(pipe_fd[READ_END], STDIN_FILENO);
+		close (redir_fd[WRITE_END]);
+		dup2(redir_fd[READ_END], STDIN_FILENO);
 	}
 }
 
@@ -60,7 +60,7 @@ void	child_process(int redir_fd[2], t_cmds *cmds_info)
 		exec(cmds_info->cmd_args, cmds_info->env);
 }
 
-int		wait_process(pid_t *pid_ary, int num_cmds)
+int		wait_process(pid_t *pid_ary, int num_cmds, int ret)
 {
 	int		status;
 	int		i;
@@ -72,7 +72,9 @@ int		wait_process(pid_t *pid_ary, int num_cmds)
 		waitpid(pid_ary[i], &status, 0);
 		i++;
 	}
-	if (WIFEXITED(status))
+	if (ret != RET_UNSET)
+		status = ret;
+	else if (WIFEXITED(status))
 	{
 //		printf(" [%s] status: %d\n", "WIFEXITED",  WEXITSTATUS(status));
 		status = (WEXITSTATUS(status));
