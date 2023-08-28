@@ -6,23 +6,11 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 19:55:33 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/27 20:45:55 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/08/28 16:01:46 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	"minishell.h"
-
-//#include	<unistd.h>
-
-/*
-typedef struct s_cmds{
-	char	**cmd_args;
-	char	**env;
-	pid_t	*pid_ary;
-	int		num_cmds;
-	int		i;
-}					t_cmds;
-*/
 
 static int		relative_path(char *path, char *buff_cwd)
 {
@@ -52,10 +40,12 @@ static int		absolute_path(char *path)
 	return (ret);
 }
 
+/*
+	if oldpwd does not exists in env, add it to env.
+	otherwise, replace oldpwd with a new one
+*/ 
 static int	update_oldpwd(t_cmds *cmds_info, char *buff_cwd)
 {
-	//char	buff_cwd[PATH_MAX];
-	char	*oldpwd;
 	char	*key;
 	char	*val;
 
@@ -63,30 +53,21 @@ static int	update_oldpwd(t_cmds *cmds_info, char *buff_cwd)
 	ft_memset(buff_cwd, '\0', PATH_MAX);
 	if (!getcwd(buff_cwd, PATH_MAX))
 		return (-1);
-	oldpwd = ft_strjoin("OLDPWD=", buff_cwd);
-	if (!oldpwd)
-		return (-1);
-	/*
-		if oldpwd does not exists in env, add it to env.
-		otherwise, replace oldpwd with a new one
-	*/ 
-	//if (!cmds_info)//using this just to meet the compile requirements
-		//return (1);
-	//if (exits_env(oldpwd, cmds_info->env))
-		//add_env(oldpwd, cmds_info);
-	if (search_same_key(cmds_info->env_lst, "OLDPWD"))
+	if (search_same_key(cmds_info->env_lst, "OLDPWD"))//if OLDPWD exists
+	{
+		//printf("%s\n", buff_cwd);
+		key = ft_strdup("OLDPWD");
+		val = ft_strdup(buff_cwd);
+		//replace 
+		ft_lstadd_back_env(&cmds_info->env_lst, ft_lstnew_env(key, val));
+	}
+	else//if OLD doesn't exist
 	{
 		key = ft_strdup("OLDPWD");
 		val = ft_strdup(buff_cwd);
 		ft_lstadd_back_env(&cmds_info->env_lst, ft_lstnew_env(key, val));
 	}
-	//else
-		//replace_env(oldpwd, cmds_info);
-		//change_val(a, old_val)
-	free(oldpwd);
-	oldpwd = NULL;
 	return (0);
-	
 }
 
 // cd /path
@@ -106,9 +87,9 @@ int		builtin_cd(t_cmds *cmds_info)
 	//option 2. relative path
 
 	printf(" >%s\n", __func__);
-	//ft_memset(buff_cwd, '\0', PATH_MAX);
-	//getcwd(buff_cwd, PATH_MAX);
-	//printf("buff_cwd:[%s]\n", buff_cwd);
+	ft_memset(buff_cwd, '\0', PATH_MAX);
+	getcwd(buff_cwd, PATH_MAX);
+	printf("buff_cwd:[%s]\n", buff_cwd);
 	cmd_args = cmds_info->cmd_args;
 	if (!cmd_args)
 		return (-1);//error
@@ -121,8 +102,7 @@ int		builtin_cd(t_cmds *cmds_info)
 	}
 	else
 	{
-		//update_oldpwd(cmds_info);
-		//if (ft_strncmp("/", cmd_args[1], 1) == 0)
+		update_oldpwd(cmds_info, buff_cwd);
 		if (cmd_args[1][0] == '/')
 			ret = absolute_path(cmd_args[1]);
 		else
@@ -130,6 +110,5 @@ int		builtin_cd(t_cmds *cmds_info)
 	}
 	if (ret == -1)
 		ft_printf_fd(STDERR_FILENO, "bash: %s: %s: %s\n", cmd_args[0], strerror(errno), cmd_args[1]);
-	//printf(" strerror:[%s]\n", strerror(errno));
 	return (ret);
 }
