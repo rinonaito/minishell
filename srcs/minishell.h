@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/28 16:29:13 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/08/28 18:48:34 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,7 +197,7 @@ int		get_heredoc_content(t_token *head, int status, t_env *env_lst);
 /*** BUILTINS ***/
 int		builtin_echo(t_cmds *cmds_info);
 int		builtin_cd(t_cmds *cmds_info);
-int		builtin_pwd(t_cmds *cmds_info);
+int		builtin_pwd(void);
 int		builtin_exit(t_cmds *cmds_info);
 int		builtin_env(t_cmds *cmds_info);
 int		builtin_export(t_cmds *cmds_info);
