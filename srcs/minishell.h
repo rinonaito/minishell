@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/29 11:13:56 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/29 12:36:09 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,8 @@ void	trace_tree_entry(t_tree *root, char **env, int *status, t_env *env_lst);
 
 //ex_execute_utils.c
 int		without_child_process(t_cmds *cmds_info, int *redir_fd);
-void	with_child_process(t_cmds *cmds_info, int *redir_fd);
+//void	with_child_process(t_cmds *cmds_info, int *redir_fd);
+void	with_child_process(t_cmds *cmds_info, int *redir_fd, int *pipe_fd);
 int		create_process(t_cmds *cmds_info, t_tree *root);
 void	count_num_cmds(t_tree *root, int *i);
 int		trace_inorder(t_tree *root, t_cmds *cmds_info);

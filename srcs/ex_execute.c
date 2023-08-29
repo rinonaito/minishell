@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/29 11:30:18 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/29 12:06:33 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,5 @@ void	trace_tree_entry(t_tree *root, char **env, int *status, t_env *env_lst)
 	dup2(tmp_fdin, STDIN_FILENO);
 	close(tmp_fdin);
 	*status = wait_process(cmds_info.pid_ary, cmds_info.num_cmds, ret);
+	free (cmds_info.pid_ary);
 }

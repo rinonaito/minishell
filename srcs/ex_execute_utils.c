@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/28 16:03:01 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/29 12:48:41 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	without_child_process(t_cmds *cmds_info, int *redir_fd)
 	return (ret);
 }
 
-void	with_child_process(t_cmds *cmds_info, int *redir_fd)
+void	with_child_process(t_cmds *cmds_info, int *redir_fd, int *pipe_fd)
 {
 	pid_t	pid;
 
@@ -43,7 +43,7 @@ void	with_child_process(t_cmds *cmds_info, int *redir_fd)
 	else if (pid == 0)
 		child_process(redir_fd, cmds_info);
 	else
-		parent_process(redir_fd, cmds_info, pid);
+		parent_process(pipe_fd, cmds_info, pid);
 }
 
 //@func: create processes, including parent/child/wait processes
@@ -63,10 +63,12 @@ int	create_process(t_cmds *cmds_info, t_tree *root)
 		ft_perror("pipe\n");
 	param = root->param;
 	have_cmd = redirect(param, redir_fd, pipe_fd, cmds_info);
+	printf("redir[WRITE_END]=[%d], [READ_END]=[%d]\n", redir_fd[WRITE_END], redir_fd[READ_END]);
+	printf("pipe[WRITE_END]=[%d], [READ_END]=[%d]\n", pipe_fd[WRITE_END], pipe_fd[READ_END]);
 	if (is_builtin(cmds_info->cmd_args[0]) && cmds_info->num_cmds == 1)
 		ret = without_child_process(cmds_info, redir_fd);
 	else if (have_cmd == 1)
-		with_child_process(cmds_info, redir_fd);
+		with_child_process(cmds_info, redir_fd, pipe_fd);
 	unlink(cmds_info->heredoc_file);
 	free(cmds_info->heredoc_file);
 	cmds_info->heredoc_file = NULL;
