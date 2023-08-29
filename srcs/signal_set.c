@@ -15,6 +15,8 @@ extern int	g_signal;
 
 void	ft_signal(void)
 {
+	rl_event_hook = NULL;
+	g_signal = 0;
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, signal_handler_int);
 }

@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 21:37:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/29 11:41:05 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/29 17:12:00 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ static int		count_num_params(t_tree *root)
 
 	temp = root->param;
 	num = 0;
-//	while (root->param && root->param->type != TK_PIPE)
 	while (root->param && root->param->type == TK_WORD)
 	{
 		num++;
@@ -61,26 +60,20 @@ char	**create_cmds(t_tree *root)
 	int			i;
 
 	temp = root->param;
-	num_param = count_num_params(root); //printf("num_param:%d\n", num_param);
+	num_param = count_num_params(root);
 	cmd_args = malloc(sizeof(char *) * (num_param + 1));
 	if (!cmd_args)
 		return (NULL);
-	//
 	i = 0;
 	while (root->param != NULL && root->param->type == TK_WORD)
 	{
-		//cmd_args[i] = ft_strndup(root->param->token, ft_strlen(root->param->token));
 		cmd_args[i] = ft_strdup(root->param->token);
 		if (!cmd_args[i])
-		{
-			printf("!cmd_args[i]\n");
 			return (free_args(cmd_args));
-		}
 		i++;
 		root->param = root->param->next;
 	}
 	cmd_args[i] = NULL;
-	//cmd_args[num_param] = NULL;
 	root->param = temp;
 	return (cmd_args);
 }
