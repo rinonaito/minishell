@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:43:25 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/29 17:03:14 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/29 18:38:13 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	exec(t_cmds *cmds_info)
 {
 	char	*file;
 
-	if (cmds_info || !cmds_info->cmd_args)
+	if (!cmds_info || !cmds_info->cmd_args)
 		return ;
 	file = ft_search_path(cmds_info->cmd_args[0], cmds_info->env_lst);
 	if (execve(file, cmds_info->cmd_args, cmds_info->env) == -1)
