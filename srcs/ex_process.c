@@ -6,16 +6,11 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:43:25 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/29 16:32:52 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/08/29 16:50:27 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	"minishell.h"
-#include	<stdio.h>
-#include	<stdlib.h>
-#include	<unistd.h>
-#include	<signal.h>
-#include	<errno.h>
 
 extern int	g_signal;
 
@@ -29,16 +24,16 @@ void	parent_process(int redir_fd[2], t_cmds *cmds_info, int pid)
 	}
 }
 
-static void	exec(char **cmd_args, char **env)
+static void	exec(t_cmds *cmds_info)
 {
 	char	*file;
 
-	if (!cmd_args)
+	if (cmds_info || !cmds_info->cmd_args)
 		return ;
-	file = ft_search_path(cmd_args[0]);
-	if (execve(file, cmd_args, env) == -1)
+	file = ft_search_path(cmds_info->cmd_args[0], cmds_info->env_lst);
+	if (execve(file, cmds_info->cmd_args, cmds_info->env) == -1)
 	{
-		ft_printf_fd(STDERR_FILENO, "bash: %s: command not found\n", cmd_args[0]);
+		ft_printf_fd(STDERR_FILENO, "bash: %s: command not found\n", cmds_info->cmd_args[0]);
 		exit(127);
 	}
 }
@@ -56,7 +51,7 @@ void	child_process(int redir_fd[2], t_cmds *cmds_info)
 		exit(num);
 	}
 	else
-		exec(cmds_info->cmd_args, cmds_info->env);
+		exec(cmds_info);
 }
 
 int		wait_process(pid_t *pid_ary, int num_cmds, int ret)

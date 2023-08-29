@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/29 16:26:38 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/08/29 16:43:06 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ char	**free_args(char **argv);
 char    **create_cmds(t_tree *root);
 
 //search_path.c
-char    *ft_search_path(const char *filename);
+char    *ft_search_path(const char *filename, t_env *env_lst);
 
 //builtin.c
 int	is_builtin(char *s);
