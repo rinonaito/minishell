@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 19:55:33 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/29 16:35:29 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/08/29 18:55:35 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,19 @@ static int	update_env(t_cmds *cmds_info, char *buff_cwd, char *pwd)
 	node = search_same_key(cmds_info->env_lst, pwd); 
 	val = ft_strdup(buff_cwd);
 	if (node)
+	{
+		printf("node\n");
+		//free(node->val);
 		change_val(node, val);	
+	}
 	else
 	{
+		printf("!node\n");
 		key = ft_strdup(pwd);
 		ft_lstadd_back_env(&cmds_info->env_lst, ft_lstnew_env(key, val));
-		free(key);
+		//free(key);
 	}
-	free(val);
+	//free(val);
 	return (0);
 }
 
