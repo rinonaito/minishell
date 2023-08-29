@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 13:37:50 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/27 16:54:06 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/29 13:08:52 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,11 @@ static char	*for_token_without_env(char *env_expanded, char *to_be_expanded)
 	if (env_expanded == NULL)
 	{
 		if (to_be_expanded != NULL)
+		{
 			env_expanded = ft_strndup(to_be_expanded,
 					ft_strlen(to_be_expanded));
+			free (to_be_expanded);
+		}
 		else
 			env_expanded = NULL;
 	}
@@ -70,7 +73,7 @@ static void	get_ready_for_next_env(char **to_be_expanded, char *expanded,
 	*i = -1;
 }
 
-char	*ft_expand_str(char *to_be_expanded, int exit_status, t_env *env_lst,
+char	*expand_str(char *to_be_expanded, int exit_status, t_env *env_lst,
 				int expand_mode)
 {
 	char		*env_key;

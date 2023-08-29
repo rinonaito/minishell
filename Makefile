@@ -6,7 +6,7 @@
 #    By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 16:01:50 by rnaito            #+#    #+#              #
-#    Updated: 2023/08/27 21:05:18 by taaraki          ###   ########.fr        #
+#    Updated: 2023/08/29 16:40:39 by rnaito           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ SRCS =	main.c\
 		tkn_make_token_list.c\
 		tkn_make_token_list_utils.c\
 		tkn_make_syntax_tree.c\
+		tkn_free_syntax_tree.c\
 		env_my_getenv.c\
 		env_make_list.c\
 		env_make_list_utils.c\

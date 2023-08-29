@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/28 16:57:18 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/29 16:40:21 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,15 +106,17 @@ void	ft_lstadd_back_token(t_token **head, t_token *new);
 void	ft_lstclear_token(t_token **head);
 
 //tkn_make_syntax_tree.c
-void	free_syntax_tree(t_tree *root);
 t_tree	*make_syntax_tree(t_token *head);
+
+//tkn_free_syntax_tree.c
+void	free_syntax_tree(t_tree *root, t_token *head);
 
 /*** EXPANSION ***/
 //exp_expand_list.c
 int	expand_list(t_token **param, int status, t_env *env_lst);
 
 //exp_expand_str.c
-char	*ft_expand_str(char *old_token, int status, t_env *env_lst, int expand_mode);
+char	*expand_str(char *old_token, int status, t_env *env_lst, int expand_mode);
 
 //exp_remove_quotes.c
 char	*remove_quotes(char *with_quotes);
@@ -147,7 +149,7 @@ void	trace_tree_entry(t_tree *root, char **env, int *status, t_env *env_lst);
 
 //ex_execute_utils.c
 int		without_child_process(t_cmds *cmds_info, int *redir_fd);
-void	with_child_process(t_cmds *cmds_info, int *redir_fd);
+void	with_child_process(t_cmds *cmds_info, int *redir_fd, int *pipe_fd);
 int		create_process(t_cmds *cmds_info, t_tree *root);
 void	count_num_cmds(t_tree *root, int *i);
 int		trace_inorder(t_tree *root, t_cmds *cmds_info);

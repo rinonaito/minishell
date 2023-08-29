@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_my_getenv.c                                    :+:      :+:    :+:   */
+/*   tkn_free_syntax_tree.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/07 15:14:22 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/29 13:00:51 by rnaito           ###   ########.fr       */
+/*   Created: 2023/08/28 21:42:38 by rnaito            #+#    #+#             */
+/*   Updated: 2023/08/28 21:48:34 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*my_getenv(char *key, t_env *env_lst)
+static void	free_tree_itself(t_tree *root)
 {
-	char	*val;
-	t_env	*tmp;
+	if (root == NULL)
+		return ;
+	free_tree_itself(root->l_leaf);
+	free_tree_itself(root->r_leaf);
+	free(root);
+	root = NULL;
+}
 
-	tmp = env_lst;
-	val = NULL;
-	while (env_lst != NULL && val == NULL)
-	{
-		if (ft_strequ(env_lst->key, key))
-			val = env_lst->val;
-		env_lst = env_lst->next;
-	}
-	env_lst = tmp;
-	return (val);
+void	free_syntax_tree(t_tree *root, t_token *head)
+{
+	ft_lstclear_token(&head);
+	free_tree_itself(root);
+	return ;
 }
