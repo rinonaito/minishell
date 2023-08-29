@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/29 12:36:09 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/29 16:40:21 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,6 @@ void	trace_tree_entry(t_tree *root, char **env, int *status, t_env *env_lst);
 
 //ex_execute_utils.c
 int		without_child_process(t_cmds *cmds_info, int *redir_fd);
-//void	with_child_process(t_cmds *cmds_info, int *redir_fd);
 void	with_child_process(t_cmds *cmds_info, int *redir_fd, int *pipe_fd);
 int		create_process(t_cmds *cmds_info, t_tree *root);
 void	count_num_cmds(t_tree *root, int *i);
@@ -181,6 +180,10 @@ int	call_builtin(t_cmds *cmds_info);
 void	ft_signal(void);
 void	ft_signal_child(void);
 void	ft_signal_heredoc(void);
+void	signal_handler_int(int signum);
+void	signal_handler_int_child(int signum);
+void	signal_handler_quit_child(int signum);
+void	signal_handler_int_heredoc(int signum);
 void	*rl_quit(void);
 
 /*** REDIRECTION ***/
@@ -200,6 +203,7 @@ int		builtin_pwd(t_cmds *cmds_info);
 int		builtin_exit(t_cmds *cmds_info);
 int		builtin_env(t_cmds *cmds_info);
 int		builtin_export(t_cmds *cmds_info);
+void	change_val(t_env *same_key_node, char *val);
 int		builtin_unset(t_cmds *cmds_info);
 
 /*** ENV VARIABLE ***/

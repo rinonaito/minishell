@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 21:20:45 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/29 11:12:31 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/29 16:39:40 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,6 @@ static char	*read_from_heredoc(char *delimiter)
 	char	*heredoc_all;
 
 	ft_signal_heredoc();
-	rl_event_hook = (rl_hook_func_t *)rl_quit;
-	rl_done = 0;
 	heredoc_all = "\0";
 	while (1)
 	{

@@ -6,7 +6,7 @@
 #    By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 16:01:50 by rnaito            #+#    #+#              #
-#    Updated: 2023/08/28 21:46:07 by rnaito           ###   ########.fr        #
+#    Updated: 2023/08/29 16:40:39 by rnaito           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,7 +51,8 @@ SRCS =	main.c\
 		redir_get_heredoc_content.c\
 		quotes_utils.c\
 		libft_plus.c\
-		signal.c\
+		signal_set.c\
+		signal_handler.c\
 		ex_execute.c\
 		ex_execute_utils.c\
 		ex_process.c\
@@ -60,6 +61,7 @@ SRCS =	main.c\
 		ex_perror.c\
 		builtin.c\
 		builtin_pwd.c\
+		builtin_exit.c\
 		builtin_cd.c\
 		builtin_env.c\
 		builtin_export.c\
