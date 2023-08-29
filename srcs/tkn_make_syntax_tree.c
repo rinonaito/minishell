@@ -6,21 +6,11 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 21:42:38 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/25 22:03:06 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/28 21:42:09 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	free_syntax_tree(t_tree *root)
-{
-	if (root == NULL)
-		return ;
-	free_syntax_tree(root->l_leaf);
-	free_syntax_tree(root->r_leaf);
-	free(root);
-	root = NULL;
-}
 
 //@func: allocate memory for the node in syntax tree and
 //initiate with type "TK_PIPE"

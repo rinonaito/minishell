@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 14:37:12 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/27 16:55:57 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/29 13:48:00 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ char	*remove_quotes(char *with_quotes)
 			j += len_of_content;
 		}
 	}
+	free(with_quotes);
 	return (without_quotes);
 }
 

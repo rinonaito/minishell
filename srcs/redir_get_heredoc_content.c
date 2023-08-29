@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 21:20:45 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/27 21:10:28 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/08/29 16:39:40 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ static char	*join_heredoc_lines(char *joined_heredoc, char *new_input)
 	input_with_nl = ft_strjoin(new_input, "\n");
 	tmp = joined_heredoc;
 	joined_heredoc = ft_strjoin(joined_heredoc, input_with_nl);
+	free (input_with_nl);
 	if (!is_first_line)
 		free(tmp);
 	return (joined_heredoc);
@@ -62,8 +63,6 @@ static char	*read_from_heredoc(char *delimiter)
 	char	*heredoc_all;
 
 	ft_signal_heredoc();
-	//rl_event_hook = (rl_hook_func_t *)rl_quit;
-	//rl_done = 0;
 	heredoc_all = "\0";
 	while (1)
 	{
@@ -102,7 +101,7 @@ int	get_heredoc_content(t_token *head, int status, t_env *env_lst)
 		return (1);
 	if (!is_quoted)
 	{
-		expanded_content = ft_expand_str(heredoc_content, status, env_lst,
+		expanded_content = expand_str(heredoc_content, status, env_lst,
 				FOR_HEREDOC);
 		if (expanded_content != NULL)
 			heredoc_content = expanded_content;
