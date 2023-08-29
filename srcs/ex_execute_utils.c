@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/29 12:48:41 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/29 16:01:03 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,6 @@ int	create_process(t_cmds *cmds_info, t_tree *root)
 		ft_perror("pipe\n");
 	param = root->param;
 	have_cmd = redirect(param, redir_fd, pipe_fd, cmds_info);
-	printf("redir[WRITE_END]=[%d], [READ_END]=[%d]\n", redir_fd[WRITE_END], redir_fd[READ_END]);
-	printf("pipe[WRITE_END]=[%d], [READ_END]=[%d]\n", pipe_fd[WRITE_END], pipe_fd[READ_END]);
 	if (is_builtin(cmds_info->cmd_args[0]) && cmds_info->num_cmds == 1)
 		ret = without_child_process(cmds_info, redir_fd);
 	else if (have_cmd == 1)

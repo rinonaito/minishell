@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:43:25 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/29 12:48:39 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/29 16:00:36 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,13 @@
 
 extern int	g_signal;
 
-void	parent_process(int redir_fd[2], t_cmds *cmds_info, int pid)
+void	parent_process(int pipe_fd [2], t_cmds *cmds_info, int pid)
 {
 	cmds_info->pid_ary[cmds_info->i - 1] = pid;
 	if (cmds_info->i != cmds_info->num_cmds)
 	{
-		printf("redir_fd[READ_END] = %d\n", redir_fd[READ_END]);
-		close (redir_fd[WRITE_END]);
-		dup2(redir_fd[READ_END], STDIN_FILENO);
+		close (pipe_fd[WRITE_END]);
+		dup2(pipe_fd[READ_END], STDIN_FILENO);
 	}
 }
 
@@ -49,7 +48,6 @@ void	child_process(int redir_fd[2], t_cmds *cmds_info)
 {
 	int	num;
 
-	printf("redir_fd[WRITE_END] = %d\n", redir_fd[WRITE_END]);
 	dup2(redir_fd[WRITE_END], STDOUT_FILENO); 
 	if (redir_fd[READ_END] != STDIN_FILENO)
 		dup2(redir_fd[READ_END], STDIN_FILENO); 
