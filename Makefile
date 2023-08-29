@@ -6,7 +6,7 @@
 #    By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 16:01:50 by rnaito            #+#    #+#              #
-#    Updated: 2023/08/29 16:40:39 by rnaito           ###   ########.fr        #
+#    Updated: 2023/08/29 17:10:41 by rnaito           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,7 +58,7 @@ SRCS =	main.c\
 		ex_process.c\
 		ex_create_cmds.c\
 		ex_search_path.c\
-		ex_perror.c\
+		ft_perror.c\
 		builtin.c\
 		builtin_pwd.c\
 		builtin_exit.c\

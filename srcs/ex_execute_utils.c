@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ex_execute.c                                       :+:      :+:    :+:   */
+/*   ex_execute_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/29 16:01:03 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/29 17:12:27 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	with_child_process(t_cmds *cmds_info, int *redir_fd, int *pipe_fd)
 	pid = fork();
 	ft_signal_child();
 	if (pid == -1)
-		ft_perror("fork\n");
+		ft_perror("fork");
 	else if (pid == 0)
 		child_process(redir_fd, cmds_info);
 	else
@@ -60,7 +60,7 @@ int	create_process(t_cmds *cmds_info, t_tree *root)
 
 	ret = RET_UNSET;
 	if (pipe(pipe_fd) == -1)
-		ft_perror("pipe\n");
+		ft_perror("pipe");
 	param = root->param;
 	have_cmd = redirect(param, redir_fd, pipe_fd, cmds_info);
 	if (is_builtin(cmds_info->cmd_args[0]) && cmds_info->num_cmds == 1)

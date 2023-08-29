@@ -3,22 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_perror.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
+/*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/10 16:11:33 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/10 16:11:49 by taaraki          ###   ########.fr       */
+/*   Created: 2023/08/29 17:10:11 by rnaito            #+#    #+#             */
+/*   Updated: 2023/08/29 17:10:13 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	"minishell.h"
-#include	<stdio.h>
-#include	<stdlib.h>
-#include	<unistd.h>
 
 void	ft_perror(char *message)
 {
-	//printf("%s\n", __func__);
 	if (message)
 		perror(message);
-	exit(-1);
+	exit(255);
 }
