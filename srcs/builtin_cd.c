@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 19:55:33 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/28 16:44:41 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/08/29 16:35:29 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,9 @@ static int	update_env(t_cmds *cmds_info, char *buff_cwd, char *pwd)
 		return (-1);
 	node = search_same_key(cmds_info->env_lst, pwd); 
 	val = ft_strdup(buff_cwd);
-	if (node)//if OLDPWD exists
+	if (node)
 		change_val(node, val);	
-	else//if OLDPWD doesn't exist
+	else
 	{
 		key = ft_strdup(pwd);
 		ft_lstadd_back_env(&cmds_info->env_lst, ft_lstnew_env(key, val));
@@ -75,7 +75,6 @@ int		builtin_cd(t_cmds *cmds_info)
 	char	*home_dir;
 	int		ret;
 
-	printf(" >%s\n", __func__);
 	ft_memset(buff_cwd, '\0', PATH_MAX);
 	getcwd(buff_cwd, PATH_MAX);
 	cmd_args = cmds_info->cmd_args;

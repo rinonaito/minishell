@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/27 21:03:13 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/29 16:37:56 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,7 @@ int	main(int argc, char **argv, char **env)
 	env_lst = make_env_lst(env);
 	while (1)
 	{
-		rl_event_hook = NULL;
-		/*** signal handling ***/
-		g_signal = 0;
 		ft_signal();
-		/*** signal handling ***/
 		line = readline("\x1b[1;38;5;122mminishell🐣 \033[0m");
 		if (line == NULL)
 		{
