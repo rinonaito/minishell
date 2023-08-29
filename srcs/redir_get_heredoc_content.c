@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 21:20:45 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/28 20:27:51 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/29 11:12:31 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	get_heredoc_content(t_token *head, int status, t_env *env_lst)
 		return (1);
 	if (!is_quoted)
 	{
-		expanded_content = ft_expand_str(heredoc_content, status, env_lst,
+		expanded_content = expand_str(heredoc_content, status, env_lst,
 				FOR_HEREDOC);
 		if (expanded_content != NULL)
 			heredoc_content = expanded_content;

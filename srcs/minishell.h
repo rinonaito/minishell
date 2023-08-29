@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/28 21:47:27 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/29 11:13:56 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void	free_syntax_tree(t_tree *root, t_token *head);
 int	expand_list(t_token **param, int status, t_env *env_lst);
 
 //exp_expand_str.c
-char	*ft_expand_str(char *old_token, int status, t_env *env_lst, int expand_mode);
+char	*expand_str(char *old_token, int status, t_env *env_lst, int expand_mode);
 
 //exp_remove_quotes.c
 char	*remove_quotes(char *with_quotes);

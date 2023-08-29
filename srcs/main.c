@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/28 21:48:44 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/29 11:08:03 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,12 @@ int	main(int argc, char **argv, char **env)
 				status = 1;
 				continue ;
 			}
+			///
+			free_syntax_tree(root, head);
+			clear_env_lst(&env_lst);
+			system("leaks -q minishell");
+			return (0);
+			//
 			trace_tree_entry(root, env, &status, env_lst);
 //			printf(" status(main):[%d]\n", status);
 			free_syntax_tree(root, head);
