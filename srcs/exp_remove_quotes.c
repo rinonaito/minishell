@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 14:37:12 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/30 18:50:04 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/31 00:53:57 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*remove_quotes(char *with_quotes)
 	j = 0;
 	if (with_quotes == NULL)
 		return (NULL);
-	without_quotes = ft_calloc(ft_strlen(with_quotes), sizeof(char));
+	without_quotes = ft_calloc(ft_strlen(with_quotes) + 1, sizeof(char));
 	while (without_quotes != NULL && with_quotes[i] != '\0')
 	{
 		closing_quote = skip_to_closing_quote(&with_quotes[i]);
