@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 13:03:35 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/27 20:59:59 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/31 01:24:19 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,18 +44,17 @@ t_token	*tokenize(char *line, int *status)
 	t_token	*head;
 	int		have_heredoc;
 
-	if (line == NULL || ft_strlen(line) == 0)
+	if (ft_strlen(line) == 0)
 		return (NULL);
 	head = make_token_list(line, &have_heredoc);
-	if (head != NULL)
+	if (head == NULL)
+		exit(1);
+	if (is_syntax_error(head) == 1)
 	{
-		if (is_syntax_error(head) == 1)
-		{
-			*status = SYNTAX_ERR;
-			ft_lstclear_token(&head);
-		}
-		if (have_heredoc == 1 && *status != SYNTAX_ERR)
-			*status = HEREDOC_MODE;
+		ft_printf_fd(2, "bash: syntax error:\n");
+		ft_lstclear_token(&head);
 	}
+	if (have_heredoc == 1 && *status != SYNTAX_ERR)
+		*status = HEREDOC_MODE;
 	return (head);
 }

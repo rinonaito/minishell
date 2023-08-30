@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 14:14:00 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/28 16:11:48 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/31 01:14:33 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*ft_strndup(char *str, size_t len)
 	char	*new;
 	size_t	i;
 
-	if (!str || len == 0)
+	if (!str)
 		return (NULL);
 	new = malloc(sizeof(char) * len + 1);
 	if (new == NULL)

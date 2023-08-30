@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/29 17:02:35 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/31 01:40:14 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	main(int argc, char **argv, char **env)
 		ft_signal();
 		line = readline("\x1b[1;38;5;122mminishell🐣 \033[0m");
 		if (line == NULL)
-			break ;
+			exit(1);
 		if (ft_strlen(line) != 0)
 			add_history(line);
 		if (g_signal == SIGINT)
@@ -42,12 +42,6 @@ int	main(int argc, char **argv, char **env)
 		mode = STANDARD;
 		head = tokenize(line, &mode);
 		free(line);
-		if (head == NULL)
-		{
-			if (mode == SYNTAX_ERR)
-				printf("syntax error\n");
-			continue;
-		}
 		if (mode == HEREDOC_MODE)
 		{
 			if (get_heredoc_content(head, mode, env_lst) == 1)
