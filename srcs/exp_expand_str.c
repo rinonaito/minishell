@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 13:37:50 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/29 13:08:52 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/30 17:57:02 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ char	*expand_str(char *to_be_expanded, int exit_status, t_env *env_lst,
 
 	expanded = NULL;
 	i = 0;
+	printf(">>>>>>> got into expand_str\n");
 	while (to_be_expanded != NULL && to_be_expanded[i] != '\0')
 	{
 		i += get_len_of_quoted_str(&to_be_expanded[i], &expand_mode);
@@ -90,12 +91,15 @@ char	*expand_str(char *to_be_expanded, int exit_status, t_env *env_lst,
 		{
 			expand_mode = check_expand_mode(expand_mode, to_be_expanded, i);
 			env_key = get_key(&to_be_expanded[i]);
+			printf(">>>>>>> got key\n");
 			if (env_key == NULL)
 				return (NULL);
 			env_val = get_val(env_key, exit_status, env_lst, expand_mode);
+			printf(">>>>>>> got val\n");
 			expanded = replace_key_with_val(to_be_expanded,
 					&to_be_expanded[i], env_key, env_val);
 			get_ready_for_next_env(&to_be_expanded, expanded, &i);
+			printf(">>>>>>> replaced\n");
 		}
 		i++;
 	}

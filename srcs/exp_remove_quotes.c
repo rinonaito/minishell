@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 14:37:12 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/29 13:48:00 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/30 17:26:34 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,10 @@ char	*remove_quotes(char *with_quotes)
 	j = 0;
 	if (with_quotes == NULL)
 		return (NULL);
-	without_quotes = ft_calloc(ft_strlen(with_quotes) + 1, sizeof(char));
+	without_quotes = ft_calloc(ft_strlen(with_quotes), sizeof(char));
 	while (without_quotes != NULL && with_quotes[i] != '\0')
 	{
+		printf("checking [%s]\n", &with_quotes[i]);
 		closing_quote = skip_to_closing_quote(&with_quotes[i]);
 		if (!exist_closing_quote(&with_quotes[i], closing_quote))
 			without_quotes[j++] = with_quotes[i++];
@@ -63,8 +64,11 @@ char	*remove_quotes(char *with_quotes)
 			i += len_of_content + 2;
 			j += len_of_content;
 		}
+		printf("index on without[%zu] on with[%zu]\n", j, i);
 	}
+	printf("out of while loop...[%s]\n", without_quotes);
 	free(with_quotes);
+	printf("after free with_quotes\n");
 	return (without_quotes);
 }
 

@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 14:18:01 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/29 12:58:02 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/30 18:02:34 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,9 @@ char	*replace_key_with_val(char *old_token, char *doller,
 	if (env_key == NULL || env_val == NULL)
 		return (NULL);
 	new_token = make_new_token(old_token, doller, env_key, env_val);
+	if (*env_key == '?')
+		free (env_val);
 	free (env_key);
-	free (env_val);
 	free (old_token);
 	return (new_token);
 }

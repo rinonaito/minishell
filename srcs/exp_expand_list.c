@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 13:41:43 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/29 11:18:48 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/30 17:48:58 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	expand_list(t_token **head, int exit_status, t_env *env_lst)
 		to_be_expanded = (*head)->token;
 		if (to_be_expanded != NULL)
 		{
+			printf("<< to_be_expanded = %s\n >>", to_be_expanded);
 			expanded = expand_str(to_be_expanded, exit_status,
 					env_lst, FOR_NORMAL);
 			if (expanded == NULL)

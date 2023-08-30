@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 13:37:50 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/29 12:59:53 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/30 17:54:24 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,12 +83,17 @@ char	*get_val(char *env_key, int exit_status, t_env *env_lst,
 	char	*splitted;
 
 	if (ft_strequ(env_key, "?"))
-		env_val = ft_itoa(exit_status);
+		return (ft_itoa(exit_status));
 	else if (env_key != NULL)
 	{
 		env_val = my_getenv(env_key, env_lst);
 		if (env_val == NULL)
-			env_val = "\0";
+		{
+			env_val = malloc(sizeof(char));
+			*env_val = '\0';
+//			env_val = "\0";
+		
+		}
 	}
 	if (expand_mode == FOR_NORMAL)
 	{
