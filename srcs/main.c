@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/31 17:53:49 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/31 18:57:38 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,7 @@ int	main(int argc, char **argv, char **env)
 		if (have_heredoc)
 			get_heredoc_content(head, exit_status, env_lst);
 		root = make_syntax_tree(head);
-		if (expand_list(&head, exit_status, env_lst) != 0)
-		{
-			free_syntax_tree(root, head);
-			exit_status = 1;
-			continue ;
-		}
+		expand_list(&head, exit_status, env_lst);
 		trace_tree_entry(root, env, &exit_status, env_lst);
 		free_syntax_tree(root, head);
 	}
