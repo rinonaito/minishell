@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 21:20:45 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/31 13:07:32 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/31 19:14:11 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ void	get_heredoc_content(t_token *head, int exit_status, t_env *env_lst)
 	is_quoted = 0;
 	delimiter = get_delimiter(head, &is_quoted);
 	heredoc_content = read_from_heredoc(delimiter);
-	printf("heredoc_content = %s\n", heredoc_content);
 	if (!heredoc_content)
 		exit(1);
 	if (!is_quoted)
@@ -106,7 +105,6 @@ void	get_heredoc_content(t_token *head, int exit_status, t_env *env_lst)
 				FOR_HEREDOC);
 		if (expanded_content != NULL)
 			heredoc_content = expanded_content;
-		printf("expanded_content = %s\n", expanded_content);
 	}
 	add_heredoc_to_token_list(head, heredoc_content);
 	return ;
