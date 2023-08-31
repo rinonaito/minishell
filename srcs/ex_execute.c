@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/29 12:06:33 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/31 16:55:34 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	trace_tree_entry(t_tree *root, char **env, int *status, t_env *env_lst)
 	cmds_info.env = env;
 	cmds_info.env_lst = env_lst;
 	cmds_info.heredoc_file = NULL;
+	cmds_info.have_cmd = false;
 	ret = trace_inorder(root, &cmds_info);
 	dup2(tmp_fdin, STDIN_FILENO);
 	close(tmp_fdin);

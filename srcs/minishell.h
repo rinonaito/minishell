@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/29 17:02:17 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/31 16:55:59 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,12 @@ typedef struct s_cmds{
 	int		num_cmds;
 	int		i;
 	char	*heredoc_file;
+	bool	have_cmd;
 }					t_cmds;
 
 /*** TOKENIZE ***/
 //tkn_tokenize.c
-t_token	*tokenize(char *line, int *is_error);
+t_token	*tokenize(char *line, int *is_heredoc, int *status);
 
 //tkn_get_token.c
 char	*get_token(char **line);
@@ -123,7 +124,7 @@ char	*remove_quotes(char *with_quotes);
 char	*remove_quotes_if_needed(char *env_expanded, int expand_mode);
 
 //exp_expand_str_utils.c
-char	*get_key(char *doller);
+char	*get_key(char *doller, int *is_error);
 char	*get_val(char *env_key, int exit_status, t_env *env_lst,
 		int expand_mode);
 
@@ -191,10 +192,10 @@ void	*rl_quit(void);
 int		redirect(t_token *param, int *redir_fd, int *pipe_fd, t_cmds *cmds_info);
 
 //redir_call_each_redir.c
-char	*call_each_redir(int *redir_fd, t_token *param);
+char	*call_each_redir(int *redir_fd, t_token *param, int *is_error);
 
 //redir_get_heredoc_input.c
-int		get_heredoc_content(t_token *head, int status, t_env *env_lst);
+void		get_heredoc_content(t_token *head, int status, t_env *env_lst);
 
 /*** BUILTINS ***/
 int		builtin_echo(t_cmds *cmds_info);

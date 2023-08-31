@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   call_each_redir.c                                  :+:      :+:    :+:   */
+/*   redir_call_each_redirection.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 15:00:26 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/29 16:12:28 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/31 16:29:09 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ static void	redirect_out_append(int *redir_fd, t_token *param, int type)
 	if (type == TK_APPEND)
 		fd_out = open(filename, O_WRONLY | O_CREAT | O_APPEND, OPEN_MODE);
 	if (fd_out == -1)
-		ft_perror("bash");
+		exit(1);
 	if (redir_fd[WRITE_END] != STDOUT_FILENO)
 		close(redir_fd[WRITE_END]);
 	redir_fd[WRITE_END] = fd_out;
 }
 
-static void	redirect_in(int *redir_fd, t_token *param)
+static int	redirect_in(int *redir_fd, t_token *param)
 {
 	int		fd_in;
 	char	*filename;
@@ -37,10 +37,14 @@ static void	redirect_in(int *redir_fd, t_token *param)
 	filename = param->next->token;
 	fd_in = open(filename, O_RDONLY);
 	if (fd_in == -1)
-		ft_perror("bash");
+	{
+		ft_printf_fd(STDERR_FILENO, "bash: %s: No such file or directory\n", filename);
+		return (1);
+	}
 	if (redir_fd[READ_END] != STDIN_FILENO)
 		close(redir_fd[READ_END]);
 	redir_fd[READ_END] = fd_in;
+	return (0);
 }
 
 char	*generate_random_str(void)
@@ -85,13 +89,13 @@ static char	*heredoc(int *redir_fd, t_token *param)
 	return (filename);
 }
 
-char	*call_each_redir(int *redir_fd, t_token *param)
+char	*call_each_redir(int *redir_fd, t_token *param, int *is_error)
 {
 	char	*filename;
 
 	filename = NULL;
 	if (param->type == TK_REDIR_IN)
-		redirect_in(redir_fd, param);
+		*is_error = redirect_in(redir_fd, param);
 	if (param->type == TK_REDIR_OUT)
 		redirect_out_append(redir_fd, param, TK_REDIR_OUT);
 	if (param->type == TK_HEREDOC)

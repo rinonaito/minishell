@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 13:37:50 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/30 18:43:37 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/31 15:05:53 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	for_braced_env(char **start, char **end, char *doller)
 	is_error = 0;
 	*start = doller + 2;
 	*end = ft_strchr(*start, '}');
-	if (*end == NULL || ft_isdigit((int)**start) == 1)
+	if (*end == NULL || ft_isdigit((int)**start) == 1 || *start == *end)
 		is_error = 1;
 	i = 0;
 	while (is_error == 0 && (*start)[i] != '}')
@@ -55,21 +55,25 @@ static void	for_unbraced_env(char **start, char **end, char *doller)
 		*end = &((*start)[1]);
 }
 
-char	*get_key(char *doller)
+char	*get_key(char *doller, int *is_error)
 {
 	char	*start;
 	char	*end;
 	char	*env_key;
-	int		is_error;
 
 	start = NULL;
 	end = NULL;
-	is_error = 0;
+	*is_error = 0;
 	if (*(doller + 1) == '{')
-		is_error = for_braced_env(&start, &end, doller);
+		*is_error = for_braced_env(&start, &end, doller);
 	else
 		for_unbraced_env(&start, &end, doller);
-	if (start != NULL && end != NULL && !is_error)
+	if (*is_error)
+	{
+		ft_printf_fd(2, "bash: bad substitution\n");
+		return (NULL);
+	}
+	if (start != NULL && end != NULL && start != end)
 		env_key = ft_strndup(start, end - start);
 	else
 		return (NULL);
@@ -80,17 +84,19 @@ char	*get_val(char *env_key, int exit_status, t_env *env_lst,
 				int expand_mode)
 {
 	char	*env_val;
-	char	*splitted;
 
 	if (env_key == NULL)
 		return (NULL);
 	if (ft_strequ(env_key, "?"))
 		return (ft_itoa(exit_status));
 	env_val = my_getenv(env_key, env_lst);
-	if (env_val != NULL && expand_mode == FOR_NORMAL)
-	{
-		splitted = split_expanded_word(env_val, env_lst);
-		return (splitted);
-	}
+	if (env_val == NULL)
+		return (NULL);
+	if (expand_mode == FOR_NORMAL)
+		env_val = split_expanded_word(env_val, env_lst);
+	else
+		env_val = ft_strndup(env_val, ft_strlen(env_val));
+	if (env_val == NULL)
+		exit(1);
 	return (env_val);
 }

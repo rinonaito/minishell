@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/31 01:40:14 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/31 17:53:49 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@ int	main(int argc, char **argv, char **env)
 	char	*line;
 	t_token	*head;
 	t_tree	*root;
-	int		mode;
-	int		status;
+	int		have_heredoc;
+	int		exit_status;
 	t_env	*env_lst;
 
 	if (argc != 1)
 		printf("argc != 1\n");
 	argv[0] = NULL;
-	status = 0;
+	exit_status = 0;
 	env_lst = make_env_lst(env);
 	while (1)
 	{
@@ -38,30 +38,23 @@ int	main(int argc, char **argv, char **env)
 		if (ft_strlen(line) != 0)
 			add_history(line);
 		if (g_signal == SIGINT)
-			status = 1;
-		mode = STANDARD;
-		head = tokenize(line, &mode);
+			exit_status = 1;
+		have_heredoc = 0;
+		head = tokenize(line, &have_heredoc, &exit_status);
 		free(line);
-		if (mode == HEREDOC_MODE)
+		if (head == NULL)
+			continue;
+		if (have_heredoc)
+			get_heredoc_content(head, exit_status, env_lst);
+		root = make_syntax_tree(head);
+		if (expand_list(&head, exit_status, env_lst) != 0)
 		{
-			if (get_heredoc_content(head, mode, env_lst) == 1)
-			{
-				status = 1;
-				continue ;
-			}
-		}
-		if (head != NULL)
-		{
-			root = make_syntax_tree(head);
-			if (expand_list(&head, status, env_lst) != 0)
-			{
-				printf("syntax error\n");
-				status = 1;
-				continue ;
-			}
-			trace_tree_entry(root, env, &status, env_lst);
 			free_syntax_tree(root, head);
+			exit_status = 1;
+			continue ;
 		}
+		trace_tree_entry(root, env, &exit_status, env_lst);
+		free_syntax_tree(root, head);
 	}
 	clear_env_lst(&env_lst);
 	return (0);
