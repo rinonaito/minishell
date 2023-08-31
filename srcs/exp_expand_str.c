@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 13:37:50 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/31 18:00:01 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/31 18:26:46 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,13 @@ static void	get_ready_for_next_env(char **to_be_expanded, char *expanded,
 }
 
 char	*expand_str(char *to_be_expanded, int exit_status, t_env *env_lst,
-				int expand_mode)
+			int expand_mode)
 {
 	char		*env_key;
 	char		*env_val;
 	char		*expanded;
 	int			i;
-	int		is_error;
+	int			is_error;
 
 	expanded = NULL;
 	i = 0;
