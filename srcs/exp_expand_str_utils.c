@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 13:37:50 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/31 18:29:37 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/01 11:38:10 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,7 @@ char	*get_key(char *doller, int *is_error)
 	else
 		for_unbraced_env(&start, &end, doller);
 	if (*is_error)
-	{
-		ft_printf_fd(2, "bash: bad substitution\n");
 		return (NULL);
-	}
 	if (start != NULL && end != NULL && start != end)
 		env_key = ft_strndup(start, end - start);
 	else
