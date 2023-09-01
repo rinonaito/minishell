@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 13:37:50 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/31 18:26:46 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/01 14:29:04 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,8 @@ char	*expand_str(char *to_be_expanded, int exit_status, t_env *env_lst,
 	int			is_error;
 
 	expanded = NULL;
-	i = 0;
-	while (to_be_expanded != NULL && to_be_expanded[i] != '\0')
+	i = -1;
+	while (to_be_expanded != NULL && to_be_expanded[++i] != '\0')
 	{
 		i += get_len_of_quoted_str(&to_be_expanded[i], &expand_mode);
 		if (to_be_expanded[i] == '$')
@@ -103,7 +103,6 @@ char	*expand_str(char *to_be_expanded, int exit_status, t_env *env_lst,
 					&to_be_expanded[i], env_key, env_val);
 			get_ready_for_next_env(&to_be_expanded, expanded, &i);
 		}
-		i++;
 	}
 	expanded = for_token_without_env(expanded, to_be_expanded);
 	return (remove_quotes_if_needed(expanded, expand_mode));

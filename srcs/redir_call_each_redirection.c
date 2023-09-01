@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 15:00:26 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/01 12:06:38 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/01 14:32:37 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ static int	redirect_in(int *redir_fd, t_token *param)
 	fd_in = open(filename, O_RDONLY);
 	if (fd_in == -1)
 	{
-		ft_printf_fd(STDERR_FILENO, "bash: %s: No such file or directory\n", filename);
+		ft_printf_fd(STDERR_FILENO,
+			"bash: %s: No such file or directory\n", filename);
 		return (1);
 	}
 	if (redir_fd[READ_END] != STDIN_FILENO)

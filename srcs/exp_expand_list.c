@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 13:41:43 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/31 19:07:10 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/01 14:22:54 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	expand_list(t_token **head, int exit_status, t_env *env_lst)
 	char		*to_be_expanded;
 	char		*expanded;
 	t_token		*temp;
-	int		ret;
+	int			ret;
 
 	temp = *head;
 	ret = 0;

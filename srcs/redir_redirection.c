@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 10:48:49 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/31 17:16:05 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/01 14:33:52 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	initialize(int *redir_fd, int *pipe_fd, t_cmds *cmds_info)
 static int	set_redir_fd(t_token *param, int *redir_fd, t_cmds *cmds_info)
 {
 	char	*tmp_file;
-	int	ret;
+	int		ret;
 
 	ret = RET_UNSET;
 	while (param != NULL && param->type != TK_PIPE)

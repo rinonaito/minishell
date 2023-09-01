@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 13:03:35 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/31 17:37:18 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/01 14:12:26 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,12 @@ t_token	*tokenize(char *line, int *have_heredoc, int *status)
 		*status = 0;
 		free(head->token);
 		free(head);
-		return(NULL);
+		return (NULL);
 	}
 	if (is_syntax_error(head) == 1)
 	{
 		ft_printf_fd(2, "bash: syntax error:\n");
-		*status = 258; 
+		*status = 258;
 		return (NULL);
 	}
 	return (head);
