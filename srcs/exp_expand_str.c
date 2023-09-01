@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 13:37:50 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/01 14:29:04 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/01 15:46:44 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ static char	*for_token_without_env(char *env_expanded, char *to_be_expanded)
 		{
 			env_expanded = ft_strndup(to_be_expanded,
 					ft_strlen(to_be_expanded));
+			if (env_expanded == NULL)
+				ft_perror("malloc");
 			free (to_be_expanded);
 		}
 		else

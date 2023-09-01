@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main2.c                                            :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 12:09:25 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/01 14:11:06 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/01 15:27:10 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,14 @@ int	main(int argc, char **argv, char **env)
 	argv[0] = NULL;
 	exit_status = 0;
 	env_lst = make_env_lst(env);
+	if (env_lst == NULL)
+		ft_perror("malloc");
 	while (1)
 	{
 		ft_signal();
 		line = readline("\x1b[1;38;5;122mminishell🐣 \033[0m");
 		if (line == NULL)
-			exit(1);
+			ft_perror("readline");
 		if (ft_strlen(line) != 0)
 			add_history(line);
 		if (g_signal == SIGINT)

@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 13:37:50 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/01 11:38:10 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/01 15:44:06 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,11 @@ char	*get_key(char *doller, int *is_error)
 	if (*is_error)
 		return (NULL);
 	if (start != NULL && end != NULL && start != end)
+	{
 		env_key = ft_strndup(start, end - start);
+		if (env_key == NULL)
+			ft_perror("malloc");
+	}
 	else
 		return (NULL);
 	return (env_key);
@@ -94,6 +98,6 @@ char	*get_val(char *env_key, int exit_status, t_env *env_lst,
 	else
 		env_val = ft_strndup(env_val, ft_strlen(env_val));
 	if (env_val == NULL)
-		exit(1);
+		ft_perror("malloc");
 	return (env_val);
 }

@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 14:18:01 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/31 13:14:30 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/01 16:05:28 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ static char	*make_new_token(char *original_token, char *doller,
 	if (*(doller + 1) == '{')
 		len_key += 2;
 	new_token = malloc(len_token - len_key + len_val + 1);
+	if (new_token == NULL)
+		ft_perror("malloc");
 	if (new_token != NULL)
 	{
 		ft_strlcpy(new_token, original_token, doller - original_token + 1);

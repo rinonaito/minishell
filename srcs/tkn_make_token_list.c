@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 15:53:40 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/31 01:36:30 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/01 15:48:39 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static t_token	*make_node_for_token(char *token, int	*have_heredoc)
 		*have_heredoc = 1;
 	new = ft_lstnew_token(token, token_type);
 	if (new == NULL)
-		exit(1);
+		ft_perror("malloc");
 	return (new);
 }
 

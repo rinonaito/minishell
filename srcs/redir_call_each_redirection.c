@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 15:00:26 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/01 14:32:37 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/01 15:40:48 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	redirect_out_append(int *redir_fd, t_token *param, int type)
 	if (type == TK_APPEND)
 		fd_out = open(filename, O_WRONLY | O_CREAT | O_APPEND, OPEN_MODE);
 	if (fd_out == -1)
-		exit(1);
+		ft_perror("open");
 	if (redir_fd[WRITE_END] != STDOUT_FILENO)
 		close(redir_fd[WRITE_END]);
 	redir_fd[WRITE_END] = fd_out;
@@ -39,7 +39,7 @@ static int	redirect_in(int *redir_fd, t_token *param)
 	if (fd_in == -1)
 	{
 		ft_printf_fd(STDERR_FILENO,
-			"bash: %s: No such file or directory\n", filename);
+			"minishell: %s: No such file or directory\n", filename);
 		return (1);
 	}
 	if (redir_fd[READ_END] != STDIN_FILENO)
@@ -80,12 +80,12 @@ static char	*heredoc(int *redir_fd, t_token *param)
 	filename = generate_random_str();
 	fd_in = open(filename, O_WRONLY | O_CREAT | O_TRUNC, OPEN_MODE);
 	if (fd_in == -1)
-		ft_perror("bash");
+		ft_perror("open");
 	write(fd_in, param->heredoc, ft_strlen(param->heredoc));
 	close (fd_in);
 	fd_in = open(filename, O_RDONLY);
 	if (fd_in == -1)
-		ft_perror("bash");
+		ft_perror("open");
 	redir_fd[READ_END] = fd_in;
 	return (filename);
 }
