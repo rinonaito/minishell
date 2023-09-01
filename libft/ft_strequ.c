@@ -1,23 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft_plus.c                                       :+:      :+:    :+:   */
+/*   ft_strequ.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/28 14:14:00 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/31 01:14:33 by rnaito           ###   ########.fr       */
+/*   Created: 2023/09/01 14:39:46 by rnaito            #+#    #+#             */
+/*   Updated: 2023/09/01 14:41:43 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-//@func:  check if two strings are exactly the same
-//@usage:
-//		if (ft_strnequ(s1, s2))
-//			printf("s1 and s2 are identical\n");
-//@return_val:
-//		1 if they're identical, and 0 if not
 int	ft_strequ(const char *s1, const char *s2)
 {
 	size_t	len;
@@ -30,24 +24,4 @@ int	ft_strequ(const char *s1, const char *s2)
 	if (ft_strncmp(s1, s2, len) == 0)
 		return (1);
 	return (0);
-}
-
-char	*ft_strndup(char *str, size_t len)
-{
-	char	*new;
-	size_t	i;
-
-	if (!str)
-		return (NULL);
-	new = malloc(sizeof(char) * len + 1);
-	if (new == NULL)
-		return (NULL);
-	i = 0;
-	while (str[i] != '\0' && i < len)
-	{
-		new[i] = str[i];
-		i++;
-	}
-	new[i] = '\0';
-	return (new);
 }
