@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 19:55:33 by taaraki           #+#    #+#             */
-/*   Updated: 2023/09/02 15:01:37 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/09/02 20:08:59 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,10 @@ int	builtin_cd(t_cmds *cmds_info)
 	}
 	update_env(cmds_info, buff_cwd, "PWD");
 	if (ret == -1)
+	{
 		ft_printf_fd(STDERR_FILENO, "bash: %s: %s: %s\n", \
 				cmd_args[0], strerror(errno), cmd_args[1]);
+		ret = 1;
+	}
 	return (ret);
 }
