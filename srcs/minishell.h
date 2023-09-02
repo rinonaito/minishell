@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/29 17:02:17 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/02 16:48:59 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,12 @@ typedef struct s_cmds{
 	int		num_cmds;
 	int		i;
 	char	*heredoc_file;
+	bool	have_cmd;
 }					t_cmds;
 
 /*** TOKENIZE ***/
 //tkn_tokenize.c
-t_token	*tokenize(char *line, int *is_error);
+t_token	*tokenize(char *line, int *is_heredoc, int *status);
 
 //tkn_get_token.c
 char	*get_token(char **line);
@@ -191,10 +192,10 @@ void	*rl_quit(void);
 int		redirect(t_token *param, int *redir_fd, int *pipe_fd, t_cmds *cmds_info);
 
 //redir_call_each_redir.c
-char	*call_each_redir(int *redir_fd, t_token *param);
+char	*call_each_redir(int *redir_fd, t_token *param, int *is_error);
 
 //redir_get_heredoc_input.c
-int		get_heredoc_content(t_token *head, int status, t_env *env_lst);
+void		get_heredoc_content(t_token *head, int status, t_env *env_lst);
 
 /*** BUILTINS ***/
 int		builtin_echo(t_cmds *cmds_info);
