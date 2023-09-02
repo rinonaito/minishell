@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 21:37:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/29 17:12:00 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/02 15:56:47 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	**free_args(char **argv)
 }
 
 //@func: count the number of parameters
-static int		count_num_params(t_tree *root)
+static int	count_num_params(t_tree *root)
 {
 	int			num;
 	t_token		*temp;
