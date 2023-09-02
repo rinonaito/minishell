@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 19:55:33 by taaraki           #+#    #+#             */
-/*   Updated: 2023/09/02 20:56:08 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/09/02 21:18:09 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,20 @@
 static int		relative_path(char *path, char *buff_cwd)
 {
 	char	*full_path;
-	//char	*temp;
+	char	*temp;
 	int		ret;
 
 	ft_memset(buff_cwd, '\0', PATH_MAX);
 	if (!getcwd(buff_cwd, PATH_MAX))
 		return (-1);
 	full_path = ft_strjoin(buff_cwd, "/");
-	//temp = full_path;
+	temp = full_path;
 	full_path = ft_strjoin(full_path, path);
 	ret = chdir(full_path);
+	free(temp);
 	free(full_path);
+	temp = NULL;
 	full_path = NULL;
-	//free(temp);
-	//temp = NULL;
 	return (ret);
 }
 
@@ -56,15 +56,9 @@ static int	update_env(t_cmds *cmds_info, char *buff_cwd, char *pwd)
 	node = search_same_key(cmds_info->env_lst, pwd); 
 	val = ft_strdup(buff_cwd);
 	if (node)
-	{
-		printf("node\n");
 		change_val(node, val);	
-		free(val);
-		val = NULL;
-	}
 	else
 	{
-		printf("!node\n");
 		key = ft_strdup(pwd);
 		ft_lstadd_back_env(&cmds_info->env_lst, ft_lstnew_env(key, val));
 	}
