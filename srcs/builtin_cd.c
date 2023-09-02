@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 19:55:33 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/29 18:55:35 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/09/02 14:56:20 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,19 @@
 static int		relative_path(char *path, char *buff_cwd)
 {
 	char	*full_path;
+	char	*temp;
 	int		ret;
 
 	ft_memset(buff_cwd, '\0', PATH_MAX);
 	if (!getcwd(buff_cwd, PATH_MAX))
 		return (-1);
 	full_path = ft_strjoin(buff_cwd, "/");
+	temp = full_path;
 	full_path = ft_strjoin(full_path, path);
 	ret = chdir(full_path);
+	free(temp);
 	free(full_path);
+	temp = NULL;
 	full_path = NULL;
 	return (ret);
 }
@@ -36,10 +40,10 @@ static int		absolute_path(char *path)
 	return (ret);
 }
 
-/*
-	if (old)pwd does not exists in env, add it to env.
-	otherwise, replace (old)pwd with a new one
-*/ 
+/**
+ *	if (old)pwd does not exists in env, add it to env.
+ *	otherwise, replace (old)pwd with a new one
+ */ 
 static int	update_env(t_cmds *cmds_info, char *buff_cwd, char *pwd)
 {
 	char	*key;
@@ -53,21 +57,20 @@ static int	update_env(t_cmds *cmds_info, char *buff_cwd, char *pwd)
 	val = ft_strdup(buff_cwd);
 	if (node)
 	{
-		printf("node\n");
-		//free(node->val);
 		change_val(node, val);	
+		free(val);//I need to free val here bc new val is malloced in change_val
+		val = NULL;
 	}
 	else
 	{
-		printf("!node\n");
 		key = ft_strdup(pwd);
 		ft_lstadd_back_env(&cmds_info->env_lst, ft_lstnew_env(key, val));
-		//free(key);
 	}
-	//free(val);
 	return (0);
 }
 
+// cd srcs
+// [0] [1]
 /*** 1. if 2nd element is null, go to home directory ***/
 /*** 2. if absolute path is given just call chdir() ***/
 /*** 3. if relative path is given, strjoin cwd with path given ***/
@@ -77,7 +80,6 @@ int		builtin_cd(t_cmds *cmds_info)
 {
 	char	**cmd_args;
 	char	buff_cwd[PATH_MAX];
-	char	*home_dir;
 	int		ret;
 
 	ft_memset(buff_cwd, '\0', PATH_MAX);
@@ -85,22 +87,17 @@ int		builtin_cd(t_cmds *cmds_info)
 	cmd_args = cmds_info->cmd_args;
 	if (!cmd_args)
 		return (-1);
+	update_env(cmds_info, buff_cwd, "OLDPWD");
 	if (!cmd_args[1])
-	{
-		update_env(cmds_info, buff_cwd, "OLDPWD");
-		home_dir = my_getenv("HOME", cmds_info->env_lst);
-		ret = chdir(home_dir);
-		update_env(cmds_info, buff_cwd, "PWD");
-	}
+		ret = chdir(my_getenv("HOME", cmds_info->env_lst));
 	else
 	{
-		update_env(cmds_info, buff_cwd, "OLDPWD");
 		if (cmd_args[1][0] == '/')
 			ret = absolute_path(cmd_args[1]);
 		else
 			ret = relative_path(cmd_args[1], buff_cwd);
-		update_env(cmds_info, buff_cwd, "PWD");
 	}
+	update_env(cmds_info, buff_cwd, "PWD");
 	if (ret == -1)
 		ft_printf_fd(STDERR_FILENO, "bash: %s: %s: %s\n", cmd_args[0], strerror(errno), cmd_args[1]);
 	return (ret);
