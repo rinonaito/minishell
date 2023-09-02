@@ -6,39 +6,16 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 15:18:14 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/29 11:22:31 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/30 14:35:28 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	change_val(t_env *same_key_node, char *val)
+static int	print_env(t_env *head)
 {
-	size_t	i;
-	char	*new_val;
-
-	if (val == NULL)
-		return ;
-	free(same_key_node->val);
-	same_key_node->val = NULL;
-	new_val = malloc(sizeof(char) * ft_strlen(val) + 1);
-	i = 0;
-	while (val[i] != '\0')
-	{
-		new_val[i] = val[i];
-		i++;
-	}
-	new_val[i] = '\0';
-	same_key_node->val = new_val;
-	return ;
-}
-
-void	print_env(t_env *env_lst)
-{
-	t_env	*head;
 	t_env	*tmp;
 
-	head = env_lst;
 	tmp = head;
 	while (head != NULL)
 	{
@@ -48,7 +25,17 @@ void	print_env(t_env *env_lst)
 		printf("\n");
 		head = head->next;
 	}
-	env_lst = tmp;
+	head = tmp;
+	return (0);
+}
+
+void	change_val(t_env *same_key_node, char *val)
+{
+	if (val == NULL)
+		return ;
+	free(same_key_node->val);
+	same_key_node->val = val;
+	return ;
 }
 
 static void	change_env_list(t_env *same_key_node, t_env **env_list, char *key,
@@ -57,7 +44,10 @@ static void	change_env_list(t_env *same_key_node, t_env **env_list, char *key,
 	if (same_key_node == NULL)
 		ft_lstadd_back_env(env_list, ft_lstnew_env(key, val));
 	else
+	{
 		change_val(same_key_node, val);
+		free (key);
+	}
 }
 
 int	builtin_export(t_cmds *cmds_info)
@@ -69,20 +59,20 @@ int	builtin_export(t_cmds *cmds_info)
 	size_t	i;
 
 	if (cmds_info->cmd_args[1] == NULL)
-		print_env(cmds_info->env_lst);
-	else
+		return (print_env(cmds_info->env_lst));
+	i = 1;
+	while ((cmds_info->cmd_args)[i] != NULL)
 	{
-		i = 1;
-		while ((cmds_info->cmd_args)[i] != NULL)
+		key = get_key_for_env_list(cmds_info->cmd_args[i], &val_start);
+		if (is_wrong_key_name(key) == 1)
 		{
-			key = get_key_for_env_list(cmds_info->cmd_args[i], &val_start);
-			if (is_wrong_key_name(key) == 1)
-				return (1);
-			val = get_val_for_env_list(val_start);
-			same_key_node = search_same_key(cmds_info->env_lst, key);
-			change_env_list(same_key_node, &(cmds_info->env_lst), key, val);
-			i++;
+			free(key);
+			return (1);
 		}
+		val = get_val_for_env_list(val_start);
+		same_key_node = search_same_key(cmds_info->env_lst, key);
+		change_env_list(same_key_node, &(cmds_info->env_lst), key, val);
+		i++;
 	}
 	return (0);
 }

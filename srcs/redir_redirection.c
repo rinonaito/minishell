@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirection.c                                      :+:      :+:    :+:   */
+/*   redir_redirection.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 10:48:49 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/29 12:37:38 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/01 14:33:52 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,34 +27,34 @@ static void	initialize(int *redir_fd, int *pipe_fd, t_cmds *cmds_info)
 
 static int	set_redir_fd(t_token *param, int *redir_fd, t_cmds *cmds_info)
 {
-	int		have_cmd;
 	char	*tmp_file;
+	int		ret;
 
-	have_cmd = 0;
+	ret = RET_UNSET;
 	while (param != NULL && param->type != TK_PIPE)
 	{
 		if (param->type == TK_WORD)
 		{
-			have_cmd = 1;
+			cmds_info->have_cmd = 1;
 			while (param != NULL && param->type == TK_WORD)
 				param = param->next;
 		}
 		else
 		{
-			tmp_file = call_each_redir(redir_fd, param);
+			tmp_file = call_each_redir(redir_fd, param, &ret);
 			if (tmp_file != NULL)
 				cmds_info->heredoc_file = tmp_file;
 			param = param->next->next;
 		}
 	}
-	return (have_cmd);
+	return (ret);
 }
 
 int	redirect(t_token *param, int *redir_fd, int *pipe_fd, t_cmds *cmds_info)
 {
-	int	have_cmd;
+	int	ret;
 
 	initialize(redir_fd, pipe_fd, cmds_info);
-	have_cmd = set_redir_fd(param, redir_fd, cmds_info);
-	return (have_cmd);
+	ret = set_redir_fd(param, redir_fd, cmds_info);
+	return (ret);
 }

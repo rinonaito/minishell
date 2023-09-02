@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 15:06:44 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/29 11:23:33 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/01 15:54:57 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ char	*get_key_for_env_list(char *env, char **val_start)
 	else
 		*val_start = end + 1;
 	key = ft_strndup(start, end - start);
+	if (key == NULL)
+		ft_perror("malloc");
 	return (key);
 }
 
@@ -80,6 +82,8 @@ char	*get_val_for_env_list(char *val_start)
 	}
 	else
 		val = ft_strndup(val_start, val_len);
+	if (val == NULL)
+		ft_perror("malloc");
 	if (find_quote(val) != NULL)
 	{
 		tmp = val;

@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 12:55:59 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/28 16:43:17 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/01 15:41:28 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,8 @@ char	*get_token(char **line)
 	token_start = get_token_start(*line);
 	token_end = get_token_end(token_start);
 	token = ft_strndup(token_start, token_end - token_start);
+	if (token == NULL)
+		ft_perror("malloc");
 	*line = token_end;
-	if (token != NULL && ft_strlen(token) == 0)
-	{
-		free(token);
-		return (NULL);
-	}
 	return (token);
 }
