@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/02 16:35:35 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/09/02 16:41:21 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ int		create_process(t_cmds *cmds_info, t_tree *root);
 void	count_num_cmds(t_tree *root, int *i);
 int		trace_inorder(t_tree *root, t_cmds *cmds_info);
 
-//process.c
+//ex_process.c
 void	child_process(int redir_fd[2], t_cmds *cmds_info);
 void	parent_process(int pipe_fd[2], t_cmds *cmds_info, int pid);
 int		wait_process(pid_t *pid_ary, int num_cmds, int ret);
@@ -162,24 +162,21 @@ int		wait_process(pid_t *pid_ary, int num_cmds, int ret);
 //ft_perror.c
 void    ft_perror(char *message);
 
-//ft_free.c
+//ex_create_cmds.c
+char    **create_cmds(t_tree *root);
 char	**free_args(char **argv);
 
-//create_cmds.c
-char    **create_cmds(t_tree *root);
-
-//search_path.c
+//ex_search_path.c
 char    *ft_search_path(const char *filename, t_env *env_lst);
 
-//builtin.c
-int	is_builtin(char *s);
-int	call_builtin(t_cmds *cmds_info);
 
 /*** SIGNAL ***/
-//signal.c
+//signal_set.c
 void	ft_signal(void);
 void	ft_signal_child(void);
 void	ft_signal_heredoc(void);
+
+//signal_handler.c
 void	signal_handler_int(int signum);
 void	signal_handler_int_child(int signum);
 void	signal_handler_quit_child(int signum);
@@ -205,6 +202,10 @@ int		builtin_env(t_cmds *cmds_info);
 int		builtin_export(t_cmds *cmds_info);
 void	change_val(t_env *same_key_node, char *val);
 int		builtin_unset(t_cmds *cmds_info);
+
+//builtin.c
+int	is_builtin(char *s);
+int	call_builtin(t_cmds *cmds_info);
 
 /*** ENV VARIABLE ***/
 //make_env_lst.c
