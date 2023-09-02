@@ -6,13 +6,13 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 19:55:33 by taaraki           #+#    #+#             */
-/*   Updated: 2023/09/02 14:56:20 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/09/02 15:01:37 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	"minishell.h"
 
-static int		relative_path(char *path, char *buff_cwd)
+static int	relative_path(char *path, char *buff_cwd)
 {
 	char	*full_path;
 	char	*temp;
@@ -32,7 +32,7 @@ static int		relative_path(char *path, char *buff_cwd)
 	return (ret);
 }
 
-static int		absolute_path(char *path)
+static int	absolute_path(char *path)
 {
 	int		ret;
 
@@ -43,7 +43,7 @@ static int		absolute_path(char *path)
 /**
  *	if (old)pwd does not exists in env, add it to env.
  *	otherwise, replace (old)pwd with a new one
- */ 
+ */
 static int	update_env(t_cmds *cmds_info, char *buff_cwd, char *pwd)
 {
 	char	*key;
@@ -53,12 +53,12 @@ static int	update_env(t_cmds *cmds_info, char *buff_cwd, char *pwd)
 	ft_memset(buff_cwd, '\0', PATH_MAX);
 	if (!getcwd(buff_cwd, PATH_MAX))
 		return (-1);
-	node = search_same_key(cmds_info->env_lst, pwd); 
+	node = search_same_key(cmds_info->env_lst, pwd);
 	val = ft_strdup(buff_cwd);
 	if (node)
 	{
-		change_val(node, val);	
-		free(val);//I need to free val here bc new val is malloced in change_val
+		change_val(node, val);
+		free(val);
 		val = NULL;
 	}
 	else
@@ -76,7 +76,7 @@ static int	update_env(t_cmds *cmds_info, char *buff_cwd, char *pwd)
 /*** 3. if relative path is given, strjoin cwd with path given ***/
 /*** 4. store the cwd before calling chdir(), and renew the OLDPWD ***/
 /*** 5. get the cwd after calling chdir(), and renew the PWD ***/
-int		builtin_cd(t_cmds *cmds_info)
+int	builtin_cd(t_cmds *cmds_info)
 {
 	char	**cmd_args;
 	char	buff_cwd[PATH_MAX];
@@ -99,6 +99,7 @@ int		builtin_cd(t_cmds *cmds_info)
 	}
 	update_env(cmds_info, buff_cwd, "PWD");
 	if (ret == -1)
-		ft_printf_fd(STDERR_FILENO, "bash: %s: %s: %s\n", cmd_args[0], strerror(errno), cmd_args[1]);
+		ft_printf_fd(STDERR_FILENO, "bash: %s: %s: %s\n", \
+				cmd_args[0], strerror(errno), cmd_args[1]);
 	return (ret);
 }

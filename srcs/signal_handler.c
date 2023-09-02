@@ -1,11 +1,12 @@
-/* ************************************************************************** */ /*                                                                            */
+/* ************************************************************************** */
+/*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 20:59:38 by taaraki           #+#    #+#             */
-/*   Updated: 2023/07/31 23:36:54 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/09/02 15:11:30 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -13,23 +14,30 @@
 
 extern int	g_signal;
 
+/*
+	write(STDERR_FILENO, "\n", 1);//write out the new line to STDERR
+	rl_replace_line("", 0);//replace the line with empty string
+	rl_on_new_line();//display a new prompt at the right position
+	rl_redisplay();//redisplay the prompt
+*/
 void	signal_handler_int(int signum)
 {
 	if (signum == SIGINT)
 	{
-		write(STDERR_FILENO, "\n", 1);//write out the new line to STDERR
-		rl_replace_line("", 0);//replace the line with empty string
-		rl_on_new_line();//display a new prompt at the right position
-		rl_redisplay();//redisplay the prompt
+		write(STDERR_FILENO, "\n", 1);
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
 		g_signal = SIGINT;
 	}
 }
 
+//write out the new line to STDERR
 void	signal_handler_int_child(int signum)
 {
 	if (signum == SIGINT)
 	{
-		write(STDERR_FILENO, "\n", 1);//write out the new line to STDERR
+		write(STDERR_FILENO, "\n", 1);
 		g_signal = SIGINT;
 	}
 }
@@ -57,7 +65,6 @@ void	*rl_quit(void)
 	if (g_signal == SIGINT)
 	{
 		rl_done = 1;
-		//printf(" >%s, rl_done:[%d], g_signal:[%d]\n", __func__, rl_done, g_signal);
 		g_signal = SIGINT;
 	}
 	return (NULL);
