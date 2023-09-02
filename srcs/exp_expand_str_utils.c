@@ -6,13 +6,13 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 13:37:50 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/02 18:11:56 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/02 21:17:00 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	for_braced_env(char **start, char **end, char *doller)
+static void	for_braced_env(char **start, char **end, char *doller)
 {
 	int		is_error;
 	size_t	i;
@@ -34,7 +34,7 @@ static int	for_braced_env(char **start, char **end, char *doller)
 		*start = NULL;
 		*end = NULL;
 	}
-	return (is_error);
+	return ;
 }
 
 static void	for_unbraced_env(char **start, char **end, char *doller)
@@ -58,7 +58,6 @@ static void	for_unbraced_env(char **start, char **end, char *doller)
 		*end = &((*start)[0]);
 	if (*start[0] == '?')
 		*end = &((*start)[1]);
-	printf("start = %s, end = %s\n", *start, *end);
 }
 
 char	*get_key(char *doller)

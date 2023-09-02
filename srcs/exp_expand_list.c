@@ -6,13 +6,13 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 13:41:43 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/02 16:28:37 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/02 21:09:26 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char *for_syntax_error(char *to_be_expanded, int *ret)
+static char	*for_syntax_error(char *to_be_expanded, int *ret)
 {
 	char	*expanded;
 
@@ -41,13 +41,7 @@ int	expand_list(t_token **head, int exit_status, t_env *env_lst)
 			expanded = expand_str(to_be_expanded, exit_status,
 					env_lst, FOR_NORMAL);
 			if (expanded == NULL)
-			{
 				expanded = for_syntax_error(to_be_expanded, &ret);
-//				expanded = ft_strndup(to_be_expanded,
-//						ft_strlen(to_be_expanded));
-//				free(to_be_expanded);
-//				ret = 1;
-			}
 			(*head)->token = expanded;
 		}
 		*head = (*head)->next;
