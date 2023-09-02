@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 19:55:33 by taaraki           #+#    #+#             */
-/*   Updated: 2023/09/02 15:01:37 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/09/02 16:16:01 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,6 @@ int	builtin_cd(t_cmds *cmds_info)
 	ft_memset(buff_cwd, '\0', PATH_MAX);
 	getcwd(buff_cwd, PATH_MAX);
 	cmd_args = cmds_info->cmd_args;
-	if (!cmd_args)
-		return (-1);
 	update_env(cmds_info, buff_cwd, "OLDPWD");
 	if (!cmd_args[1])
 		ret = chdir(my_getenv("HOME", cmds_info->env_lst));
@@ -99,7 +97,9 @@ int	builtin_cd(t_cmds *cmds_info)
 	}
 	update_env(cmds_info, buff_cwd, "PWD");
 	if (ret == -1)
-		ft_printf_fd(STDERR_FILENO, "bash: %s: %s: %s\n", \
-				cmd_args[0], strerror(errno), cmd_args[1]);
+	{
+		ft_printf_fd(2, "bash: cd: %s: %s\n", strerror(errno), cmd_args[1]);
+		ret = 1;
+	}
 	return (ret);
 }

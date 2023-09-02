@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 21:37:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/09/02 15:56:47 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/09/02 16:24:13 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,14 @@ char	**create_cmds(t_tree *root)
 	if (!cmd_args)
 		return (NULL);
 	i = 0;
-	while (root->param != NULL && root->param->type == TK_WORD)
+	while (1)//root->param != NULL && root->param->type == TK_WORD)
 	{
-		cmd_args[i] = ft_strdup(root->param->token);
+		//cmd_args[i] = ft_strdup(root->param->token);
+		cmd_args[i] = ft_strdup("pwd");
 		if (!cmd_args[i])
 			return (free_args(cmd_args));
-		i++;
-		root->param = root->param->next;
+		//i++;
+		//root->param = root->param->next;
 	}
 	cmd_args[i] = NULL;
 	root->param = temp;
