@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 13:37:50 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/01 17:28:46 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/02 16:49:33 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,11 @@ static int	for_braced_env(char **start, char **end, char *doller)
 		if (ft_isalnum((*start)[i]) == 0 && (*start)[i] != '_')
 			is_error = 1;
 		i++;
+	}
+	if (is_error)
+	{
+		*start = NULL;
+		*end = NULL;
 	}
 	return (is_error);
 }
@@ -53,23 +58,23 @@ static void	for_unbraced_env(char **start, char **end, char *doller)
 		*end = &((*start)[0]);
 	if (*start[0] == '?')
 		*end = &((*start)[1]);
+	printf("start = %s, end = %s\n", *start, *end);
 }
 
-char	*get_key(char *doller, int *is_error)
+char	*get_key(char *doller)
 {
 	char	*start;
 	char	*end;
 	char	*env_key;
+	bool	is_error;
 
 	start = NULL;
 	end = NULL;
-	*is_error = 0;
+	is_error = false;
 	if (*(doller + 1) == '{')
-		*is_error = for_braced_env(&start, &end, doller);
+		is_error = for_braced_env(&start, &end, doller);
 	else
 		for_unbraced_env(&start, &end, doller);
-	if (*is_error)
-		return (NULL);
 	if (start != NULL && end != NULL && start != end)
 	{
 		env_key = ft_strndup(start, end - start);

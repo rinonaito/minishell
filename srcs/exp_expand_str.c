@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 13:37:50 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/01 17:33:28 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/02 16:49:34 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ static void	get_ready_for_next_env(char **to_be_expanded, char *expanded,
 		*to_be_expanded = expanded;
 		*i = -1;
 	}
-	printf("to_be_expanded = %s\n", *to_be_expanded);
 }
 
 char	*expand_str(char *to_be_expanded, int exit_status, t_env *env_lst,
@@ -88,7 +87,6 @@ char	*expand_str(char *to_be_expanded, int exit_status, t_env *env_lst,
 	char		*env_val;
 	char		*expanded;
 	int			i;
-	int			is_error;
 
 	expanded = NULL;
 	i = -1;
@@ -98,9 +96,7 @@ char	*expand_str(char *to_be_expanded, int exit_status, t_env *env_lst,
 		if (to_be_expanded[i] == '$')
 		{
 			expand_mode = check_expand_mode(expand_mode, to_be_expanded, i);
-			env_key = get_key(&to_be_expanded[i], &is_error);
-			if (is_error)
-				return (NULL);
+			env_key = get_key(&to_be_expanded[i]);
 			env_val = get_val(env_key, exit_status, env_lst, expand_mode);
 			expanded = replace_key_with_val(to_be_expanded,
 					&to_be_expanded[i], env_key, env_val);
