@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:43:25 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/29 18:38:13 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/09/02 16:00:06 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ static void	exec(t_cmds *cmds_info)
 	file = ft_search_path(cmds_info->cmd_args[0], cmds_info->env_lst);
 	if (execve(file, cmds_info->cmd_args, cmds_info->env) == -1)
 	{
-		ft_printf_fd(STDERR_FILENO, "bash: %s: command not found\n", cmds_info->cmd_args[0]);
+		ft_printf_fd(STDERR_FILENO, "bash: %s: command not found\n", \
+			cmds_info->cmd_args[0]);
 		exit(127);
 	}
 }
@@ -42,9 +43,9 @@ void	child_process(int redir_fd[2], t_cmds *cmds_info)
 {
 	int	num;
 
-	dup2(redir_fd[WRITE_END], STDOUT_FILENO); 
+	dup2(redir_fd[WRITE_END], STDOUT_FILENO);
 	if (redir_fd[READ_END] != STDIN_FILENO)
-		dup2(redir_fd[READ_END], STDIN_FILENO); 
+		dup2(redir_fd[READ_END], STDIN_FILENO);
 	if (is_builtin(cmds_info->cmd_args[0]))
 	{
 		num = call_builtin(cmds_info);
@@ -54,7 +55,7 @@ void	child_process(int redir_fd[2], t_cmds *cmds_info)
 		exec(cmds_info);
 }
 
-int		wait_process(pid_t *pid_ary, int num_cmds, int ret)
+int	wait_process(pid_t *pid_ary, int num_cmds, int ret)
 {
 	int		status;
 	int		i;
