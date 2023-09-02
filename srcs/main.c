@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/02 16:27:26 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/09/02 16:44:40 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ int	main(int argc, char **argv, char **env)
 	int		status;
 	t_env	*env_lst;
 
-	test_malloc();
-	/*
 	if (argc != 1)
 		printf("argc != 1\n");
 	argv[0] = NULL;
@@ -72,6 +70,5 @@ int	main(int argc, char **argv, char **env)
 		}
 	}
 	clear_env_lst(&env_lst);
-	*/
 	return (0);
 }

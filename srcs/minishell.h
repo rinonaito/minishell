@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/02 16:41:21 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/09/02 16:42:56 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,6 @@ char	**free_args(char **argv);
 
 //ex_search_path.c
 char    *ft_search_path(const char *filename, t_env *env_lst);
-
 
 /*** SIGNAL ***/
 //signal_set.c
