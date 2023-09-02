@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 13:37:50 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/02 16:49:33 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/02 18:11:56 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,11 @@ char	*get_key(char *doller)
 	char	*start;
 	char	*end;
 	char	*env_key;
-	bool	is_error;
 
 	start = NULL;
 	end = NULL;
-	is_error = false;
 	if (*(doller + 1) == '{')
-		is_error = for_braced_env(&start, &end, doller);
+		for_braced_env(&start, &end, doller);
 	else
 		for_unbraced_env(&start, &end, doller);
 	if (start != NULL && end != NULL && start != end)
