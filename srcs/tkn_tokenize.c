@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 13:03:35 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/01 15:28:30 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/27 20:59:59 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,27 +39,23 @@ static int	is_syntax_error(t_token *head)
 	return (0);
 }
 
-t_token	*tokenize(char *line, int *have_heredoc, int *status)
+t_token	*tokenize(char *line, int *status)
 {	
 	t_token	*head;
+	int		have_heredoc;
 
-	if (ft_strlen(line) == 0)
+	if (line == NULL || ft_strlen(line) == 0)
 		return (NULL);
-	head = make_token_list(line, have_heredoc);
-	if (head == NULL)
-		ft_perror("malloc");
-	if (ft_strlen(head->token) == 0)
+	head = make_token_list(line, &have_heredoc);
+	if (head != NULL)
 	{
-		*status = 0;
-		free(head->token);
-		free(head);
-		return (NULL);
-	}
-	if (is_syntax_error(head) == 1)
-	{
-		ft_printf_fd(2, "bash: syntax error:\n");
-		*status = 258;
-		return (NULL);
+		if (is_syntax_error(head) == 1)
+		{
+			*status = SYNTAX_ERR;
+			ft_lstclear_token(&head);
+		}
+		if (have_heredoc == 1 && *status != SYNTAX_ERR)
+			*status = HEREDOC_MODE;
 	}
 	return (head);
 }

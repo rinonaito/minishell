@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 11:44:51 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/02 16:22:09 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/28 21:37:52 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_token	*ft_lstnew_token(char *token, int type)
 
 	new = malloc(sizeof(t_token));
 	if (new == NULL)
-		ft_perror("malloc");
+		return (NULL);
 	new->token = token;
 	new->type = type;
 	new->heredoc = NULL;

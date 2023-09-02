@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redir_redirection.c                                :+:      :+:    :+:   */
+/*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 10:48:49 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/01 14:33:52 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/29 12:37:38 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,34 +27,34 @@ static void	initialize(int *redir_fd, int *pipe_fd, t_cmds *cmds_info)
 
 static int	set_redir_fd(t_token *param, int *redir_fd, t_cmds *cmds_info)
 {
+	int		have_cmd;
 	char	*tmp_file;
-	int		ret;
 
-	ret = RET_UNSET;
+	have_cmd = 0;
 	while (param != NULL && param->type != TK_PIPE)
 	{
 		if (param->type == TK_WORD)
 		{
-			cmds_info->have_cmd = 1;
+			have_cmd = 1;
 			while (param != NULL && param->type == TK_WORD)
 				param = param->next;
 		}
 		else
 		{
-			tmp_file = call_each_redir(redir_fd, param, &ret);
+			tmp_file = call_each_redir(redir_fd, param);
 			if (tmp_file != NULL)
 				cmds_info->heredoc_file = tmp_file;
 			param = param->next->next;
 		}
 	}
-	return (ret);
+	return (have_cmd);
 }
 
 int	redirect(t_token *param, int *redir_fd, int *pipe_fd, t_cmds *cmds_info)
 {
-	int	ret;
+	int	have_cmd;
 
 	initialize(redir_fd, pipe_fd, cmds_info);
-	ret = set_redir_fd(param, redir_fd, cmds_info);
-	return (ret);
+	have_cmd = set_redir_fd(param, redir_fd, cmds_info);
+	return (have_cmd);
 }

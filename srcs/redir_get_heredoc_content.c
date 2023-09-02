@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 21:20:45 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/01 15:33:20 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/29 16:39:40 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,9 @@ static char	*join_heredoc_lines(char *joined_heredoc, char *new_input)
 		is_first_line = true;
 	else
 		is_first_line = false;
-	input_with_nl = ft_strjoin(new_input, "\n\0");
-	if (input_with_nl == NULL)
-		ft_perror("malloc");
+	input_with_nl = ft_strjoin(new_input, "\n");
 	tmp = joined_heredoc;
 	joined_heredoc = ft_strjoin(joined_heredoc, input_with_nl);
-	if (joined_heredoc == NULL)
-		ft_perror("malloc");
 	free (input_with_nl);
 	if (!is_first_line)
 		free(tmp);
@@ -91,7 +87,7 @@ static void	add_heredoc_to_token_list(t_token *head, char *input)
 	head->heredoc = input;
 }
 
-void	get_heredoc_content(t_token *head, int exit_status, t_env *env_lst)
+int	get_heredoc_content(t_token *head, int status, t_env *env_lst)
 {
 	char	*delimiter;
 	int		is_quoted;
@@ -102,14 +98,14 @@ void	get_heredoc_content(t_token *head, int exit_status, t_env *env_lst)
 	delimiter = get_delimiter(head, &is_quoted);
 	heredoc_content = read_from_heredoc(delimiter);
 	if (!heredoc_content)
-		ft_perror("malloc");
+		return (1);
 	if (!is_quoted)
 	{
-		expanded_content = expand_str(heredoc_content, exit_status, env_lst,
+		expanded_content = expand_str(heredoc_content, status, env_lst,
 				FOR_HEREDOC);
 		if (expanded_content != NULL)
 			heredoc_content = expanded_content;
 	}
 	add_heredoc_to_token_list(head, heredoc_content);
-	return ;
+	return (0);
 }

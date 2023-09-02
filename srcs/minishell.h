@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/02 17:26:21 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/02 15:07:03 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # include <fcntl.h> //for open 
 # include "../libft/libft.h" //for split
 
-extern int	g_signal;
+extern int g_signal;
 
 # define READ_END (0)
 # define WRITE_END (1)
@@ -83,12 +83,11 @@ typedef struct s_cmds{
 	int		num_cmds;
 	int		i;
 	char	*heredoc_file;
-	bool	have_cmd;
 }					t_cmds;
 
 /*** TOKENIZE ***/
 //tkn_tokenize.c
-t_token	*tokenize(char *line, int *is_heredoc, int *status);
+t_token	*tokenize(char *line, int *is_error);
 
 //tkn_get_token.c
 char	*get_token(char **line);
@@ -114,11 +113,10 @@ void	free_syntax_tree(t_tree *root, t_token *head);
 
 /*** EXPANSION ***/
 //exp_expand_list.c
-int		expand_list(t_token **param, int status, t_env *env_lst);
+int	expand_list(t_token **param, int status, t_env *env_lst);
 
 //exp_expand_str.c
-char	*expand_str(char *old_token, int status, t_env *env_lst, \
-		int expand_mode);
+char	*expand_str(char *old_token, int status, t_env *env_lst, int expand_mode);
 
 //exp_remove_quotes.c
 char	*remove_quotes(char *with_quotes);
@@ -156,7 +154,7 @@ int		create_process(t_cmds *cmds_info, t_tree *root);
 void	count_num_cmds(t_tree *root, int *i);
 int		trace_inorder(t_tree *root, t_cmds *cmds_info);
 
-//ex_process.c
+//process.c
 void	child_process(int redir_fd[2], t_cmds *cmds_info);
 void	parent_process(int pipe_fd[2], t_cmds *cmds_info, int pid);
 int		wait_process(pid_t *pid_ary, int num_cmds, int ret);
@@ -164,20 +162,24 @@ int		wait_process(pid_t *pid_ary, int num_cmds, int ret);
 //ft_perror.c
 void    ft_perror(char *message);
 
-//ex_create_cmds.c
-char    **create_cmds(t_tree *root);
+//ft_free.c
 char	**free_args(char **argv);
 
-//ex_search_path.c
+//create_cmds.c
+char    **create_cmds(t_tree *root);
+
+//search_path.c
 char    *ft_search_path(const char *filename, t_env *env_lst);
 
+//builtin.c
+int	is_builtin(char *s);
+int	call_builtin(t_cmds *cmds_info);
+
 /*** SIGNAL ***/
-//signal_set.c
+//signal.c
 void	ft_signal(void);
 void	ft_signal_child(void);
 void	ft_signal_heredoc(void);
-
-//signal_handler.c
 void	signal_handler_int(int signum);
 void	signal_handler_int_child(int signum);
 void	signal_handler_quit_child(int signum);
@@ -189,10 +191,10 @@ void	*rl_quit(void);
 int		redirect(t_token *param, int *redir_fd, int *pipe_fd, t_cmds *cmds_info);
 
 //redir_call_each_redir.c
-char	*call_each_redir(int *redir_fd, t_token *param, int *is_error);
+char	*call_each_redir(int *redir_fd, t_token *param);
 
 //redir_get_heredoc_input.c
-void		get_heredoc_content(t_token *head, int status, t_env *env_lst);
+int		get_heredoc_content(t_token *head, int status, t_env *env_lst);
 
 /*** BUILTINS ***/
 int		builtin_echo(t_cmds *cmds_info);
@@ -203,10 +205,6 @@ int		builtin_env(t_cmds *cmds_info);
 int		builtin_export(t_cmds *cmds_info);
 void	change_val(t_env *same_key_node, char *val);
 int		builtin_unset(t_cmds *cmds_info);
-
-//builtin.c
-int	is_builtin(char *s);
-int	call_builtin(t_cmds *cmds_info);
 
 /*** ENV VARIABLE ***/
 //make_env_lst.c

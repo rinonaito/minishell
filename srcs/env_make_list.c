@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 17:40:58 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/01 15:52:37 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/29 11:23:01 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_env	*ft_lstnew_env(char	*key, char *val)
 
 	new = malloc(sizeof(t_env));
 	if (new == NULL)
-		ft_perror("malloc");
+		return (NULL);
 	new->key = key;
 	new->val = val;
 	new->next = NULL;

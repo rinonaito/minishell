@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 16:28:26 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/01 16:07:46 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/27 16:03:21 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static char	*split_val(char *ifs, char *before_split, char *space_charset)
 
 	after_split = ft_calloc(ft_strlen(before_split) + 1, sizeof(char));
 	if (after_split == NULL)
-		ft_perror("malloc");
+		return (NULL);
 	len_of_beginning = for_the_beginning(space_charset, ifs,
 			after_split, before_split);
 	for_the_rest(space_charset, ifs, &after_split,

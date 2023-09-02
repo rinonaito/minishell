@@ -6,19 +6,24 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 21:42:38 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/01 16:15:24 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/08/28 21:42:09 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+//@func: allocate memory for the node in syntax tree and
+//initiate with type "TK_PIPE"
+//@param:
+//	t_token *token: token with the type "TK_PIPE"
+//@return_val: pionter of the new node 
 static t_tree	*make_node(t_token **token)
 {
 	t_tree	*new_node;
 
 	new_node = malloc(sizeof(t_tree));
 	if (new_node == NULL)
-		ft_perror("malloc");
+		return (NULL);
 	new_node->type = TK_PIPE;
 	new_node->param = NULL;
 	new_node->r_leaf = NULL;
@@ -28,6 +33,12 @@ static t_tree	*make_node(t_token **token)
 	return (new_node);
 }
 
+//@func: put the pointer of right and left leaf in a node
+//@param:
+//	t_tree *node: pointer of the node to complete
+//	t_tree *right: pointer of the right leaf
+//	t_tree *left: pointer of the left leaf
+//@return_val: pointer of the completed node
 static void	complete_node(t_tree **node, t_tree *right, t_tree *left)
 {
 	if (*node == NULL)
@@ -36,6 +47,10 @@ static void	complete_node(t_tree **node, t_tree *right, t_tree *left)
 	(*node)->l_leaf = left;
 }
 
+//@func: allocate memory for the leaf in tree struct and
+//initiate with type "TK_PIPE"
+//@param: pointer of the token with the type non"TK_PIPE"
+//@return_val: pointer of the new leaf
 static t_tree	*make_leaf(t_token **token)
 {
 	t_tree	*new_leaf;
@@ -44,7 +59,7 @@ static t_tree	*make_leaf(t_token **token)
 		return (NULL);
 	new_leaf = malloc(sizeof(t_tree));
 	if (new_leaf == NULL)
-		ft_perror("malloc");
+		return (NULL);
 	new_leaf->type = TK_WORD;
 	new_leaf->param = *token;
 	new_leaf->r_leaf = NULL;
@@ -54,6 +69,10 @@ static t_tree	*make_leaf(t_token **token)
 	return (new_leaf);
 }
 
+//@func: make a syntax tree from the list of token
+//@param: 
+//	t_token *head: head of the token list
+//@return_val: pointer of the top of syntax tree
 t_tree	*make_syntax_tree(t_token *token)
 {
 	t_tree	*node;

@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:16:53 by taaraki           #+#    #+#             */
-/*   Updated: 2023/09/02 16:16:09 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/09/02 16:09:14 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@ int	call_builtin(t_cmds *cmds_info)
 {
 	int	ret;
 
-	if (!cmds_info)
-		return (-1);
 	ret = 0;
 	if (ft_strequ(cmds_info->cmd_args[0], "echo"))
 		ret = builtin_echo(cmds_info);
