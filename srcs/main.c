@@ -40,7 +40,8 @@ int	main(int argc, char **argv, char **env)
 		ft_signal();
 		line = readline("\x1b[1;38;5;122mminishell🐣 \033[0m");
 		if (line == NULL)
-			ft_perror("readline");
+			break ;
+			//ft_perror("readline");
 		if (ft_strlen(line) != 0)
 			add_history(line);
 		if (g_signal == SIGINT)
@@ -50,3 +51,4 @@ int	main(int argc, char **argv, char **env)
 	clear_env_lst(&env_lst);
 	return (0);
 }
+		//printf(" >%s, rl_done:[%d], g_signal:[%d]\n", __func__, rl_done, g_signal);
