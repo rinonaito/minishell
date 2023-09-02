@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 15:53:40 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/01 15:48:39 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/02 20:58:11 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,11 @@ t_token	*make_token_list(char *line, int *have_heredoc)
 	while (ft_strlen(line) != 0)
 	{
 		token = get_token(&line);
-		new = make_node_for_token(token, have_heredoc);
-		ft_lstadd_back_token(&head, new);
+		if (token != NULL)
+		{
+			new = make_node_for_token(token, have_heredoc);
+			ft_lstadd_back_token(&head, new);
+		}
 	}
 	return (head);
 }
