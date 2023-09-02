@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/29 17:12:27 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/01 14:06:53 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,17 +55,17 @@ int	create_process(t_cmds *cmds_info, t_tree *root)
 	int		pipe_fd[2];
 	int		redir_fd[2];
 	t_token	*param;
-	int		have_cmd;
 	int		ret;
 
-	ret = RET_UNSET;
 	if (pipe(pipe_fd) == -1)
 		ft_perror("pipe");
 	param = root->param;
-	have_cmd = redirect(param, redir_fd, pipe_fd, cmds_info);
+	ret = redirect(param, redir_fd, pipe_fd, cmds_info);
+	if (ret == 1)
+		return (1);
 	if (is_builtin(cmds_info->cmd_args[0]) && cmds_info->num_cmds == 1)
 		ret = without_child_process(cmds_info, redir_fd);
-	else if (have_cmd == 1)
+	else if (cmds_info->have_cmd == 1)
 		with_child_process(cmds_info, redir_fd, pipe_fd);
 	unlink(cmds_info->heredoc_file);
 	free(cmds_info->heredoc_file);

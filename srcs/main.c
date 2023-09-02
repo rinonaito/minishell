@@ -5,69 +5,59 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/29 13:38:42 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/02 16:44:40 by taaraki          ###   ########.fr       */
+/*   Created: 2023/09/01 12:09:25 by rnaito            #+#    #+#             */
+/*   Updated: 2023/09/02 17:25:55 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-//#include "debug.h"
 
 int	g_signal = 0;
+
+static void	interpret_line(char *line, t_env *env_lst, int *exit_status,
+			char **env)
+{
+	t_token	*head;
+	t_tree	*root;
+	int		have_heredoc;
+
+	have_heredoc = 0;
+	head = tokenize(line, &have_heredoc, exit_status);
+	free(line);
+	if (head == NULL)
+		return ;
+	if (have_heredoc)
+		get_heredoc_content(head, *exit_status, env_lst);
+	root = make_syntax_tree(head);
+	expand_list(&head, *exit_status, env_lst);
+	trace_tree_entry(root, env, exit_status, env_lst);
+	free_syntax_tree(root, head);
+}
 
 int	main(int argc, char **argv, char **env)
 {
 	char	*line;
-	t_token	*head;
-	t_tree	*root;
-	int		mode;
-	int		status;
+	int		exit_status;
 	t_env	*env_lst;
 
 	if (argc != 1)
 		printf("argc != 1\n");
 	argv[0] = NULL;
-	status = 0;
+	exit_status = 0;
 	env_lst = make_env_lst(env);
+	if (env_lst == NULL)
+		ft_perror("malloc");
 	while (1)
 	{
 		ft_signal();
 		line = readline("\x1b[1;38;5;122mminishell🐣 \033[0m");
 		if (line == NULL)
-			break ;
+			ft_perror("readline");
 		if (ft_strlen(line) != 0)
 			add_history(line);
 		if (g_signal == SIGINT)
-			status = 1;
-		mode = STANDARD;
-		head = tokenize(line, &mode);
-		free(line);
-		if (head == NULL)
-		{
-			if (mode == SYNTAX_ERR)
-				printf("syntax error\n");
-			continue;
-		}
-		if (mode == HEREDOC_MODE)
-		{
-			if (get_heredoc_content(head, mode, env_lst) == 1)
-			{
-				status = 1;
-				continue ;
-			}
-		}
-		if (head != NULL)
-		{
-			root = make_syntax_tree(head);
-			if (expand_list(&head, status, env_lst) != 0)
-			{
-				printf("syntax error\n");
-				status = 1;
-				continue ;
-			}
-			trace_tree_entry(root, env, &status, env_lst);
-			free_syntax_tree(root, head);
-		}
+			exit_status = 1;
+		interpret_line(line, env_lst, &exit_status, env);
 	}
 	clear_env_lst(&env_lst);
 	return (0);

@@ -6,7 +6,7 @@
 #    By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/09 23:45:39 by rnaito            #+#    #+#              #
-#    Updated: 2023/07/27 17:42:24 by taaraki          ###   ########.fr        #
+#    Updated: 2023/09/01 14:41:09 by rnaito           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME	= libft.a
@@ -21,6 +21,7 @@ SRCS	= ft_isalpha.c ft_isdigit.c ft_isalnum.c \
 	ft_substr.c ft_strjoin.c ft_strtrim.c \
 	ft_split.c ft_itoa.c ft_strmapi.c \
 	ft_striteri.c ft_putchar_fd.c ft_putstr_fd.c \
+	ft_strndup.c ft_strequ.c\
 	ft_putendl_fd.c ft_putnbr_fd.c \
 	ft_printf/ft_print_char.c \
 	ft_printf/ft_print_decint.c \

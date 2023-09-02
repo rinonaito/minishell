@@ -1,30 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_my_getenv.c                                    :+:      :+:    :+:   */
+/*   ft_strndup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/07 15:14:22 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/31 12:59:30 by rnaito           ###   ########.fr       */
+/*   Created: 2023/09/01 14:39:14 by rnaito            #+#    #+#             */
+/*   Updated: 2023/09/01 14:41:33 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-char	*my_getenv(char *key, t_env *env_lst)
+char	*ft_strndup(char *str, size_t len)
 {
-	char	*val;
-	t_env	*tmp;
+	char	*new;
+	size_t	i;
 
-	tmp = env_lst;
-	val = NULL;
-	while (env_lst != NULL && val == NULL)
+	if (!str)
+		return (NULL);
+	new = malloc(sizeof(char) * len + 1);
+	if (new == NULL)
+		return (NULL);
+	i = 0;
+	while (str[i] != '\0' && i < len)
 	{
-		if (ft_strequ(env_lst->key, key))
-			val = env_lst->val;
-		env_lst = env_lst->next;
+		new[i] = str[i];
+		i++;
 	}
-	env_lst = tmp;
-	return (val);
+	new[i] = '\0';
+	return (new);
 }
