@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 23:37:47 by taaraki           #+#    #+#             */
-/*   Updated: 2023/08/28 18:39:36 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/09/02 21:21:55 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,8 @@ int		builtin_exit(t_cmds *cmds_info)
 	char	**cmd_args;
 
 	cmd_args = cmds_info->cmd_args;
-	if (!cmd_args)
-		return (-1);
-	if (!cmd_args[1])
-		return (0);
+	if (!cmd_args || !cmd_args[1])
+		exit(0);
 	else if (cmd_args[2])
 	{
 		if (!within_long(cmd_args[1]))
@@ -106,6 +104,5 @@ int		builtin_exit(t_cmds *cmds_info)
 		ft_printf_fd(2, "bash: exit: numeric arguments required\n");
 		exit(255);
 	}
-	else
-		exit(convert_exit_format(cmd_args[1]));
+	exit(convert_exit_format(cmd_args[1]));
 }
