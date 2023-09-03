@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 13:03:35 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/03 15:14:52 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/03 18:06:58 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_token	*tokenize(char *line, int *have_heredoc, int *status)
 		return (NULL);
 	head = make_token_list(line, have_heredoc);
 	if (head == NULL)
-		ft_perror("malloc");
+		return (NULL);
 	if (ft_strlen(head->token) == 0)
 	{
 		*status = 0;
