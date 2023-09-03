@@ -6,13 +6,13 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 23:37:47 by taaraki           #+#    #+#             */
-/*   Updated: 2023/09/02 21:21:55 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/09/03 17:14:47 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	"minishell.h"
 
-static long		ft_atol(char *s)
+static long	ft_atol(char *s)
 {
 	long long	x;
 	long		sign;
@@ -33,14 +33,14 @@ static long		ft_atol(char *s)
 				return (LONG_MIN);
 		}
 		else if (x > LONG_MAX / 10 || (x == LONG_MAX / 10 && *s >= '7'))
-				return (LONG_MAX);
+			return (LONG_MAX);
 		x = x * 10 + (*s - '0');
 		s++;
 	}
 	return (sign * x);
 }
 
-static int		within_long(char *s)
+static int	within_long(char *s)
 {
 	long long	x;
 	long		sign;
@@ -61,14 +61,14 @@ static int		within_long(char *s)
 				return (0);
 		}
 		else if (x > LONG_MAX / 10 || (x == LONG_MAX / 10 && *s > '7'))
-				return (0);
+			return (0);
 		x = x * 10 + (*s - '0');
 		s++;
 	}
 	return (1);
 }
 
-static int		convert_exit_format(char *str)
+static int	convert_exit_format(char *str)
 {
 	long	val;
 
@@ -79,7 +79,7 @@ static int		convert_exit_format(char *str)
 		return (256L + val % 256L);
 }
 
-int		builtin_exit(t_cmds *cmds_info)
+int	builtin_exit(t_cmds *cmds_info)
 {
 	char	**cmd_args;
 
