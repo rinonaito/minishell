@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 15:00:26 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/01 15:40:48 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/02 21:56:12 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	redirect_out_append(int *redir_fd, t_token *param, int type)
 	if (type == TK_APPEND)
 		fd_out = open(filename, O_WRONLY | O_CREAT | O_APPEND, OPEN_MODE);
 	if (fd_out == -1)
-		ft_perror("open");
+		ft_printf_fd(STDERR_FILENO, "minishell: %s: %s\n", filename, strerror(errno));
 	if (redir_fd[WRITE_END] != STDOUT_FILENO)
 		close(redir_fd[WRITE_END]);
 	redir_fd[WRITE_END] = fd_out;

@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 13:03:35 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/02 20:40:30 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/02 21:35:50 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ t_token	*tokenize(char *line, int *have_heredoc, int *status)
 	{
 		ft_printf_fd(2, "bash: syntax error:\n");
 		*status = 258;
+		ft_lstclear_token(&head);
 		return (NULL);
 	}
 	return (head);
