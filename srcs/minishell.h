@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/02 16:48:59 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/03 16:42:13 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include <stdio.h> // for printf
 # include <stdbool.h> // for bool
 # include <string.h> // for strlen
-//# include <sys/types.h> // for t_pid
 # include <unistd.h> // for t_pid
 # include <readline/readline.h> //for readline
 # include <readline/history.h> //for add_history
@@ -26,13 +25,12 @@
 # include <fcntl.h> //for open 
 # include "../libft/libft.h" //for split
 
-extern int g_signal;
+extern int	g_signal;
 
 # define READ_END (0)
 # define WRITE_END (1)
 
 # define STANDARD (0)
-# define SYNTAX_ERR (1)
 # define HEREDOC_MODE (2)
 
 # define OPEN_MODE (0644)
@@ -63,10 +61,10 @@ typedef struct s_token {
 }						t_token;
 
 typedef struct s_tree {
-	t_token_type	type; // for all type
-	struct s_token	*param; // for leaf 
-	struct s_tree	*r_leaf; // for node
-	struct s_tree	*l_leaf; // for node
+	t_token_type	type;
+	struct s_token	*param;
+	struct s_tree	*r_leaf;
+	struct s_tree	*l_leaf;
 }						t_tree;
 
 typedef struct s_env {
@@ -114,10 +112,11 @@ void	free_syntax_tree(t_tree *root, t_token *head);
 
 /*** EXPANSION ***/
 //exp_expand_list.c
-int	expand_list(t_token **param, int status, t_env *env_lst);
+int		expand_list(t_token **param, int status, t_env *env_lst);
 
 //exp_expand_str.c
-char	*expand_str(char *old_token, int status, t_env *env_lst, int expand_mode);
+char	*expand_str(char *old_token, int status, t_env *env_lst,
+			int expand_mode);
 
 //exp_remove_quotes.c
 char	*remove_quotes(char *with_quotes);
@@ -126,10 +125,11 @@ char	*remove_quotes_if_needed(char *env_expanded, int expand_mode);
 //exp_expand_str_utils.c
 char	*get_key(char *doller);
 char	*get_val(char *env_key, int exit_status, t_env *env_lst,
-		int expand_mode);
+			int expand_mode);
 
 //exp_replace_key_with_val_utils.c
-char	*replace_key_with_val(char *old_token, char *doller, char *env_key, char *env_val);
+char	*replace_key_with_val(char *old_token, char *doller,
+			char *env_key, char *env_val);
 
 //exp_word_split.c
 int		ft_split_with_ifs(char *space_char, char **old, size_t *i, char *new);
@@ -161,20 +161,20 @@ void	parent_process(int pipe_fd[2], t_cmds *cmds_info, int pid);
 int		wait_process(pid_t *pid_ary, int num_cmds, int ret);
 
 //ft_perror.c
-void    ft_perror(char *message);
+void	ft_perror(char *message);
 
 //ft_free.c
 char	**free_args(char **argv);
 
 //create_cmds.c
-char    **create_cmds(t_tree *root);
+char	**create_cmds(t_tree *root);
 
 //search_path.c
-char    *ft_search_path(const char *filename, t_env *env_lst);
+char	*ft_search_path(const char *filename, t_env *env_lst);
 
 //builtin.c
-int	is_builtin(char *s);
-int	call_builtin(t_cmds *cmds_info);
+int		is_builtin(char *s);
+int		call_builtin(t_cmds *cmds_info);
 
 /*** SIGNAL ***/
 //signal.c
@@ -189,13 +189,14 @@ void	*rl_quit(void);
 
 /*** REDIRECTION ***/
 //redir_redirection.c
-int		redirect(t_token *param, int *redir_fd, int *pipe_fd, t_cmds *cmds_info);
+int		redirect(t_token *param, int *redir_fd, int *pipe_fd,
+			t_cmds *cmds_info);
 
 //redir_call_each_redir.c
 char	*call_each_redir(int *redir_fd, t_token *param, int *is_error);
 
 //redir_get_heredoc_input.c
-void		get_heredoc_content(t_token *head, int status, t_env *env_lst);
+void	get_heredoc_content(t_token *head, int status, t_env *env_lst);
 
 /*** BUILTINS ***/
 int		builtin_echo(t_cmds *cmds_info);

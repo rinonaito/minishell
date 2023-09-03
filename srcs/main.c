@@ -40,7 +40,7 @@ int	main(int argc, char **argv, char **env)
 		ft_signal();
 		line = readline("\x1b[1;38;5;122mminishell🐣 \033[0m");
 		if (line == NULL)
-			ft_perror("readline");
+			exit(1);
 		if (ft_strlen(line) != 0)
 			add_history(line);
 		if (g_signal == SIGINT)
