@@ -28,8 +28,7 @@ int	main(int argc, char **argv, char **env)
 	int		exit_status;
 	t_env	*env_lst;
 
-	if (argc != 1)
-		ft_printf_fd(2, "minishell: %s: No such file or directory\n", argv[1]);
+	argc = 42;
 	argv[0] = NULL;
 	exit_status = 0;
 	env_lst = make_env_lst(env);
