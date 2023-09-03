@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 16:56:35 by taaraki           #+#    #+#             */
-/*   Updated: 2023/09/03 17:38:50 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/09/03 20:44:05 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	ft_printf_fd(int fd, const char *s, ...)
 			else if (*s == '%')
 				continue ;
 		}
-		write(1, s++, 1);
+		write(fd, s++, 1);
 		i++;
 	}
 	va_end(ap);
