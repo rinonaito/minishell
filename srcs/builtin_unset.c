@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 13:01:07 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/03 15:02:41 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/03 21:11:08 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,28 +31,36 @@ void	ft_lstdelone_env(t_env *env_lst, t_env *node)
 	env_lst = tmp;
 }
 
+static void	for_wrong_key(t_cmds *cmds_info, int i, int *ret)
+{
+	ft_printf_fd(2, "minishell: %s: `%s': not a valid identifier\n",
+		cmds_info->cmd_args[0], cmds_info->cmd_args[i]);
+	*ret = 1;
+}
+
 int	builtin_unset(t_cmds *cmds_info)
 {
 	size_t	i;
 	char	*key;
 	t_env	*same_key_node;
+	int		ret;
 
+	ret = 0;
 	if (cmds_info->cmd_args[1] == NULL)
-		return (0);
+		return (ret);
 	i = 1;
 	while ((cmds_info->cmd_args[i] != NULL))
 	{
 		key = cmds_info->cmd_args[i];
 		if (is_wrong_key_name(key) == 1)
+			for_wrong_key(cmds_info, i, &ret);
+		else
 		{
-			ft_printf_fd(2, "minishell: %s: `%s': not a valid identifier\n",
-				cmds_info->cmd_args[0], cmds_info->cmd_args[1]);
-			return (1);
+			same_key_node = search_same_key(cmds_info->env_lst, key);
+			if (same_key_node != NULL)
+				ft_lstdelone_env(cmds_info->env_lst, same_key_node);
 		}
-		same_key_node = search_same_key(cmds_info->env_lst, key);
-		if (same_key_node != NULL)
-			ft_lstdelone_env(cmds_info->env_lst, same_key_node);
 		i++;
 	}
-	return (0);
+	return (ret);
 }
