@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 16:56:35 by taaraki           #+#    #+#             */
-/*   Updated: 2023/09/03 21:26:00 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/09/03 21:39:05 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,11 @@ static void	pass_arg(int fd, va_list *ap, char c, int *index)
 	else if (c == 'u')
 		*index += ft_putuint(fd, va_arg(*ap, unsigned int));
 	else if (c == 'x')
-		*index += ft_print_hex_l(fd, (unsigned long long)va_arg(*ap, unsigned int));
+		*index += ft_print_hex_l(fd, (unsigned long long)va_arg(*ap,
+					unsigned int));
 	else if (c == 'X')
-		*index += ft_print_hex_u(fd, (unsigned long long)va_arg(*ap, unsigned int));
+		*index += ft_print_hex_u(fd, (unsigned long long)va_arg(*ap,
+					unsigned int));
 	else if (c == '%')
 		*index += write_percent(fd);
 }
