@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 23:37:47 by taaraki           #+#    #+#             */
-/*   Updated: 2023/09/03 17:14:47 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/09/03 21:20:53 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static int	convert_exit_format(char *str)
 		return (256L + val % 256L);
 }
 
-int	builtin_exit(t_cmds *cmds_info)
+void	builtin_exit(t_cmds *cmds_info)
 {
 	char	**cmd_args;
 
@@ -90,18 +90,18 @@ int	builtin_exit(t_cmds *cmds_info)
 	{
 		if (!within_long(cmd_args[1]))
 		{
-			ft_printf_fd(2, "bash: exit: numeric arguments required\n");
+			ft_printf_fd(2, "minishell: exit: numeric arguments required\n");
 			exit(255);
 		}
 		else
 		{
-			ft_printf_fd(2, "bash: exit: too many arguments\n");
-			exit(1);
+			ft_printf_fd(2, "minishell: exit: too many arguments\n");
+			return ;
 		}
 	}
 	else if (!within_long(cmd_args[1]))
 	{
-		ft_printf_fd(2, "bash: exit: numeric arguments required\n");
+		ft_printf_fd(2, "minishell: exit: numeric arguments required\n");
 		exit(255);
 	}
 	exit(convert_exit_format(cmd_args[1]));
