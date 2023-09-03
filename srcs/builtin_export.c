@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 15:18:14 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/30 14:35:28 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/03 15:02:13 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ int	builtin_export(t_cmds *cmds_info)
 		key = get_key_for_env_list(cmds_info->cmd_args[i], &val_start);
 		if (is_wrong_key_name(key) == 1)
 		{
+			ft_printf_fd(2, "minishell: %s: `%s': not a valid identifier\n",
+				cmds_info->cmd_args[0], cmds_info->cmd_args[1]);
 			free(key);
 			return (1);
 		}

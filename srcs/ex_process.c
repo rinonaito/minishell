@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:43:25 by taaraki           #+#    #+#             */
-/*   Updated: 2023/09/03 17:18:02 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/09/03 17:27:35 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	wait_process(pid_t *pid_ary, int num_cmds, int ret)
 		waitpid(pid_ary[i], &status, 0);
 		i++;
 	}
-	if (ret != RET_UNSET)
+	if (ret != RET_UNSET && status == 0)
 		status = ret;
 	else if (WIFEXITED(status))
 	{

@@ -28,8 +28,7 @@ int	main(int argc, char **argv, char **env)
 	int		exit_status;
 	t_env	*env_lst;
 
-	if (argc != 1)
-		ft_printf_fd();
+	argc = 42;
 	argv[0] = NULL;
 	exit_status = 0;
 	env_lst = make_env_lst(env);
@@ -40,7 +39,7 @@ int	main(int argc, char **argv, char **env)
 		ft_signal();
 		line = readline("\x1b[1;38;5;122mminishell🐣 \033[0m");
 		if (line == NULL)
-			ft_perror("readline");
+			exit(1);
 		if (ft_strlen(line) != 0)
 			add_history(line);
 		if (g_signal == SIGINT)

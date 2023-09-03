@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 13:03:35 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/01 15:28:30 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/03 15:14:52 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ static int	is_syntax_error(t_token *head)
 		if (head->type >= TK_REDIR_IN && head->type <= TK_HEREDOC)
 		{
 			if (head->next == NULL)
-				return (1);
+				return (2);
 			if (head->next->type != TK_WORD)
-				return (1);
+				return (2);
 			if (*(head->next->token) == '\0')
-				return (1);
+				return (2);
 		}
 		head = head->next;
 	}
@@ -55,10 +55,11 @@ t_token	*tokenize(char *line, int *have_heredoc, int *status)
 		free(head);
 		return (NULL);
 	}
-	if (is_syntax_error(head) == 1)
+	if (is_syntax_error(head))
 	{
-		ft_printf_fd(2, "bash: syntax error:\n");
+		ft_printf_fd(2, "minishell: syntax error\n");
 		*status = 258;
+		ft_lstclear_token(&head);
 		return (NULL);
 	}
 	return (head);

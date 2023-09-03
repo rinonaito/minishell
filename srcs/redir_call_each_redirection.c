@@ -6,13 +6,13 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 15:00:26 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/01 15:40:48 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/03 17:11:43 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	"minishell.h"
 
-static void	redirect_out_append(int *redir_fd, t_token *param, int type)
+static int	redirect_out_append(int *redir_fd, t_token *param, int type)
 {
 	int			fd_out;
 	char		*filename;
@@ -23,10 +23,15 @@ static void	redirect_out_append(int *redir_fd, t_token *param, int type)
 	if (type == TK_APPEND)
 		fd_out = open(filename, O_WRONLY | O_CREAT | O_APPEND, OPEN_MODE);
 	if (fd_out == -1)
-		ft_perror("open");
+	{
+		ft_printf_fd(STDERR_FILENO, "minishell: %s: %s\n",
+			filename, strerror(errno));
+		return (1);
+	}
 	if (redir_fd[WRITE_END] != STDOUT_FILENO)
 		close(redir_fd[WRITE_END]);
 	redir_fd[WRITE_END] = fd_out;
+	return (0);
 }
 
 static int	redirect_in(int *redir_fd, t_token *param)
@@ -39,7 +44,7 @@ static int	redirect_in(int *redir_fd, t_token *param)
 	if (fd_in == -1)
 	{
 		ft_printf_fd(STDERR_FILENO,
-			"minishell: %s: No such file or directory\n", filename);
+			"minishell: %s: %s\n", filename, strerror(errno));
 		return (1);
 	}
 	if (redir_fd[READ_END] != STDIN_FILENO)
@@ -98,7 +103,7 @@ char	*call_each_redir(int *redir_fd, t_token *param, int *is_error)
 	if (param->type == TK_REDIR_IN)
 		*is_error = redirect_in(redir_fd, param);
 	if (param->type == TK_REDIR_OUT)
-		redirect_out_append(redir_fd, param, TK_REDIR_OUT);
+		*is_error = redirect_out_append(redir_fd, param, TK_REDIR_OUT);
 	if (param->type == TK_HEREDOC)
 		filename = heredoc(redir_fd, param);
 	if (param->type == TK_APPEND)
