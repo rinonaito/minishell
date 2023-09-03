@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 10:48:49 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/02 21:56:13 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/03 16:34:27 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	set_redir_fd(t_token *param, int *redir_fd, t_cmds *cmds_info)
 	int		ret;
 
 	ret = RET_UNSET;
-	while (param != NULL && param->type != TK_PIPE)
+	while (param != NULL && param->type != TK_PIPE && ret == RET_UNSET)
 	{
 		if (param->type == TK_WORD)
 		{
