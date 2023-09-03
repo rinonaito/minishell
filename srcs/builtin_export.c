@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 15:18:14 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/03 15:02:13 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/03 21:09:44 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,31 +50,38 @@ static void	change_env_list(t_env *same_key_node, t_env **env_list, char *key,
 	}
 }
 
+static void	for_wrong_key(t_cmds *cmds_info, int i, int *ret, char *key)
+{
+	ft_printf_fd(2, "minishell: %s: `%s': not a valid identifier\n",
+		cmds_info->cmd_args[0], cmds_info->cmd_args[i]);
+	free(key);
+	*ret = 1;
+}
+
 int	builtin_export(t_cmds *cmds_info)
 {
 	char	*key;
 	char	*val;
-	char	*val_start;
 	t_env	*same_key_node;
 	size_t	i;
+	int		ret;
 
 	if (cmds_info->cmd_args[1] == NULL)
 		return (print_env(cmds_info->env_lst));
+	ret = 0;
 	i = 1;
 	while ((cmds_info->cmd_args)[i] != NULL)
 	{
-		key = get_key_for_env_list(cmds_info->cmd_args[i], &val_start);
+		key = get_key_for_env_list(cmds_info->cmd_args[i], &val);
 		if (is_wrong_key_name(key) == 1)
+			for_wrong_key(cmds_info, i, &ret, key);
+		else
 		{
-			ft_printf_fd(2, "minishell: %s: `%s': not a valid identifier\n",
-				cmds_info->cmd_args[0], cmds_info->cmd_args[1]);
-			free(key);
-			return (1);
+			val = get_val_for_env_list(val);
+			same_key_node = search_same_key(cmds_info->env_lst, key);
+			change_env_list(same_key_node, &(cmds_info->env_lst), key, val);
 		}
-		val = get_val_for_env_list(val_start);
-		same_key_node = search_same_key(cmds_info->env_lst, key);
-		change_env_list(same_key_node, &(cmds_info->env_lst), key, val);
 		i++;
 	}
-	return (0);
+	return (ret);
 }
