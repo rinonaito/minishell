@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 20:59:38 by taaraki           #+#    #+#             */
-/*   Updated: 2023/09/02 21:22:54 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/09/03 22:34:09 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ void	signal_handler_quit_child(int signum)
 {
 	if (signum == SIGQUIT)
 	{
-		ft_printf_fd(STDERR_FILENO, "Quit: %d\n", g_signal);
 		g_signal = SIGQUIT;
+		ft_printf_fd(STDERR_FILENO, "Quit: %d\n", g_signal);
 	}
 }
 
