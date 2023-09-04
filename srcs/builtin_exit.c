@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 23:37:47 by taaraki           #+#    #+#             */
-/*   Updated: 2023/09/03 21:20:53 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/09/04 12:13:04 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,16 +81,14 @@ static int	convert_exit_format(char *str)
 
 void	builtin_exit(t_cmds *cmds_info)
 {
-	char	**cmd_args;
-
-	cmd_args = cmds_info->cmd_args;
-	if (!cmd_args || !cmd_args[1])
+	if (!cmds_info->cmd_args || !cmds_info->cmd_args[1])
 		exit(0);
-	else if (cmd_args[2])
+	else if (cmds_info->cmd_args[2])
 	{
-		if (!within_long(cmd_args[1]))
+		if (!within_long(cmds_info->cmd_args[1]))
 		{
-			ft_printf_fd(2, "minishell: exit: numeric arguments required\n");
+			ft_printf_fd(2, "minishell: exit: %s: numeric arguments required\n",
+				cmds_info->cmd_args[1]);
 			exit(255);
 		}
 		else
@@ -99,10 +97,11 @@ void	builtin_exit(t_cmds *cmds_info)
 			return ;
 		}
 	}
-	else if (!within_long(cmd_args[1]))
+	else if (!within_long(cmds_info->cmd_args[1]))
 	{
-		ft_printf_fd(2, "minishell: exit: numeric arguments required\n");
+		ft_printf_fd(2, "minishell: exit: %s: numeric arguments required\n",
+			cmds_info->cmd_args[1]);
 		exit(255);
 	}
-	exit(convert_exit_format(cmd_args[1]));
+	exit(convert_exit_format(cmds_info->cmd_args[1]));
 }
