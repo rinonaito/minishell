@@ -6,25 +6,52 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 19:55:33 by taaraki           #+#    #+#             */
-/*   Updated: 2023/09/04 19:58:23 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/09/04 20:50:43 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	"minishell.h"
 
-static int	relative_path(char *path, char *buff_cwd)
+//*** /Users/taaraki/../taaraki/Documents/../../
+static char	*parse_full_path(char *full_path)
+{
+	char	*new_path;
+
+	printf(">>%s\n", __func__);
+	printf(" full_path:[%s]\n", full_path);
+
+	free(full_path);
+	full_path = NULL;
+	return (new_path);
+}
+
+static int	relative_path(char *path, char *buff_cwd, t_cmds *cmds_info)
 {
 	char	*full_path;
 	char	*temp;
 	int		ret;
 
+	printf(">>%s\n", __func__);
 	ft_memset(buff_cwd, '\0', PATH_MAX);
-	if (!getcwd(buff_cwd, PATH_MAX))
-		return (-1);
+	char *cwd = getcwd(buff_cwd, PATH_MAX);
+	printf(" cwd:[%s]\n", cwd);
+	//if (!getcwd(buff_cwd, PATH_MAX))
+	if (!cwd)
+	{
+		cwd = my_getenv("PWD", cmds_info->env_lst);
+		printf(" PWD:[%s]\n", cwd);
+		ft_strlcpy(buff_cwd, cwd, PATH_MAX);
+	}
 	full_path = ft_strjoin(buff_cwd, "/");
 	temp = full_path;
 	full_path = ft_strjoin(full_path, path);
+	//
+	full_path = parse_full_path(full_path);
+	/******************/
+	printf(" full_path:[%s]\n", full_path);
 	ret = chdir(full_path);
+	printf(" after chdir: [%d]\n", ret);
+	/******************/
 	free(temp);
 	free(full_path);
 	temp = NULL;
@@ -106,7 +133,7 @@ int	builtin_cd(t_cmds *cmds_info)
 		if (cmd_args[1][0] == '/')
 			ret = absolute_path(cmd_args[1]);
 		else
-			ret = relative_path(cmd_args[1], buff_cwd);
+			ret = relative_path(cmd_args[1], buff_cwd, cmds_info);
 	}
 	update_env(cmds_info, buff_cwd, "PWD");
 	if (ret == -1)
