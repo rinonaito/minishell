@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 15:53:40 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/03 18:05:50 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/04 16:20:40 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,18 @@ t_token	*make_token_list(char *line, int *have_heredoc)
 
 	*have_heredoc = 0;
 	head = NULL;
-	while (ft_strlen(line) != 0)
+	while (line != NULL && ft_strlen(line) != 0)
 	{
 		token = get_token(&line);
 		if (token != NULL)
 		{
 			new = make_node_for_token(token, have_heredoc);
 			ft_lstadd_back_token(&head, new);
+		}
+		else
+		{
+			ft_lstclear_token(&head);
+			ft_printf_fd(2, "minishell: syntax error\n");
 		}
 	}
 	return (head);
