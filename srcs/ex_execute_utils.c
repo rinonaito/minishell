@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/09/04 17:07:54 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/09/04 17:25:35 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	without_child_process(t_cmds *cmds_info, int *redir_fd, int status)
 	original_out = dup(STDOUT_FILENO);
 	dup2(redir_fd[READ_END], STDIN_FILENO);
 	dup2(redir_fd[WRITE_END], STDOUT_FILENO);
-	ret = call_builtin(cmds_info, status);
+	ret = call_builtin(cmds_info, status, true);
 	if (redir_fd[READ_END] != STDIN_FILENO)
 		close(redir_fd[READ_END]);
 	if (redir_fd[WRITE_END] != STDOUT_FILENO)
