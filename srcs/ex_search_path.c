@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:33:54 by taaraki           #+#    #+#             */
-/*   Updated: 2023/09/04 10:39:13 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/09/04 16:23:52 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,23 @@ static char	*exist_absolute_path(const char *filename)
 	if (access(filename, F_OK | X_OK) == 0)
 		return ((char *)filename);
 	return (NULL);
+}
+
+static char	*relative_path(const char *filename)
+{
+	char	buff_cwd[PATH_MAX];
+	char	*full_path;
+	char	*temp;
+
+	ft_memset(buff_cwd, '\0', PATH_MAX);
+	if (!getcwd(buff_cwd, PATH_MAX))
+		return (NULL);
+	full_path = ft_strjoin(buff_cwd, "/");
+	temp = full_path;
+	full_path = ft_strjoin(full_path, filename);
+	free(temp);
+	temp = NULL;
+	return ((char *)full_path);
 }
 
 //@func: get the path name in the form of "/path/cmd"
@@ -63,5 +80,8 @@ char	*ft_search_path(const char *filename, t_env *env_lst)
 			return (ft_strdup(path));
 		value = end + 1;
 	}
+	value = relative_path(filename);
+	if (access(value, F_OK | X_OK) == 0)
+		return (value);
 	return (NULL);
 }

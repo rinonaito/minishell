@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:16:53 by taaraki           #+#    #+#             */
-/*   Updated: 2023/09/03 20:48:03 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/09/04 17:21:54 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	is_builtin(char *s)
 	return (0);
 }
 
-int	call_builtin(t_cmds *cmds_info)
+int	call_builtin(t_cmds *cmds_info, int status, bool without_child)
 {
 	int	ret;
 
@@ -52,7 +52,7 @@ int	call_builtin(t_cmds *cmds_info)
 		ret = builtin_unset(cmds_info);
 	else if (ft_strequ(cmds_info->cmd_args[0], "exit"))
 	{
-		builtin_exit(cmds_info);
+		builtin_exit(cmds_info, status, without_child);
 		ret = 1;
 	}
 	return (ret);

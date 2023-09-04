@@ -6,13 +6,13 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/09/03 16:35:46 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/04 17:25:35 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	"minishell.h"
 
-int	without_child_process(t_cmds *cmds_info, int *redir_fd)
+int	without_child_process(t_cmds *cmds_info, int *redir_fd, int status)
 {
 	int	original_in;
 	int	original_out;
@@ -22,7 +22,7 @@ int	without_child_process(t_cmds *cmds_info, int *redir_fd)
 	original_out = dup(STDOUT_FILENO);
 	dup2(redir_fd[READ_END], STDIN_FILENO);
 	dup2(redir_fd[WRITE_END], STDOUT_FILENO);
-	ret = call_builtin(cmds_info);
+	ret = call_builtin(cmds_info, status, true);
 	if (redir_fd[READ_END] != STDIN_FILENO)
 		close(redir_fd[READ_END]);
 	if (redir_fd[WRITE_END] != STDOUT_FILENO)
@@ -50,7 +50,7 @@ void	with_child_process(t_cmds *cmds_info, int *redir_fd, int *pipe_fd)
 //@return_val:
 //		 exit status of wait process		
 //static void	create_process(t_cmds *cmds_info, t_tree *root)
-int	create_process(t_cmds *cmds_info, t_tree *root)
+int	create_process(t_cmds *cmds_info, t_tree *root, int status)
 {
 	int		pipe_fd[2];
 	int		redir_fd[2];
@@ -64,7 +64,7 @@ int	create_process(t_cmds *cmds_info, t_tree *root)
 	if (ret == 1)
 		return (1);
 	if (is_builtin(cmds_info->cmd_args[0]) && cmds_info->num_cmds == 1)
-		ret = without_child_process(cmds_info, redir_fd);
+		ret = without_child_process(cmds_info, redir_fd, status);
 	else if (cmds_info->have_cmd == 1)
 		with_child_process(cmds_info, redir_fd, pipe_fd);
 	unlink(cmds_info->heredoc_file);
@@ -85,21 +85,21 @@ void	count_num_cmds(t_tree *root, int *i)
 }
 
 //@func: trace the tree structure and create processes
-int	trace_inorder(t_tree *root, t_cmds *cmds_info)
+int	trace_inorder(t_tree *root, t_cmds *cmds_info, int status)
 {
 	int	ret;
 
 	ret = RET_UNSET;
 	if (root == NULL)
 		return (ret);
-	trace_inorder(root->l_leaf, cmds_info);
+	trace_inorder(root->l_leaf, cmds_info, status);
 	if (root->type != TK_PIPE)
 	{
 		cmds_info->i += 1;
 		cmds_info->cmd_args = create_cmds(root);
-		ret = create_process(cmds_info, root);
+		ret = create_process(cmds_info, root, status);
 		cmds_info->cmd_args = free_args(cmds_info->cmd_args);
 	}
-	trace_inorder(root->r_leaf, cmds_info);
+	trace_inorder(root->r_leaf, cmds_info, status);
 	return (ret);
 }
