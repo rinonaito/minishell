@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 19:55:33 by taaraki           #+#    #+#             */
-/*   Updated: 2023/09/04 20:50:43 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/09/04 21:06:58 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,15 @@
 //*** /Users/taaraki/../taaraki/Documents/../../
 static char	*parse_full_path(char *full_path)
 {
-	char	*new_path;
+	//char	*new_path = NULL;
 
-	printf(">>%s\n", __func__);
-	printf(" full_path:[%s]\n", full_path);
+	//printf(">>%s\n", __func__);
+	//printf(" full_path:[%s]\n", full_path);
 
-	free(full_path);
-	full_path = NULL;
-	return (new_path);
+	//free(full_path);
+	//full_path = NULL;
+	//return (new_path);
+	return (full_path);
 }
 
 static int	relative_path(char *path, char *buff_cwd, t_cmds *cmds_info)
@@ -31,10 +32,10 @@ static int	relative_path(char *path, char *buff_cwd, t_cmds *cmds_info)
 	char	*temp;
 	int		ret;
 
-	printf(">>%s\n", __func__);
+	//printf(">>%s\n", __func__);
 	ft_memset(buff_cwd, '\0', PATH_MAX);
 	char *cwd = getcwd(buff_cwd, PATH_MAX);
-	printf(" cwd:[%s]\n", cwd);
+	//printf(" cwd:[%s]\n", cwd);
 	//if (!getcwd(buff_cwd, PATH_MAX))
 	if (!cwd)
 	{
@@ -48,9 +49,9 @@ static int	relative_path(char *path, char *buff_cwd, t_cmds *cmds_info)
 	//
 	full_path = parse_full_path(full_path);
 	/******************/
-	printf(" full_path:[%s]\n", full_path);
+	//printf(" full_path:[%s]\n", full_path);
 	ret = chdir(full_path);
-	printf(" after chdir: [%d]\n", ret);
+	//printf(" after chdir: [%d]\n", ret);
 	/******************/
 	free(temp);
 	free(full_path);
