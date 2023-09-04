@@ -6,29 +6,32 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 13:01:07 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/03 21:11:08 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/04 17:22:10 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_lstdelone_env(t_env *env_lst, t_env *node)
+static void	ft_lstdelone_env(t_env **env_lst, t_env *node)
 {
 	t_env	*tmp;
 
-	tmp = env_lst;
-	while (env_lst->next != node)
+	if (*env_lst == node)
+		tmp = (*env_lst)->next;
+	else
 	{
-		env_lst = env_lst->next;
+		tmp = *env_lst;
+		while ((*env_lst)->next != node)
+			*env_lst = (*env_lst)->next;
+		(*env_lst)->next = node->next;
 	}
-	env_lst->next = node->next;
 	free (node->key);
 	node->key = NULL;
 	free (node->val);
 	node->val = NULL;
 	node->next = NULL;
 	free(node);
-	env_lst = tmp;
+	*env_lst = tmp;
 }
 
 static void	for_wrong_key(t_cmds *cmds_info, int i, int *ret)
@@ -58,7 +61,7 @@ int	builtin_unset(t_cmds *cmds_info)
 		{
 			same_key_node = search_same_key(cmds_info->env_lst, key);
 			if (same_key_node != NULL)
-				ft_lstdelone_env(cmds_info->env_lst, same_key_node);
+				ft_lstdelone_env(&(cmds_info->env_lst), same_key_node);
 		}
 		i++;
 	}
