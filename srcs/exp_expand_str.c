@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 13:37:50 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/02 21:30:06 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/04 11:57:18 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ static int	get_len_of_quoted_str(char *to_be_checked, int *expand_mode)
 	if (*expand_mode != FOR_HEREDOC && *to_be_checked == '\'')
 	{
 		closing_quote = skip_to_closing_quote(to_be_checked);
-		len_of_quoted_str = closing_quote - to_be_checked;
+		if (closing_quote == NULL)
+			len_of_quoted_str = 1;
+		else
+			len_of_quoted_str = closing_quote - to_be_checked;
 	}
 	return (len_of_quoted_str);
 }
