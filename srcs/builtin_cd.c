@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 19:55:33 by taaraki           #+#    #+#             */
-/*   Updated: 2023/09/03 21:19:30 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/09/04 19:58:23 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,25 @@ static int	update_env(t_cmds *cmds_info, char *buff_cwd, char *pwd)
 	return (0);
 }
 
+static int	cd_to_home(t_cmds *cmds_info)
+{
+	char	*home;
+	int		ret;
+
+	home = my_getenv("HOME", cmds_info->env_lst);
+	ret = chdir(home);
+	if (ret == -1)
+	{
+		if (!home)
+			ft_printf_fd(STDERR_FILENO, "minishell: cd: HOME not set\n");
+		else
+			ft_printf_fd(STDERR_FILENO, "minishell: cd: %s: %s\n",
+				home, strerror(errno));
+		ret = 1;
+	}
+	return (ret);
+}
+
 /*** 1. if 2nd element is null, go to home directory ***/
 /*** 2. if absolute path is given just call chdir() ***/
 /*** 3. if relative path is given, strjoin cwd with path given ***/
@@ -81,7 +100,7 @@ int	builtin_cd(t_cmds *cmds_info)
 	cmd_args = cmds_info->cmd_args;
 	update_env(cmds_info, buff_cwd, "OLDPWD");
 	if (!cmd_args[1])
-		ret = chdir(my_getenv("HOME", cmds_info->env_lst));
+		return (cd_to_home(cmds_info));
 	else
 	{
 		if (cmd_args[1][0] == '/')
@@ -92,8 +111,7 @@ int	builtin_cd(t_cmds *cmds_info)
 	update_env(cmds_info, buff_cwd, "PWD");
 	if (ret == -1)
 	{
-		ft_printf_fd(STDERR_FILENO, "minishell: %s: %s: %s\n", \
-				cmd_args[0], strerror(errno), cmd_args[1]);
+		ft_printf_fd(2, "minishell: cd: %s: %s\n", cmd_args[1], strerror(errno));
 		ret = 1;
 	}
 	return (ret);
