@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:43:25 by taaraki           #+#    #+#             */
-/*   Updated: 2023/09/03 17:27:35 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/09/04 17:30:06 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	child_process(int redir_fd[2], t_cmds *cmds_info)
 		dup2(redir_fd[READ_END], STDIN_FILENO);
 	if (is_builtin(cmds_info->cmd_args[0]))
 	{
-		num = call_builtin(cmds_info);
+		num = call_builtin(cmds_info, 0, false);
 		exit(num);
 	}
 	else
