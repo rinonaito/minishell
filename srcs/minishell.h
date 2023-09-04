@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/03 20:47:29 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/09/04 17:06:08 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,8 @@ int		ft_strequ(const char *s1, const char *s2);
 
 /*** EXECUTION ***/
 //ex_execute.c
-void	trace_tree_entry(t_tree *root, char **env, int *status, t_env *env_lst);
+t_env	*trace_tree_entry(t_tree *root, char **env, int *status,
+			t_env *env_lst);
 
 //ex_execute_utils.c
 int		without_child_process(t_cmds *cmds_info, int *redir_fd);

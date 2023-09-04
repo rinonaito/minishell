@@ -6,13 +6,13 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/09/03 16:37:15 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/04 17:04:33 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	"minishell.h"
 
-void	trace_tree_entry(t_tree *root, char **env, int *status, t_env *env_lst)
+t_env	*trace_tree_entry(t_tree *root, char **env, int *status, t_env *env_lst)
 {
 	t_cmds	cmds_info;
 	int		tmp_fdin;
@@ -22,7 +22,7 @@ void	trace_tree_entry(t_tree *root, char **env, int *status, t_env *env_lst)
 	count_num_cmds(root, &(cmds_info.num_cmds));
 	cmds_info.pid_ary = malloc(sizeof(pid_t) * cmds_info.num_cmds);
 	if (!cmds_info.pid_ary)
-		return ;
+		return (NULL);
 	tmp_fdin = dup(STDIN_FILENO);
 	cmds_info.i = 0;
 	cmds_info.env = env;
@@ -34,4 +34,5 @@ void	trace_tree_entry(t_tree *root, char **env, int *status, t_env *env_lst)
 	close(tmp_fdin);
 	*status = wait_process(cmds_info.pid_ary, cmds_info.num_cmds, ret);
 	free (cmds_info.pid_ary);
+	return (cmds_info.env_lst);
 }
