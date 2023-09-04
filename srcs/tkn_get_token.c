@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 12:55:59 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/04 11:55:04 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/04 17:29:02 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static char	*get_token_start(char *line)
 	return (&line[i]);
 }
 
-char	*get_token(char **line)
+char	*get_token(char **line, int *is_error)
 {
 	char	*token_start;
 	char	*token_end;
@@ -47,6 +47,12 @@ char	*get_token(char **line)
 	token = NULL;
 	token_start = get_token_start(*line);
 	token_end = get_token_end(token_start);
+	if (token_end == NULL)
+	{
+		*is_error = 1;
+		*line = NULL;
+		return (NULL);
+	}
 	token = ft_strndup(token_start, token_end - token_start);
 	if (is_composed_by_space(token))
 	{

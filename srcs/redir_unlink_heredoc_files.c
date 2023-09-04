@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tkn_free_syntax_tree.c                             :+:      :+:    :+:   */
+/*   redir_unlink_heredoc_files.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/28 21:42:38 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/04 20:18:34 by rnaito           ###   ########.fr       */
+/*   Created: 2023/09/04 19:54:30 by rnaito            #+#    #+#             */
+/*   Updated: 2023/09/04 20:08:11 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	free_tree_itself(t_tree *root)
+void	unlink_temp_files(t_token *temp_files)
 {
-	if (root == NULL)
-		return ;
-	free_tree_itself(root->l_leaf);
-	free_tree_itself(root->r_leaf);
-	free(root);
-	root = NULL;
-}
+	t_token	*temp;
 
-void	free_syntax_tree(t_tree *root, t_token *head)
-{
-	ft_lstclear_token(&head);
-	free_tree_itself(root);
-	return ;
+	while (temp_files != NULL)
+	{
+		unlink(temp_files->token);
+		temp = temp_files;
+		free (temp_files->token);
+		temp_files->token = NULL;
+		free (temp_files);
+		temp_files = temp->next;
+	}
 }
