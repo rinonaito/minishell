@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:33:54 by taaraki           #+#    #+#             */
-/*   Updated: 2023/09/04 10:33:33 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/09/04 10:39:13 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	ft_strncpy(char *dst, char *src, int n)
 	dst[i] = '\0';
 }
 
-static char	*exist_absolut_path(const char *filename)
+static char	*exist_absolute_path(const char *filename)
 {
 	if (access(filename, F_OK | X_OK) == 0)
 		return ((char *)filename);
@@ -48,7 +48,7 @@ char	*ft_search_path(const char *filename, t_env *env_lst)
 
 	value = my_getenv("PATH", env_lst);
 	if (filename[0] == '/')
-		return (exist_absolut_path(filename));
+		return (exist_absolute_path(filename));
 	while (value != NULL)
 	{
 		ft_bzero(path, PATH_MAX);
