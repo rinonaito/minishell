@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 15:00:26 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/03 17:11:43 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/04 17:47:56 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ static int	redirect_out_append(int *redir_fd, t_token *param, int type)
 	{
 		ft_printf_fd(STDERR_FILENO, "minishell: %s: %s\n",
 			filename, strerror(errno));
-		return (1);
 	}
 	if (redir_fd[WRITE_END] != STDOUT_FILENO)
 		close(redir_fd[WRITE_END]);
