@@ -5,6 +5,18 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/04 16:31:08 by rnaito            #+#    #+#             */
+/*   Updated: 2023/09/04 16:31:15 by rnaito           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tkn_get_token.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 12:55:59 by rnaito            #+#    #+#             */
 /*   Updated: 2023/09/04 16:19:59 by rnaito           ###   ########.fr       */
 /*                                                                            */
@@ -50,7 +62,7 @@ char	*get_token(char **line)
 	if (token_end == NULL)
 	{
 		*line = NULL;
-		return(NULL);
+		return (NULL);
 	}
 	token = ft_strndup(token_start, token_end - token_start);
 	if (is_composed_by_space(token))
