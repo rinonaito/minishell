@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/09/04 17:38:11 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/04 21:06:05 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,6 @@ int	create_process(t_cmds *cmds_info, t_tree *root)
 		ret = without_child_process(cmds_info, redir_fd);
 	else if (cmds_info->have_cmd == 1)
 		with_child_process(cmds_info, redir_fd, pipe_fd);
-	unlink(cmds_info->heredoc_file);
-	free(cmds_info->heredoc_file);
-	cmds_info->heredoc_file = NULL;
 	return (ret);
 }
 

@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 11:44:51 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/04 16:10:27 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/04 20:20:56 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void	ft_lstclear_token(t_token **head)
 		current_node = temp;
 	}
 	free(current_node);
+	current_node = NULL;
 	*head = NULL;
 	head = NULL;
 	return ;

@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/04 17:28:28 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/04 20:21:34 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,14 +74,14 @@ typedef struct s_env {
 }						t_env;
 
 typedef struct s_cmds{
-	char	**cmd_args;
-	char	**env;
-	t_env	*env_lst;
-	pid_t	*pid_ary;
-	int		num_cmds;
-	int		i;
-	char	*heredoc_file;
-	bool	have_cmd;
+	char			**cmd_args;
+	char			**env;
+	t_env			*env_lst;
+	pid_t			*pid_ary;
+	int				num_cmds;
+	int				i;
+	struct s_token	*heredoc_files;
+	bool			have_cmd;
 }					t_cmds;
 
 /*** TOKENIZE ***/
@@ -199,6 +199,16 @@ char	*call_each_redir(int *redir_fd, t_token *param, int *is_error);
 
 //redir_get_heredoc_input.c
 void	get_heredoc_content(t_token *head, int status, t_env *env_lst);
+
+//redir_get_heredoc_input_utils.c
+char	*get_delimiter(t_token *heredoc_token, int *is_quoted);
+char	*join_heredoc_lines(char *joined_heredoc, char *new_input);
+char	*read_from_heredoc(char *delimiter);
+void	add_heredoc_to_token_list(t_token *head, char *input);
+void	for_unquoted(char **heredoc_content, int exit_status, t_env *env_lst);
+
+//redir_unlink_temo_files.c
+void	unlink_temp_files(t_token *temp_files);
 
 /*** BUILTINS ***/
 int		builtin_echo(t_cmds *cmds_info);

@@ -6,7 +6,7 @@
 #    By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 16:01:50 by rnaito            #+#    #+#              #
-#    Updated: 2023/09/04 10:38:13 by taaraki          ###   ########.fr        #
+#    Updated: 2023/09/04 20:02:03 by rnaito           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,6 +49,8 @@ SRCS =	main.c\
 		redir_redirection.c\
 		redir_call_each_redirection.c\
 		redir_get_heredoc_content.c\
+		redir_get_heredoc_content_utils.c\
+		redir_unlink_heredoc_files.c\
 		quotes_utils.c\
 		signal_set.c\
 		signal_handler.c\
