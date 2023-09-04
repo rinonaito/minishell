@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/03 20:47:29 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/09/04 17:08:44 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,11 +149,14 @@ int		ft_strequ(const char *s1, const char *s2);
 void	trace_tree_entry(t_tree *root, char **env, int *status, t_env *env_lst);
 
 //ex_execute_utils.c
-int		without_child_process(t_cmds *cmds_info, int *redir_fd);
+//int		without_child_process(t_cmds *cmds_info, int *redir_fd);
+int	without_child_process(t_cmds *cmds_info, int *redir_fd, int status);
 void	with_child_process(t_cmds *cmds_info, int *redir_fd, int *pipe_fd);
-int		create_process(t_cmds *cmds_info, t_tree *root);
+//int		create_process(t_cmds *cmds_info, t_tree *root);
+int		create_process(t_cmds *cmds_info, t_tree *root, int status);
 void	count_num_cmds(t_tree *root, int *i);
-int		trace_inorder(t_tree *root, t_cmds *cmds_info);
+//int		trace_inorder(t_tree *root, t_cmds *cmds_info);
+int		trace_inorder(t_tree *root, t_cmds *cmds_info, int status);
 
 //process.c
 void	child_process(int redir_fd[2], t_cmds *cmds_info);
@@ -174,7 +177,8 @@ char	*ft_search_path(const char *filename, t_env *env_lst);
 
 //builtin.c
 int		is_builtin(char *s);
-int		call_builtin(t_cmds *cmds_info);
+//int		call_builtin(t_cmds *cmds_info);
+int		call_builtin(t_cmds *cmds_info, int status);
 
 /*** SIGNAL ***/
 //signal.c
@@ -202,7 +206,8 @@ void	get_heredoc_content(t_token *head, int status, t_env *env_lst);
 int		builtin_echo(t_cmds *cmds_info);
 int		builtin_cd(t_cmds *cmds_info);
 int		builtin_pwd(void);
-void	builtin_exit(t_cmds *cmds_info);
+//void	builtin_exit(t_cmds *cmds_info);
+void	builtin_exit(t_cmds *cmds_info, int status);
 int		builtin_env(t_cmds *cmds_info);
 int		builtin_export(t_cmds *cmds_info);
 void	change_val(t_env *same_key_node, char *val);

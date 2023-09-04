@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 23:37:47 by taaraki           #+#    #+#             */
-/*   Updated: 2023/09/04 12:13:04 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/09/04 17:09:14 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,19 @@ static int	convert_exit_format(char *str)
 		return (256L + val % 256L);
 }
 
-void	builtin_exit(t_cmds *cmds_info)
+static int	exit_status(int status)
+{
+	printf(" status:[%d]\n", status);
+	if (status != 0)
+		return (status);
+	else
+		return (0);
+}
+
+void	builtin_exit(t_cmds *cmds_info, int status)
 {
 	if (!cmds_info->cmd_args || !cmds_info->cmd_args[1])
-		exit(0);
+		exit(exit_status(status));
 	else if (cmds_info->cmd_args[2])
 	{
 		if (!within_long(cmds_info->cmd_args[1]))
