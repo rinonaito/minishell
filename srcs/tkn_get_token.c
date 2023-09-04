@@ -5,20 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/04 16:31:08 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/04 16:31:15 by rnaito           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   tkn_get_token.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 12:55:59 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/04 16:19:59 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/04 17:29:02 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +38,7 @@ static char	*get_token_start(char *line)
 	return (&line[i]);
 }
 
-char	*get_token(char **line)
+char	*get_token(char **line, int *is_error)
 {
 	char	*token_start;
 	char	*token_end;
@@ -61,6 +49,7 @@ char	*get_token(char **line)
 	token_end = get_token_end(token_start);
 	if (token_end == NULL)
 	{
+		*is_error = 1;
 		*line = NULL;
 		return (NULL);
 	}

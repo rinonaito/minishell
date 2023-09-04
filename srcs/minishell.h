@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/04 17:13:50 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/04 17:28:28 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,8 @@ typedef struct s_cmds{
 t_token	*tokenize(char *line, int *is_heredoc, int *status);
 
 //tkn_get_token.c
-char	*get_token(char **line);
+//char	*get_token(char **line);
+char	*get_token(char **line, int *is_error);
 
 //tkn_get_token_utils.c
 char	*get_token_end(char *token_start);
