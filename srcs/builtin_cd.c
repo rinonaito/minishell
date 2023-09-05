@@ -6,25 +6,24 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 19:55:33 by taaraki           #+#    #+#             */
-/*   Updated: 2023/09/04 21:06:58 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/09/05 20:44:32 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	"minishell.h"
 
-//*** /Users/taaraki/../taaraki/Documents/../../
-static char	*parse_full_path(char *full_path)
-{
-	//char	*new_path = NULL;
-
-	//printf(">>%s\n", __func__);
-	//printf(" full_path:[%s]\n", full_path);
-
-	//free(full_path);
-	//full_path = NULL;
-	//return (new_path);
-	return (full_path);
-}
+/*** ***/
+//parse
+// remove '.', and remove '..' along with the directory above
+// 1.split path using ft_split
+// 2.treat them as list
+// 3.free the first split char array
+// 4.if . is found, remove the current directory 
+// 5.if .. is found next, remove the current directory
+// 6.malloc to create a new string
+/*** ***/
+//* /Users/taaraki/../taaraki/Documents/../../
+//* ../minishell_repo/.
 
 static int	relative_path(char *path, char *buff_cwd, t_cmds *cmds_info)
 {
@@ -32,28 +31,18 @@ static int	relative_path(char *path, char *buff_cwd, t_cmds *cmds_info)
 	char	*temp;
 	int		ret;
 
-	//printf(">>%s\n", __func__);
 	ft_memset(buff_cwd, '\0', PATH_MAX);
-	char *cwd = getcwd(buff_cwd, PATH_MAX);
-	//printf(" cwd:[%s]\n", cwd);
-	//if (!getcwd(buff_cwd, PATH_MAX))
-	if (!cwd)
-	{
-		cwd = my_getenv("PWD", cmds_info->env_lst);
-		printf(" PWD:[%s]\n", cwd);
-		ft_strlcpy(buff_cwd, cwd, PATH_MAX);
-	}
+	//still needs to deal with the case when PWD is not set
+	if (!getcwd(buff_cwd, PATH_MAX))
+		ft_strlcpy(buff_cwd, my_getenv("PWD", cmds_info->env_lst), PATH_MAX);
 	full_path = ft_strjoin(buff_cwd, "/");
 	temp = full_path;
 	full_path = ft_strjoin(full_path, path);
-	//
-	full_path = parse_full_path(full_path);
-	/******************/
-	//printf(" full_path:[%s]\n", full_path);
-	ret = chdir(full_path);
-	//printf(" after chdir: [%d]\n", ret);
-	/******************/
 	free(temp);
+	temp = full_path;
+	full_path = parse_full_path(full_path);
+	free(temp);
+	ret = chdir(full_path);
 	free(full_path);
 	temp = NULL;
 	full_path = NULL;
@@ -64,7 +53,7 @@ static int	absolute_path(char *path)
 {
 	int		ret;
 
-	ret = chdir(path);
+	ret = chdir(parse_full_path(path));
 	return (ret);
 }
 
