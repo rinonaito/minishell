@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 21:20:45 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/04 21:05:35 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/05 15:40:43 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	get_heredoc_content(t_token *head, int exit_status, t_env *env_lst)
 			for_unquoted(&heredoc_content, exit_status, env_lst);
 		add_heredoc_to_token_list(head, heredoc_content);
 		head = head->next;
+		free (delimiter);
 	}
 	head = tmp;
 	return ;

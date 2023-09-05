@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:43:25 by taaraki           #+#    #+#             */
-/*   Updated: 2023/09/04 17:30:06 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/09/05 16:43:00 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,7 @@ void	parent_process(int pipe_fd [2], t_cmds *cmds_info, int pid)
 {
 	cmds_info->pid_ary[cmds_info->i - 1] = pid;
 	if (cmds_info->i != cmds_info->num_cmds)
-	{
-		close (pipe_fd[WRITE_END]);
 		dup2(pipe_fd[READ_END], STDIN_FILENO);
-	}
 }
 
 static void	exec(t_cmds *cmds_info)

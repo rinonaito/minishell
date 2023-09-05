@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/09/04 21:16:29 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/05 21:37:39 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,17 @@ void	with_child_process(t_cmds *cmds_info, int *redir_fd, int *pipe_fd)
 	if (pid == -1)
 		ft_perror("fork");
 	else if (pid == 0)
+	{
+		close (pipe_fd[READ_END]);
 		child_process(redir_fd, cmds_info);
+		close (pipe_fd[WRITE_END]);
+	}
 	else
+	{
+		close (pipe_fd[WRITE_END]);
 		parent_process(pipe_fd, cmds_info, pid);
+		close (pipe_fd[READ_END]);
+	}
 }
 
 //@func: create processes, including parent/child/wait processes
