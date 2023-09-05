@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_echo.c                                      :+:      :+:    :+:  */
+/*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 18:36:24 by taaraki           #+#    #+#             */
-/*   Updated: 2023/09/03 17:13:47 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/09/05 16:27:55 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	builtin_echo(t_cmds *cmds_info)
 	if (!cmd_args || !cmd_args[0])
 		return (1);
 	i = 1;
-	if (ft_strequ(cmd_args[1], "-n"))
+	while (cmd_args[i] && ft_strequ(cmd_args[i], "-n"))
 	{
 		i++;
 		new_line = false;

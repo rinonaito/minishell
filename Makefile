@@ -6,7 +6,7 @@
 #    By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/26 16:01:50 by rnaito            #+#    #+#              #
-#    Updated: 2023/09/04 20:02:03 by rnaito           ###   ########.fr        #
+#    Updated: 2023/09/05 22:31:03 by taaraki          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,6 +64,7 @@ SRCS =	main.c\
 		builtin_pwd.c\
 		builtin_exit.c\
 		builtin_cd.c\
+		builtin_cd_utils.c\
 		builtin_env.c\
 		builtin_export.c\
 		builtin_unset.c\
