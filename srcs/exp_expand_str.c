@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 13:37:50 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/04 11:57:18 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/04 18:05:07 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,10 @@ static char	*for_token_without_env(char *env_expanded, char *to_be_expanded)
 static void	get_ready_for_next_env(char **to_be_expanded, char *expanded,
 		int *i)
 {
-	if (expanded == NULL)
-		i = 0;
-	else
+	if (expanded != NULL)
 	{
 		*to_be_expanded = expanded;
-		*i = -1;
+		*i = *i -1;
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/05 20:30:38 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/09/05 22:30:20 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,14 +74,14 @@ typedef struct s_env {
 }						t_env;
 
 typedef struct s_cmds{
-	char	**cmd_args;
-	char	**env;
-	t_env	*env_lst;
-	pid_t	*pid_ary;
-	int		num_cmds;
-	int		i;
-	char	*heredoc_file;
-	bool	have_cmd;
+	char			**cmd_args;
+	char			**env;
+	t_env			*env_lst;
+	pid_t			*pid_ary;
+	int				num_cmds;
+	int				i;
+	struct s_token	*heredoc_files;
+	bool			have_cmd;
 }					t_cmds;
 
 /*** TOKENIZE ***/
@@ -89,7 +89,8 @@ typedef struct s_cmds{
 t_token	*tokenize(char *line, int *is_heredoc, int *status);
 
 //tkn_get_token.c
-char	*get_token(char **line);
+//char	*get_token(char **line);
+char	*get_token(char **line, int *is_error);
 
 //tkn_get_token_utils.c
 char	*get_token_end(char *token_start);
@@ -146,7 +147,8 @@ int		ft_strequ(const char *s1, const char *s2);
 
 /*** EXECUTION ***/
 //ex_execute.c
-void	trace_tree_entry(t_tree *root, char **env, int *status, t_env *env_lst);
+t_env	*trace_tree_entry(t_tree *root, char **env, int *status,
+			t_env *env_lst);
 
 //ex_execute_utils.c
 int		without_child_process(t_cmds *cmds_info, int *redir_fd, int status);
@@ -197,6 +199,16 @@ char	*call_each_redir(int *redir_fd, t_token *param, int *is_error);
 
 //redir_get_heredoc_input.c
 void	get_heredoc_content(t_token *head, int status, t_env *env_lst);
+
+//redir_get_heredoc_input_utils.c
+char	*get_delimiter(t_token *heredoc_token, int *is_quoted);
+char	*join_heredoc_lines(char *joined_heredoc, char *new_input);
+char	*read_from_heredoc(char *delimiter);
+void	add_heredoc_to_token_list(t_token *head, char *input);
+void	for_unquoted(char **heredoc_content, int exit_status, t_env *env_lst);
+
+//redir_unlink_temo_files.c
+void	unlink_temp_files(t_token *temp_files);
 
 /*** BUILTINS ***/
 int		builtin_echo(t_cmds *cmds_info);
