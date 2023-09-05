@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 19:20:03 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/04 21:05:38 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/05 15:38:23 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ char	*get_delimiter(t_token *heredoc_token, int *is_quoted)
 	char	*delimiter;
 	char	*opening_quote;
 	char	*closing_quote;
+	char	*without_quotes;
 
 	delimiter = NULL;
 	opening_quote = NULL;
@@ -30,22 +31,19 @@ char	*get_delimiter(t_token *heredoc_token, int *is_quoted)
 		if (closing_quote != NULL && opening_quote != closing_quote)
 		{
 			*is_quoted = 1;
-			return (remove_quotes(delimiter));
+			without_quotes = remove_quotes(delimiter);
+			delimiter = NULL;
+			return (without_quotes);
 		}
 	}
-	return (delimiter);
+	return (ft_strndup(delimiter, ft_strlen(delimiter)));
 }
 
 char	*join_heredoc_lines(char *joined_heredoc, char *new_input)
 {
 	char	*input_with_nl;
 	char	*tmp;
-	bool	is_first_line;
 
-	if (ft_strlen(joined_heredoc) == 0)
-		is_first_line = true;
-	else
-		is_first_line = false;
 	input_with_nl = ft_strjoin(new_input, "\n\0");
 	if (input_with_nl == NULL)
 		ft_perror("malloc");
@@ -54,8 +52,7 @@ char	*join_heredoc_lines(char *joined_heredoc, char *new_input)
 	if (joined_heredoc == NULL)
 		ft_perror("malloc");
 	free (input_with_nl);
-	if (!is_first_line)
-		free(tmp);
+	free(tmp);
 	return (joined_heredoc);
 }
 
@@ -65,11 +62,11 @@ char	*read_from_heredoc(char *delimiter)
 	char	*heredoc_all;
 
 	ft_signal_heredoc();
-	heredoc_all = "\0";
+	heredoc_all = ft_calloc(1, sizeof(char));
 	while (1)
 	{
 		if (g_signal == SIGINT)
-			return (NULL);
+			return (heredoc_all);
 		heredoc_oneline = readline("\x1b[34m>> \x1b[39m");
 		if (heredoc_oneline == NULL || ft_strequ(heredoc_oneline, delimiter))
 		{
