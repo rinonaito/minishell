@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 11:14:31 by rnaito            #+#    #+#             */
-/*   Updated: 2023/08/09 11:14:47 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/05 23:37:10 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ static void	makestr(char *dst, const char *src, size_t size)
 		dst[i] = src[i];
 		i ++;
 	}
-	dst[size] = '\0';
+	dst[i] = '\0';
+	//dst[size] = '\0';
 }
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
