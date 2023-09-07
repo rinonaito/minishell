@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 19:55:33 by taaraki           #+#    #+#             */
-/*   Updated: 2023/09/07 01:25:52 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/09/07 17:26:32 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,7 @@ static int	relative_path(char *path, char *buff_cwd, t_cmds *cmds_info)
 	char	*temp;
 	int		ret;
 
-	printf(" >>%s\n", __func__);
 	ft_memset(buff_cwd, '\0', PATH_MAX);
-	//still needs to deal with the case when PWD is not set
 	if (!getcwd(buff_cwd, PATH_MAX))
 		ft_strlcpy(buff_cwd, my_getenv("PWD", cmds_info->env_lst), PATH_MAX);
 	full_path = ft_strjoin(buff_cwd, "/");
@@ -42,7 +40,6 @@ static int	relative_path(char *path, char *buff_cwd, t_cmds *cmds_info)
 	free(temp);
 	temp = full_path;
 	full_path = parse_full_path(full_path);
-	printf(" full_path:[%s]\n", full_path);
 	free(temp);
 	ret = chdir(full_path);
 	free(full_path);

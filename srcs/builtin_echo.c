@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 18:36:24 by taaraki           #+#    #+#             */
-/*   Updated: 2023/09/07 15:47:35 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/09/07 17:26:09 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ int	builtin_echo(t_cmds *cmds_info)
 	if (!cmd_args || !cmd_args[0])
 		return (1);
 	i = 1;
-	//while (cmd_args[i] && ft_strequ(cmd_args[i], "-n"))
 	while (cmd_args[i] && valid_echo_option(cmd_args[i]))
 	{
 		i++;
