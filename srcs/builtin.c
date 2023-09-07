@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:16:53 by taaraki           #+#    #+#             */
-/*   Updated: 2023/09/04 17:21:54 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/09/07 18:31:20 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	call_builtin(t_cmds *cmds_info, int status, bool without_child)
 	else if (ft_strequ(cmds_info->cmd_args[0], "cd"))
 		ret = builtin_cd(cmds_info);
 	else if (ft_strequ(cmds_info->cmd_args[0], "pwd"))
-		ret = builtin_pwd();
+		ret = builtin_pwd(cmds_info);
 	else if (ft_strequ(cmds_info->cmd_args[0], "env"))
 		ret = builtin_env(cmds_info);
 	else if (ft_strequ(cmds_info->cmd_args[0], "export"))
