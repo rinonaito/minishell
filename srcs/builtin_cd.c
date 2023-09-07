@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 19:55:33 by taaraki           #+#    #+#             */
-/*   Updated: 2023/09/07 17:26:32 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/09/07 22:06:40 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,12 @@ static int	relative_path(char *path, char *buff_cwd, t_cmds *cmds_info)
 static int	absolute_path(char *path)
 {
 	int		ret;
+	char	*temp;
 
-	ret = chdir(parse_full_path(path));
+	temp = parse_full_path(path);
+	ret = chdir(temp);
+	free(temp);
+	temp = NULL;
 	return (ret);
 }
 
