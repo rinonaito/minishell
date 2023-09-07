@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/09/05 23:21:59 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/07 20:18:10 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,10 @@ int	create_process(t_cmds *cmds_info, t_tree *root, int status)
 		ret = without_child_process(cmds_info, redir_fd, status);
 	else if (cmds_info->have_cmd == 1)
 		with_child_process(cmds_info, redir_fd, pipe_fd);
+	if (redir_fd[READ_END] != STDIN_FILENO)
+		close(redir_fd[READ_END]);
+	if (redir_fd[WRITE_END] != STDOUT_FILENO)
+		close(redir_fd[WRITE_END]);
 	return (ret);
 }
 
