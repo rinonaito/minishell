@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/09/07 20:18:10 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/07 20:28:47 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,10 @@ int	trace_inorder(t_tree *root, t_cmds *cmds_info, int status)
 {
 	int	ret;
 
-	ret = RET_UNSET;
+	if (g_signal == SIGINT)
+		ret = 1;
+	else
+		ret = RET_UNSET;
 	if (root == NULL)
 		return (ret);
 	trace_inorder(root->l_leaf, cmds_info, status);
