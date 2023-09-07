@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 15:00:26 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/05 21:30:29 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/07 20:09:39 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ static int	redirect_out_append(int *redir_fd, t_token *param, int type)
 	int			fd_out;
 	char		*filename;
 
+	if (g_signal == SIGINT)
+		return (0);
 	filename = param->next->token;
 	if (type == TK_REDIR_OUT)
 		fd_out = open(filename, O_WRONLY | O_CREAT | O_TRUNC, OPEN_MODE);
@@ -27,8 +29,6 @@ static int	redirect_out_append(int *redir_fd, t_token *param, int type)
 		ft_printf_fd(STDERR_FILENO, "minishell: %s: %s\n",
 			filename, strerror(errno));
 	}
-	if (redir_fd[WRITE_END] != STDOUT_FILENO)
-		close(redir_fd[WRITE_END]);
 	redir_fd[WRITE_END] = fd_out;
 	return (0);
 }
@@ -38,6 +38,8 @@ static int	redirect_in(int *redir_fd, t_token *param)
 	int		fd_in;
 	char	*filename;
 
+	if (g_signal == SIGINT)
+		return (0);
 	filename = param->next->token;
 	fd_in = open(filename, O_RDONLY);
 	if (fd_in == -1)
@@ -46,8 +48,6 @@ static int	redirect_in(int *redir_fd, t_token *param)
 			"minishell: %s: %s\n", filename, strerror(errno));
 		return (1);
 	}
-	if (redir_fd[READ_END] != STDIN_FILENO)
-		close(redir_fd[READ_END]);
 	redir_fd[READ_END] = fd_in;
 	return (0);
 }
