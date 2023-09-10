@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/09/07 20:28:47 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/10 19:56:54 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ void	with_child_process(t_cmds *cmds_info, int *redir_fd, int *pipe_fd)
 //@func: create processes, including parent/child/wait processes
 //@return_val:
 //		 exit status of wait process		
-//static void	create_process(t_cmds *cmds_info, t_tree *root)
 int	create_process(t_cmds *cmds_info, t_tree *root, int status)
 {
 	int		pipe_fd[2];
