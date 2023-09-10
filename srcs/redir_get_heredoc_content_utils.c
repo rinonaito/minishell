@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 19:20:03 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/10 16:01:23 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/10 16:26:51 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ char	*join_heredoc_lines(char *joined_heredoc, char *new_input)
 	return (joined_heredoc);
 }
 
-//char	*read_from_heredoc(char *delimiter)
 char	*read_from_heredoc(char *delimiter, int *heredoc_killed)
 {
 	char	*heredoc_oneline;
