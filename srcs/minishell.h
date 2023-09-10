@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/10 16:05:18 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/10 19:55:55 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,7 +215,7 @@ void	unlink_temp_files(t_token *temp_files);
 int		builtin_echo(t_cmds *cmds_info);
 int		builtin_cd(t_cmds *cmds_info);
 char	*parse_full_path(char *full_path);
-int		builtin_pwd(void);
+int		builtin_pwd(t_cmds *cmds_info);
 void	builtin_exit(t_cmds *cmds_info, int status, bool without_child);
 int		builtin_env(t_cmds *cmds_info);
 int		builtin_export(t_cmds *cmds_info);

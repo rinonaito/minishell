@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 21:21:02 by taaraki           #+#    #+#             */
-/*   Updated: 2023/09/10 16:07:29 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/10 19:56:12 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	main(int argc, char **argv, char **env)
 		ft_signal();
 		line = readline("\x1b[1;38;5;122mminishell🐣 \033[0m");
 		if (line == NULL)
-			exit(1);
+			exit(0);
 		if (ft_strlen(line) != 0)
 			add_history(line);
 		if (g_signal == SIGINT)

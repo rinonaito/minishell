@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:56:00 by taaraki           #+#    #+#             */
-/*   Updated: 2023/09/10 16:27:32 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/10 19:56:54 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,10 @@ int	create_process(t_cmds *cmds_info, t_tree *root, int status)
 		ret = without_child_process(cmds_info, redir_fd, status);
 	else if (cmds_info->have_cmd == 1)
 		with_child_process(cmds_info, redir_fd, pipe_fd);
+	if (redir_fd[READ_END] != STDIN_FILENO)
+		close(redir_fd[READ_END]);
+	if (redir_fd[WRITE_END] != STDOUT_FILENO)
+		close(redir_fd[WRITE_END]);
 	return (ret);
 }
 
@@ -93,7 +97,10 @@ int	trace_inorder(t_tree *root, t_cmds *cmds_info, int status)
 {
 	int	ret;
 
-	ret = RET_UNSET;
+	if (g_signal == SIGINT)
+		ret = 1;
+	else
+		ret = RET_UNSET;
 	if (root == NULL)
 		return (ret);
 	trace_inorder(root->l_leaf, cmds_info, status);
