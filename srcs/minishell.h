@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/05 22:30:20 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/09/10 16:05:18 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,12 +198,13 @@ int		redirect(t_token *param, int *redir_fd, int *pipe_fd,
 char	*call_each_redir(int *redir_fd, t_token *param, int *is_error);
 
 //redir_get_heredoc_input.c
-void	get_heredoc_content(t_token *head, int status, t_env *env_lst);
+int		get_heredoc_content(t_token *head, int status, t_env *env_lst);
 
 //redir_get_heredoc_input_utils.c
 char	*get_delimiter(t_token *heredoc_token, int *is_quoted);
 char	*join_heredoc_lines(char *joined_heredoc, char *new_input);
-char	*read_from_heredoc(char *delimiter);
+//char	*read_from_heredoc(char *delimiter);
+char	*read_from_heredoc(char *delimiter, int *heredoc_killed);
 void	add_heredoc_to_token_list(t_token *head, char *input);
 void	for_unquoted(char **heredoc_content, int exit_status, t_env *env_lst);
 

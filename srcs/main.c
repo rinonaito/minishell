@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 21:21:02 by taaraki           #+#    #+#             */
-/*   Updated: 2023/09/05 22:36:56 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/10 16:07:29 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,21 @@ static t_env	*interpret_line(char *line, t_env *env_lst, int *exit_status,
 	t_token	*head;
 	t_tree	*root;
 	int		have_heredoc;
+	int		heredoc_killed;
 
 	have_heredoc = 0;
+	heredoc_killed = 0;
 	head = tokenize(line, &have_heredoc, exit_status);
 	free(line);
 	if (head == NULL)
 		return (env_lst);
 	if (have_heredoc)
-		get_heredoc_content(head, *exit_status, env_lst);
+		heredoc_killed = get_heredoc_content(head, *exit_status, env_lst);
+	if (heredoc_killed)
+	{
+		ft_lstclear_token(&head);
+		return (env_lst);
+	}
 	root = make_syntax_tree(head);
 	expand_list(&head, *exit_status, env_lst);
 	env_lst = trace_tree_entry(root, env, exit_status, env_lst);
