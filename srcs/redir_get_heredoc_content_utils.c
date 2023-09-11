@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 19:20:03 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/07 18:54:15 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/10 19:55:10 by rnaito           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	*join_heredoc_lines(char *joined_heredoc, char *new_input)
 	return (joined_heredoc);
 }
 
-char	*read_from_heredoc(char *delimiter)
+char	*read_from_heredoc(char *delimiter, int *heredoc_killed)
 {
 	char	*heredoc_oneline;
 	char	*heredoc_all;
@@ -66,7 +66,10 @@ char	*read_from_heredoc(char *delimiter)
 	while (1)
 	{
 		if (g_signal == SIGINT)
+		{
+			*heredoc_killed = 1;
 			return (heredoc_all);
+		}
 		heredoc_oneline = readline("\x1b[34m>> \x1b[39m");
 		if (heredoc_oneline == NULL || ft_strequ(heredoc_oneline, delimiter))
 		{
