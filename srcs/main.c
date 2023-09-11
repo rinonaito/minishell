@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 21:21:02 by taaraki           #+#    #+#             */
-/*   Updated: 2023/09/10 19:56:12 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/11 15:01:14 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ static t_env	*interpret_line(char *line, t_env *env_lst, int *exit_status,
 		heredoc_killed = get_heredoc_content(head, *exit_status, env_lst);
 	if (heredoc_killed)
 	{
+		*exit_statu = 1;
 		ft_lstclear_token(&head);
 		return (env_lst);
 	}
