@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:33:54 by taaraki           #+#    #+#             */
-/*   Updated: 2023/09/11 00:51:24 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/09/11 12:42:42 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static void	update_path(const char *filename, char *path,
 	ft_strlcat(path, filename, PATH_MAX);
 }
 
-static char	*return_path(const char *file)
+static char	*return_path(const char *file, t_env *env_lst)
 {
 	if (file[0] == '/')
 		return (exist_absolute_path(file));
@@ -87,7 +87,7 @@ char	*ft_search_path(const char *file, t_env *env_lst)
 
 	value = my_getenv("PATH", env_lst);
 	if (file[0] == '/' || (ft_strchr(file, '.') || ft_strchr(file, '/')))
-		return (return_path(file));
+		return (return_path(file, env_lst));
 	while (value != NULL)
 	{
 		ft_bzero(path, PATH_MAX);
