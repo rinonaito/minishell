@@ -6,34 +6,24 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 19:55:33 by taaraki           #+#    #+#             */
-/*   Updated: 2023/09/07 22:06:40 by taaraki          ###   ########.fr       */
+/*   Updated: 2023/09/11 00:21:23 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	"minishell.h"
-
-/*** ***/
-//parse
-// remove '.', and remove '..' along with the directory above
-// 1.split path using ft_split
-// 2.treat them as list
-// 3.free the first split char array
-// 4.if . is found, remove the current directory 
-// 5.if .. is found next, remove the current directory
-// 6.malloc to create a new string
-/*** ***/
-//* /Users/taaraki/../taaraki/Documents/../../
-//* ../minishell_repo/.
 
 static int	relative_path(char *path, char *buff_cwd, t_cmds *cmds_info)
 {
 	char	*full_path;
 	char	*temp;
 	int		ret;
+	bool	valid;
 
+	valid = true;
 	ft_memset(buff_cwd, '\0', PATH_MAX);
-	if (!getcwd(buff_cwd, PATH_MAX))
-		ft_strlcpy(buff_cwd, my_getenv("PWD", cmds_info->env_lst), PATH_MAX);
+	if (!getcwd(buff_cwd, PATH_MAX) && (!ft_strlcpy(buff_cwd,
+				my_getenv("PWD", cmds_info->env_lst), PATH_MAX)))
+		valid = false;
 	full_path = ft_strjoin(buff_cwd, "/");
 	temp = full_path;
 	full_path = ft_strjoin(full_path, path);
@@ -41,19 +31,34 @@ static int	relative_path(char *path, char *buff_cwd, t_cmds *cmds_info)
 	temp = full_path;
 	full_path = parse_full_path(full_path);
 	free(temp);
+	if (valid && ft_strequ(full_path, ""))
+	{
+		free(full_path);
+		full_path = ft_strdup("/");
+	}
 	ret = chdir(full_path);
 	free(full_path);
-	temp = NULL;
-	full_path = NULL;
 	return (ret);
 }
 
-static int	absolute_path(char *path)
+static int	absolute_path(char *path, char *buff_cwd, t_cmds *cmds_info)
 {
 	int		ret;
 	char	*temp;
+	bool	valid;
 
+	valid = true;
+	if (!getcwd(buff_cwd, PATH_MAX))
+	{
+		if (!my_getenv("PATH", cmds_info->env_lst))
+			valid = false;
+	}
 	temp = parse_full_path(path);
+	if (valid && ft_strequ(temp, ""))
+	{
+		free(temp);
+		temp = ft_strdup("/");
+	}
 	ret = chdir(temp);
 	free(temp);
 	temp = NULL;
@@ -124,7 +129,7 @@ int	builtin_cd(t_cmds *cmds_info)
 	else
 	{
 		if (cmd_args[1][0] == '/')
-			ret = absolute_path(cmd_args[1]);
+			ret = absolute_path(cmd_args[1], buff_cwd, cmds_info);
 		else
 			ret = relative_path(cmd_args[1], buff_cwd, cmds_info);
 	}

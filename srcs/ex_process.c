@@ -6,7 +6,7 @@
 /*   By: taaraki <taaraki@student.42.jp>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:43:25 by taaraki           #+#    #+#             */
-/*   Updated: 2023/09/07 20:05:34 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/10 23:38:06 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,31 @@ void	parent_process(int pipe_fd [2], t_cmds *cmds_info, int pid)
 
 static void	exec(t_cmds *cmds_info)
 {
-	char	*file;
+	char		*file;
+	struct stat	s;
 
-	if (!cmds_info || !cmds_info->cmd_args)
-		return ;
 	file = ft_search_path(cmds_info->cmd_args[0], cmds_info->env_lst);
-	if (execve(file, cmds_info->cmd_args, cmds_info->env) == -1)
+	execve(file, cmds_info->cmd_args, cmds_info->env);
+	stat(file, &s);
+	if (ft_strequ(cmds_info->cmd_args[0], ".."))
+		ft_printf_fd(2, "minishell: ..: %s\n", CMD_NF);
+	else if (ft_strequ(cmds_info->cmd_args[0], "."))
 	{
-		ft_printf_fd(STDERR_FILENO, "minishell: %s: command not found\n", \
-				cmds_info->cmd_args[0]);
-		exit(127);
+		ft_printf_fd(2, "minishell: .: %s", FILE_ARG);
+		exit(2);
 	}
+	else if (S_ISDIR(s.st_mode))
+		ft_printf_fd(2, "minishell: %s: %s\n", cmds_info->cmd_args[0], IS_DIR);
+	else if (!ft_strchr(cmds_info->cmd_args[0], '/'))
+		ft_printf_fd(2, "minishell: %s: %s\n", cmds_info->cmd_args[0], CMD_NF);
+	else if (access(file, F_OK) == -1)
+		ft_printf_fd(2, "minishell: %s: %s\n", cmds_info->cmd_args[0], NO_FILE);
+	else if (access(file, X_OK) == -1)
+	{
+		ft_printf_fd(2, "minishell: %s: %s\n", cmds_info->cmd_args[0], NO_PER);
+		exit(126);
+	}
+	exit(127);
 }
 
 void	child_process(int redir_fd[2], t_cmds *cmds_info)

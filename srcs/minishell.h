@@ -6,7 +6,7 @@
 /*   By: rnaito <rnaito@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 20:38:11 by rnaito            #+#    #+#             */
-/*   Updated: 2023/09/10 19:55:55 by rnaito           ###   ########.fr       */
+/*   Updated: 2023/09/11 14:31:05 by taaraki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <signal.h> //for signal
 # include <errno.h> //for errno
 # include <fcntl.h> //for open 
+# include <sys/stat.h> //for stat
 # include "../libft/libft.h" //for split
 
 extern int	g_signal;
@@ -36,6 +37,13 @@ extern int	g_signal;
 # define OPEN_MODE (0644)
 
 # define RET_UNSET (1000)
+
+# define IS_DIR "is a directory"
+# define FILE_ARG "filename argument required\n.: usage: . filename [arguments]\n"
+# define IS_DIR "is a directory"
+# define CMD_NF "command not found"
+# define NO_FILE "No such file or directory"
+# define NO_PER "Permission denied"
 
 typedef enum e_token_type {
 	TK_WORD,
